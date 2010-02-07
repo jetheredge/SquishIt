@@ -1,0 +1,7 @@
+
+*.user
+bin
+obj
+*.suo
+_ReSharper
+_ReSharper.JavascriptBundler
