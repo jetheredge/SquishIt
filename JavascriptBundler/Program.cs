@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using JavascriptBundler.FileResolvers;
 using JavascriptBundler.Files;
@@ -12,8 +13,9 @@ namespace JavascriptBundler
     class Program
     {
         static void Main(string[] args)
-        {            
-            bool showHelp = false;            
+        {                        
+            bool showHelp = false;
+            bool header = true;
             var fileArguments = new List<InputFile>();
             string outputFile = null;
             string gzippedOutputFile = null;
@@ -21,6 +23,7 @@ namespace JavascriptBundler
 
             var optionSet = new OptionSet()
             {
+                { "noheader", "Doesn't show application info and version", v => header = v == null},
                 { "h|?|help", "Shows help", v => showHelp = v != null},
                 { "file=", "File to include", v => fileArguments.Add(new InputFile(v, FileResolver.Type)) },
                 { "dir=", "Directory to include", v => fileArguments.Add(new InputFile(v, DirectoryResolver.Type)) },
@@ -31,6 +34,13 @@ namespace JavascriptBundler
             };
 
             optionSet.Parse(args);
+
+            if (header)
+            {
+                Assembly appAssembly = Assembly.GetEntryAssembly();
+                Console.WriteLine("JavaScript Bundler Version: " + appAssembly.GetName().Version);
+                Console.WriteLine("Copyright 2010 Justin Etheredge (http://www.CodeThinked.com)");
+            }
 
             if (showHelp)
             {
