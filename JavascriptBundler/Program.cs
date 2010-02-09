@@ -50,24 +50,27 @@ namespace JavascriptBundler
                 files.AddRange(fileResolverCollection.Resolve(file.FilePath, file.FileType));
             }
 
-            IFileCompressor compressor = null;
+            IFileCompressor minifier = null;
             if (minifierType == "jsmin")
             {
-                compressor = new JsMinMinifier();
+                minifier = new JsMinMinifier();
             }
             else if (minifierType == "closure")
             {
-                compressor = new ClosureMinifier();
+                minifier = new ClosureMinifier();
             }
             else if (minifierType == "yui")
             {                
             }
+            else
+            {
+                minifier = new NullMinifier();
+            }
 
-            var outputJavaScript = new StringBuilder();
-                        
+            var outputJavaScript = new StringBuilder();                        
             foreach (string file in files)
             {                
-                outputJavaScript.Append(compressor.Compress(file));
+                outputJavaScript.Append(minifier.Compress(file));
             }
 
             if (outputFile != null)

@@ -64,6 +64,7 @@
     <Compile Include="Minifiers\ClosureMinifier.cs" />
     <Compile Include="Minifiers\IFileCompressor.cs" />
     <Compile Include="Minifiers\JsMinMinifier.cs" />
+    <Compile Include="Minifiers\NullMinifier.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
