@@ -1,24 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
+using JavascriptBundler.FileResolvers;
+using JavascriptBundler.Files;
+using JavascriptBundler.Minifiers;
+using JavascriptCombiner;
 
-namespace JavascriptCombiner
+namespace JavascriptBundler
 {
     class Program
     {
         static void Main(string[] args)
-        {
-            var directories = new List<string>();
-            bool showHelp = false;
-            var argumentFiles = new List<string>();
+        {            
+            bool showHelp = false;            
+            var fileArguments = new List<InputFile>();
             string outputFile = null;
+            string gzippedOutputFile = null;
+            string minifierType = null;
 
             var optionSet = new OptionSet()
             {
-                { "h|?|help", "Shows help", v => showHelp = v != null },
-                { "d=|dir=", "Directories to include", v => directories.Add(v) },
-                { "f=|file=", "Files to include", v => argumentFiles.Add(v) },
-                { "o|out", "Output file", v => outputFile = v }
+                { "h|?|help", "Shows help", v => showHelp = v != null},
+                { "file=", "File to include", v => fileArguments.Add(new InputFile(v, FileResolver.Type)) },
+                { "dir=", "Directory to include", v => fileArguments.Add(new InputFile(v, DirectoryResolver.Type)) },
+                { "http=", "Http file to include", v => fileArguments.Add(new InputFile(v, HttpResolver.Type)) },
+                { "out=", "Output file", v => outputFile = v },
+                { "outgz=", "Output file", v => gzippedOutputFile = v },
+                { "min=", "Optional minifier to use (jsmin, closure, yui)", v => minifierType = v.ToLower() }
             };
 
             optionSet.Parse(args);
@@ -26,44 +35,65 @@ namespace JavascriptCombiner
             if (showHelp)
             {
                 ShowHelp(optionSet);
+                return;
             }
 
+            ProcessInput(fileArguments, outputFile, gzippedOutputFile, minifierType);
+        }
+
+        private static void ProcessInput(List<InputFile> fileArguments, string outputFile, string gzippedOutputFile, string minifierType)
+        {
             var files = new List<string>();
-            GatherFilesFromDirectories(directories, files);
-            ResolveFileFullPaths(argumentFiles, files);
-
-            foreach (string file in files)
+            var fileResolverCollection = new FileResolverCollection();
+            foreach (InputFile file in fileArguments)
             {
-                Console.WriteLine(file);
+                files.AddRange(fileResolverCollection.Resolve(file.FilePath, file.FileType));
             }
-        }
 
-        private static void ResolveFileFullPaths(List<string> argumentFiles, List<string> files)
-        {
-            foreach (string file in argumentFiles)
+            IFileCompressor compressor = null;
+            if (minifierType == "jsmin")
             {
-                var filePath = Path.GetFullPath(file);
-                files.Add(filePath);
-            }                        
-        }
+                compressor = new JsMinMinifier();
+            }
+            else if (minifierType == "closure")
+            {
+                compressor = new ClosureMinifier();
+            }
+            else if (minifierType == "yui")
+            {                
+            }
 
-        private static void GatherFilesFromDirectories(List<string> directories, List<string> files)
-        {
-            foreach (string directory in directories)
-            {
-                var filesInDirectory = Directory.GetFiles(directory, "*.js");                
-                foreach (string file in filesInDirectory)
+            var outputJavaScript = new StringBuilder();
+                        
+            foreach (string file in files)
+            {                
+                outputJavaScript.Append(compressor.Compress(file));
+            }
+
+            if (outputFile != null)
+            {                
+                using (var sr = new StreamWriter(outputFile, false))
                 {
-                    files.Add(file);
+                    sr.Write(outputJavaScript.ToString());
                 }
+            }
+            else
+            {
+                Console.WriteLine(outputJavaScript);
+            }
+
+            if (gzippedOutputFile != null)
+            {
+                var gzipper = new FileGZipper();
+                gzipper.Zip(gzippedOutputFile, outputJavaScript.ToString());                
             }
         }
 
         static void ShowHelp(OptionSet p)
         {
-            Console.WriteLine("Usage:  [OPTIONS]+ message");
-            Console.WriteLine("Greet a list of individuals with an optional message.");
-            Console.WriteLine("If no message is specified, a generic greeting is used.");
+            Console.WriteLine("Usage: javascript_bundler [Options]");
+            Console.WriteLine("Combines multiple javascript files into a single file.");
+            Console.WriteLine("Optionally minifies and compresses.");
             Console.WriteLine();
             Console.WriteLine("Options:");
             p.WriteOptionDescriptions(Console.Out);
