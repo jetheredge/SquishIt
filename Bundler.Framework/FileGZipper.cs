@@ -1,7 +1,7 @@
 using System.IO;
 using System.IO.Compression;
 
-namespace JavascriptBundler
+namespace Bundler.Framework
 {
     public class FileGZipper
     {

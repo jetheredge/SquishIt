@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
-namespace JavascriptBundler.Minifiers
+namespace Bundler.Framework.Minifiers
 {
     public class ClosureMinifier: IFileCompressor
     {

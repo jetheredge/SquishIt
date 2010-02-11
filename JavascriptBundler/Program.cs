@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
-using System.Text;
-using JavascriptBundler.FileResolvers;
-using JavascriptBundler.Files;
-using JavascriptBundler.Minifiers;
-using JavascriptCombiner;
+using Bundler.Framework.FileResolvers;
+using Bundler.Framework.Files;
 
 namespace JavascriptBundler
 {
@@ -22,16 +18,16 @@ namespace JavascriptBundler
             string minifierType = null;
 
             var optionSet = new OptionSet()
-            {
-                { "noheader", "Doesn't show application info and version", v => header = v == null},
-                { "h|?|help", "Shows help", v => showHelp = v != null},
-                { "file=", "File to include", v => fileArguments.Add(new InputFile(v, FileResolver.Type)) },
-                { "dir=", "Directory to include", v => fileArguments.Add(new InputFile(v, DirectoryResolver.Type)) },
-                { "http=", "Http file to include", v => fileArguments.Add(new InputFile(v, HttpResolver.Type)) },
-                { "out=", "Output file", v => outputFile = v },
-                { "outgz=", "Output file", v => gzippedOutputFile = v },
-                { "min=", "Optional minifier to use (jsmin, closure, yui)", v => minifierType = v.ToLower() }
-            };
+                                {
+                                    { "noheader", "Doesn't show application info and version", v => header = v == null},
+                                    { "h|?|help", "Shows help", v => showHelp = v != null},
+                                    { "file=", "File to include", v => fileArguments.Add(new InputFile(v, FileResolver.Type)) },
+                                    { "dir=", "Directory to include", v => fileArguments.Add(new InputFile(v, DirectoryResolver.Type)) },
+                                    { "http=", "Http file to include", v => fileArguments.Add(new InputFile(v, HttpResolver.Type)) },
+                                    { "out=", "Output file", v => outputFile = v },
+                                    { "outgz=", "Output file", v => gzippedOutputFile = v },
+                                    { "min=", "Optional minifier to use (jsmin, closure, yui)", v => minifierType = v.ToLower() }
+                                };
 
             optionSet.Parse(args);
 
@@ -48,59 +44,8 @@ namespace JavascriptBundler
                 return;
             }
 
-            ProcessInput(fileArguments, outputFile, gzippedOutputFile, minifierType);
-        }
-
-        private static void ProcessInput(List<InputFile> fileArguments, string outputFile, string gzippedOutputFile, string minifierType)
-        {
-            var files = new List<string>();
-            var fileResolverCollection = new FileResolverCollection();
-            foreach (InputFile file in fileArguments)
-            {
-                files.AddRange(fileResolverCollection.Resolve(file.FilePath, file.FileType));
-            }
-
-            IFileCompressor minifier = null;
-            if (minifierType == "jsmin")
-            {
-                minifier = new JsMinMinifier();
-            }
-            else if (minifierType == "closure")
-            {
-                minifier = new ClosureMinifier();
-            }
-            else if (minifierType == "yui")
-            {                
-            }
-            else
-            {
-                minifier = new NullMinifier();
-            }
-
-            var outputJavaScript = new StringBuilder();                        
-            foreach (string file in files)
-            {                
-                outputJavaScript.Append(minifier.Compress(file));
-            }
-
-            if (outputFile != null)
-            {                
-                using (var sr = new StreamWriter(outputFile, false))
-                {
-                    sr.Write(outputJavaScript.ToString());
-                }
-            }
-            else
-            {
-                Console.WriteLine(outputJavaScript);
-            }
-
-            if (gzippedOutputFile != null)
-            {
-                var gzipper = new FileGZipper();
-                gzipper.Zip(gzippedOutputFile, outputJavaScript.ToString());                
-            }
-        }
+            Bundler.Framework.Bundle.ProcessInput(fileArguments, outputFile, gzippedOutputFile, minifierType);
+        }        
 
         static void ShowHelp(OptionSet p)
         {

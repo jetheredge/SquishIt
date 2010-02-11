@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using JavascriptBundler.Directories;
+using Bundler.Framework.Directories;
 
-namespace JavascriptBundler.Tests.Mocks
+namespace Bundler.Framework.Tests.Mocks
 {
     public class MockDirectoryEnumerator: IDirectoryEnumerator
     {

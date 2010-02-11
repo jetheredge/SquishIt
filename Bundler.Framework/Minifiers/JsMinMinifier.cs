@@ -1,7 +1,7 @@
 using System.IO;
-using JavascriptBundler.jsmin;
+using Bundler.Framework.jsmin;
 
-namespace JavascriptBundler.Minifiers
+namespace Bundler.Framework.Minifiers
 {
     public class JsMinMinifier: IFileCompressor
     {

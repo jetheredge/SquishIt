@@ -55,9 +55,9 @@
     <Compile Include="FileResolverTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\JavascriptBundler\JavaScriptBundler.csproj">
-      <Project>{A1A13E41-740B-46DF-8E95-8D5D825448B7}</Project>
-      <Name>JavaScriptBundler</Name>
+    <ProjectReference Include="..\Bundler.Framework\Bundler.Framework.csproj">
+      <Project>{50C3BC24-E534-4B78-8E8E-CB2C4053321D}</Project>
+      <Name>Bundler.Framework</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

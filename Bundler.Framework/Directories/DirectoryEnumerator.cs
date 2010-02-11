@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Bundler.Framework.Directories;
 
-namespace JavascriptBundler.Directories
+namespace Bundler.Framework.Directories
 {
     public class DirectoryEnumerator: IDirectoryEnumerator
     {

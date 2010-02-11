@@ -1,4 +1,4 @@
-namespace JavascriptBundler.Files
+namespace Bundler.Framework.Files
 {
     public class InputFile
     {

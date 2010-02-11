@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using JavascriptBundler.FileResolvers;
-using JavascriptBundler.Tests.Mocks;
+using Bundler.Framework.FileResolvers;
+using Bundler.Framework.Tests.Mocks;
 using NUnit.Framework;
 
-namespace JavascriptBundler.Tests
+namespace Bundler.Framework.Tests
 {
     [TestFixture]
     public class FileResolverTests

@@ -49,38 +49,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Directories\Directory.cs" />
-    <Compile Include="Directories\DirectoryEnumerator.cs" />
-    <Compile Include="Directories\IDirectory.cs" />
-    <Compile Include="FileGZipper.cs" />
-    <Compile Include="FileResolvers\DirectoryResolver.cs" />
-    <Compile Include="FileResolvers\FileResolverCollection.cs" />
-    <Compile Include="Directories\IDirectoryEnumerator.cs" />
-    <Compile Include="FileResolvers\IFileResolver.cs" />
-    <Compile Include="FileResolvers\FileResolver.cs" />
-    <Compile Include="FileResolvers\HttpResolver.cs" />
-    <Compile Include="Files\InputFile.cs" />
-    <Compile Include="jsmin\JavaScriptMinifier.cs" />
-    <Compile Include="Minifiers\ClosureMinifier.cs" />
-    <Compile Include="Minifiers\IFileCompressor.cs" />
-    <Compile Include="Minifiers\JsMinMinifier.cs" />
-    <Compile Include="Minifiers\NullMinifier.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="closure-compiler\compiler.jar">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="closure-compiler\COPYING">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="closure-compiler\README">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\Bundler.Framework\Bundler.Framework.csproj">
+      <Project>{50C3BC24-E534-4B78-8E8E-CB2C4053321D}</Project>
+      <Name>Bundler.Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

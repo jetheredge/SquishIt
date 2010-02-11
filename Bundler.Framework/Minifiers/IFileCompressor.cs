@@ -1,4 +1,4 @@
-namespace JavascriptBundler.Minifiers
+namespace Bundler.Framework.Minifiers
 {
     public interface IFileCompressor
     {

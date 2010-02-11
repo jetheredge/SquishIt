@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace JavascriptBundler.Minifiers
+namespace Bundler.Framework.Minifiers
 {
     public class NullMinifier: IFileCompressor
     {

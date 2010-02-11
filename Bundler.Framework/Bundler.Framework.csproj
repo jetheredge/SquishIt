@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9109E3ED-1A68-4F55-AD58-3AC0D211B332}</ProjectGuid>
+    <ProjectGuid>{50C3BC24-E534-4B78-8E8E-CB2C4053321D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JavascriptBundler.Core</RootNamespace>
-    <AssemblyName>JavascriptBundler.Core</AssemblyName>
+    <RootNamespace>Bundler.Framework</RootNamespace>
+    <AssemblyName>Bundler.Framework</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -35,6 +35,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -45,8 +46,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileResolver.cs" />
+    <Compile Include="Bundle.cs" />
+    <Compile Include="Directories\Directory.cs" />
+    <Compile Include="Directories\DirectoryEnumerator.cs" />
+    <Compile Include="Directories\IDirectory.cs" />
+    <Compile Include="Directories\IDirectoryEnumerator.cs" />
+    <Compile Include="FileGZipper.cs" />
+    <Compile Include="FileResolvers\DirectoryResolver.cs" />
+    <Compile Include="FileResolvers\FileResolver.cs" />
+    <Compile Include="FileResolvers\FileResolverCollection.cs" />
+    <Compile Include="FileResolvers\HttpResolver.cs" />
+    <Compile Include="FileResolvers\IFileResolver.cs" />
+    <Compile Include="Files\InputFile.cs" />
+    <Compile Include="jsmin\JavaScriptMinifier.cs" />
+    <Compile Include="Minifiers\ClosureMinifier.cs" />
+    <Compile Include="Minifiers\IFileCompressor.cs" />
+    <Compile Include="Minifiers\JsMinMinifier.cs" />
+    <Compile Include="Minifiers\NullMinifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="closure-compiler\compiler.jar">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="closure-compiler\COPYING">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="closure-compiler\README">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

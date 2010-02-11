@@ -138,7 +138,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Linq;
 
-namespace JavascriptCombiner
+namespace JavascriptBundler
 {
     static class StringCoda
     {
@@ -200,7 +200,7 @@ namespace JavascriptCombiner
                 const string minWidth = ".-";
                 if (curWidth < minWidth.Length)
                     throw new ArgumentOutOfRangeException("widths",
-                            string.Format("Element must be >= {0}, was {1}.", minWidth.Length, curWidth));
+                                                          string.Format("Element must be >= {0}, was {1}.", minWidth.Length, curWidth));
                 return curWidth;
             }
             // no more elements, use the last element.
@@ -287,10 +287,10 @@ namespace JavascriptCombiner
             if (index >= c.Option.MaxValueCount)
                 throw new ArgumentOutOfRangeException("index");
             if (c.Option.OptionValueType == OptionValueType.Required &&
-                    index >= values.Count)
+                index >= values.Count)
                 throw new OptionException(string.Format(
-                            c.OptionSet.MessageLocalizer("Missing required value for option '{0}'."), c.OptionName),
-                        c.OptionName);
+                                              c.OptionSet.MessageLocalizer("Missing required value for option '{0}'."), c.OptionName),
+                                          c.OptionName);
         }
 
         public string this[int index]
@@ -403,19 +403,19 @@ namespace JavascriptCombiner
 
             if (this.count == 0 && type != OptionValueType.None)
                 throw new ArgumentException(
-                        "Cannot provide maxValueCount of 0 for OptionValueType.Required or " +
-                            "OptionValueType.Optional.",
-                        "maxValueCount");
+                    "Cannot provide maxValueCount of 0 for OptionValueType.Required or " +
+                    "OptionValueType.Optional.",
+                    "maxValueCount");
             if (this.type == OptionValueType.None && maxValueCount > 1)
                 throw new ArgumentException(
-                        string.Format("Cannot provide maxValueCount of {0} for OptionValueType.None.", maxValueCount),
-                        "maxValueCount");
+                    string.Format("Cannot provide maxValueCount of {0} for OptionValueType.None.", maxValueCount),
+                    "maxValueCount");
             if (Array.IndexOf(names, "<>") >= 0 &&
-                    ((names.Length == 1 && this.type != OptionValueType.None) ||
-                     (names.Length > 1 && this.MaxValueCount > 1)))
+                ((names.Length == 1 && this.type != OptionValueType.None) ||
+                 (names.Length > 1 && this.MaxValueCount > 1)))
                 throw new ArgumentException(
-                        "The default option handler '<>' cannot require values.",
-                        "prototype");
+                    "The default option handler '<>' cannot require values.",
+                    "prototype");
         }
 
         public string Prototype { get { return prototype; } }
@@ -439,8 +439,8 @@ namespace JavascriptCombiner
         {
             Type tt = typeof(T);
             bool nullable = tt.IsValueType && tt.IsGenericType &&
-                !tt.IsGenericTypeDefinition &&
-                tt.GetGenericTypeDefinition() == typeof(Nullable<>);
+                            !tt.IsGenericTypeDefinition &&
+                            tt.GetGenericTypeDefinition() == typeof(Nullable<>);
             Type targetType = nullable ? tt.GetGenericArguments()[0] : typeof(T);
             TypeConverter conv = TypeDescriptor.GetConverter(targetType);
             T t = default(T);
@@ -452,10 +452,10 @@ namespace JavascriptCombiner
             catch (Exception e)
             {
                 throw new OptionException(
-                        string.Format(
-                            c.OptionSet.MessageLocalizer("Could not convert string `{0}' to type {1} for option `{2}'."),
-                            value, targetType.Name, c.OptionName),
-                        c.OptionName, e);
+                    String.Format(
+                        (string)(c.OptionSet.MessageLocalizer("Could not convert string `{0}' to type {1} for option `{2}'.")),
+                        value, targetType.Name, c.OptionName),
+                    c.OptionName, e);
             }
             return t;
         }
@@ -483,8 +483,8 @@ namespace JavascriptCombiner
                     type = name[end];
                 else
                     throw new ArgumentException(
-                            string.Format("Conflicting option types: '{0}' vs. '{1}'.", type, name[end]),
-                            "prototype");
+                        string.Format("Conflicting option types: '{0}' vs. '{1}'.", type, name[end]),
+                        "prototype");
                 AddSeparators(name, end, seps);
             }
 
@@ -493,8 +493,8 @@ namespace JavascriptCombiner
 
             if (count <= 1 && seps.Count != 0)
                 throw new ArgumentException(
-                        string.Format("Cannot provide key/value separators for Options taking {0} value(s).", count),
-                        "prototype");
+                    string.Format("Cannot provide key/value separators for Options taking {0} value(s).", count),
+                    "prototype");
             if (count > 1)
             {
                 if (seps.Count == 0)
@@ -518,15 +518,15 @@ namespace JavascriptCombiner
                     case '{':
                         if (start != -1)
                             throw new ArgumentException(
-                                    string.Format("Ill-formed name/value separator found in \"{0}\".", name),
-                                    "prototype");
+                                string.Format("Ill-formed name/value separator found in \"{0}\".", name),
+                                "prototype");
                         start = i + 1;
                         break;
                     case '}':
                         if (start == -1)
                             throw new ArgumentException(
-                                    string.Format("Ill-formed name/value separator found in \"{0}\".", name),
-                                    "prototype");
+                                string.Format("Ill-formed name/value separator found in \"{0}\".", name),
+                                "prototype");
                         seps.Add(name.Substring(start, i - start));
                         start = -1;
                         break;
@@ -538,8 +538,8 @@ namespace JavascriptCombiner
             }
             if (start != -1)
                 throw new ArgumentException(
-                        string.Format("Ill-formed name/value separator found in \"{0}\".", name),
-                        "prototype");
+                    string.Format("Ill-formed name/value separator found in \"{0}\".", name),
+                    "prototype");
         }
 
         public void Invoke(OptionContext c)
@@ -725,7 +725,7 @@ namespace JavascriptCombiner
             if (action == null)
                 throw new ArgumentNullException("action");
             Option p = new ActionOption(prototype, description, 1,
-                    delegate(OptionValueCollection v) { action(v[0]); });
+                                        delegate(OptionValueCollection v) { action(v[0]); });
             base.Add(p);
             return this;
         }
@@ -740,7 +740,7 @@ namespace JavascriptCombiner
             if (action == null)
                 throw new ArgumentNullException("action");
             Option p = new ActionOption(prototype, description, 2,
-                    delegate(OptionValueCollection v) { action(v[0], v[1]); });
+                                        delegate(OptionValueCollection v) { action(v[0], v[1]); });
             base.Add(p);
             return this;
         }
@@ -778,8 +778,8 @@ namespace JavascriptCombiner
             protected override void OnParseComplete(OptionContext c)
             {
                 action(
-                        Parse<TKey>(c.OptionValues[0], c),
-                        Parse<TValue>(c.OptionValues[1], c));
+                    Parse<TKey>(c.OptionValues[0], c),
+                    Parse<TValue>(c.OptionValues[1], c));
             }
         }
 
@@ -817,18 +817,18 @@ namespace JavascriptCombiner
             var unprocessed =
                 from argument in arguments
                 where ++c.OptionIndex >= 0 && (process || def != null)
-                    ? process
-                        ? argument == "--"
-                            ? (process = false)
-                            : !Parse(argument, c)
-                                ? def != null
-                                    ? Unprocessed(null, def, c, argument)
-                                    : true
-                                : false
-                        : def != null
-                            ? Unprocessed(null, def, c, argument)
-                            : true
-                    : true
+                          ? process
+                                ? argument == "--"
+                                      ? (process = false)
+                                      : !Parse(argument, c)
+                                            ? def != null
+                                                  ? Unprocessed(null, def, c, argument)
+                                                  : true
+                                            : false
+                                : def != null
+                                      ? Unprocessed(null, def, c, argument)
+                                      : true
+                          : true
                 select argument;
             List<string> r = unprocessed.ToList();
             if (c.Option != null)
@@ -918,20 +918,20 @@ namespace JavascriptCombiner
         {
             if (option != null)
                 foreach (string o in c.Option.ValueSeparators != null
-                        ? option.Split(c.Option.ValueSeparators, StringSplitOptions.None)
-                        : new string[] { option })
+                                         ? option.Split(c.Option.ValueSeparators, StringSplitOptions.None)
+                                         : new string[] { option })
                 {
                     c.OptionValues.Add(o);
                 }
             if (c.OptionValues.Count == c.Option.MaxValueCount ||
-                    c.Option.OptionValueType == OptionValueType.Optional)
+                c.Option.OptionValueType == OptionValueType.Optional)
                 c.Option.Invoke(c);
             else if (c.OptionValues.Count > c.Option.MaxValueCount)
             {
                 throw new OptionException(localizer(string.Format(
-                                "Error: Found {0} option values when expecting {1}.",
-                                c.OptionValues.Count, c.Option.MaxValueCount)),
-                        c.OptionName);
+                                                        "Error: Found {0} option values when expecting {1}.",
+                                                        c.OptionValues.Count, c.Option.MaxValueCount)),
+                                          c.OptionName);
             }
         }
 
@@ -940,7 +940,7 @@ namespace JavascriptCombiner
             Option p;
             string rn;
             if (n.Length >= 1 && (n[n.Length - 1] == '+' || n[n.Length - 1] == '-') &&
-                    Contains((rn = n.Substring(0, n.Length - 1))))
+                Contains((rn = n.Substring(0, n.Length - 1))))
             {
                 p = this[rn];
                 string v = n[n.Length - 1] == '+' ? option : null;
@@ -967,7 +967,7 @@ namespace JavascriptCombiner
                     if (i == 0)
                         return false;
                     throw new OptionException(string.Format(localizer(
-                                    "Cannot bundle unregistered option '{0}'."), opt), opt);
+                                                                "Cannot bundle unregistered option '{0}'."), opt), opt);
                 }
                 p = this[rn];
                 switch (p.OptionValueType)
@@ -1049,7 +1049,7 @@ namespace JavascriptCombiner
             }
 
             for (i = GetNextOptionIndex(names, i + 1);
-                    i < names.Length; i = GetNextOptionIndex(names, i + 1))
+                 i < names.Length; i = GetNextOptionIndex(names, i + 1))
             {
                 Write(o, ref written, ", ");
                 Write(o, ref written, names[i].Length == 1 ? "-" : "--");
@@ -1057,7 +1057,7 @@ namespace JavascriptCombiner
             }
 
             if (p.OptionValueType == OptionValueType.Optional ||
-                    p.OptionValueType == OptionValueType.Required)
+                p.OptionValueType == OptionValueType.Required)
             {
                 if (p.OptionValueType == OptionValueType.Optional)
                 {
@@ -1065,8 +1065,8 @@ namespace JavascriptCombiner
                 }
                 Write(o, ref written, localizer("=" + GetArgumentName(0, p.MaxValueCount, p.Description)));
                 string sep = p.ValueSeparators != null && p.ValueSeparators.Length > 0
-                    ? p.ValueSeparators[0]
-                    : " ";
+                                 ? p.ValueSeparators[0]
+                                 : " ";
                 for (int c = 1; c < p.MaxValueCount; ++c)
                 {
                     Write(o, ref written, localizer(sep + GetArgumentName(c, p.MaxValueCount, p.Description)));
@@ -1170,9 +1170,8 @@ namespace JavascriptCombiner
         private static IEnumerable<string> GetLines(string description)
         {
             return StringCoda.WrappedLines(description,
-                    80 - OptionWidth,
-                    80 - OptionWidth - 2);
+                                           80 - OptionWidth,
+                                           80 - OptionWidth - 2);
         }
     }
 }
-

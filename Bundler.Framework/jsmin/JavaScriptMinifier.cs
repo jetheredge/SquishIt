@@ -32,7 +32,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace JavascriptBundler.jsmin
+namespace Bundler.Framework.jsmin
 {
     class JavaScriptMinifier
     {

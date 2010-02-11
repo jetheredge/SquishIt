@@ -1,10 +1,10 @@
 using System;
 using System.IO;
 using System.Linq;
-using JavascriptBundler.Directories;
+using Bundler.Framework.Directories;
 using NUnit.Framework;
 
-namespace JavascriptBundler.Tests
+namespace Bundler.Framework.Tests
 {
     [TestFixture]
     public class DirectoryEnumeratorTests

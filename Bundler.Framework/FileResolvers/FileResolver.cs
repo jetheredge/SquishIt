@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace JavascriptBundler.FileResolvers
+namespace Bundler.Framework.FileResolvers
 {
     public class FileResolver: IFileResolver
     {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace JavascriptBundler.FileResolvers
+namespace Bundler.Framework.FileResolvers
 {
     public interface IFileResolver
     {        

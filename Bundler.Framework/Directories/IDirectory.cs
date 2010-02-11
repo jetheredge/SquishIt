@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace JavascriptBundler.Directories
+namespace Bundler.Framework.Directories
 {
     public interface IDirectory
     {

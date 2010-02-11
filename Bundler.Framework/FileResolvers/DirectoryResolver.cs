@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using JavascriptBundler.Directories;
+using Bundler.Framework.Directories;
 
-namespace JavascriptBundler.FileResolvers
+namespace Bundler.Framework.FileResolvers
 {
     public class DirectoryResolver: IFileResolver
     {
