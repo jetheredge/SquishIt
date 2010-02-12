@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Bundler.Framework.Directories;
 
 namespace Bundler.Framework.Directories
 {
@@ -12,6 +11,7 @@ namespace Bundler.Framework.Directories
 
         public DirectoryEnumerator()
         {
+            this.directory = new Directory();
         }
 
         public DirectoryEnumerator(IDirectory directory)
@@ -22,6 +22,8 @@ namespace Bundler.Framework.Directories
         public IEnumerable<string> GetFiles(string path)
         {            
             var files = directory.GetFiles(path, "*.js").ToArray();
+            var vsDocFiles = directory.GetFiles(path, "*-vsdoc.js").ToArray();
+            files = files.Except(vsDocFiles).ToArray();
             var ordering = GetOrdering(path);
 
             if (ordering.Count <= 0)
