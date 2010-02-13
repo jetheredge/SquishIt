@@ -1,0 +1,193 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+<<<<<<< HEAD
+using System.Security.Cryptography;
+=======
+>>>>>>> c80c89b32d453d4f0c85851fc2896f4672d021a5
+using System.Text;
+using System.Web;
+using Bundler.Framework.FileResolvers;
+using Bundler.Framework.Files;
+using Bundler.Framework.Minifiers;
+
+namespace Bundler.Framework
+{
+    public class Bundle
+    {
+        private static Dictionary<string,string> renderedFiles = new Dictionary<string,string>();
+        private List<string> javascriptFiles = new List<string>();
+        
+        public Bundle AddJs(string javaScriptPath)
+        {
+            javascriptFiles.Add(javaScriptPath);
+            return this;
+        }
+
+        public string RenderJs(string renderTo)
+        {
+            string scriptTemplate = "<script type=\"text/javascript\" src=\"{0}\"></script>";
+            if (HttpContext.Current.IsDebuggingEnabled)
+            {
+                var sb = new StringBuilder();
+                foreach (string file in javascriptFiles)
+                {
+                    sb.Append(String.Format(scriptTemplate, file));    
+                }
+                return sb.ToString();
+            }
+
+            if (!renderedFiles.ContainsKey(renderTo))
+            {                
+                lock (renderedFiles)
+                {
+                    if (!renderedFiles.ContainsKey(renderTo))
+                    {
+                        string path = HttpContext.Current.Server.MapPath(renderTo);
+<<<<<<< HEAD
+                        List<string> files = GetFiles(GetFilePaths(javascriptFiles));
+                        string minifiedJavaScript = MinifyJavaScript(files, "jsmin");
+                        WriteFiles(minifiedJavaScript, path);
+                        WriteGZippedFile(minifiedJavaScript, null);
+                        byte[] bytes = Encoding.UTF8.GetBytes(minifiedJavaScript);
+                        byte[] hashBytes = new MD5CryptoServiceProvider().ComputeHash(bytes);
+                        string hash = ByteArrayToString(hashBytes);
+                        string renderedScriptTag = String.Format(scriptTemplate, renderTo + "?r=" + hash);
+=======
+                        ProcessInput(GetFilePaths(javascriptFiles), path, null, "jsmin");
+                        string renderedScriptTag = String.Format(scriptTemplate, renderTo + "?r=" + DateTime.Now.ToString("yyyyMMddHHmmss"));
+>>>>>>> c80c89b32d453d4f0c85851fc2896f4672d021a5
+                        renderedFiles.Add(renderTo, renderedScriptTag);
+                    }
+                }                
+            }
+            return renderedFiles[renderTo];
+        }
+
+<<<<<<< HEAD
+        static string ByteArrayToString(byte[] arrInput)
+        {
+            int i;
+            StringBuilder sOutput = new StringBuilder(arrInput.Length);
+            for (i = 0; i < arrInput.Length; i++)
+            {
+                sOutput.Append(arrInput[i].ToString("X2"));
+            }
+            return sOutput.ToString();
+        }
+
+=======
+>>>>>>> c80c89b32d453d4f0c85851fc2896f4672d021a5
+        private List<InputFile> GetFilePaths(List<string> list)
+        {
+            var result = new List<InputFile>();
+            foreach (string file in list)
+            {
+                string mappedPath = HttpContext.Current.Server.MapPath(file);
+                result.Add(new InputFile(mappedPath, FileResolver.Type));
+            }
+            return result;
+        }
+
+<<<<<<< HEAD
+        public static string MinifyJavaScript(List<string> files, string minifierType)
+        {            
+            IFileCompressor minifier = GetMinifier(minifierType);
+            return MinifyJavaScript(files, minifier).ToString();
+        }
+
+        private static List<string> GetFiles(List<InputFile> fileArguments)
+=======
+        public static void ProcessInput(List<InputFile> fileArguments, string outputFile, string gzippedOutputFile, string minifierType)
+>>>>>>> c80c89b32d453d4f0c85851fc2896f4672d021a5
+        {
+            var files = new List<string>();
+            var fileResolverCollection = new FileResolverCollection();
+            foreach (InputFile file in fileArguments)
+            {
+                files.AddRange(fileResolverCollection.Resolve(file.FilePath, file.FileType));
+            }
+<<<<<<< HEAD
+            return files;
+=======
+
+            IFileCompressor minifier = GetMinifier(minifierType);
+
+            StringBuilder outputJavaScript = MinifyJavaScript(files, minifier);
+            WriteFiles(outputJavaScript, files, minifier, outputFile);
+            WriteGZippedFile(outputJavaScript, gzippedOutputFile);
+>>>>>>> c80c89b32d453d4f0c85851fc2896f4672d021a5
+        }
+
+        private static StringBuilder MinifyJavaScript(List<string> files, IFileCompressor minifier)
+        {
+            var outputJavaScript = new StringBuilder();
+            foreach (string file in files)
+            {
+                outputJavaScript.Append(minifier.Compress(file));
+            }
+            return outputJavaScript;
+        }
+
+<<<<<<< HEAD
+        private static void WriteFiles(string outputJavaScript, string outputFile)
+=======
+        private static void WriteFiles(StringBuilder outputJavaScript, List<string> files, IFileCompressor minifier, string outputFile)
+>>>>>>> c80c89b32d453d4f0c85851fc2896f4672d021a5
+        {            
+            if (outputFile != null)
+            {
+                using (var sr = new StreamWriter(outputFile, false))
+                {
+<<<<<<< HEAD
+                    sr.Write(outputJavaScript);
+=======
+                    sr.Write(outputJavaScript.ToString());
+>>>>>>> c80c89b32d453d4f0c85851fc2896f4672d021a5
+                }
+            }
+            else
+            {
+                Console.WriteLine(outputJavaScript);
+            }            
+        }
+
+<<<<<<< HEAD
+        private static void WriteGZippedFile(string outputJavaScript, string gzippedOutputFile)
+=======
+        private static void WriteGZippedFile(StringBuilder outputJavaScript, string gzippedOutputFile)
+>>>>>>> c80c89b32d453d4f0c85851fc2896f4672d021a5
+        {
+            if (gzippedOutputFile != null)
+            {
+                var gzipper = new FileGZipper();
+<<<<<<< HEAD
+                gzipper.Zip(gzippedOutputFile, outputJavaScript);
+=======
+                gzipper.Zip(gzippedOutputFile, outputJavaScript.ToString());
+>>>>>>> c80c89b32d453d4f0c85851fc2896f4672d021a5
+            }
+        }
+
+        private static IFileCompressor GetMinifier(string minifierType)
+        {
+            IFileCompressor minifier = null;
+            if (minifierType == "jsmin")
+            {
+                minifier = new JsMinMinifier();
+            }
+            else if (minifierType == "closure")
+            {
+                minifier = new ClosureMinifier();
+            }
+            else if (minifierType == "yui")
+            {
+            }
+            else
+            {
+                minifier = new NullMinifier();
+            }
+            return minifier;
+        }
+    }
+}

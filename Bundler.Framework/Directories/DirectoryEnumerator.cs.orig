@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+<<<<<<< HEAD
+using Bundler.Framework.Directories;
+=======
+>>>>>>> c80c89b32d453d4f0c85851fc2896f4672d021a5
 
 namespace Bundler.Framework.Directories
 {
@@ -11,7 +15,10 @@ namespace Bundler.Framework.Directories
 
         public DirectoryEnumerator()
         {
+<<<<<<< HEAD
+=======
             this.directory = new Directory();
+>>>>>>> c80c89b32d453d4f0c85851fc2896f4672d021a5
         }
 
         public DirectoryEnumerator(IDirectory directory)
@@ -22,8 +29,11 @@ namespace Bundler.Framework.Directories
         public IEnumerable<string> GetFiles(string path)
         {            
             var files = directory.GetFiles(path, "*.js").ToArray();
+<<<<<<< HEAD
+=======
             var vsDocFiles = directory.GetFiles(path, "*-vsdoc.js").ToArray();
             files = files.Except(vsDocFiles).ToArray();
+>>>>>>> c80c89b32d453d4f0c85851fc2896f4672d021a5
             var ordering = GetOrdering(path);
 
             if (ordering.Count <= 0)
