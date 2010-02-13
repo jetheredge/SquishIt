@@ -40,14 +40,9 @@ namespace Bundler.Framework
                 {
                     if (!renderedFiles.ContainsKey(renderTo))
                     {
-                        string path = HttpContext.Current.Server.MapPath(renderTo);
-                        List<string> files = GetFiles(GetFilePaths(javascriptFiles));
-                        string minifiedJavaScript = MinifyJavaScript(files, "jsmin");
-                        WriteFiles(minifiedJavaScript, path);
-                        WriteGZippedFile(minifiedJavaScript, null);
-                        byte[] bytes = Encoding.UTF8.GetBytes(minifiedJavaScript);
-                        byte[] hashBytes = new MD5CryptoServiceProvider().ComputeHash(bytes);
-                        string hash = ByteArrayToString(hashBytes);
+                        string outputFile = HttpContext.Current.Server.MapPath(renderTo);
+                        string minifiedJavaScript = ProcessInput(GetFilePaths(javascriptFiles), outputFile, null, "jsmin");
+                        string hash = GetHash(minifiedJavaScript);
                         string renderedScriptTag = String.Format(scriptTemplate, renderTo + "?r=" + hash);
                         renderedFiles.Add(renderTo, renderedScriptTag);
                     }
@@ -56,18 +51,33 @@ namespace Bundler.Framework
             return renderedFiles[renderTo];
         }
 
-        static string ByteArrayToString(byte[] arrInput)
+        private string GetHash(string minifiedJavaScript)
         {
-            int i;
-            StringBuilder sOutput = new StringBuilder(arrInput.Length);
-            for (i = 0; i < arrInput.Length; i++)
-            {
-                sOutput.Append(arrInput[i].ToString("X2"));
-            }
-            return sOutput.ToString();
+            byte[] bytes = Encoding.UTF8.GetBytes(minifiedJavaScript);
+            byte[] hashBytes = new MD5CryptoServiceProvider().ComputeHash(bytes);
+            return ByteArrayToString(hashBytes);
         }
 
-        private List<InputFile> GetFilePaths(List<string> list)
+        static string ByteArrayToString(byte[] arrInput)
+        {            
+            var output = new StringBuilder(arrInput.Length);
+            for (int i = 0; i < arrInput.Length; i++)
+            {
+                output.Append(arrInput[i].ToString("X2"));
+            }
+            return output.ToString();
+        }
+
+        public static string ProcessInput(List<InputFile> arguments, string outputFile, string gzippedOutputFile, string minifierType)
+        {            
+            List<string> files = GetFiles(arguments);
+            string minifiedJavaScript = MinifyJavaScript(files, minifierType);
+            WriteFiles(minifiedJavaScript, outputFile);
+            WriteGZippedFile(minifiedJavaScript, null);
+            return minifiedJavaScript;            
+        }
+
+        private static List<InputFile> GetFilePaths(List<string> list)
         {
             var result = new List<InputFile>();
             foreach (string file in list)
@@ -148,6 +158,6 @@ namespace Bundler.Framework
                 minifier = new NullMinifier();
             }
             return minifier;
-        }
+        }        
     }
 }
