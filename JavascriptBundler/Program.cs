@@ -44,7 +44,7 @@ namespace JavascriptBundler
                 return;
             }
 
-            Bundler.Framework.Bundle.ProcessInput(fileArguments, outputFile, gzippedOutputFile, minifierType);
+            //Bundler.Framework.Bundle.ProcessInput(fileArguments, outputFile, gzippedOutputFile, minifierType);
         }        
 
         static void ShowHelp(OptionSet p)

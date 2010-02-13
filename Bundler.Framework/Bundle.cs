@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using Bundler.Framework.FileResolvers;
@@ -40,13 +41,30 @@ namespace Bundler.Framework
                     if (!renderedFiles.ContainsKey(renderTo))
                     {
                         string path = HttpContext.Current.Server.MapPath(renderTo);
-                        ProcessInput(GetFilePaths(javascriptFiles), path, null, "jsmin");
-                        string renderedScriptTag = String.Format(scriptTemplate, renderTo + "?r=" + DateTime.Now.ToString("yyyyMMddHHmmss"));
+                        List<string> files = GetFiles(GetFilePaths(javascriptFiles));
+                        string minifiedJavaScript = MinifyJavaScript(files, "jsmin");
+                        WriteFiles(minifiedJavaScript, path);
+                        WriteGZippedFile(minifiedJavaScript, null);
+                        byte[] bytes = Encoding.UTF8.GetBytes(minifiedJavaScript);
+                        byte[] hashBytes = new MD5CryptoServiceProvider().ComputeHash(bytes);
+                        string hash = ByteArrayToString(hashBytes);
+                        string renderedScriptTag = String.Format(scriptTemplate, renderTo + "?r=" + hash);
                         renderedFiles.Add(renderTo, renderedScriptTag);
                     }
                 }                
             }
             return renderedFiles[renderTo];
+        }
+
+        static string ByteArrayToString(byte[] arrInput)
+        {
+            int i;
+            StringBuilder sOutput = new StringBuilder(arrInput.Length);
+            for (i = 0; i < arrInput.Length; i++)
+            {
+                sOutput.Append(arrInput[i].ToString("X2"));
+            }
+            return sOutput.ToString();
         }
 
         private List<InputFile> GetFilePaths(List<string> list)
@@ -60,7 +78,13 @@ namespace Bundler.Framework
             return result;
         }
 
-        public static void ProcessInput(List<InputFile> fileArguments, string outputFile, string gzippedOutputFile, string minifierType)
+        public static string MinifyJavaScript(List<string> files, string minifierType)
+        {            
+            IFileCompressor minifier = GetMinifier(minifierType);
+            return MinifyJavaScript(files, minifier).ToString();
+        }
+
+        private static List<string> GetFiles(List<InputFile> fileArguments)
         {
             var files = new List<string>();
             var fileResolverCollection = new FileResolverCollection();
@@ -68,12 +92,7 @@ namespace Bundler.Framework
             {
                 files.AddRange(fileResolverCollection.Resolve(file.FilePath, file.FileType));
             }
-
-            IFileCompressor minifier = GetMinifier(minifierType);
-
-            StringBuilder outputJavaScript = MinifyJavaScript(files, minifier);
-            WriteFiles(outputJavaScript, files, minifier, outputFile);
-            WriteGZippedFile(outputJavaScript, gzippedOutputFile);
+            return files;
         }
 
         private static StringBuilder MinifyJavaScript(List<string> files, IFileCompressor minifier)
@@ -86,13 +105,13 @@ namespace Bundler.Framework
             return outputJavaScript;
         }
 
-        private static void WriteFiles(StringBuilder outputJavaScript, List<string> files, IFileCompressor minifier, string outputFile)
+        private static void WriteFiles(string outputJavaScript, string outputFile)
         {            
             if (outputFile != null)
             {
                 using (var sr = new StreamWriter(outputFile, false))
                 {
-                    sr.Write(outputJavaScript.ToString());
+                    sr.Write(outputJavaScript);
                 }
             }
             else
@@ -101,12 +120,12 @@ namespace Bundler.Framework
             }            
         }
 
-        private static void WriteGZippedFile(StringBuilder outputJavaScript, string gzippedOutputFile)
+        private static void WriteGZippedFile(string outputJavaScript, string gzippedOutputFile)
         {
             if (gzippedOutputFile != null)
             {
                 var gzipper = new FileGZipper();
-                gzipper.Zip(gzippedOutputFile, outputJavaScript.ToString());
+                gzipper.Zip(gzippedOutputFile, outputJavaScript);
             }
         }
 
