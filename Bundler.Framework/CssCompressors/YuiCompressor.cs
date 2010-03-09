@@ -1,0 +1,35 @@
+using System;
+using System.IO;
+using Bundler.Framework.Minifiers;
+using Yahoo.Yui.Compressor;
+
+namespace Bundler.Framework.CssCompressors
+{
+    public class YuiCompressor: ICssCompressor
+    {
+        public static string Identifier
+        {
+            get { return "YuiCompressor"; }
+        }
+
+        public string CompressFile(string file)
+        {
+            string css;
+            using (var sr = new StreamReader(file))
+            {
+                css = sr.ReadToEnd();
+            }
+            return CompressContent(css);
+        }
+
+        public string CompressContent(string content)
+        {
+            return CssCompressor.Compress(content, 0, CssCompressionType.StockYuiCompressor);
+        }
+
+        string ICssCompressor.Identifier
+        {
+            get { return Identifier; }
+        }
+    }
+}

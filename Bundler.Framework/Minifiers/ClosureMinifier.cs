@@ -5,11 +5,21 @@ using System.Reflection;
 
 namespace Bundler.Framework.Minifiers
 {
-    public class ClosureMinifier: IFileCompressor
+    public class ClosureMinifier: IJavaScriptCompressor
     {
-        public string Compress(string file)
+        public static string Identifier
         {
-            var a = Assembly.GetEntryAssembly();
+            get { return "closure"; }
+        }
+
+        string IJavaScriptCompressor.Identifier
+        {
+            get { return Identifier; }
+        }
+
+        public string CompressFile(string file)
+        {
+            var a = Assembly.GetExecutingAssembly();
             string path = Path.GetDirectoryName(a.Location);
             string outFile = Path.GetTempPath() + Path.GetRandomFileName();
             try
@@ -23,17 +33,36 @@ namespace Bundler.Framework.Minifiers
                 startInfo.WindowStyle = ProcessWindowStyle.Normal;
                 var process = Process.Start(startInfo);
                 Console.Error.Write(process.StandardError.ReadToEnd());                    
-                process.WaitForExit();                
+                process.WaitForExit();
 
+                string output;
                 using (var sr = new StreamReader(outFile))
                 {
-                    return sr.ReadToEnd();
+                    output = sr.ReadToEnd();
                 }
+                return output;
             }
             finally
             {
                 File.Delete(outFile);
             }            
+        }
+
+        public string CompressContent(string content)
+        {
+            string inputFileName = Path.GetTempPath() + Path.GetRandomFileName();
+            try
+            {
+                using (var sw = new StreamWriter(inputFileName))
+                {
+                    sw.Write(content);
+                }
+                return CompressFile(inputFileName);
+            }
+            finally
+            {
+                File.Delete(inputFileName);
+            }
         }
     }
 }

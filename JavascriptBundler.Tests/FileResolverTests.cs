@@ -6,7 +6,7 @@ using Bundler.Framework.FileResolvers;
 using Bundler.Framework.Tests.Mocks;
 using NUnit.Framework;
 
-namespace Bundler.Framework.Tests
+namespace Bundler.Tests
 {
     [TestFixture]
     public class FileResolverTests
@@ -16,17 +16,17 @@ namespace Bundler.Framework.Tests
         {
             //resharper doesn't support the TestCase attribute
             var values = new Dictionary<string, string>()
-                {
-                    {@"C:\testfile.js", @"C:\testfile.js"},
-                    {@"C:\test\testfile.js", @"C:\test\testfile.js"},
-                    {@"D:\testfile.js", @"D:\testfile.js"},
-                    {@"\testfile.js", @"C:\testfile.js"},
-                    {@"\test\testfile.js", @"C:\test\testfile.js"},
-                    {@"\test\test3\testfile.js", @"C:\test\test3\testfile.js"},
-                    {@"testfile.js", Environment.CurrentDirectory + @"\testfile.js"},
-                    {@"..\testfile.js", Path.GetFullPath(Environment.CurrentDirectory + @"\..\testfile.js")},
-                    {@"..\..\testfile.js", Path.GetFullPath(Environment.CurrentDirectory + @"\..\..\testfile.js")}
-                };
+                             {
+                                 {@"C:\testfile.js", @"C:\testfile.js"},
+                                 {@"C:\test\testfile.js", @"C:\test\testfile.js"},
+                                 {@"D:\testfile.js", @"D:\testfile.js"},
+                                 {@"\testfile.js", @"C:\testfile.js"},
+                                 {@"\test\testfile.js", @"C:\test\testfile.js"},
+                                 {@"\test\test3\testfile.js", @"C:\test\test3\testfile.js"},
+                                 {@"testfile.js", Environment.CurrentDirectory + @"\testfile.js"},
+                                 {@"..\testfile.js", Path.GetFullPath(Environment.CurrentDirectory + @"\..\testfile.js")},
+                                 {@"..\..\testfile.js", Path.GetFullPath(Environment.CurrentDirectory + @"\..\..\testfile.js")}
+                             };
 
             var fileResolver = new FileResolver();
             foreach (string key in values.Keys)

@@ -44,9 +44,17 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Yahoo.Yui.Compressor, Version=1.4.1.0, Culture=neutral, PublicKeyToken=f8b4b81ec75097e2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\tools\yui-compressor\Yahoo.Yui.Compressor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bundle.cs" />
+    <Compile Include="CssCompressors\CssCompressorRegistry.cs" />
+    <Compile Include="CssCompressors\ICssCompressor.cs" />
+    <Compile Include="CssCompressors\NullCompressor.cs" />
+    <Compile Include="CssCompressors\YuiCompressor.cs" />
     <Compile Include="Directories\Directory.cs" />
     <Compile Include="Directories\DirectoryEnumerator.cs" />
     <Compile Include="Directories\IDirectory.cs" />
@@ -58,12 +66,16 @@
     <Compile Include="FileResolvers\HttpResolver.cs" />
     <Compile Include="FileResolvers\IFileResolver.cs" />
     <Compile Include="Files\InputFile.cs" />
+    <Compile Include="ICssBundler.cs" />
+    <Compile Include="IJavaScriptBundler.cs" />
     <Compile Include="jsmin\JavaScriptMinifier.cs" />
     <Compile Include="Minifiers\ClosureMinifier.cs" />
-    <Compile Include="Minifiers\IFileCompressor.cs" />
+    <Compile Include="Minifiers\IJavaScriptCompressor.cs" />
     <Compile Include="Minifiers\JsMinMinifier.cs" />
+    <Compile Include="Minifiers\MinifierRegistry.cs" />
     <Compile Include="Minifiers\NullMinifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\Hasher.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="closure-compiler\compiler.jar">

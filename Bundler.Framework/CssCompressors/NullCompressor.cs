@@ -1,17 +1,14 @@
-﻿using System.IO;
+using System;
+using System.IO;
+using Bundler.Framework.Minifiers;
 
-namespace Bundler.Framework.Minifiers
+namespace Bundler.Framework.CssCompressors
 {
-    public class NullMinifier: IJavaScriptCompressor
+    public class NullCompressor: ICssCompressor
     {
         public static string Identifier
         {
-            get { return "null"; }
-        }
-
-        string IJavaScriptCompressor.Identifier
-        {
-            get { return Identifier; }
+            get { return "NullCompressor"; }
         }
 
         public string CompressFile(string file)
@@ -26,5 +23,10 @@ namespace Bundler.Framework.Minifiers
         {
             return content;
         }
+
+        string ICssCompressor.Identifier
+        {
+            get { return Identifier; }
+        }        
     }
 }

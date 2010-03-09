@@ -1,23 +1,26 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using Bundler.Framework.CssCompressors;
 using Bundler.Framework.FileResolvers;
 using Bundler.Framework.Files;
 using Bundler.Framework.Minifiers;
+using Bundler.Framework.Utilities;
 
 namespace Bundler.Framework
 {
-    public class Bundle
+    public class Bundle: IJavaScriptBundler, ICssBundler
     {
-        private static Dictionary<string,string> renderedFiles = new Dictionary<string,string>();
-        private List<string> javascriptFiles = new List<string>();
+        private static Dictionary<string,string> renderedJavaScriptFiles = new Dictionary<string,string>();
+        private static Dictionary<string, string> renderedCssFiles = new Dictionary<string, string>();
+        private List<string> javaScriptFiles = new List<string>();
+        private List<string> cssFiles = new List<string>();
         
-        public Bundle AddJs(string javaScriptPath)
+        public IJavaScriptBundler AddJs(string javaScriptPath)
         {
-            javascriptFiles.Add(javaScriptPath);
+            javaScriptFiles.Add(javaScriptPath);
             return this;
         }
 
@@ -26,55 +29,73 @@ namespace Bundler.Framework
             string scriptTemplate = "<script type=\"text/javascript\" src=\"{0}\"></script>";
             if (HttpContext.Current.IsDebuggingEnabled)
             {
-                var sb = new StringBuilder();
-                foreach (string file in javascriptFiles)
-                {
-                    sb.Append(String.Format(scriptTemplate, file));    
-                }
-                return sb.ToString();
+                return RenderFiles(scriptTemplate, javaScriptFiles);
             }
 
-            if (!renderedFiles.ContainsKey(renderTo))
+            if (!renderedJavaScriptFiles.ContainsKey(renderTo))
             {                
-                lock (renderedFiles)
+                lock (renderedJavaScriptFiles)
                 {
-                    if (!renderedFiles.ContainsKey(renderTo))
+                    if (!renderedJavaScriptFiles.ContainsKey(renderTo))
                     {
                         string outputFile = HttpContext.Current.Server.MapPath(renderTo);
-                        string minifiedJavaScript = ProcessInput(GetFilePaths(javascriptFiles), outputFile, null, "jsmin");
-                        string hash = GetHash(minifiedJavaScript);
+                        string minifiedJavaScript = ProcessJavaScriptInput(GetFilePaths(javaScriptFiles), outputFile, null, JsMinMinifier.Identifier);
+                        string hash = Hasher.Create(minifiedJavaScript);
                         string renderedScriptTag = String.Format(scriptTemplate, renderTo + "?r=" + hash);
-                        renderedFiles.Add(renderTo, renderedScriptTag);
+                        renderedJavaScriptFiles.Add(renderTo, renderedScriptTag);
                     }
-                }                
+                }
             }
-            return renderedFiles[renderTo];
+            return renderedJavaScriptFiles[renderTo];
         }
 
-        private string GetHash(string minifiedJavaScript)
+        public ICssBundler AddCss(string cssScriptPath)
         {
-            byte[] bytes = Encoding.UTF8.GetBytes(minifiedJavaScript);
-            byte[] hashBytes = new MD5CryptoServiceProvider().ComputeHash(bytes);
-            return ByteArrayToString(hashBytes);
+            cssFiles.Add(cssScriptPath);
+            return this;
         }
 
-        static string ByteArrayToString(byte[] arrInput)
-        {            
-            var output = new StringBuilder(arrInput.Length);
-            for (int i = 0; i < arrInput.Length; i++)
+        public string RenderCss(string renderTo)
+        {
+            string cssTemplate = "<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}\" />";
+            if (HttpContext.Current.IsDebuggingEnabled)
             {
-                output.Append(arrInput[i].ToString("X2"));
+                return RenderFiles(cssTemplate, cssFiles);
             }
-            return output.ToString();
-        }
 
-        public static string ProcessInput(List<InputFile> arguments, string outputFile, string gzippedOutputFile, string minifierType)
-        {            
+            if (!renderedCssFiles.ContainsKey(renderTo))
+            {
+                lock (renderedCssFiles)
+                {
+                    if (!renderedCssFiles.ContainsKey(renderTo))
+                    {
+                        string outputFile = HttpContext.Current.Server.MapPath(renderTo);
+                        string compressedCss = ProcessCssInput(GetFilePaths(cssFiles), outputFile, null, YuiCompressor.Identifier);
+                        string hash = Hasher.Create(compressedCss);
+                        string renderedCssTag = String.Format(cssTemplate, renderTo + "?r=" + hash);
+                        renderedCssFiles.Add(renderTo, renderedCssTag);
+                    }
+                }
+            }
+            return renderedCssFiles[renderTo];
+        }        
+
+        public static string ProcessJavaScriptInput(List<InputFile> arguments, string outputFile, string gzippedOutputFile, string minifierType)
+        {
             List<string> files = GetFiles(arguments);
             string minifiedJavaScript = MinifyJavaScript(files, minifierType);
             WriteFiles(minifiedJavaScript, outputFile);
             WriteGZippedFile(minifiedJavaScript, null);
-            return minifiedJavaScript;            
+            return minifiedJavaScript;
+        }
+
+        public static string ProcessCssInput(List<InputFile> arguments, string outputFile, string gzippedOutputFile, string compressorType)
+        {
+            List<string> files = GetFiles(arguments);
+            string compressedCss = CompressCss(files, compressorType);
+            WriteFiles(compressedCss, outputFile);
+            WriteGZippedFile(compressedCss, null);
+            return compressedCss;
         }
 
         private static List<InputFile> GetFilePaths(List<string> list)
@@ -89,9 +110,15 @@ namespace Bundler.Framework
         }
 
         public static string MinifyJavaScript(List<string> files, string minifierType)
-        {            
-            IFileCompressor minifier = GetMinifier(minifierType);
+        {
+            IJavaScriptCompressor minifier = MinifierRegistry.Get(minifierType);
             return MinifyJavaScript(files, minifier).ToString();
+        }
+
+        public static string CompressCss(List<string> files, string compressorType)
+        {
+            ICssCompressor compressor = CssCompressorRegistry.Get(compressorType);
+            return CompressCss(files, compressor).ToString();
         }
 
         private static List<string> GetFiles(List<InputFile> fileArguments)
@@ -105,14 +132,24 @@ namespace Bundler.Framework
             return files;
         }
 
-        private static StringBuilder MinifyJavaScript(List<string> files, IFileCompressor minifier)
+        private static StringBuilder MinifyJavaScript(List<string> files, IJavaScriptCompressor minifier)
         {
             var outputJavaScript = new StringBuilder();
             foreach (string file in files)
             {
-                outputJavaScript.Append(minifier.Compress(file));
+                outputJavaScript.Append(minifier.CompressFile(file));
             }
             return outputJavaScript;
+        }
+
+        private static StringBuilder CompressCss(List<string> files, ICssCompressor compressor)
+        {
+            var outputCss = new StringBuilder();
+            foreach (string file in files)
+            {
+                outputCss.Append(compressor.CompressFile(file));
+            }
+            return outputCss;
         }
 
         private static void WriteFiles(string outputJavaScript, string outputFile)
@@ -139,25 +176,14 @@ namespace Bundler.Framework
             }
         }
 
-        private static IFileCompressor GetMinifier(string minifierType)
+        private string RenderFiles(string scriptTemplate, IEnumerable<string> files)
         {
-            IFileCompressor minifier = null;
-            if (minifierType == "jsmin")
+            var sb = new StringBuilder();
+            foreach (string file in files)
             {
-                minifier = new JsMinMinifier();
+                sb.Append(String.Format(scriptTemplate, file));
             }
-            else if (minifierType == "closure")
-            {
-                minifier = new ClosureMinifier();
-            }
-            else if (minifierType == "yui")
-            {
-            }
-            else
-            {
-                minifier = new NullMinifier();
-            }
-            return minifier;
-        }        
+            return sb.ToString();
+        }
     }
 }
