@@ -51,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bundle.cs" />
+    <Compile Include="BundleBase.cs" />
+    <Compile Include="CssBundle.cs" />
     <Compile Include="CssCompressors\CssCompressorRegistry.cs" />
     <Compile Include="CssCompressors\ICssCompressor.cs" />
     <Compile Include="CssCompressors\NullCompressor.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="Files\InputFile.cs" />
     <Compile Include="ICssBundler.cs" />
     <Compile Include="IJavaScriptBundler.cs" />
+    <Compile Include="JavaScriptBundle.cs" />
     <Compile Include="jsmin\JavaScriptMinifier.cs" />
     <Compile Include="Minifiers\ClosureMinifier.cs" />
     <Compile Include="Minifiers\IJavaScriptCompressor.cs" />

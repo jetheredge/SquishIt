@@ -8,11 +8,11 @@
     <title></title>
 </head>
 <body>
-    <%= new Bundle()
+    <%= Bundle.JavaScript()
                 .AddJs("/js/jquery-1.4.2.js")
                 .AddJs("/js/jquery-ui-1.8rc3.js")
                 .RenderJs("/js/combined.js") %>
-    <%= new Bundle()
+    <%= Bundle.Css()
                 .AddCss("/css/jquery-ui-1.8rc3.css")
                 .AddCss("/css/CodeThinked.css")
                 .RenderCss("/css/combined.css") %>

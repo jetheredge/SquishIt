@@ -43,8 +43,8 @@ namespace JavascriptBundler
                 ShowHelp(optionSet);
                 return;
             }
-
-            Bundler.Framework.Bundle.ProcessJavaScriptInput(fileArguments, outputFile, gzippedOutputFile, minifierType);
+            
+            //Bundler.Framework.Bundle.ProcessJavaScriptInput(fileArguments, outputFile, gzippedOutputFile, minifierType);
         }        
 
         static void ShowHelp(OptionSet p)
