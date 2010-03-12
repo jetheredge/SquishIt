@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Web;
 using Bundler.Framework.CssCompressors;
-using Bundler.Framework.FileResolvers;
 using Bundler.Framework.Files;
 using Bundler.Framework.Utilities;
+using dotless.Core;
 
 namespace Bundler.Framework
 {
@@ -23,7 +24,7 @@ namespace Bundler.Framework
         public string RenderCss(string renderTo)
         {
             string cssTemplate = "<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}\" />";
-            if (HttpContext.Current.IsDebuggingEnabled)
+            if (HttpContext.Current != null && HttpContext.Current.IsDebuggingEnabled)
             {
                 return RenderFiles(cssTemplate, cssFiles);
             }
@@ -34,7 +35,7 @@ namespace Bundler.Framework
                 {
                     if (!renderedCssFiles.ContainsKey(renderTo))
                     {
-                        string outputFile = HttpContext.Current.Server.MapPath(renderTo);
+                        string outputFile = ResolveFile(renderTo);
                         string compressedCss = ProcessCssInput(GetFilePaths(cssFiles), outputFile, null, YuiCompressor.Identifier);
                         string hash = Hasher.Create(compressedCss);
                         string renderedCssTag = String.Format(cssTemplate, renderTo + "?r=" + hash);
@@ -65,7 +66,17 @@ namespace Bundler.Framework
             var outputCss = new StringBuilder();
             foreach (string file in files)
             {
-                outputCss.Append(compressor.CompressFile(file));
+                if (Path.GetExtension(file).ToLower() == ".less")
+                {
+                    var engine = new ExtensibleEngine();                    
+                    var md = new MinifierDecorator(engine);                    
+                    string css = md.TransformToCss(file);
+                    outputCss.Append(compressor.CompressContent(css));
+                }
+                else
+                {
+                    outputCss.Append(compressor.CompressFile(file));
+                }
             }
             return outputCss;
         }

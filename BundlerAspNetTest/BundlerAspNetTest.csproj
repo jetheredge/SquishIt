@@ -55,6 +55,7 @@
   <ItemGroup>
     <Content Include="css\CodeThinked.css" />
     <Content Include="css\jquery-ui-1.8rc3.css" />
+    <None Include="css\testdotless.css.less" />
     <Content Include="Default.aspx" />
     <Content Include="js\jquery-1.4.2.js" />
     <Content Include="js\jquery-ui-1.8rc3.js" />

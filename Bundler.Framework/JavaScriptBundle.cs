@@ -24,7 +24,7 @@ namespace Bundler.Framework
         public string RenderJs(string renderTo)
         {
             string scriptTemplate = "<script type=\"text/javascript\" src=\"{0}\"></script>";
-            if (HttpContext.Current.IsDebuggingEnabled)
+            if (HttpContext.Current != null && HttpContext.Current.IsDebuggingEnabled)
             {
                 return RenderFiles(scriptTemplate, javaScriptFiles);
             }
@@ -35,7 +35,7 @@ namespace Bundler.Framework
                 {
                     if (!renderedJavaScriptFiles.ContainsKey(renderTo))
                     {
-                        string outputFile = HttpContext.Current.Server.MapPath(renderTo);
+                        string outputFile = ResolveFile(renderTo);
                         string minifiedJavaScript = ProcessJavaScriptInput(GetFilePaths(javaScriptFiles), outputFile, null, JsMinMinifier.Identifier);
                         string hash = Hasher.Create(minifiedJavaScript);
                         string renderedScriptTag = String.Format(scriptTemplate, renderTo + "?r=" + hash);

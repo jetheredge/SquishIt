@@ -60,10 +60,19 @@ namespace Bundler.Framework
             var result = new List<InputFile>();
             foreach (string file in list)
             {
-                string mappedPath = HttpContext.Current.Server.MapPath(file);
+                string mappedPath = ResolveFile(file);
                 result.Add(new InputFile(mappedPath, FileResolver.Type));
             }
             return result;
+        }
+
+        protected static string ResolveFile(string file)
+        {
+            if (HttpContext.Current == null)
+            {
+                return file;
+            }
+            return HttpContext.Current.Server.MapPath(file);
         }
     }
 }
