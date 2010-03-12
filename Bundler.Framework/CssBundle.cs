@@ -35,10 +35,10 @@ namespace Bundler.Framework
                 {
                     if (!renderedCssFiles.ContainsKey(renderTo))
                     {
-                        string outputFile = ResolveFile(renderTo);
+                        string outputFile = ResolveAppRelativePathToFileSystem(renderTo);
                         string compressedCss = ProcessCssInput(GetFilePaths(cssFiles), outputFile, null, YuiCompressor.Identifier);
                         string hash = Hasher.Create(compressedCss);
-                        string renderedCssTag = String.Format(cssTemplate, renderTo + "?r=" + hash);
+                        string renderedCssTag = String.Format(cssTemplate, ExpandAppRelativePath(renderTo) + "?r=" + hash);
                         renderedCssFiles.Add(renderTo, renderedCssTag);
                     }
                 }
