@@ -1,5 +1,6 @@
 using System.IO;
 using Bundler.Framework;
+using Bundler.Framework.Tests.Mocks;
 using NUnit.Framework;
 
 namespace Bundler.Tests
@@ -51,9 +52,9 @@ namespace Bundler.Tests
                     sw.Write(css);
                 }
 
-                Bundle.Css()
-                    .AddCss(tempInputFile)
-                    .RenderCss(tempOutputFile);
+                string tag = Bundle.Css()
+                    .Add(tempInputFile)
+                    .Render(tempOutputFile);
 
                 string output;
                 using (var sr = new StreamReader(tempOutputFile))
@@ -62,6 +63,8 @@ namespace Bundler.Tests
                 }
 
                 Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em;}th{font-weight:normal;vertical-align:bottom;}.FloatRight{float:right;}.FloatLeft{float:left;}", output);
+                Assert.IsTrue(tag.StartsWith("<link rel=\"stylesheet\" type=\"text/css\"  href=\""));
+                Assert.IsTrue(tag.EndsWith("\" />"));
             }
             finally
             {
@@ -84,8 +87,8 @@ namespace Bundler.Tests
                 }
 
                 Bundle.Css()
-                    .AddCss(tempInputFile)
-                    .RenderCss(tempOutputFile);
+                    .Add(tempInputFile)
+                    .Render(tempOutputFile);
 
                 string output;
                 using (var sr = new StreamReader(tempOutputFile))
@@ -94,6 +97,77 @@ namespace Bundler.Tests
                 }
 
                 Assert.AreEqual("#header,h2{color:#4d926f;}", output);
+            }
+            finally
+            {
+                File.Delete(tempInputFile);
+                File.Delete(tempOutputFile);
+            }
+        }
+
+        [Test]
+        public void CanCreateNamedBundle()
+        {
+            string tempInputFile = Path.GetTempFileName();
+            string tempOutputFile = Path.GetTempFileName();
+
+            try
+            {
+                using (var sw = new StreamWriter(tempInputFile))
+                {
+                    sw.Write(css);
+                }
+
+                Bundle.Css()
+                    .Add(tempInputFile)
+                    .AsNamed("Test", tempOutputFile);
+
+                string tag = Bundle.Css()
+                                .RenderNamed("Test");
+
+                string output;
+                using (var sr = new StreamReader(tempOutputFile))
+                {
+                    output = sr.ReadToEnd();
+                }
+
+                Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em;}th{font-weight:normal;vertical-align:bottom;}.FloatRight{float:right;}.FloatLeft{float:left;}", output);
+                Assert.IsTrue(tag.StartsWith("<link rel=\"stylesheet\" type=\"text/css\"  href=\""));
+                Assert.IsTrue(tag.EndsWith("\" />"));
+            }
+            finally
+            {
+                File.Delete(tempInputFile);
+                File.Delete(tempOutputFile);
+            }
+        }
+
+        [Test]
+        public void CanRenderDebugTags()
+        {
+            string tempInputFile = Path.GetTempFileName();
+            string tempOutputFile = Path.GetTempFileName();
+
+            try
+            {
+                using (var sw = new StreamWriter(tempInputFile))
+                {
+                    sw.Write(css);
+                }
+
+                ICssBundle cssBundle = new CssBundle(new MockDebugStatusReader());
+                string tag = cssBundle.Add(tempInputFile)
+                        .Render(tempOutputFile);
+
+                string output;
+                using (var sr = new StreamReader(tempOutputFile))
+                {
+                    output = sr.ReadToEnd();
+                }
+
+                Assert.AreEqual("", output);
+                Assert.IsTrue(tag.StartsWith("<link rel=\"stylesheet\" type=\"text/css\"  href=\""));
+                Assert.IsTrue(tag.EndsWith("\" />"));
             }
             finally
             {

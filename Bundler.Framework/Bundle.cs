@@ -7,7 +7,7 @@ namespace Bundler.Framework
             return new JavaScriptBundle();
         }
        
-        public static ICssBundler Css()
+        public static ICssBundle Css()
         {
             return new CssBundle();
         }

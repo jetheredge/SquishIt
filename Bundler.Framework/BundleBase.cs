@@ -77,10 +77,14 @@ namespace Bundler.Framework
 
         protected static string ExpandAppRelativePath(string file)
         {            
-            string appRelativePath = HttpRuntime.AppDomainAppVirtualPath;
-            if (!appRelativePath.EndsWith("/"))
-                appRelativePath += "/";            
-            return file.Replace("~/", appRelativePath);
+            if (file.StartsWith("~/"))
+            {
+                string appRelativePath = HttpRuntime.AppDomainAppVirtualPath;
+                if (appRelativePath != null && !appRelativePath.EndsWith("/"))
+                    appRelativePath += "/";
+                return file.Replace("~/", appRelativePath);    
+            }
+            return file;
         }
     }
 }

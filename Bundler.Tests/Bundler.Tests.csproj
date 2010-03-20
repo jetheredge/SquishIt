@@ -53,6 +53,7 @@
     <Compile Include="CssCompressorsTests.cs" />
     <Compile Include="Directories\DirectoryEnumeratorTests.cs" />
     <Compile Include="JavaScriptMinifierTests.cs" />
+    <Compile Include="Mocks\MockDebugStatusReader.cs" />
     <Compile Include="Mocks\MockDirectoryEnumerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileResolverTests.cs" />
