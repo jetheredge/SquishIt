@@ -72,8 +72,10 @@
     <Compile Include="FileResolvers\HttpResolver.cs" />
     <Compile Include="FileResolvers\IFileResolver.cs" />
     <Compile Include="Files\InputFile.cs" />
-    <Compile Include="ICssBundler.cs" />
-    <Compile Include="IJavaScriptBundler.cs" />
+    <Compile Include="ICssBundleBuilder.cs" />
+    <Compile Include="ICssBundle.cs" />
+    <Compile Include="IJavaScriptBundle.cs" />
+    <Compile Include="IJavaScriptBundleBuilder.cs" />
     <Compile Include="JavaScriptBundle.cs" />
     <Compile Include="jsmin\JavaScriptMinifier.cs" />
     <Compile Include="Minifiers\ClosureMinifier.cs" />

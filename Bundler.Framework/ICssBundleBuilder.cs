@@ -7,10 +7,4 @@ namespace Bundler.Framework
         string Render(string renderTo);
         void AsNamed(string name, string renderTo);
     }
-
-    public interface ICssBundle
-    {
-        ICssBundleBuilder Add(string cssPath);
-        string RenderNamed(string name);
-    }
 }

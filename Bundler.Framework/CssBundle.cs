@@ -65,7 +65,28 @@ namespace Bundler.Framework
             if (debugStatusReader.IsDebuggingEnabled())
             {
                 cssTemplate = String.Format(cssTemplate, mediaTag, "{0}");
-                return RenderFiles(cssTemplate, cssFiles);
+
+                var processedCssFiles = new List<string>();
+                foreach (string file in cssFiles)
+                {                    
+                    if (Path.GetExtension(file).ToLower() == ".less")
+                    {
+                        string outputFile = ResolveAppRelativePathToFileSystem(file);
+                        string css = ProcessLess(outputFile);
+                        outputFile = outputFile.Substring(0, outputFile.Length - 5);
+                        using (var sr = new StreamWriter(outputFile, false))
+                        {
+                            sr.Write(css);
+                        }
+                        processedCssFiles.Add(file.Substring(0, file.Length - 5));
+                    }
+                    else
+                    {
+                        processedCssFiles.Add(file);
+                    }
+                }
+
+                return RenderFiles(cssTemplate, processedCssFiles);
             }
 
             if (!renderedCssFiles.ContainsKey(key))
@@ -107,9 +128,7 @@ namespace Bundler.Framework
             {
                 if (Path.GetExtension(file).ToLower() == ".less")
                 {
-                    var engine = new ExtensibleEngine();                    
-                    var md = new MinifierDecorator(engine);                    
-                    string css = md.TransformToCss(file);
+                    string css = ProcessLess(file);
                     outputCss.Append(compressor.CompressContent(css));
                 }
                 else
@@ -118,6 +137,13 @@ namespace Bundler.Framework
                 }
             }
             return outputCss;
+        }
+
+        private static string ProcessLess(string file)
+        {
+            var engine = new ExtensibleEngine();                    
+            var md = new MinifierDecorator(engine);                    
+            return md.TransformToCss(file);                    
         }
     }
 }

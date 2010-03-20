@@ -9,15 +9,15 @@
 </head>
 <body>
     <%= Bundle.JavaScript()
-                .AddJs("~/js/jquery-1.4.2.js")
-                .AddJs("~/js/jquery-ui-1.8rc3.js")
-                .RenderJs("~/js/combined.js") %>
+                .Add("~/js/jquery-1.4.2.js")
+                .Add("~/js/jquery-ui-1.8rc3.js")
+                .Render("~/js/combined.js") %>
     <%= Bundle.Css()
-                .AddCss("~/css/jquery-ui-1.8rc3.css")
-                .AddCss("~/css/CodeThinked.css")
-                .AddCss("~/css/testdotless.css.less")
+                .Add("~/css/jquery-ui-1.8rc3.css")
+                .Add("~/css/CodeThinked.css")
+                .Add("~/css/testdotless.css.less")
                 .WithMedia("screen")
-                .RenderCss("~/css/combined.css") %>
+                .Render("~/css/combined.css") %>
     <form id="form1" runat="server">
     <div>
     

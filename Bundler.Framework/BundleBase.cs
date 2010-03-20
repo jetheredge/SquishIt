@@ -10,12 +10,13 @@ namespace Bundler.Framework
 {
     public class BundleBase
     {
-        protected string RenderFiles(string scriptTemplate, IEnumerable<string> files)
+        protected string RenderFiles(string template, IEnumerable<string> files)
         {
             var sb = new StringBuilder();
             foreach (string file in files)
             {
-                sb.Append(String.Format(scriptTemplate, file));
+                string processedFile = ExpandAppRelativePath(file);
+                sb.Append(String.Format(template, processedFile));
             }
             return sb.ToString();
         }

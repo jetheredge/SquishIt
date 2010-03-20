@@ -2,7 +2,7 @@ namespace Bundler.Framework
 {
     public class Bundle
     {
-        public static IJavaScriptBundler JavaScript()
+        public static IJavaScriptBundle JavaScript()
         {
             return new JavaScriptBundle();
         }

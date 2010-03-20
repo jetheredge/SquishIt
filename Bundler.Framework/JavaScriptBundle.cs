@@ -10,40 +10,72 @@ using Bundler.Framework.Utilities;
 
 namespace Bundler.Framework
 {
-    internal class JavaScriptBundle: BundleBase, IJavaScriptBundler
+    internal class JavaScriptBundle: BundleBase, IJavaScriptBundle, IJavaScriptBundleBuilder
     {
+        private readonly IDebugStatusReader debugStatusReader;
         private static Dictionary<string, string> renderedJavaScriptFiles = new Dictionary<string, string>();
         private List<string> javaScriptFiles = new List<string>();
-        
-        public IJavaScriptBundler AddJs(string javaScriptPath)
+
+        public JavaScriptBundle()
+        {
+            debugStatusReader = new DebugStatusReader();
+        }
+
+        public JavaScriptBundle(IDebugStatusReader debugStatusReader)
+        {
+            this.debugStatusReader = debugStatusReader;
+        }
+
+        IJavaScriptBundleBuilder IJavaScriptBundle.Add(string javaScriptPath)
         {
             javaScriptFiles.Add(javaScriptPath);
             return this;
         }
 
-        public string RenderJs(string renderTo)
+        IJavaScriptBundleBuilder IJavaScriptBundleBuilder.Add(string javaScriptPath)
+        {
+            javaScriptFiles.Add(javaScriptPath);
+            return this;
+        }
+
+        public void AsNamed(string name, string renderTo)
+        {
+            Render(renderTo, name);
+        }
+
+        string IJavaScriptBundle.RenderNamed(string name)
+        {
+            return renderedJavaScriptFiles[name];
+        }
+
+        string IJavaScriptBundleBuilder.Render(string renderTo)
+        {
+            return Render(renderTo, renderTo);
+        }
+
+        private string Render(string renderTo, string key)
         {
             string scriptTemplate = "<script type=\"text/javascript\" src=\"{0}\"></script>";
-            if (HttpContext.Current != null && HttpContext.Current.IsDebuggingEnabled)
-            {
+            if (debugStatusReader.IsDebuggingEnabled())
+            {                
                 return RenderFiles(scriptTemplate, javaScriptFiles);
             }
 
-            if (!renderedJavaScriptFiles.ContainsKey(renderTo))
+            if (!renderedJavaScriptFiles.ContainsKey(key))
             {
                 lock (renderedJavaScriptFiles)
                 {
-                    if (!renderedJavaScriptFiles.ContainsKey(renderTo))
+                    if (!renderedJavaScriptFiles.ContainsKey(key))
                     {
                         string outputFile = ResolveAppRelativePathToFileSystem(renderTo);
                         string minifiedJavaScript = ProcessJavaScriptInput(GetFilePaths(javaScriptFiles), outputFile, null, JsMinMinifier.Identifier);
                         string hash = Hasher.Create(minifiedJavaScript);
                         string renderedScriptTag = String.Format(scriptTemplate, ExpandAppRelativePath(renderTo) + "?r=" + hash);
-                        renderedJavaScriptFiles.Add(renderTo, renderedScriptTag);
+                        renderedJavaScriptFiles.Add(key, renderedScriptTag);
                     }
                 }
             }
-            return renderedJavaScriptFiles[renderTo];
+            return renderedJavaScriptFiles[key];
         }
 
         public static string ProcessJavaScriptInput(List<InputFile> arguments, string outputFile, string gzippedOutputFile, string minifierType)
