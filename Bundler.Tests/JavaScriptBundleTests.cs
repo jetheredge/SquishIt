@@ -82,6 +82,39 @@ namespace Bundler.Tests
         }
 
         [Test]
+        public void CanRenderDebugTagsTwice()
+        {
+            var mockDebugStatusReader = new StubDebugStatusReader(true);
+            var mockFileWriterFactory = new StubFileWriterFactory();
+            var mockFileReaderFactory = new StubFileReaderFactory();
+            mockFileReaderFactory.SetContents(javaScript);
+
+            IJavaScriptBundle javaScriptBundle1 = new JavaScriptBundle(mockDebugStatusReader,
+                                                                        mockFileWriterFactory,
+                                                                        mockFileReaderFactory);
+
+            IJavaScriptBundle javaScriptBundle2 = new JavaScriptBundle(mockDebugStatusReader,
+                                                                        mockFileWriterFactory,
+                                                                        mockFileReaderFactory);
+
+            javaScriptBundle1
+                .Add("~/js/test1.js")
+                .Add("~/js/test2.js")
+                .AsNamed("TestWithDebug", "~/js/output.js");
+
+            javaScriptBundle2
+                .Add("~/js/test1.js")
+                .Add("~/js/test2.js")
+                .AsNamed("TestWithDebug", "~/js/output.js");
+
+            var tag1 = javaScriptBundle1.RenderNamed("TestWithDebug");
+            var tag2 = javaScriptBundle2.RenderNamed("TestWithDebug");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script><script type=\"text/javascript\" src=\"js/test2.js\"></script>", tag1);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script><script type=\"text/javascript\" src=\"js/test2.js\"></script>", tag2);
+        }
+
+        [Test]
         public void CanCreateNamedBundleWithDebug()
         {
             var mockDebugStatusReader = new StubDebugStatusReader(true);

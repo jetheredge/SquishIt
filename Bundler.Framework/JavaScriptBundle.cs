@@ -56,9 +56,9 @@ namespace Bundler.Framework
         private string Render(string renderTo, string key)
         {
             if (debugStatusReader.IsDebuggingEnabled())
-            {
+            {              
                 string output = RenderFiles(scriptTemplate, javaScriptFiles);
-                debugJavaScriptFiles.Add(key, output);
+                debugJavaScriptFiles[key] = output;
                 return output;
             }
 

@@ -193,6 +193,36 @@ namespace Bundler.Tests
         }
 
         [Test]
+        public void CanRenderDebugTagsTwice()
+        {
+            var mockDebugStatusReader = new StubDebugStatusReader(true);
+            var mockFileWriterFactory = new StubFileWriterFactory();
+            var mockFileReaderFactory = new StubFileReaderFactory();
+            mockFileReaderFactory.SetContents(css);
+
+            ICssBundle cssBundle1 = new CssBundle(mockDebugStatusReader,
+                                                 mockFileWriterFactory,
+                                                 mockFileReaderFactory);
+
+            ICssBundle cssBundle2 = new CssBundle(mockDebugStatusReader,
+                                                 mockFileWriterFactory,
+                                                 mockFileReaderFactory);
+
+            string tag1 = cssBundle1
+                .Add("/css/first.css")
+                .Add("/css/second.css")
+                .Render("/css/output.css");
+
+            string tag2 = cssBundle2
+                .Add("/css/first.css")
+                .Add("/css/second.css")
+                .Render("/css/output.css");
+
+            Assert.AreEqual(tag1, "<link rel=\"stylesheet\" type=\"text/css\"  href=\"/css/first.css\" /><link rel=\"stylesheet\" type=\"text/css\"  href=\"/css/second.css\" />");
+            Assert.AreEqual(tag2, "<link rel=\"stylesheet\" type=\"text/css\"  href=\"/css/first.css\" /><link rel=\"stylesheet\" type=\"text/css\"  href=\"/css/second.css\" />");
+        }
+
+        [Test]
         public void CanRenderDebugTagsWithMediaAttribute()
         {
             var mockDebugStatusReader = new StubDebugStatusReader(true);
