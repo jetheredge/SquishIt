@@ -11,19 +11,20 @@ namespace Bundler.Framework
 {
     internal class CssBundle : BundleBase, ICssBundle, ICssBundleBuilder
     {
-        private readonly IDebugStatusReader debugStatusReader;
         private static Dictionary<string, string> renderedCssFiles = new Dictionary<string, string>();
+        private static Dictionary<string, string> debugCssFiles = new Dictionary<string, string>();
         private List<string> cssFiles = new List<string>();
         private string mediaTag = "";
+        private const string CssTemplate = "<link rel=\"stylesheet\" type=\"text/css\" {0} href=\"{1}\" />";
 
         public CssBundle()
+            : base(new FileWriterFactory(), new FileReaderFactory(), new DebugStatusReader())
         {
-            debugStatusReader = new DebugStatusReader();
         }
 
-        public CssBundle(IDebugStatusReader debugStatusReader)
+        public CssBundle(IDebugStatusReader debugStatusReader, IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory)
+            : base(fileWriterFactory, fileReaderFactory, debugStatusReader)
         {
-            this.debugStatusReader = debugStatusReader;
         }
 
         ICssBundleBuilder ICssBundleBuilder.Add(string cssScriptPath)
@@ -51,6 +52,11 @@ namespace Bundler.Framework
 
         string ICssBundle.RenderNamed(string name)
         {
+            if (debugStatusReader.IsDebuggingEnabled())
+            {
+                return debugCssFiles[name];
+            }
+            
             return renderedCssFiles[name];
         }
 
@@ -61,32 +67,11 @@ namespace Bundler.Framework
 
         private string Render(string renderTo, string key)
         {
-            string cssTemplate = "<link rel=\"stylesheet\" type=\"text/css\" {0} href=\"{1}\" />";
             if (debugStatusReader.IsDebuggingEnabled())
             {
-                cssTemplate = String.Format(cssTemplate, mediaTag, "{0}");
-
-                var processedCssFiles = new List<string>();
-                foreach (string file in cssFiles)
-                {                    
-                    if (Path.GetExtension(file).ToLower() == ".less")
-                    {
-                        string outputFile = ResolveAppRelativePathToFileSystem(file);
-                        string css = ProcessLess(outputFile);
-                        outputFile = outputFile.Substring(0, outputFile.Length - 5);
-                        using (var sr = new StreamWriter(outputFile, false))
-                        {
-                            sr.Write(css);
-                        }
-                        processedCssFiles.Add(file.Substring(0, file.Length - 5));
-                    }
-                    else
-                    {
-                        processedCssFiles.Add(file);
-                    }
-                }
-
-                return RenderFiles(cssTemplate, processedCssFiles);
+                string result = RenderDebugCss();
+                debugCssFiles[key] = result;
+                return result;
             }
 
             if (!renderedCssFiles.ContainsKey(key))
@@ -98,7 +83,7 @@ namespace Bundler.Framework
                         string outputFile = ResolveAppRelativePathToFileSystem(renderTo);
                         string compressedCss = ProcessCssInput(GetFilePaths(cssFiles), outputFile, null, YuiCompressor.Identifier);
                         string hash = Hasher.Create(compressedCss);
-                        string renderedCssTag = String.Format(cssTemplate, mediaTag, ExpandAppRelativePath(renderTo) + "?r=" + hash);
+                        string renderedCssTag = String.Format(CssTemplate, mediaTag, ExpandAppRelativePath(renderTo) + "?r=" + hash);
                         renderedCssFiles.Add(key, renderedCssTag);
                     }
                 }
@@ -106,7 +91,34 @@ namespace Bundler.Framework
             return renderedCssFiles[key];
         }
 
-        public static string ProcessCssInput(List<InputFile> arguments, string outputFile, string gzippedOutputFile, string compressorType)
+        private string RenderDebugCss()
+        {
+            string modifiedCssTemplate = String.Format(CssTemplate, mediaTag, "{0}");
+
+            var processedCssFiles = new List<string>();
+            foreach (string file in cssFiles)
+            {                    
+                if (Path.GetExtension(file).ToLower() == ".less")
+                {
+                    string outputFile = ResolveAppRelativePathToFileSystem(file);
+                    string css = ProcessLess(outputFile);
+                    outputFile = outputFile.Substring(0, outputFile.Length - 5);
+                    using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
+                    {
+                        fileWriter.Write(css);
+                    }
+                    processedCssFiles.Add(file.Substring(0, file.Length - 5));
+                }
+                else
+                {
+                    processedCssFiles.Add(file);
+                }
+            }
+
+            return RenderFiles(modifiedCssTemplate, processedCssFiles);
+        }
+
+        public string ProcessCssInput(List<InputFile> arguments, string outputFile, string gzippedOutputFile, string compressorType)
         {
             List<string> files = GetFiles(arguments);
             string compressedCss = CompressCss(files, compressorType);
@@ -115,13 +127,13 @@ namespace Bundler.Framework
             return compressedCss;
         }
 
-        public static string CompressCss(List<string> files, string compressorType)
+        public string CompressCss(List<string> files, string compressorType)
         {
             ICssCompressor compressor = CssCompressorRegistry.Get(compressorType);
             return CompressCss(files, compressor).ToString();
         }
 
-        private static StringBuilder CompressCss(List<string> files, ICssCompressor compressor)
+        private StringBuilder CompressCss(List<string> files, ICssCompressor compressor)
         {
             var outputCss = new StringBuilder();
             foreach (string file in files)
@@ -133,17 +145,23 @@ namespace Bundler.Framework
                 }
                 else
                 {
-                    outputCss.Append(compressor.CompressFile(file));
+                    string css = ReadFile(file);
+                    outputCss.Append(compressor.CompressContent(css));
                 }
             }
             return outputCss;
-        }
+        }        
 
-        private static string ProcessLess(string file)
+        private string ProcessLess(string file)
         {
-            var engine = new ExtensibleEngine();                    
-            var md = new MinifierDecorator(engine);                    
-            return md.TransformToCss(file);                    
+            var content = ReadFile(file);
+            var engine = new ExtensibleEngine();
+            var md = new MinifierDecorator(engine);
+            var lso = new LessSourceObject();
+            lso.Cacheable = false;
+            lso.Content = content;
+            lso.Key = file;
+            return md.TransformToCss(lso);
         }
     }
 }

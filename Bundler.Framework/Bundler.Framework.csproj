@@ -85,8 +85,16 @@
     <Compile Include="Minifiers\NullMinifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\DebugStatusReader.cs" />
+    <Compile Include="Utilities\FileReader.cs" />
+    <Compile Include="Utilities\FileReaderFactory.cs" />
+    <Compile Include="Utilities\FileWriter.cs" />
+    <Compile Include="Utilities\FileWriterFactory.cs" />
     <Compile Include="Utilities\Hasher.cs" />
     <Compile Include="Utilities\IDebugStatusReader.cs" />
+    <Compile Include="Utilities\IFileReader.cs" />
+    <Compile Include="Utilities\IFileReaderFactory.cs" />
+    <Compile Include="Utilities\IFileWriter.cs" />
+    <Compile Include="Utilities\IFileWriterFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="closure-compiler\compiler.jar">

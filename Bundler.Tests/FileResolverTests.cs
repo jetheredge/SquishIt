@@ -39,7 +39,7 @@ namespace Bundler.Tests
         [Test]
         public void CanResolveDirectory()
         {
-            var directoryEnumerator = new MockDirectoryEnumerator();
+            var directoryEnumerator = new StubDirectoryEnumerator();
             var fileResolver = new DirectoryResolver(directoryEnumerator);
             var files = fileResolver.TryResolve(@"C:\test\").ToList();
 

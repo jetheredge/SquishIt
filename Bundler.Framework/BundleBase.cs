@@ -5,11 +5,23 @@ using System.Text;
 using System.Web;
 using Bundler.Framework.FileResolvers;
 using Bundler.Framework.Files;
+using Bundler.Framework.Utilities;
 
 namespace Bundler.Framework
 {
-    public class BundleBase
+    public abstract class BundleBase
     {
+        protected IFileWriterFactory fileWriterFactory;
+        protected IFileReaderFactory fileReaderFactory;
+        protected IDebugStatusReader debugStatusReader;
+
+        protected BundleBase(IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, IDebugStatusReader debugStatusReader)
+        {
+            this.fileWriterFactory = fileWriterFactory;
+            this.fileReaderFactory = fileReaderFactory;
+            this.debugStatusReader = debugStatusReader;
+        }
+
         protected string RenderFiles(string template, IEnumerable<string> files)
         {
             var sb = new StringBuilder();
@@ -21,7 +33,7 @@ namespace Bundler.Framework
             return sb.ToString();
         }
 
-        protected static List<string> GetFiles(List<InputFile> fileArguments)
+        protected List<string> GetFiles(List<InputFile> fileArguments)
         {
             var files = new List<string>();
             var fileResolverCollection = new FileResolverCollection();
@@ -32,22 +44,22 @@ namespace Bundler.Framework
             return files;
         }
 
-        protected static void WriteFiles(string outputJavaScript, string outputFile)
+        protected void WriteFiles(string output, string outputFile)
         {
             if (outputFile != null)
             {
-                using (var sr = new StreamWriter(outputFile, false))
+                using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
                 {
-                    sr.Write(outputJavaScript);
+                    fileWriter.Write(output);
                 }
             }
             else
             {
-                Console.WriteLine(outputJavaScript);
+                Console.WriteLine(output);
             }
         }
 
-        protected static void WriteGZippedFile(string outputJavaScript, string gzippedOutputFile)
+        protected void WriteGZippedFile(string outputJavaScript, string gzippedOutputFile)
         {
             if (gzippedOutputFile != null)
             {
@@ -56,7 +68,7 @@ namespace Bundler.Framework
             }
         }
 
-        protected static List<InputFile> GetFilePaths(List<string> list)
+        protected List<InputFile> GetFilePaths(List<string> list)
         {
             var result = new List<InputFile>();
             foreach (string file in list)
@@ -67,7 +79,7 @@ namespace Bundler.Framework
             return result;
         }
 
-        protected static string ResolveAppRelativePathToFileSystem(string file)
+        protected string ResolveAppRelativePathToFileSystem(string file)
         {
             if (HttpContext.Current == null)
             {
@@ -76,7 +88,7 @@ namespace Bundler.Framework
             return HttpContext.Current.Server.MapPath(file);
         }
 
-        protected static string ExpandAppRelativePath(string file)
+        protected string ExpandAppRelativePath(string file)
         {            
             if (file.StartsWith("~/"))
             {
@@ -86,6 +98,14 @@ namespace Bundler.Framework
                 return file.Replace("~/", appRelativePath);    
             }
             return file;
+        }
+
+        protected string ReadFile(string file)
+        {
+            using (var sr = fileReaderFactory.GetFileReader(file))
+            {
+                return sr.ReadToEnd();
+            }
         }
     }
 }

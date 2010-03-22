@@ -14,14 +14,6 @@ namespace Bundler.Framework.Minifiers
             get { return Identifier; }
         }
 
-        public string CompressFile(string file)
-        {
-            using (var sr = new StreamReader(file))
-            {
-                return sr.ReadToEnd();
-            }
-        }
-
         public string CompressContent(string content)
         {
             return content;

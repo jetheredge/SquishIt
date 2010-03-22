@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
-using System.Web;
-using Bundler.Framework.FileResolvers;
 using Bundler.Framework.Files;
 using Bundler.Framework.Minifiers;
 using Bundler.Framework.Utilities;
@@ -12,18 +9,17 @@ namespace Bundler.Framework
 {
     internal class JavaScriptBundle: BundleBase, IJavaScriptBundle, IJavaScriptBundleBuilder
     {
-        private readonly IDebugStatusReader debugStatusReader;
         private static Dictionary<string, string> renderedJavaScriptFiles = new Dictionary<string, string>();
+        private static Dictionary<string, string> debugJavaScriptFiles = new Dictionary<string, string>();
         private List<string> javaScriptFiles = new List<string>();
+        private const string scriptTemplate = "<script type=\"text/javascript\" src=\"{0}\"></script>";
 
-        public JavaScriptBundle()
+        public JavaScriptBundle(): base(new FileWriterFactory(), new FileReaderFactory(), new DebugStatusReader())
         {
-            debugStatusReader = new DebugStatusReader();
         }
 
-        public JavaScriptBundle(IDebugStatusReader debugStatusReader)
+        public JavaScriptBundle(IDebugStatusReader debugStatusReader, IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory): base(fileWriterFactory, fileReaderFactory, debugStatusReader)
         {
-            this.debugStatusReader = debugStatusReader;
         }
 
         IJavaScriptBundleBuilder IJavaScriptBundle.Add(string javaScriptPath)
@@ -45,6 +41,10 @@ namespace Bundler.Framework
 
         string IJavaScriptBundle.RenderNamed(string name)
         {
+            if (debugStatusReader.IsDebuggingEnabled())
+            {
+                return debugJavaScriptFiles[name];
+            }
             return renderedJavaScriptFiles[name];
         }
 
@@ -55,10 +55,11 @@ namespace Bundler.Framework
 
         private string Render(string renderTo, string key)
         {
-            string scriptTemplate = "<script type=\"text/javascript\" src=\"{0}\"></script>";
             if (debugStatusReader.IsDebuggingEnabled())
-            {                
-                return RenderFiles(scriptTemplate, javaScriptFiles);
+            {
+                string output = RenderFiles(scriptTemplate, javaScriptFiles);
+                debugJavaScriptFiles.Add(key, output);
+                return output;
             }
 
             if (!renderedJavaScriptFiles.ContainsKey(key))
@@ -78,7 +79,7 @@ namespace Bundler.Framework
             return renderedJavaScriptFiles[key];
         }
 
-        public static string ProcessJavaScriptInput(List<InputFile> arguments, string outputFile, string gzippedOutputFile, string minifierType)
+        public string ProcessJavaScriptInput(List<InputFile> arguments, string outputFile, string gzippedOutputFile, string minifierType)
         {
             List<string> files = GetFiles(arguments);
             string minifiedJavaScript = MinifyJavaScript(files, minifierType);
@@ -87,18 +88,19 @@ namespace Bundler.Framework
             return minifiedJavaScript;
         }
 
-        public static string MinifyJavaScript(List<string> files, string minifierType)
+        public string MinifyJavaScript(List<string> files, string minifierType)
         {
             IJavaScriptCompressor minifier = MinifierRegistry.Get(minifierType);
             return MinifyJavaScript(files, minifier).ToString();
         }
 
-        private static StringBuilder MinifyJavaScript(List<string> files, IJavaScriptCompressor minifier)
+        private StringBuilder MinifyJavaScript(List<string> files, IJavaScriptCompressor minifier)
         {
             var outputJavaScript = new StringBuilder();
             foreach (string file in files)
             {
-                outputJavaScript.Append(minifier.CompressFile(file));
+                string content = ReadFile(file);
+                outputJavaScript.Append(minifier.CompressContent(content));
             }
             return outputJavaScript;
         }

@@ -11,14 +11,6 @@ namespace Bundler.Framework.CssCompressors
             get { return "NullCompressor"; }
         }
 
-        public string CompressFile(string file)
-        {
-            using (var sr = new StreamReader(file))
-            {
-                return sr.ReadToEnd();
-            }
-        }
-
         public string CompressContent(string content)
         {
             return content;

@@ -4,7 +4,7 @@ using Bundler.Framework.Directories;
 
 namespace Bundler.Framework.Tests.Mocks
 {
-    public class MockDirectoryEnumerator: IDirectoryEnumerator
+    public class StubDirectoryEnumerator: IDirectoryEnumerator
     {
         public IEnumerable<string> GetFiles(string path)
         {

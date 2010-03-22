@@ -17,7 +17,7 @@ namespace Bundler.Framework.Minifiers
             get { return Identifier; }
         }
 
-        public string CompressFile(string file)
+        private string CompressFile(string file)
         {
             var a = Assembly.GetExecutingAssembly();
             string path = Path.GetDirectoryName(a.Location);

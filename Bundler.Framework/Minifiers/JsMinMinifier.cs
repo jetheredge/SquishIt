@@ -16,7 +16,7 @@ namespace Bundler.Framework.Minifiers
             get { return Identifier; }
         }
 
-        public string CompressFile(string file)
+        private string CompressFile(string file)
         {
             string outputFileName = Path.GetTempPath() + Path.GetRandomFileName();
             var minifier = new JavaScriptMinifier();
