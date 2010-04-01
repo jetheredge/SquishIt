@@ -1,4 +1,6 @@
 using Bundler.Framework;
+using Bundler.Framework.Css;
+using Bundler.Framework.Css.Compressors;
 using Bundler.Framework.Tests.Mocks;
 using NUnit.Framework;
 
@@ -44,11 +46,11 @@ namespace Bundler.Tests
             var mockDebugStatusReader = new StubDebugStatusReader(false);
             var mockFileWriterFactory = new StubFileWriterFactory();
             var mockFileReaderFactory = new StubFileReaderFactory();
-            mockFileReaderFactory.SetContents(css);
-
+            mockFileReaderFactory.SetContents(css);            
+            
             ICssBundle cssBundle = new CssBundle(mockDebugStatusReader,
                                                  mockFileWriterFactory,
-                                                 mockFileReaderFactory);
+                                                 mockFileReaderFactory);            
 
             string tag = cssBundle
                             .Add("/css/first.css")
@@ -66,7 +68,7 @@ namespace Bundler.Tests
             var mockDebugStatusReader = new StubDebugStatusReader(false);
             var mockFileWriterFactory = new StubFileWriterFactory();
             var mockFileReaderFactory = new StubFileReaderFactory();
-            mockFileReaderFactory.SetContents(css);
+            mockFileReaderFactory.SetContents(css);            
 
             ICssBundle cssBundle = new CssBundle(mockDebugStatusReader,
                                                  mockFileWriterFactory,
@@ -241,6 +243,52 @@ namespace Bundler.Tests
                 .Render("/css/output.css");
 
             Assert.AreEqual(tag, "<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"/css/first.css\" /><link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"/css/second.css\" />");
+        }
+
+        [Test]
+        public void CanBundleCssWithCompressorAttribute()
+        {
+            var mockDebugStatusReader = new StubDebugStatusReader(false);
+            var mockFileWriterFactory = new StubFileWriterFactory();
+            var mockFileReaderFactory = new StubFileReaderFactory();
+            mockFileReaderFactory.SetContents(css);
+
+            ICssBundle cssBundle = new CssBundle(mockDebugStatusReader,
+                                                 mockFileWriterFactory,
+                                                 mockFileReaderFactory);
+
+            string tag = cssBundle
+                            .Add("/css/first.css")
+                            .Add("/css/second.css")
+                            .WithCompressor(CssCompressors.YuiCompressor)
+                            .Render("/css/css_with_compressor_output.css");
+
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\"  href=\"/css/css_with_compressor_output.css?r=AE4C10DB94E5420AD54BD0A0BE9F02C2\" />", tag);
+            Assert.AreEqual(1, mockFileWriterFactory.Files.Count);
+            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em;}th{font-weight:normal;vertical-align:bottom;}.FloatRight{float:right;}.FloatLeft{float:left;}li{margin-bottom:.1em;margin-left:0;margin-top:.1em;}th{font-weight:normal;vertical-align:bottom;}.FloatRight{float:right;}.FloatLeft{float:left;}", mockFileWriterFactory.Files["/css/css_with_compressor_output.css"]);
+        }
+
+        [Test]
+        public void CanBundleCssWithNullCompressorAttribute()
+        {            
+            var mockDebugStatusReader = new StubDebugStatusReader(false);
+            var mockFileWriterFactory = new StubFileWriterFactory();
+            var mockFileReaderFactory = new StubFileReaderFactory();
+            mockFileReaderFactory.SetContents(css);
+
+            ICssBundle cssBundle = new CssBundle(mockDebugStatusReader,
+                                                 mockFileWriterFactory,
+                                                 mockFileReaderFactory);
+
+            string tag = cssBundle
+                            .Add("/css/first.css")
+                            .Add("/css/second.css")
+                            .WithCompressor(CssCompressors.NullCompressor)
+                            .Render("/css/css_with_null_compressor_output.css");
+
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\"  href=\"/css/css_with_null_compressor_output.css?r=9650CBE3E753DF5F9146A2AF738A8272\" />", tag);
+            Assert.AreEqual(1, mockFileWriterFactory.Files.Count);
+            Assert.AreEqual(css + css, mockFileWriterFactory.Files["/css/css_with_null_compressor_output.css"]);
         }
     }
 }

@@ -1,3 +1,6 @@
+using Bundler.Framework.Css;
+using Bundler.Framework.JavaScript;
+
 namespace Bundler.Framework
 {
     public class Bundle

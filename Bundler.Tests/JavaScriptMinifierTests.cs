@@ -1,4 +1,4 @@
-using Bundler.Framework.Minifiers;
+using Bundler.Framework.JavaScript.Minifiers;
 using NUnit.Framework;
 
 namespace Bundler.Tests

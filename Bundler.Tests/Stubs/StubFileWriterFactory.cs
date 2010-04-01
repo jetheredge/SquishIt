@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Bundler.Framework.Utilities;
+using Bundler.Framework.Files;
 using Bundler.Tests.Stubs;
 
 namespace Bundler.Framework.Tests.Mocks

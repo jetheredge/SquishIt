@@ -36,6 +36,7 @@
       <HintPath>..\tools\less\dotless.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -56,11 +57,12 @@
   <ItemGroup>
     <Compile Include="Bundle.cs" />
     <Compile Include="BundleBase.cs" />
-    <Compile Include="CssBundle.cs" />
-    <Compile Include="CssCompressors\CssCompressorRegistry.cs" />
-    <Compile Include="CssCompressors\ICssCompressor.cs" />
-    <Compile Include="CssCompressors\NullCompressor.cs" />
-    <Compile Include="CssCompressors\YuiCompressor.cs" />
+    <Compile Include="Css\CssBundle.cs" />
+    <Compile Include="Css\Compressors\CssCompressors.cs" />
+    <Compile Include="Css\Compressors\CssCompressorRegistry.cs" />
+    <Compile Include="Css\Compressors\ICssCompressor.cs" />
+    <Compile Include="Css\Compressors\NullCompressor.cs" />
+    <Compile Include="Css\Compressors\YuiCompressor.cs" />
     <Compile Include="Directories\Directory.cs" />
     <Compile Include="Directories\DirectoryEnumerator.cs" />
     <Compile Include="Directories\IDirectory.cs" />
@@ -72,29 +74,29 @@
     <Compile Include="FileResolvers\HttpResolver.cs" />
     <Compile Include="FileResolvers\IFileResolver.cs" />
     <Compile Include="Files\InputFile.cs" />
-    <Compile Include="ICssBundleBuilder.cs" />
-    <Compile Include="ICssBundle.cs" />
-    <Compile Include="IJavaScriptBundle.cs" />
-    <Compile Include="IJavaScriptBundleBuilder.cs" />
-    <Compile Include="JavaScriptBundle.cs" />
-    <Compile Include="jsmin\JavaScriptMinifier.cs" />
-    <Compile Include="Minifiers\ClosureMinifier.cs" />
-    <Compile Include="Minifiers\IJavaScriptCompressor.cs" />
-    <Compile Include="Minifiers\JsMinMinifier.cs" />
-    <Compile Include="Minifiers\MinifierRegistry.cs" />
-    <Compile Include="Minifiers\NullMinifier.cs" />
+    <Compile Include="Css\ICssBundleBuilder.cs" />
+    <Compile Include="Css\ICssBundle.cs" />
+    <Compile Include="JavaScript\IJavaScriptBundle.cs" />
+    <Compile Include="JavaScript\IJavaScriptBundleBuilder.cs" />
+    <Compile Include="JavaScript\JavaScriptBundle.cs" />
+    <Compile Include="JavaScript\jsmin\JavaScriptMinifier.cs" />
+    <Compile Include="JavaScript\Minifiers\ClosureMinifier.cs" />
+    <Compile Include="JavaScript\Minifiers\IJavaScriptCompressor.cs" />
+    <Compile Include="JavaScript\Minifiers\JsMinMinifier.cs" />
+    <Compile Include="JavaScript\Minifiers\MinifierRegistry.cs" />
+    <Compile Include="JavaScript\Minifiers\NullMinifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\DebugStatusReader.cs" />
-    <Compile Include="Utilities\FileReader.cs" />
-    <Compile Include="Utilities\FileReaderFactory.cs" />
-    <Compile Include="Utilities\FileWriter.cs" />
-    <Compile Include="Utilities\FileWriterFactory.cs" />
+    <Compile Include="Files\FileReader.cs" />
+    <Compile Include="Files\FileReaderFactory.cs" />
+    <Compile Include="Files\FileWriter.cs" />
+    <Compile Include="Files\FileWriterFactory.cs" />
     <Compile Include="Utilities\Hasher.cs" />
     <Compile Include="Utilities\IDebugStatusReader.cs" />
-    <Compile Include="Utilities\IFileReader.cs" />
-    <Compile Include="Utilities\IFileReaderFactory.cs" />
-    <Compile Include="Utilities\IFileWriter.cs" />
-    <Compile Include="Utilities\IFileWriterFactory.cs" />
+    <Compile Include="Files\IFileReader.cs" />
+    <Compile Include="Files\IFileReaderFactory.cs" />
+    <Compile Include="Files\IFileWriter.cs" />
+    <Compile Include="Files\IFileWriterFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="closure-compiler\compiler.jar">

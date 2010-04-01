@@ -1,4 +1,4 @@
-using Bundler.Framework.CssCompressors;
+using Bundler.Framework.Css.Compressors;
 using NUnit.Framework;
 
 namespace Bundler.Tests

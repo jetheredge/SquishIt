@@ -1,4 +1,4 @@
-using Bundler.Framework;
+using Bundler.Framework.JavaScript;
 using Bundler.Framework.Tests.Mocks;
 using NUnit.Framework;
 
