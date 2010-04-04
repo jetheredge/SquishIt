@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Web;
 
 namespace Bundler.Framework.JavaScript.Minifiers
 {
@@ -19,8 +20,17 @@ namespace Bundler.Framework.JavaScript.Minifiers
 
         private string CompressFile(string file)
         {
-            var a = Assembly.GetExecutingAssembly();
-            string path = Path.GetDirectoryName(a.Location);
+            string path;
+            if (HttpContext.Current != null)
+            {
+                path = HttpContext.Current.Server.MapPath("~/bin");
+            }
+            else
+            {
+                var a = Assembly.GetExecutingAssembly();
+                path = Path.GetDirectoryName(a.Location);
+            }
+            
             string outFile = Path.GetTempPath() + Path.GetRandomFileName();
             try
             {                
