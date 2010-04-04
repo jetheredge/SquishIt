@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Bundler.Framework.Css;
+using Bundler.Framework.Css.Compressors;
 using Bundler.Framework.Files;
 using Bundler.Framework.JavaScript.Minifiers;
 using Bundler.Framework.Utilities;
@@ -12,6 +14,7 @@ namespace Bundler.Framework.JavaScript
         private static Dictionary<string, string> renderedJavaScriptFiles = new Dictionary<string, string>();
         private static Dictionary<string, string> debugJavaScriptFiles = new Dictionary<string, string>();
         private List<string> javaScriptFiles = new List<string>();
+        private JavaScriptMinifiers javaScriptMinifier = JavaScriptMinifiers.JsMin;
         private const string scriptTemplate = "<script type=\"text/javascript\" src=\"{0}\"></script>";
 
         public JavaScriptBundle(): base(new FileWriterFactory(), new FileReaderFactory(), new DebugStatusReader())
@@ -25,6 +28,12 @@ namespace Bundler.Framework.JavaScript
         IJavaScriptBundleBuilder IJavaScriptBundle.Add(string javaScriptPath)
         {
             javaScriptFiles.Add(javaScriptPath);
+            return this;
+        }
+
+        public IJavaScriptBundleBuilder WithMinifier(JavaScriptMinifiers javaScriptMinifier)
+        {
+            this.javaScriptMinifier = javaScriptMinifier;
             return this;
         }
 
@@ -48,6 +57,12 @@ namespace Bundler.Framework.JavaScript
             return renderedJavaScriptFiles[name];
         }
 
+        public void ClearCache()
+        {
+            debugJavaScriptFiles.Clear();
+            renderedJavaScriptFiles.Clear();
+        }
+
         string IJavaScriptBundleBuilder.Render(string renderTo)
         {
             return Render(renderTo, renderTo);
@@ -69,7 +84,8 @@ namespace Bundler.Framework.JavaScript
                     if (!renderedJavaScriptFiles.ContainsKey(key))
                     {
                         string outputFile = ResolveAppRelativePathToFileSystem(renderTo);
-                        string minifiedJavaScript = ProcessJavaScriptInput(GetFilePaths(javaScriptFiles), outputFile, null, JsMinMinifier.Identifier);
+                        string identifier = MapMinifierToIdentifier(javaScriptMinifier);
+                        string minifiedJavaScript = ProcessJavaScriptInput(GetFilePaths(javaScriptFiles), outputFile, null, identifier);
                         string hash = Hasher.Create(minifiedJavaScript);
                         string renderedScriptTag = String.Format(scriptTemplate, ExpandAppRelativePath(renderTo) + "?r=" + hash);
                         renderedJavaScriptFiles.Add(key, renderedScriptTag);
@@ -77,6 +93,21 @@ namespace Bundler.Framework.JavaScript
                 }
             }
             return renderedJavaScriptFiles[key];
+        }
+
+        private string MapMinifierToIdentifier(JavaScriptMinifiers javaScriptMinifier)
+        {
+            switch (javaScriptMinifier)
+            {
+                case JavaScriptMinifiers.NullMinifier:
+                    return NullMinifier.Identifier;
+                case JavaScriptMinifiers.JsMin:
+                    return JsMinMinifier.Identifier;
+                case JavaScriptMinifiers.Closure:
+                    return ClosureMinifier.Identifier;
+                default:
+                    return JsMinMinifier.Identifier;
+            }
         }
 
         public string ProcessJavaScriptInput(List<InputFile> arguments, string outputFile, string gzippedOutputFile, string minifierType)

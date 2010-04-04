@@ -4,5 +4,6 @@ namespace Bundler.Framework.JavaScript
     {
         IJavaScriptBundleBuilder Add(string javaScriptPath);
         string RenderNamed(string name);
+        void ClearCache();
     }
 }

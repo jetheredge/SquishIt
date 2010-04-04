@@ -82,6 +82,7 @@
     <Compile Include="JavaScript\jsmin\JavaScriptMinifier.cs" />
     <Compile Include="JavaScript\Minifiers\ClosureMinifier.cs" />
     <Compile Include="JavaScript\Minifiers\IJavaScriptCompressor.cs" />
+    <Compile Include="JavaScript\Minifiers\JavaScriptMinifiers.cs" />
     <Compile Include="JavaScript\Minifiers\JsMinMinifier.cs" />
     <Compile Include="JavaScript\Minifiers\MinifierRegistry.cs" />
     <Compile Include="JavaScript\Minifiers\NullMinifier.cs" />

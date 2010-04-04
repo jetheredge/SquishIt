@@ -1,4 +1,5 @@
 using Bundler.Framework.JavaScript;
+using Bundler.Framework.JavaScript.Minifiers;
 using Bundler.Framework.Tests.Mocks;
 using NUnit.Framework;
 
@@ -17,66 +18,66 @@ namespace Bundler.Tests
                                             return a + b;
                                         }";
 
+        private IJavaScriptBundle javaScriptBundle;
+        private IJavaScriptBundle debugJavaScriptBundle;
+        private IJavaScriptBundle debugJavaScriptBundle2;
+        private StubFileWriterFactory fileWriterFactory;
+
+        [SetUp]
+        public void Setup()
+        {
+            var nonDebugStatusReader = new StubDebugStatusReader(false);
+            var debugStatusReader = new StubDebugStatusReader(true);
+            fileWriterFactory = new StubFileWriterFactory();
+            var fileReaderFactory = new StubFileReaderFactory();
+            fileReaderFactory.SetContents(javaScript);
+
+            javaScriptBundle = new JavaScriptBundle(nonDebugStatusReader,
+                                                    fileWriterFactory,
+                                                    fileReaderFactory);
+
+            debugJavaScriptBundle = new JavaScriptBundle(debugStatusReader, 
+                                                        fileWriterFactory, 
+                                                        fileReaderFactory);
+
+            debugJavaScriptBundle2 = new JavaScriptBundle(debugStatusReader,
+                                                        fileWriterFactory,
+                                                        fileReaderFactory);
+        }
+
         [Test]
         public void CanBundleJavaScript()
         {
-            var mockDebugStatusReader = new StubDebugStatusReader(false);
-            var mockFileWriterFactory = new StubFileWriterFactory();
-            var mockFileReaderFactory = new StubFileReaderFactory();
-            mockFileReaderFactory.SetContents(javaScript);
-
-            IJavaScriptBundle javaScriptBundle = new JavaScriptBundle(mockDebugStatusReader,
-                                                                        mockFileWriterFactory,
-                                                                        mockFileReaderFactory);
-
             var tag = javaScriptBundle
                 .Add("~/js/test.js")
-                .Render("~/js/output.js");
+                .Render("~/js/output_1.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output.js?r=8AA0EB763B23F6041902F56782ADB346\"></script>", tag);
-            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;}", mockFileWriterFactory.Files["~/js/output.js"]);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_1.js?r=8AA0EB763B23F6041902F56782ADB346\"></script>", tag);
+            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;}", fileWriterFactory.Files["~/js/output_1.js"]);
         }
 
         [Test]
         public void CanCreateNamedBundle()
         {
-            var mockDebugStatusReader = new StubDebugStatusReader(false);
-            var mockFileWriterFactory = new StubFileWriterFactory();
-            var mockFileReaderFactory = new StubFileReaderFactory();
-            mockFileReaderFactory.SetContents(javaScript);
-
-            IJavaScriptBundle javaScriptBundle = new JavaScriptBundle(mockDebugStatusReader,
-                                                                        mockFileWriterFactory,
-                                                                        mockFileReaderFactory);
-
             javaScriptBundle
                 .Add("~/js/test.js")
-                .AsNamed("Test", "~/js/output.js");
+                .AsNamed("Test", "~/js/output_2.js");
 
             var tag = javaScriptBundle.RenderNamed("Test");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output.js?r=8AA0EB763B23F6041902F56782ADB346\"></script>", tag);
-            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;}", mockFileWriterFactory.Files["~/js/output.js"]);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_2.js?r=8AA0EB763B23F6041902F56782ADB346\"></script>", tag);
+            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;}", fileWriterFactory.Files["~/js/output_2.js"]);
         }
 
         [Test]
         public void CanRenderDebugTags()
         {
-            var mockDebugStatusReader = new StubDebugStatusReader(true);
-            var mockFileWriterFactory = new StubFileWriterFactory();
-            var mockFileReaderFactory = new StubFileReaderFactory();
-            mockFileReaderFactory.SetContents(javaScript);
-
-            IJavaScriptBundle javaScriptBundle = new JavaScriptBundle(mockDebugStatusReader,
-                                                                        mockFileWriterFactory,
-                                                                        mockFileReaderFactory);
-
-            javaScriptBundle
+            debugJavaScriptBundle
                 .Add("~/js/test1.js")
                 .Add("~/js/test2.js")
-                .AsNamed("TestWithDebug", "~/js/output.js");
+                .AsNamed("TestWithDebug", "~/js/output_3.js");
 
-            var tag = javaScriptBundle.RenderNamed("TestWithDebug");
+            var tag = debugJavaScriptBundle.RenderNamed("TestWithDebug");
 
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script><script type=\"text/javascript\" src=\"js/test2.js\"></script>", tag);
         }
@@ -84,31 +85,18 @@ namespace Bundler.Tests
         [Test]
         public void CanRenderDebugTagsTwice()
         {
-            var mockDebugStatusReader = new StubDebugStatusReader(true);
-            var mockFileWriterFactory = new StubFileWriterFactory();
-            var mockFileReaderFactory = new StubFileReaderFactory();
-            mockFileReaderFactory.SetContents(javaScript);
-
-            IJavaScriptBundle javaScriptBundle1 = new JavaScriptBundle(mockDebugStatusReader,
-                                                                        mockFileWriterFactory,
-                                                                        mockFileReaderFactory);
-
-            IJavaScriptBundle javaScriptBundle2 = new JavaScriptBundle(mockDebugStatusReader,
-                                                                        mockFileWriterFactory,
-                                                                        mockFileReaderFactory);
-
-            javaScriptBundle1
+            debugJavaScriptBundle
                 .Add("~/js/test1.js")
                 .Add("~/js/test2.js")
-                .AsNamed("TestWithDebug", "~/js/output.js");
+                .AsNamed("TestWithDebug", "~/js/output_4.js");
 
-            javaScriptBundle2
+            debugJavaScriptBundle2
                 .Add("~/js/test1.js")
                 .Add("~/js/test2.js")
-                .AsNamed("TestWithDebug", "~/js/output.js");
+                .AsNamed("TestWithDebug", "~/js/output_4.js");
 
-            var tag1 = javaScriptBundle1.RenderNamed("TestWithDebug");
-            var tag2 = javaScriptBundle2.RenderNamed("TestWithDebug");
+            var tag1 = debugJavaScriptBundle.RenderNamed("TestWithDebug");
+            var tag2 = debugJavaScriptBundle2.RenderNamed("TestWithDebug");
 
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script><script type=\"text/javascript\" src=\"js/test2.js\"></script>", tag1);
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script><script type=\"text/javascript\" src=\"js/test2.js\"></script>", tag2);
@@ -117,23 +105,50 @@ namespace Bundler.Tests
         [Test]
         public void CanCreateNamedBundleWithDebug()
         {
-            var mockDebugStatusReader = new StubDebugStatusReader(true);
-            var mockFileWriterFactory = new StubFileWriterFactory();
-            var mockFileReaderFactory = new StubFileReaderFactory();
-            mockFileReaderFactory.SetContents(javaScript);
-
-            IJavaScriptBundle javaScriptBundle = new JavaScriptBundle(mockDebugStatusReader,
-                                                                        mockFileWriterFactory,
-                                                                        mockFileReaderFactory);
-
-            javaScriptBundle
+            debugJavaScriptBundle
                 .Add("~/js/test1.js")
                 .Add("~/js/test2.js")
-                .AsNamed("NamedWithDebug", "~/js/output.js");
+                .AsNamed("NamedWithDebug", "~/js/output_5.js");
 
-            var tag = javaScriptBundle.RenderNamed("NamedWithDebug");
+            var tag = debugJavaScriptBundle.RenderNamed("NamedWithDebug");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script><script type=\"text/javascript\" src=\"js/test2.js\"></script>", tag);            
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script><script type=\"text/javascript\" src=\"js/test2.js\"></script>", tag);
+        }
+
+        [Test]
+        public void CanCreateBundleWithNullMinifer()
+        {
+            var tag = javaScriptBundle
+                .Add("~/js/test.js")
+                .WithMinifier(JavaScriptMinifiers.NullMinifier)
+                .Render("~/js/output_6.js");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_6.js?r=F531977E16553414B260BD74C5CAB7F2\"></script>", tag);
+            Assert.AreEqual(javaScript, fileWriterFactory.Files["~/js/output_6.js"]);
+        }
+
+        [Test]
+        public void CanCreateBundleWithJsMinMinifer()
+        {
+            var tag = javaScriptBundle
+                .Add("~/js/test.js")
+                .WithMinifier(JavaScriptMinifiers.JsMin)
+                .Render("~/js/output_7.js");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_7.js?r=8AA0EB763B23F6041902F56782ADB346\"></script>", tag);
+            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;}", fileWriterFactory.Files["~/js/output_7.js"]);
+        }
+
+        [Test]
+        public void CanCreateBundleWithClosureMinifer()
+        {
+            var tag = javaScriptBundle
+                .Add("~/js/test.js")
+                .WithMinifier(JavaScriptMinifiers.Closure)
+                .Render("~/js/output_8.js");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_8.js?r=00DFDFFC4078EFF6DFCC6244EAB77420\"></script>", tag);
+            Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b};\r\n", fileWriterFactory.Files["~/js/output_8.js"]);
         }
     }
 }
