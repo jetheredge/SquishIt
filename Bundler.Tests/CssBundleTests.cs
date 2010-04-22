@@ -28,6 +28,17 @@ namespace Bundler.Tests
                                     float:left;
                                 }";
 
+        private string css2 = @" li {
+                                    margin-bottom:0.1em;
+                                    margin-left:0;
+                                    margin-top:0.1em;
+                                }
+
+                                th {
+                                    font-weight:normal;
+                                    vertical-align:bottom;
+                                }";
+
 
         private string cssLess =
                                     @"@brand_color: #4D926F;
@@ -289,6 +300,75 @@ namespace Bundler.Tests
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\"  href=\"/css/css_with_null_compressor_output.css?r=9650CBE3E753DF5F9146A2AF738A8272\" />", tag);
             Assert.AreEqual(1, mockFileWriterFactory.Files.Count);
             Assert.AreEqual(css + css, mockFileWriterFactory.Files["/css/css_with_null_compressor_output.css"]);
+        }
+
+        [Test]
+        public void CanRenderOnlyIfFileMissing()
+        {
+            var mockDebugStatusReader = new StubDebugStatusReader(false);
+            var mockFileWriterFactory = new StubFileWriterFactory();
+            var mockFileReaderFactory = new StubFileReaderFactory();
+            mockFileReaderFactory.SetContents(css);
+
+            mockFileReaderFactory.SetFileExists(false);
+
+            ICssBundle cssBundle = new CssBundle(mockDebugStatusReader,
+                                                 mockFileWriterFactory,
+                                                 mockFileReaderFactory);
+
+            cssBundle
+                .Add("/css/first.css")
+                .RenderOnlyIfOutputFileMissing()
+                .Render("~/css/can_render_only_if_file_missing.css");
+
+            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em;}th{font-weight:normal;vertical-align:bottom;}.FloatRight{float:right;}.FloatLeft{float:left;}", mockFileWriterFactory.Files["~/css/can_render_only_if_file_missing.css"]);
+
+            mockFileReaderFactory.SetContents(css2);
+            mockFileReaderFactory.SetFileExists(true);
+            cssBundle.ClearCache();
+
+            cssBundle
+                .Add("/css/first.css")
+                .RenderOnlyIfOutputFileMissing()
+                .Render("~/css/can_render_only_if_file_missing.css");
+
+            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em;}th{font-weight:normal;vertical-align:bottom;}.FloatRight{float:right;}.FloatLeft{float:left;}", mockFileWriterFactory.Files["~/css/can_render_only_if_file_missing.css"]);
+        }
+
+        [Test]
+        public void CanRerenderFiles()
+        {
+            var mockDebugStatusReader = new StubDebugStatusReader(false);
+            var mockFileWriterFactory = new StubFileWriterFactory();
+            var mockFileReaderFactory = new StubFileReaderFactory();
+            mockFileReaderFactory.SetContents(css);
+
+            mockFileReaderFactory.SetFileExists(false);
+
+            ICssBundle cssBundle = new CssBundle(mockDebugStatusReader,
+                                                 mockFileWriterFactory,
+                                                 mockFileReaderFactory);
+            cssBundle.ClearCache();
+            cssBundle
+                .Add("/css/first.css")
+                .Render("~/css/can_rerender_files.css");
+
+            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em;}th{font-weight:normal;vertical-align:bottom;}.FloatRight{float:right;}.FloatLeft{float:left;}", mockFileWriterFactory.Files["~/css/can_rerender_files.css"]);
+
+            mockFileReaderFactory.SetContents(css2);
+            mockFileReaderFactory.SetFileExists(true);
+            mockFileWriterFactory.Files.Clear();
+            cssBundle.ClearCache();
+
+            ICssBundle cssBundle2 = new CssBundle(mockDebugStatusReader,
+                                                 mockFileWriterFactory,
+                                                 mockFileReaderFactory);
+
+            cssBundle2
+                .Add("/css/first.css")
+                .Render("~/css/can_rerender_files.css");
+
+            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em;}th{font-weight:normal;vertical-align:bottom;}", mockFileWriterFactory.Files["~/css/can_rerender_files.css"]);
         }
     }
 }

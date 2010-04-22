@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+
 namespace Bundler.Framework.Files
 {
     public class FileReaderFactory: IFileReaderFactory
@@ -5,6 +8,11 @@ namespace Bundler.Framework.Files
         public IFileReader GetFileReader(string file)
         {
             return new FileReader(file);
+        }
+
+        public bool FileExists(string file)
+        {
+            return File.Exists(file);
         }
     }
 }

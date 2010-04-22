@@ -9,5 +9,6 @@ namespace Bundler.Framework.Css
         ICssBundleBuilder WithCompressor(CssCompressors cssCompressor);
         string Render(string renderTo);
         void AsNamed(string name, string renderTo);
+        ICssBundleBuilder RenderOnlyIfOutputFileMissing();
     }
 }

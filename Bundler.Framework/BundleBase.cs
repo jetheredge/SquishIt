@@ -107,5 +107,10 @@ namespace Bundler.Framework
                 return sr.ReadToEnd();
             }
         }
+
+        protected bool FileExists(string file)
+        {
+            return fileReaderFactory.FileExists(file);
+        }
     }
 }

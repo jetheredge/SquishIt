@@ -16,6 +16,7 @@ namespace Bundler.Framework.JavaScript
         private List<string> javaScriptFiles = new List<string>();
         private JavaScriptMinifiers javaScriptMinifier = JavaScriptMinifiers.JsMin;
         private const string scriptTemplate = "<script type=\"text/javascript\" src=\"{0}\"></script>";
+        private bool renderOnlyIfOutputFileMissing = false;
 
         public JavaScriptBundle(): base(new FileWriterFactory(), new FileReaderFactory(), new DebugStatusReader())
         {
@@ -34,6 +35,12 @@ namespace Bundler.Framework.JavaScript
         public IJavaScriptBundleBuilder WithMinifier(JavaScriptMinifiers javaScriptMinifier)
         {
             this.javaScriptMinifier = javaScriptMinifier;
+            return this;
+        }
+
+        public IJavaScriptBundleBuilder RenderOnlyIfOutputFileMissing()
+        {
+            renderOnlyIfOutputFileMissing = true;
             return this;
         }
 
@@ -84,8 +91,18 @@ namespace Bundler.Framework.JavaScript
                     if (!renderedJavaScriptFiles.ContainsKey(key))
                     {
                         string outputFile = ResolveAppRelativePathToFileSystem(renderTo);
-                        string identifier = MapMinifierToIdentifier(javaScriptMinifier);
-                        string minifiedJavaScript = ProcessJavaScriptInput(GetFilePaths(javaScriptFiles), outputFile, null, identifier);
+
+                        string minifiedJavaScript;
+                        if (renderOnlyIfOutputFileMissing && FileExists(outputFile))
+                        {
+                            minifiedJavaScript = ReadFile(outputFile);
+                        }
+                        else
+                        {
+                            string identifier = MapMinifierToIdentifier(javaScriptMinifier);
+                            minifiedJavaScript = ProcessJavaScriptInput(GetFilePaths(javaScriptFiles), outputFile, null, identifier);    
+                        }
+                        
                         string hash = Hasher.Create(minifiedJavaScript);
                         string renderedScriptTag = String.Format(scriptTemplate, ExpandAppRelativePath(renderTo) + "?r=" + hash);
                         renderedJavaScriptFiles.Add(key, renderedScriptTag);

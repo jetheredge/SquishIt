@@ -16,6 +16,7 @@ namespace Bundler.Framework.Css
         private List<string> cssFiles = new List<string>();
         private string mediaTag = "";
         private CssCompressors cssCompressor = CssCompressors.YuiCompressor;
+        private bool renderOnlyIfOutputFileMissing = false;
         private const string CssTemplate = "<link rel=\"stylesheet\" type=\"text/css\" {0} href=\"{1}\" />";
 
         public CssBundle()
@@ -57,6 +58,12 @@ namespace Bundler.Framework.Css
             Render(renderTo, name);
         }
 
+        public ICssBundleBuilder RenderOnlyIfOutputFileMissing()
+        {
+            renderOnlyIfOutputFileMissing = true;
+            return this;
+        }
+
         string ICssBundle.RenderNamed(string name)
         {
             if (debugStatusReader.IsDebuggingEnabled())
@@ -89,7 +96,16 @@ namespace Bundler.Framework.Css
                     {
                         string outputFile = ResolveAppRelativePathToFileSystem(renderTo);
 
-                        string compressedCss = ProcessCssInput(GetFilePaths(cssFiles), outputFile, null, MapCompressorToIdentifier(cssCompressor));
+                        string compressedCss;
+                        if (renderOnlyIfOutputFileMissing && FileExists(outputFile))
+                        {
+                            compressedCss = ReadFile(outputFile);
+                        }
+                        else
+                        {
+                            compressedCss = ProcessCssInput(GetFilePaths(cssFiles), outputFile, null, MapCompressorToIdentifier(cssCompressor));    
+                        }
+                        
                         string hash = Hasher.Create(compressedCss);
                         string renderedCssTag = String.Format(CssTemplate, mediaTag, ExpandAppRelativePath(renderTo) + "?r=" + hash);
                         renderedCssFiles.Add(key, renderedCssTag);

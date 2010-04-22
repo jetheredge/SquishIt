@@ -18,10 +18,16 @@ namespace Bundler.Tests
                                             return a + b;
                                         }";
 
+        private string javaScript2 = @"function sum(a, b){
+                                            return a + b;
+                                       }";
+
         private IJavaScriptBundle javaScriptBundle;
+        private IJavaScriptBundle javaScriptBundle2;
         private IJavaScriptBundle debugJavaScriptBundle;
         private IJavaScriptBundle debugJavaScriptBundle2;
         private StubFileWriterFactory fileWriterFactory;
+        private StubFileReaderFactory fileReaderFactory;
 
         [SetUp]
         public void Setup()
@@ -29,10 +35,14 @@ namespace Bundler.Tests
             var nonDebugStatusReader = new StubDebugStatusReader(false);
             var debugStatusReader = new StubDebugStatusReader(true);
             fileWriterFactory = new StubFileWriterFactory();
-            var fileReaderFactory = new StubFileReaderFactory();
+            fileReaderFactory = new StubFileReaderFactory();
             fileReaderFactory.SetContents(javaScript);
 
             javaScriptBundle = new JavaScriptBundle(nonDebugStatusReader,
+                                                    fileWriterFactory,
+                                                    fileReaderFactory);
+
+            javaScriptBundle2 = new JavaScriptBundle(nonDebugStatusReader,
                                                     fileWriterFactory,
                                                     fileReaderFactory);
 
@@ -149,6 +159,53 @@ namespace Bundler.Tests
 
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_8.js?r=00DFDFFC4078EFF6DFCC6244EAB77420\"></script>", tag);
             Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b};\r\n", fileWriterFactory.Files["~/js/output_8.js"]);
+        }
+
+        [Test]
+        public void CanRenderOnlyIfFileMissing()
+        {
+            fileReaderFactory.SetFileExists(false);
+
+            javaScriptBundle
+                .Add("~/js/test.js")
+                .RenderOnlyIfOutputFileMissing()
+                .Render("~/js/output_9.js");
+
+            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;}", fileWriterFactory.Files["~/js/output_9.js"]);
+
+            fileReaderFactory.SetContents(javaScript2);
+            fileReaderFactory.SetFileExists(true);
+            javaScriptBundle.ClearCache();
+
+            javaScriptBundle
+                .Add("~/js/test.js")
+                .RenderOnlyIfOutputFileMissing()
+                .Render("~/js/output_9.js");
+
+            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;}", fileWriterFactory.Files["~/js/output_9.js"]);
+        }
+
+        [Test]
+        public void CanRerenderFiles()
+        {
+            fileReaderFactory.SetFileExists(false);
+
+            javaScriptBundle
+                .Add("~/js/test.js")
+                .Render("~/js/output_10.js");
+
+            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;}", fileWriterFactory.Files["~/js/output_10.js"]);
+
+            fileReaderFactory.SetContents(javaScript2);
+            fileReaderFactory.SetFileExists(true);
+            fileWriterFactory.Files.Clear();
+            javaScriptBundle.ClearCache();
+
+            javaScriptBundle2
+                .Add("~/js/test.js")
+                .Render("~/js/output_10.js");
+
+            Assert.AreEqual("\nfunction sum(a,b){return a+b;}", fileWriterFactory.Files["~/js/output_10.js"]);
         }
     }
 }

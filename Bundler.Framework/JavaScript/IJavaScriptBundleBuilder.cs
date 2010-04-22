@@ -6,6 +6,7 @@ namespace Bundler.Framework.JavaScript
     {
         IJavaScriptBundleBuilder Add(string cssPath);
         IJavaScriptBundleBuilder WithMinifier(JavaScriptMinifiers javaScriptMinifier);
+        IJavaScriptBundleBuilder RenderOnlyIfOutputFileMissing();
         string Render(string renderTo);
         void AsNamed(string name, string renderTo);
     }
