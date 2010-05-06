@@ -37,12 +37,12 @@ namespace Bundler.Framework.JavaScript.Minifiers
                 string arguments = "-jar \"{0}\\closure-compiler\\compiler.jar\" --js \"{1}\" --js_output_file \"{2}\"";
                 arguments = String.Format(arguments, path, file, outFile);
                 var startInfo = new ProcessStartInfo("java", arguments);
+                startInfo.CreateNoWindow = true;
                 startInfo.UseShellExecute = false;
                 startInfo.Arguments = arguments;
                 startInfo.RedirectStandardError = true;
-                startInfo.WindowStyle = ProcessWindowStyle.Normal;
+                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 var process = Process.Start(startInfo);
-                Console.Error.Write(process.StandardError.ReadToEnd());                    
                 process.WaitForExit();
 
                 string output;

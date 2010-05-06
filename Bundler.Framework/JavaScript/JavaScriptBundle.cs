@@ -90,6 +90,17 @@ namespace Bundler.Framework.JavaScript
                 {
                     if (!renderedJavaScriptFiles.ContainsKey(key))
                     {
+                        string compressedJavaScript;
+                        string hash = null;
+                        bool hashInFileName = false;
+                        if (renderTo.Contains("#"))
+                        {
+                            hashInFileName = true;
+                            compressedJavaScript = MinifyJavaScript(GetFilePaths(javaScriptFiles), MapMinifierToIdentifier(javaScriptMinifier));
+                            hash = Hasher.Create(compressedJavaScript);
+                            renderTo = renderTo.Replace("#", hash);
+                        }
+
                         string outputFile = ResolveAppRelativePathToFileSystem(renderTo);
 
                         string minifiedJavaScript;
@@ -100,11 +111,24 @@ namespace Bundler.Framework.JavaScript
                         else
                         {
                             string identifier = MapMinifierToIdentifier(javaScriptMinifier);
-                            minifiedJavaScript = ProcessJavaScriptInput(GetFilePaths(javaScriptFiles), outputFile, null, identifier);    
+                            minifiedJavaScript = MinifyJavaScript(GetFilePaths(javaScriptFiles), identifier);
+                            WriteJavaScriptToFile(minifiedJavaScript, outputFile, null);
                         }
                         
-                        string hash = Hasher.Create(minifiedJavaScript);
-                        string renderedScriptTag = String.Format(scriptTemplate, ExpandAppRelativePath(renderTo) + "?r=" + hash);
+                        if (hash == null)
+                        {
+                            hash = Hasher.Create(minifiedJavaScript);                            
+                        }
+                        
+                        string renderedScriptTag;
+                        if (hashInFileName)
+                        {
+                            renderedScriptTag = String.Format(scriptTemplate, ExpandAppRelativePath(renderTo));
+                        }
+                        else
+                        {
+                            renderedScriptTag = String.Format(scriptTemplate, ExpandAppRelativePath(renderTo) + "?r=" + hash);    
+                        }
                         renderedJavaScriptFiles.Add(key, renderedScriptTag);
                     }
                 }
@@ -127,13 +151,16 @@ namespace Bundler.Framework.JavaScript
             }
         }
 
-        public string ProcessJavaScriptInput(List<InputFile> arguments, string outputFile, string gzippedOutputFile, string minifierType)
+        public string MinifyJavaScript(List<InputFile> arguments, string minifierType)
         {
             List<string> files = GetFiles(arguments);
-            string minifiedJavaScript = MinifyJavaScript(files, minifierType);
+            return MinifyJavaScript(files, minifierType);
+        }
+
+        public void WriteJavaScriptToFile(string minifiedJavaScript, string outputFile, string gzippedOutputFile)
+        {
             WriteFiles(minifiedJavaScript, outputFile);
             WriteGZippedFile(minifiedJavaScript, null);
-            return minifiedJavaScript;
         }
 
         public string MinifyJavaScript(List<string> files, string minifierType)

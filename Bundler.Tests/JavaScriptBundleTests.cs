@@ -207,5 +207,16 @@ namespace Bundler.Tests
 
             Assert.AreEqual("\nfunction sum(a,b){return a+b;}", fileWriterFactory.Files["~/js/output_10.js"]);
         }
+
+        [Test]
+        public void CanBundleJavaScriptWithHashInFilename()
+        {
+            var tag = javaScriptBundle
+                .Add("~/js/test.js")
+                .Render("~/js/output_#.js");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_8AA0EB763B23F6041902F56782ADB346.js\"></script>", tag);
+            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;}", fileWriterFactory.Files["~/js/output_8AA0EB763B23F6041902F56782ADB346.js"]);
+        }
     }
 }

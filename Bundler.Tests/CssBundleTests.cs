@@ -370,5 +370,27 @@ namespace Bundler.Tests
 
             Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em;}th{font-weight:normal;vertical-align:bottom;}", mockFileWriterFactory.Files["~/css/can_rerender_files.css"]);
         }
+
+        [Test]
+        public void CanRenderCssFileWithHashInFileName()
+        {
+            var mockDebugStatusReader = new StubDebugStatusReader(false);
+            var mockFileWriterFactory = new StubFileWriterFactory();
+            var mockFileReaderFactory = new StubFileReaderFactory();
+            mockFileReaderFactory.SetContents(css);
+
+            ICssBundle cssBundle = new CssBundle(mockDebugStatusReader,
+                                                 mockFileWriterFactory,
+                                                 mockFileReaderFactory);
+
+            string tag = cssBundle
+                            .Add("/css/first.css")
+                            .Add("/css/second.css")
+                            .Render("/css/output_#.css");
+
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\"  href=\"/css/output_AE4C10DB94E5420AD54BD0A0BE9F02C2.css\" />", tag);
+            Assert.AreEqual(1, mockFileWriterFactory.Files.Count);
+            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em;}th{font-weight:normal;vertical-align:bottom;}.FloatRight{float:right;}.FloatLeft{float:left;}li{margin-bottom:.1em;margin-left:0;margin-top:.1em;}th{font-weight:normal;vertical-align:bottom;}.FloatRight{float:right;}.FloatLeft{float:left;}", mockFileWriterFactory.Files["/css/output_AE4C10DB94E5420AD54BD0A0BE9F02C2.css"]);
+        }
     }
 }

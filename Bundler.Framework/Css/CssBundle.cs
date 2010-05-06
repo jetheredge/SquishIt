@@ -94,20 +94,43 @@ namespace Bundler.Framework.Css
                 {
                     if (!renderedCssFiles.ContainsKey(key))
                     {
+                        string compressedCss;
+                        string hash= null;
+                        bool hashInFileName = false;
+                        if (renderTo.Contains("#"))
+                        {
+                            hashInFileName = true;
+                            compressedCss = CompressCss(GetFilePaths(cssFiles), MapCompressorToIdentifier(cssCompressor));
+                            hash = Hasher.Create(compressedCss);
+                            renderTo = renderTo.Replace("#", hash);
+                        }
+
                         string outputFile = ResolveAppRelativePathToFileSystem(renderTo);
 
-                        string compressedCss;
                         if (renderOnlyIfOutputFileMissing && FileExists(outputFile))
                         {
                             compressedCss = ReadFile(outputFile);
                         }
                         else
                         {
-                            compressedCss = ProcessCssInput(GetFilePaths(cssFiles), outputFile, null, MapCompressorToIdentifier(cssCompressor));    
+                            compressedCss = CompressCss(GetFilePaths(cssFiles), MapCompressorToIdentifier(cssCompressor));
+                            WriteCssToFiles(compressedCss, outputFile, null);
                         }
                         
-                        string hash = Hasher.Create(compressedCss);
-                        string renderedCssTag = String.Format(CssTemplate, mediaTag, ExpandAppRelativePath(renderTo) + "?r=" + hash);
+                        if (hash == null)
+                        {
+                            hash = Hasher.Create(compressedCss);    
+                        }
+
+                        string renderedCssTag;
+                        if (hashInFileName)
+                        {
+                            renderedCssTag = String.Format(CssTemplate, mediaTag, ExpandAppRelativePath(renderTo));
+                        }
+                        else
+                        {
+                            renderedCssTag = String.Format(CssTemplate, mediaTag, ExpandAppRelativePath(renderTo) + "?r=" + hash);
+                        }
                         renderedCssFiles.Add(key, renderedCssTag);
                     }
                 }
@@ -155,13 +178,16 @@ namespace Bundler.Framework.Css
             return RenderFiles(modifiedCssTemplate, processedCssFiles);
         }
 
-        public string ProcessCssInput(List<InputFile> arguments, string outputFile, string gzippedOutputFile, string compressorType)
+        public string CompressCss(List<InputFile> arguments, string compressorType)
         {
             List<string> files = GetFiles(arguments);
-            string compressedCss = CompressCss(files, compressorType);
+            return CompressCss(files, compressorType);
+        }
+
+        public void WriteCssToFiles(string compressedCss, string outputFile, string gzippedOutputFile)
+        {
             WriteFiles(compressedCss, outputFile);
             WriteGZippedFile(compressedCss, null);
-            return compressedCss;
         }
 
         public string CompressCss(List<string> files, string compressorType)
