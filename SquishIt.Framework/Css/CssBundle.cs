@@ -64,6 +64,18 @@ namespace SquishIt.Framework.Css
             return this;
         }
 
+        public ICssBundleBuilder ForceDebug()
+        {
+            debugStatusReader.ForceDebug();
+            return this;
+        }
+
+        public ICssBundleBuilder ForceRelease()
+        {
+            debugStatusReader.ForceRelease();
+            return this;
+        }
+
         string ICssBundle.RenderNamed(string name)
         {
             if (debugStatusReader.IsDebuggingEnabled())

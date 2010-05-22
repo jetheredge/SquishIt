@@ -1,11 +1,10 @@
-using System;
 using SquishIt.Framework.Utilities;
 
-namespace SquishIt.Framework.Tests.Mocks
+namespace SquishIt.Tests.Stubs
 {
     public class StubDebugStatusReader: IDebugStatusReader
     {
-        private readonly bool isDebuggingEnabled;
+        private bool isDebuggingEnabled;
 
         public StubDebugStatusReader()
         {
@@ -21,5 +20,20 @@ namespace SquishIt.Framework.Tests.Mocks
         {
             return isDebuggingEnabled;
         }
+
+        #region IDebugStatusReader Members
+
+
+        public void ForceDebug()
+        {
+            isDebuggingEnabled = false;
+        }
+
+        public void ForceRelease()
+        {
+            isDebuggingEnabled = true;
+        }
+
+        #endregion
     }
 }

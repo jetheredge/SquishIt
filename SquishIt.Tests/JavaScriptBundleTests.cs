@@ -2,6 +2,7 @@ using NUnit.Framework;
 using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.JavaScript.Minifiers;
 using SquishIt.Framework.Tests.Mocks;
+using SquishIt.Tests.Stubs;
 
 namespace SquishIt.Tests
 {

@@ -10,5 +10,7 @@ namespace SquishIt.Framework.Css
         string Render(string renderTo);
         void AsNamed(string name, string renderTo);
         ICssBundleBuilder RenderOnlyIfOutputFileMissing();
+        ICssBundleBuilder ForceDebug();
+        ICssBundleBuilder ForceRelease();
     }
 }

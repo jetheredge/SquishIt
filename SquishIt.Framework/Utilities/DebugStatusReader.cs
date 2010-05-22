@@ -7,8 +7,21 @@ namespace SquishIt.Framework.Utilities
 {
     public class DebugStatusReader: IDebugStatusReader
     {
+        private bool forceDebug = false;
+        private bool forceRelease = false;
+
         public bool IsDebuggingEnabled()
         {
+            if (forceDebug)
+            {
+                return true;
+            }
+
+            if (forceRelease)
+            {
+                return false;
+            }
+            
             if (HttpContext.Current != null && HttpContext.Current.IsDebuggingEnabled)
             {                
                 //check retail setting in machine.config
@@ -27,5 +40,20 @@ namespace SquishIt.Framework.Utilities
             }
             return false;
         }
+
+        #region IDebugStatusReader Members
+
+
+        public void ForceDebug()
+        {
+            forceDebug = true;
+        }
+
+        public void ForceRelease()
+        {
+            forceRelease = true;
+        }
+
+        #endregion
     }
 }

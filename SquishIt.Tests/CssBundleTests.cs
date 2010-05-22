@@ -3,6 +3,7 @@ using NUnit.Framework;
 using SquishIt.Framework.Css;
 using SquishIt.Framework.Css.Compressors;
 using SquishIt.Framework.Tests.Mocks;
+using SquishIt.Tests.Stubs;
 
 namespace SquishIt.Tests
 {

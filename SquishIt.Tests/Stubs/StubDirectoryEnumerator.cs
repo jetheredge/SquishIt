@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using SquishIt.Framework.Directories;
 
-namespace SquishIt.Framework.Tests.Mocks
+namespace SquishIt.Tests.Stubs
 {
     public class StubDirectoryEnumerator: IDirectoryEnumerator
     {

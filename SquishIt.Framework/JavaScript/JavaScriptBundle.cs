@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using SquishIt.Framework.Css;
-using SquishIt.Framework.Css.Compressors;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.JavaScript.Minifiers;
 using SquishIt.Framework.Utilities;
@@ -53,6 +51,18 @@ namespace SquishIt.Framework.JavaScript
         public void AsNamed(string name, string renderTo)
         {
             Render(renderTo, name);
+        }
+
+        public IJavaScriptBundleBuilder ForceDebug()
+        {
+            debugStatusReader.ForceDebug();
+            return this;
+        }
+
+        public IJavaScriptBundleBuilder ForceRelease()
+        {
+            debugStatusReader.ForceRelease();
+            return this;
         }
 
         string IJavaScriptBundle.RenderNamed(string name)

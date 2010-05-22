@@ -14,12 +14,14 @@
                 .Add("~/js/jquery-ui-1.8rc3.js")
                 //.WithMinifier(JavaScriptMinifiers.Closure)
                 .RenderOnlyIfOutputFileMissing()
+                .ForceDebug()
                 .Render("~/js/combined_#.js") %>
     <%= Bundle.Css()
                 .Add("~/css/jquery-ui-1.8rc3.css")
                 .Add("~/css/CodeThinked.css")
                 .Add("~/css/testdotless.css.less")
                 .WithMedia("screen")
+                .ForceDebug()
                 //.RenderOnlyIfOutputFileMissing()
                 .Render("~/css/combined_#.css") %>
     <form id="form1" runat="server">
