@@ -72,6 +72,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SquishIt.Framework\SquishIt.Framework.csproj">
+      <Project>{50C3BC24-E534-4B78-8E8E-CB2C4053321D}</Project>
+      <Name>SquishIt.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

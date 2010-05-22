@@ -39,5 +39,13 @@ namespace SquishIt.Tests
             string minifiedJavaScript = javaScriptMinifier.CompressContent(javaScript);
             Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b};\r\n", minifiedJavaScript);
         }
+
+        [Test]
+        public void YuiMinifierTest()
+        {
+            var javaScriptMinifier = MinifierRegistry.Get(YuiMinifier.Identifier);
+            string minifiedJavaScript = javaScriptMinifier.CompressContent(javaScript);
+            Assert.AreEqual("function product(d,c){return d*c}function sum(d,c){return d+c};", minifiedJavaScript);
+        }
     }
 }

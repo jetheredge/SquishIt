@@ -11,6 +11,7 @@ namespace SquishIt.Framework.JavaScript.Minifiers
             registry.Add(ClosureMinifier.Identifier, new ClosureMinifier());
             registry.Add(JsMinMinifier.Identifier, new JsMinMinifier());
             registry.Add(NullMinifier.Identifier, new NullMinifier());
+            registry.Add(YuiMinifier.Identifier, new YuiMinifier());
         }        
 
         public static IJavaScriptCompressor Get(string identifier)

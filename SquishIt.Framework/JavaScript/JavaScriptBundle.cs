@@ -14,7 +14,7 @@ namespace SquishIt.Framework.JavaScript
         private static Dictionary<string, string> renderedJavaScriptFiles = new Dictionary<string, string>();
         private static Dictionary<string, string> debugJavaScriptFiles = new Dictionary<string, string>();
         private List<string> javaScriptFiles = new List<string>();
-        private JavaScriptMinifiers javaScriptMinifier = JavaScriptMinifiers.JsMin;
+        private JavaScriptMinifiers javaScriptMinifier = JavaScriptMinifiers.Yui;
         private const string scriptTemplate = "<script type=\"text/javascript\" src=\"{0}\"></script>";
         private bool renderOnlyIfOutputFileMissing = false;
 
@@ -146,6 +146,8 @@ namespace SquishIt.Framework.JavaScript
                     return JsMinMinifier.Identifier;
                 case JavaScriptMinifiers.Closure:
                     return ClosureMinifier.Identifier;
+                case JavaScriptMinifiers.Yui:
+                    return YuiMinifier.Identifier;
                 default:
                     return JsMinMinifier.Identifier;
             }

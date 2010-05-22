@@ -4,6 +4,7 @@ namespace SquishIt.Framework.JavaScript.Minifiers
     {
         NullMinifier = 0,
         JsMin = 1,
-        Closure = 2
+        Closure = 2,
+        Yui = 3
     }
 }

@@ -62,8 +62,8 @@ namespace SquishIt.Tests
                 .Add("~/js/test.js")
                 .Render("~/js/output_1.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_1.js?r=8AA0EB763B23F6041902F56782ADB346\"></script>", tag);
-            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;}", fileWriterFactory.Files["~/js/output_1.js"]);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_1.js?r=8E8C548F4F6300695269DE689B903BA3\"></script>", tag);
+            Assert.AreEqual("function product(d,c){return d*c}function sum(d,c){return d+c};", fileWriterFactory.Files["~/js/output_1.js"]);
         }
 
         [Test]
@@ -75,8 +75,8 @@ namespace SquishIt.Tests
 
             var tag = javaScriptBundle.RenderNamed("Test");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_2.js?r=8AA0EB763B23F6041902F56782ADB346\"></script>", tag);
-            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;}", fileWriterFactory.Files["~/js/output_2.js"]);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_2.js?r=8E8C548F4F6300695269DE689B903BA3\"></script>", tag);
+            Assert.AreEqual("function product(d,c){return d*c}function sum(d,c){return d+c};", fileWriterFactory.Files["~/js/output_2.js"]);
         }
 
         [Test]
@@ -171,7 +171,7 @@ namespace SquishIt.Tests
                 .RenderOnlyIfOutputFileMissing()
                 .Render("~/js/output_9.js");
 
-            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;}", fileWriterFactory.Files["~/js/output_9.js"]);
+            Assert.AreEqual("function product(d,c){return d*c}function sum(d,c){return d+c};", fileWriterFactory.Files["~/js/output_9.js"]);
 
             fileReaderFactory.SetContents(javaScript2);
             fileReaderFactory.SetFileExists(true);
@@ -182,7 +182,7 @@ namespace SquishIt.Tests
                 .RenderOnlyIfOutputFileMissing()
                 .Render("~/js/output_9.js");
 
-            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;}", fileWriterFactory.Files["~/js/output_9.js"]);
+            Assert.AreEqual("function product(d,c){return d*c}function sum(d,c){return d+c};", fileWriterFactory.Files["~/js/output_9.js"]);
         }
 
         [Test]
@@ -194,7 +194,7 @@ namespace SquishIt.Tests
                 .Add("~/js/test.js")
                 .Render("~/js/output_10.js");
 
-            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;}", fileWriterFactory.Files["~/js/output_10.js"]);
+            Assert.AreEqual("function product(d,c){return d*c}function sum(d,c){return d+c};", fileWriterFactory.Files["~/js/output_10.js"]);
 
             fileReaderFactory.SetContents(javaScript2);
             fileReaderFactory.SetFileExists(true);
@@ -205,7 +205,7 @@ namespace SquishIt.Tests
                 .Add("~/js/test.js")
                 .Render("~/js/output_10.js");
 
-            Assert.AreEqual("\nfunction sum(a,b){return a+b;}", fileWriterFactory.Files["~/js/output_10.js"]);
+            Assert.AreEqual("function sum(d,c){return d+c};", fileWriterFactory.Files["~/js/output_10.js"]);
         }
 
         [Test]
@@ -215,8 +215,8 @@ namespace SquishIt.Tests
                 .Add("~/js/test.js")
                 .Render("~/js/output_#.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_8AA0EB763B23F6041902F56782ADB346.js\"></script>", tag);
-            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;}", fileWriterFactory.Files["~/js/output_8AA0EB763B23F6041902F56782ADB346.js"]);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_8E8C548F4F6300695269DE689B903BA3.js\"></script>", tag);
+            Assert.AreEqual("function product(d,c){return d*c}function sum(d,c){return d+c};", fileWriterFactory.Files["~/js/output_8E8C548F4F6300695269DE689B903BA3.js"]);
         }
     }
 }
