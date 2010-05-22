@@ -157,8 +157,8 @@ namespace SquishIt.Framework.Css
 
             var processedCssFiles = new List<string>();
             foreach (string file in cssFiles)
-            {                    
-                if (Path.GetExtension(file).ToLower() == ".less")
+            {
+                if (file.ToLower().EndsWith(".less") || file.ToLower().EndsWith(".less.css"))
                 {
                     string outputFile = ResolveAppRelativePathToFileSystem(file);
                     string css = ProcessLess(outputFile);
@@ -207,7 +207,7 @@ namespace SquishIt.Framework.Css
             var outputCss = new StringBuilder();
             foreach (string file in files)
             {
-                if (Path.GetExtension(file).ToLower() == ".less")
+                if (file.ToLower().EndsWith(".less") || file.ToLower().EndsWith(".less.css"))
                 {
                     string css = ProcessLess(file);
                     outputCss.Append(compressor.CompressContent(css));

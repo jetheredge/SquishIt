@@ -119,6 +119,28 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanBundleCssWithLessWithLessDotCssFileExtension()
+        {
+            var mockDebugStatusReader = new StubDebugStatusReader(false);
+            var mockFileWriterFactory = new StubFileWriterFactory();
+            var mockFileReaderFactory = new StubFileReaderFactory();
+            mockFileReaderFactory.SetContents(cssLess);
+
+            ICssBundle cssBundle = new CssBundle(mockDebugStatusReader,
+                                                 mockFileWriterFactory,
+                                                 mockFileReaderFactory);
+
+            string tag = cssBundle
+                .Add("~/css/test.less.css")
+                .Render("~/css/output_less_dot_css.css");
+
+            string contents = mockFileWriterFactory.Files["~/css/output_less_dot_css.css"];
+
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\"  href=\"css/output_less_dot_css.css?r=350F6DC1A87E2503EE6D4AE414C4A479\" />", tag);
+            Assert.AreEqual("#header,h2{color:#4d926f;}", contents);
+        }
+
+        [Test]
         public void CanCreateNamedBundle()
         {
             var mockDebugStatusReader = new StubDebugStatusReader(false);
