@@ -137,7 +137,15 @@ namespace SquishIt.Framework.JavaScript
                         }
                         else
                         {
-                            renderedScriptTag = String.Format(scriptTemplate, ExpandAppRelativePath(renderTo) + "?r=" + hash);    
+                            string path = ExpandAppRelativePath(renderTo);
+                            if (path.Contains("?"))
+                            {
+                                renderedScriptTag = String.Format(scriptTemplate, ExpandAppRelativePath(renderTo) + "&r=" + hash);    
+                            }
+                            else
+                            {
+                                renderedScriptTag = String.Format(scriptTemplate, ExpandAppRelativePath(renderTo) + "?r=" + hash);        
+                            }
                         }
                         renderedJavaScriptFiles.Add(key, renderedScriptTag);
                     }

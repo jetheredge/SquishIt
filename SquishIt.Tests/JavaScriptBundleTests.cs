@@ -68,6 +68,16 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanBundleJavaScriptWithQuerystringParameter()
+        {
+            var tag = javaScriptBundle
+                .Add("~/js/test.js")
+                .Render("~/js/output_querystring.js?v=2");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_querystring.js?v=2&r=8E8C548F4F6300695269DE689B903BA3\"></script>", tag);
+        }
+
+        [Test]
         public void CanCreateNamedBundle()
         {
             javaScriptBundle

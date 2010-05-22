@@ -141,7 +141,15 @@ namespace SquishIt.Framework.Css
                         }
                         else
                         {
-                            renderedCssTag = String.Format(CssTemplate, mediaTag, ExpandAppRelativePath(renderTo) + "?r=" + hash);
+                            string path = ExpandAppRelativePath(renderTo);
+                            if (path.Contains("?"))
+                            {
+                                renderedCssTag = String.Format(CssTemplate, mediaTag, path + "&r=" + hash);
+                            }
+                            else
+                            {
+                                renderedCssTag = String.Format(CssTemplate, mediaTag, path + "?r=" + hash);
+                            }
                         }
                         renderedCssFiles.Add(key, renderedCssTag);
                     }

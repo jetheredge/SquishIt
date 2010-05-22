@@ -75,6 +75,26 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanBundleCssWithQueryStringParameter()
+        {
+            var mockDebugStatusReader = new StubDebugStatusReader(false);
+            var mockFileWriterFactory = new StubFileWriterFactory();
+            var mockFileReaderFactory = new StubFileReaderFactory();
+            mockFileReaderFactory.SetContents(css);
+
+            ICssBundle cssBundle = new CssBundle(mockDebugStatusReader,
+                                                 mockFileWriterFactory,
+                                                 mockFileReaderFactory);
+
+            string tag = cssBundle
+                            .Add("/css/first.css")
+                            .Add("/css/second.css")
+                            .Render("/css/output_querystring.css?v=1");
+
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\"  href=\"/css/output_querystring.css?v=1&r=AE4C10DB94E5420AD54BD0A0BE9F02C2\" />", tag);
+        }
+
+        [Test]
         public void CanBundleCssWithMediaAttribute()
         {
             var mockDebugStatusReader = new StubDebugStatusReader(false);
