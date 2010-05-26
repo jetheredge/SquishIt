@@ -1,9 +1,5 @@
-
 *.user
 bin
 obj
 *.suo
-_ReSharper
-_ReSharper.JavascriptBundler
-_ReSharper.Bundler
-_ReSharper.SquishIt
+_ReSharper*
