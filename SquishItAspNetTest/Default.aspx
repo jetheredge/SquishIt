@@ -19,6 +19,7 @@
     <%= Bundle.Css()
                 .Add("~/css/jquery-ui-1.8rc3.css")
                 .Add("~/css/CodeThinked.css")
+                .Add("~/css/extra/extra.css")
                 .Add("~/css/testdotless.css.less")
                 .WithMedia("screen")
                 .ForceDebug()

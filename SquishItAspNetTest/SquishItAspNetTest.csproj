@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\CodeThinked.css" />
+    <Content Include="css\extra\extra.css" />
     <Content Include="css\jquery-ui-1.8rc3.css" />
     <None Include="css\testdotless.css.less" />
     <Content Include="Default.aspx" />
