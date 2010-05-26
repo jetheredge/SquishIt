@@ -14,7 +14,7 @@
                 .Add("~/js/jquery-ui-1.8rc3.js")
                 //.WithMinifier(JavaScriptMinifiers.Closure)
                 .RenderOnlyIfOutputFileMissing()
-                .ForceDebug()
+                .ForceRelease()
                 .Render("~/js/combined_#.js") %>
     <%= Bundle.Css()
                 .Add("~/css/jquery-ui-1.8rc3.css")
@@ -22,9 +22,16 @@
                 .Add("~/css/extra/extra.css")
                 .Add("~/css/testdotless.css.less")
                 .WithMedia("screen")
-                .ForceDebug()
+                .ForceRelease()
                 //.RenderOnlyIfOutputFileMissing()
                 .Render("~/css/combined_#.css") %>
+                
+    <%= Bundle.Css()
+                .Add("~/css/extra/extra.css")
+                .WithMedia("screen")
+                .ForceRelease()
+                //.RenderOnlyIfOutputFileMissing()
+                .Render("~/combined_#.css") %>            
     <form id="form1" runat="server">
     <div>
     

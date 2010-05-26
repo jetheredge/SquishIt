@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using dotless.Core;
 using SquishIt.Framework.Css.Compressors;
@@ -109,15 +110,17 @@ namespace SquishIt.Framework.Css
                         string compressedCss;
                         string hash= null;
                         bool hashInFileName = false;
+
+                        string outputFile = ResolveAppRelativePathToFileSystem(renderTo);
+
                         if (renderTo.Contains("#"))
                         {
                             hashInFileName = true;
-                            compressedCss = CompressCss(GetFilePaths(cssFiles), MapCompressorToIdentifier(cssCompressor));
+                            compressedCss = CompressCss(outputFile, GetFilePaths(cssFiles), MapCompressorToIdentifier(cssCompressor));
                             hash = Hasher.Create(compressedCss);
                             renderTo = renderTo.Replace("#", hash);
+                            outputFile = outputFile.Replace("#", hash);
                         }
-
-                        string outputFile = ResolveAppRelativePathToFileSystem(renderTo);
 
                         if (renderOnlyIfOutputFileMissing && FileExists(outputFile))
                         {
@@ -125,7 +128,7 @@ namespace SquishIt.Framework.Css
                         }
                         else
                         {
-                            compressedCss = CompressCss(GetFilePaths(cssFiles), MapCompressorToIdentifier(cssCompressor));
+                            compressedCss = CompressCss(outputFile, GetFilePaths(cssFiles), MapCompressorToIdentifier(cssCompressor));
                             WriteCssToFiles(compressedCss, outputFile, null);
                         }
                         
@@ -198,10 +201,10 @@ namespace SquishIt.Framework.Css
             return RenderFiles(modifiedCssTemplate, processedCssFiles);
         }
 
-        public string CompressCss(List<InputFile> arguments, string compressorType)
+        public string CompressCss(string outputFilePath, List<InputFile> arguments, string compressorType)
         {
             List<string> files = GetFiles(arguments);
-            return CompressCss(files, compressorType);
+            return CompressCss(outputFilePath, files, compressorType);
         }
 
         public void WriteCssToFiles(string compressedCss, string outputFile, string gzippedOutputFile)
@@ -210,10 +213,10 @@ namespace SquishIt.Framework.Css
             WriteGZippedFile(compressedCss, null);
         }
 
-        public string CompressCss(List<string> files, string compressorType)
+        public string CompressCss(string outputFilePath, List<string> files, string compressorType)
         {
             ICssCompressor compressor = CssCompressorRegistry.Get(compressorType);
-            return CompressCss(files, compressor).ToString();
+            return CompressCss(outputFilePath, files, compressor).ToString();
         }
 
         public void ClearCache()
@@ -222,21 +225,22 @@ namespace SquishIt.Framework.Css
             debugCssFiles.Clear();
         }
 
-        private StringBuilder CompressCss(List<string> files, ICssCompressor compressor)
+        private StringBuilder CompressCss(string outputFilePath, List<string> files, ICssCompressor compressor)
         {
             var outputCss = new StringBuilder();
             foreach (string file in files)
             {
+                string css;
                 if (file.ToLower().EndsWith(".less") || file.ToLower().EndsWith(".less.css"))
                 {
-                    string css = ProcessLess(file);
-                    outputCss.Append(compressor.CompressContent(css));
+                    css = ProcessLess(file);
                 }
                 else
                 {
-                    string css = ReadFile(file);
-                    outputCss.Append(compressor.CompressContent(css));
+                    css = ReadFile(file);
                 }
+                css = CssPathRewriter.RewriteCssPaths(outputFilePath, file, css);
+                outputCss.Append(compressor.CompressContent(css));
             }
             return outputCss;
         }        

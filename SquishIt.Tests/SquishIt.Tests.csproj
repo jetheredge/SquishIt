@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="CssBundleTests.cs" />
     <Compile Include="CssCompressorsTests.cs" />
+    <Compile Include="CssPathRewriterTests.cs" />
     <Compile Include="Directories\DirectoryEnumeratorTests.cs" />
     <Compile Include="JavaScriptBundleTests.cs" />
     <Compile Include="JavaScriptMinifierTests.cs" />

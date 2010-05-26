@@ -63,6 +63,7 @@
     <Compile Include="Css\Compressors\ICssCompressor.cs" />
     <Compile Include="Css\Compressors\NullCompressor.cs" />
     <Compile Include="Css\Compressors\YuiCompressor.cs" />
+    <Compile Include="Css\CssPathRewriter.cs" />
     <Compile Include="Directories\Directory.cs" />
     <Compile Include="Directories\DirectoryEnumerator.cs" />
     <Compile Include="Directories\IDirectory.cs" />
