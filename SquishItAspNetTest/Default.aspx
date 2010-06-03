@@ -31,7 +31,19 @@
                 .WithMedia("screen")
                 .ForceRelease()
                 //.RenderOnlyIfOutputFileMissing()
-                .Render("~/combined_#.css") %>            
+                .Render("~/combined_#.css") %>
+     <%= Bundle.Css()
+                .Add("~/css/extra/extra.css")
+                .Add("~/css/import.css")
+                .Add("~/css/CodeThinked.css")
+                .WithMedia("screen")
+                .ForceRelease()
+                .Render("~/css/combinedimport_#.css") %>
+    <%= Bundle.Css()
+                .Add("~/css/import.css")
+                .WithMedia("screen")
+                .ForceRelease()
+                .Render("~/combinedimport_#.css") %>     
     <form id="form1" runat="server">
     <div>
     

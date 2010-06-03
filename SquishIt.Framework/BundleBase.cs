@@ -50,7 +50,7 @@ namespace SquishIt.Framework
             {
                 using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
                 {
-                    fileWriter.Write(output);
+                    fileWriter.Write(output); 
                 }
             }
             else
