@@ -19,9 +19,10 @@ namespace SquishIt.Framework.Css
         private string mediaTag = "";
         private CssCompressors cssCompressor = CssCompressors.YuiCompressor;
         private bool renderOnlyIfOutputFileMissing = false;
+        private bool processImports = false;
         private const string CssTemplate = "<link rel=\"stylesheet\" type=\"text/css\" {0} href=\"{1}\" />";
         //Added to support @import
-        private static readonly Regex _importPattern = new Regex("@import url\\(\"(.*?)\"\\);", RegexOptions.Compiled);
+        private static readonly Regex _importPattern = new Regex("@import url\\(\"{0,1}(.*?)\"{0,1}\\);", RegexOptions.Compiled);
         //
 
         public CssBundle()
@@ -66,6 +67,12 @@ namespace SquishIt.Framework.Css
         public ICssBundleBuilder RenderOnlyIfOutputFileMissing()
         {
             renderOnlyIfOutputFileMissing = true;
+            return this;
+        }
+
+        public ICssBundleBuilder ProcessImports()
+        {
+            processImports = true;
             return this;
         }
 
@@ -138,7 +145,7 @@ namespace SquishIt.Framework.Css
                         
                         if (hash == null)
                         {
-                            hash = Hasher.Create(compressedCss);    
+                            hash = Hasher.Create(compressedCss);
                         }
 
                         string renderedCssTag;
@@ -243,12 +250,14 @@ namespace SquishIt.Framework.Css
                 {
                     css = ReadFile(file);
                 }
-                //Added to support @import
-                if(css.Contains("@import"))
+                
+                if (processImports)
                 {
-                    css = ProcessImport(css);
+                    if (css.Contains("@import"))
+                    {
+                        css = ProcessImport(css);
+                    }    
                 }
-                //
                 css = CssPathRewriter.RewriteCssPaths(outputFilePath, file, css);
                 outputCss.Append(compressor.CompressContent(css));
             }
@@ -266,13 +275,13 @@ namespace SquishIt.Framework.Css
             lso.Key = file;
             return md.TransformToCss(lso);
         }
-        //Added to support @import
+        
         private string ProcessImport(string css)
         {
             return _importPattern.Replace(css, new MatchEvaluator(ApplyFileContentsToMatchedImport));
             
         }
-        //Added to support @import
+        
         private string ApplyFileContentsToMatchedImport(Match match)
         {
             var file = ResolveAppRelativePathToFileSystem(match.Groups[1].Value);

@@ -435,5 +435,88 @@ namespace SquishIt.Tests
             Assert.AreEqual(1, mockFileWriterFactory.Files.Count);
             Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em;}th{font-weight:normal;vertical-align:bottom;}.FloatRight{float:right;}.FloatLeft{float:left;}li{margin-bottom:.1em;margin-left:0;margin-top:.1em;}th{font-weight:normal;vertical-align:bottom;}.FloatRight{float:right;}.FloatLeft{float:left;}", mockFileWriterFactory.Files[@"C:\css\output_AE4C10DB94E5420AD54BD0A0BE9F02C2.css"]);
         }
+
+        [Test]
+        public void CanRenderCssFileWithUnprocessedImportStatement()
+        {
+            string importCss =
+                                    @"
+                                    @import url(""/css/other.css"");
+                                    #header {
+                                        color: #4D926F;
+                                    }";
+
+            var mockDebugStatusReader = new StubDebugStatusReader(false);
+            var mockFileWriterFactory = new StubFileWriterFactory();
+            var mockFileReaderFactory = new StubFileReaderFactory();
+            mockFileReaderFactory.SetContents(importCss);
+            mockFileReaderFactory.SetContentsForFile(@"C:\css\other.css", "#footer{color:#ffffff;}");
+
+            ICssBundle cssBundle = new CssBundle(mockDebugStatusReader,
+                                                 mockFileWriterFactory,
+                                                 mockFileReaderFactory);
+
+            cssBundle
+                            .Add("/css/first.css")
+                            .Render("/css/unprocessed_import.css");
+
+            Assert.AreEqual(@"@import url(""/css/other.css"");#header{color:#4D926F;}", mockFileWriterFactory.Files[@"C:\css\unprocessed_import.css"]);
+        }
+
+        [Test]
+        public void CanRenderCssFileWithImportStatement()
+        {
+            string importCss =
+                                    @"
+                                    @import url(""/css/other.css"");
+                                    #header {
+                                        color: #4D926F;
+                                    }";
+
+            var mockDebugStatusReader = new StubDebugStatusReader(false);
+            var mockFileWriterFactory = new StubFileWriterFactory();
+            var mockFileReaderFactory = new StubFileReaderFactory();
+            mockFileReaderFactory.SetContents(importCss);
+            mockFileReaderFactory.SetContentsForFile(@"C:\css\other.css", "#footer{color:#ffffff;}");
+
+            ICssBundle cssBundle = new CssBundle(mockDebugStatusReader,
+                                                 mockFileWriterFactory,
+                                                 mockFileReaderFactory);
+
+            string tag = cssBundle
+                            .Add("/css/first.css")
+                            .ProcessImports()
+                            .Render("/css/processed_import.css");
+
+            Assert.AreEqual("#footer{color:#fff;}#header{color:#4D926F;}", mockFileWriterFactory.Files[@"C:\css\processed_import.css"]);
+        }
+
+        [Test]
+        public void CanRenderCssFileWithImportStatementNoQuotes()
+        {
+            string importCss =
+                                    @"
+                                    @import url(/css/other.css);
+                                    #header {
+                                        color: #4D926F;
+                                    }";
+
+            var mockDebugStatusReader = new StubDebugStatusReader(false);
+            var mockFileWriterFactory = new StubFileWriterFactory();
+            var mockFileReaderFactory = new StubFileReaderFactory();
+            mockFileReaderFactory.SetContents(importCss);
+            mockFileReaderFactory.SetContentsForFile(@"C:\css\other.css", "#footer{color:#ffffff;}");
+
+            ICssBundle cssBundle = new CssBundle(mockDebugStatusReader,
+                                                 mockFileWriterFactory,
+                                                 mockFileReaderFactory);
+
+            string tag = cssBundle
+                            .Add("/css/first.css")
+                            .ProcessImports()
+                            .Render("/css/processed_import_noquotes.css");
+
+            Assert.AreEqual("#footer{color:#fff;}#header{color:#4D926F;}", mockFileWriterFactory.Files[@"C:\css\processed_import_noquotes.css"]);
+        }
     }
 }

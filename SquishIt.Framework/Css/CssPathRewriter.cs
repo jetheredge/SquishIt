@@ -11,7 +11,7 @@ namespace SquishIt.Framework.Css
             var sourceUri = new Uri(Path.GetDirectoryName(sourcePath) + "/", UriKind.Absolute);
             var outputUri = new Uri(Path.GetDirectoryName(outputPath) + "/", UriKind.Absolute);
 
-            var matches = Regex.Matches(css, @"url\((.+?)\)");
+            var matches = Regex.Matches(css, @"url\(""{0,1}(.+?)""{0,1}\)");
             foreach (Match match in matches)
             {
                 var capture = match.Groups[1].Captures[0];

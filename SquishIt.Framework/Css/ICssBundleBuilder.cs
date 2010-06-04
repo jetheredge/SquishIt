@@ -12,5 +12,6 @@ namespace SquishIt.Framework.Css
         ICssBundleBuilder RenderOnlyIfOutputFileMissing();
         ICssBundleBuilder ForceDebug();
         ICssBundleBuilder ForceRelease();
+        ICssBundleBuilder ProcessImports();
     }
 }
