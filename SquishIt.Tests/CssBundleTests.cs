@@ -518,5 +518,33 @@ namespace SquishIt.Tests
 
             Assert.AreEqual("#footer{color:#fff;}#header{color:#4D926F;}", mockFileWriterFactory.Files[@"C:\css\processed_import_noquotes.css"]);
         }
+
+        [Test]
+        public void CanRenderCssFileWithImportStatementUppercase()
+        {
+            string importCss =
+                                    @"
+                                    @IMPORT URL(/css/other.css);
+                                    #header {
+                                        color: #4D926F;
+                                    }";
+
+            var mockDebugStatusReader = new StubDebugStatusReader(false);
+            var mockFileWriterFactory = new StubFileWriterFactory();
+            var mockFileReaderFactory = new StubFileReaderFactory();
+            mockFileReaderFactory.SetContents(importCss);
+            mockFileReaderFactory.SetContentsForFile(@"C:\css\other.css", "#footer{color:#ffffff;}");
+
+            ICssBundle cssBundle = new CssBundle(mockDebugStatusReader,
+                                                 mockFileWriterFactory,
+                                                 mockFileReaderFactory);
+
+            string tag = cssBundle
+                            .Add("/css/first.css")
+                            .ProcessImports()
+                            .Render("/css/processed_import_uppercase.css");
+
+            Assert.AreEqual("#footer{color:#fff;}#header{color:#4D926F;}", mockFileWriterFactory.Files[@"C:\css\processed_import_uppercase.css"]);
+        }
     }
 }

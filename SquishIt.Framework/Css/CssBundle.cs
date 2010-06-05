@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using dotless.Core;
@@ -22,7 +20,7 @@ namespace SquishIt.Framework.Css
         private bool processImports = false;
         private const string CssTemplate = "<link rel=\"stylesheet\" type=\"text/css\" {0} href=\"{1}\" />";
         //Added to support @import
-        private static readonly Regex _importPattern = new Regex("@import url\\(\"{0,1}(.*?)\"{0,1}\\);", RegexOptions.Compiled);
+        private static readonly Regex importPattern = new Regex("@import +url\\(\"{0,1}(.*?)\"{0,1}\\);", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         //
 
         public CssBundle()
@@ -253,10 +251,7 @@ namespace SquishIt.Framework.Css
                 
                 if (processImports)
                 {
-                    if (css.Contains("@import"))
-                    {
-                        css = ProcessImport(css);
-                    }    
+                    css = ProcessImport(css);
                 }
                 css = CssPathRewriter.RewriteCssPaths(outputFilePath, file, css);
                 outputCss.Append(compressor.CompressContent(css));
@@ -278,8 +273,7 @@ namespace SquishIt.Framework.Css
         
         private string ProcessImport(string css)
         {
-            return _importPattern.Replace(css, new MatchEvaluator(ApplyFileContentsToMatchedImport));
-            
+            return importPattern.Replace(css, new MatchEvaluator(ApplyFileContentsToMatchedImport));
         }
         
         private string ApplyFileContentsToMatchedImport(Match match)
