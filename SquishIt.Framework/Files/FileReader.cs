@@ -9,7 +9,7 @@ namespace SquishIt.Framework.Files
         
         public FileReader(string file)
         {
-            streamReader = new StreamReader(file);
+            streamReader = new StreamReader(file, System.Text.Encoding.UTF8);
         }
 
         public string ReadLine()

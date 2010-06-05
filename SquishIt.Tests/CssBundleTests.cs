@@ -162,9 +162,9 @@ namespace SquishIt.Tests
 
             string tag = cssBundle
                 .Add("~/css/something/test.less")
-                .Render("~/css/output.css");
+                .Render("~/css/output_less_with_rewrites.css");
 
-            string contents = mockFileWriterFactory.Files[@"C:\css\output.css"];
+            string contents = mockFileWriterFactory.Files[@"C:\css\output_less_with_rewrites.css"];
 
             Assert.AreEqual("#header{color:#4d926f;background-image:URL(image/mygif.gif);}", contents);
         }
