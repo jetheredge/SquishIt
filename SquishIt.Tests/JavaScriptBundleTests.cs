@@ -229,5 +229,16 @@ namespace SquishIt.Tests
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_8E8C548F4F6300695269DE689B903BA3.js\"></script>", tag);
             Assert.AreEqual("function product(d,c){return d*c}function sum(d,c){return d+c};", fileWriterFactory.Files[@"C:\js\output_8E8C548F4F6300695269DE689B903BA3.js"]);
         }
+
+        [Test]
+        public void CanBundleJavaScriptWithUnderscoresInName()
+        {
+            var tag = javaScriptBundle
+                .Add("~/js/test_file.js")
+                .Render("~/js/outputunder_#.js");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/outputunder_8E8C548F4F6300695269DE689B903BA3.js\"></script>", tag);
+            Assert.AreEqual("function product(d,c){return d*c}function sum(d,c){return d+c};", fileWriterFactory.Files[@"C:\js\outputunder_8E8C548F4F6300695269DE689B903BA3.js"]);
+        }
     }
 }

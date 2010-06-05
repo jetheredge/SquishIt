@@ -10,7 +10,7 @@
 </head>
 <body>
     <%= Bundle.JavaScript()
-                .Add("~/js/jquery-1.4.2.js")
+                .Add("~/js/jquery_1.4.2.js")
                 .Add("~/js/jquery-ui-1.8rc3.js")
                 //.WithMinifier(JavaScriptMinifiers.Closure)
                 .RenderOnlyIfOutputFileMissing()
