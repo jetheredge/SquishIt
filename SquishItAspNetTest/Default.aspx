@@ -10,11 +10,15 @@
 </head>
 <body>
     <%= Bundle.JavaScript()
-                .Add("~/js/jquery_1.4.2.js")
+                //CDN order will NOT be maintained in release mode.
+                //Any files added with AddCdn will be placed above the
+                //generated compressed file.
+                .AddCdn("~/js/jquery_1.4.2.js", "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js")
                 .Add("~/js/jquery-ui-1.8rc3.js")
                 //.WithMinifier(JavaScriptMinifiers.Closure)
                 .RenderOnlyIfOutputFileMissing()
-                .ForceRelease()
+                //.ForceRelease()
+                //.ForceDebug()
                 .Render("~/js/combined_#.js") %>
     <%= Bundle.Css()
                 .Add("~/css/jquery-ui-1.8rc3.css")

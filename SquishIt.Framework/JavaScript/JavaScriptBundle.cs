@@ -12,6 +12,9 @@ namespace SquishIt.Framework.JavaScript
         private static Dictionary<string, string> renderedJavaScriptFiles = new Dictionary<string, string>();
         private static Dictionary<string, string> debugJavaScriptFiles = new Dictionary<string, string>();
         private List<string> javaScriptFiles = new List<string>();
+        //Added to support CND
+        private List<string> javaScriptFilesForCdn = new List<string>();
+        //
         private JavaScriptMinifiers javaScriptMinifier = JavaScriptMinifiers.Yui;
         private const string scriptTemplate = "<script type=\"text/javascript\" src=\"{0}\"></script>";
         private bool renderOnlyIfOutputFileMissing = false;
@@ -30,6 +33,19 @@ namespace SquishIt.Framework.JavaScript
             return this;
         }
 
+        IJavaScriptBundleBuilder IJavaScriptBundle.AddCdn(string javaScriptPath, string cdnUri)
+        {
+            if (debugStatusReader.IsDebuggingEnabled())
+            {
+                javaScriptFiles.Add(javaScriptPath);
+            }
+            else
+            {
+                javaScriptFilesForCdn.Add(cdnUri);
+            }
+            return this;
+        }
+
         public IJavaScriptBundleBuilder WithMinifier(JavaScriptMinifiers javaScriptMinifier)
         {
             this.javaScriptMinifier = javaScriptMinifier;
@@ -45,6 +61,19 @@ namespace SquishIt.Framework.JavaScript
         IJavaScriptBundleBuilder IJavaScriptBundleBuilder.Add(string javaScriptPath)
         {
             javaScriptFiles.Add(javaScriptPath);
+            return this;
+        }
+
+        IJavaScriptBundleBuilder IJavaScriptBundleBuilder.AddCdn(string javaScriptPath, string cdnUri)
+        {
+            if (debugStatusReader.IsDebuggingEnabled())
+            {
+                javaScriptFiles.Add(javaScriptPath);
+            }
+            else
+            {
+                javaScriptFilesForCdn.Add(cdnUri);
+            }
             return this;
         }
 
@@ -109,6 +138,7 @@ namespace SquishIt.Framework.JavaScript
                             compressedJavaScript = MinifyJavaScript(GetFilePaths(javaScriptFiles), MapMinifierToIdentifier(javaScriptMinifier));
                             hash = Hasher.Create(compressedJavaScript);
                             renderTo = renderTo.Replace("#", hash);
+
                         }
 
                         string outputFile = ResolveAppRelativePathToFileSystem(renderTo);
@@ -148,9 +178,11 @@ namespace SquishIt.Framework.JavaScript
                             }
                         }
                         renderedJavaScriptFiles.Add(key, renderedScriptTag);
+                       
                     }
                 }
             }
+            renderedJavaScriptFiles[key] = String.Concat(GetJavascriptFilesForCdn(), renderedJavaScriptFiles[key]);
             return renderedJavaScriptFiles[key];
         }
 
@@ -198,6 +230,19 @@ namespace SquishIt.Framework.JavaScript
                 outputJavaScript.Append(minifier.CompressContent(content));
             }
             return outputJavaScript;
+        }
+
+        private string GetJavascriptFilesForCdn()
+        {
+            var renderedJavaScriptFilesForCdn = new StringBuilder();
+            if (javaScriptFilesForCdn.Count > 0)
+            {
+                foreach (var uri in javaScriptFilesForCdn)
+                {
+                    renderedJavaScriptFilesForCdn.AppendFormat(String.Format(scriptTemplate + "{1}", uri, "\n"));
+                }
+            }
+            return renderedJavaScriptFilesForCdn.ToString();
         }
     }
 }

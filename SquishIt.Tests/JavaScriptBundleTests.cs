@@ -89,7 +89,44 @@ namespace SquishIt.Tests
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_2.js?r=8E8C548F4F6300695269DE689B903BA3\"></script>", tag);
             Assert.AreEqual("function product(d,c){return d*c}function sum(d,c){return d+c};", fileWriterFactory.Files[@"C:\js\output_2.js"]);
         }
+        //----------------------------------------------------
+        [Test]
+        public void CanBundleJavaScriptWithCdn()
+        {
+            var tag = javaScriptBundle
+                .AddCdn("~/js/test.js", "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js")
+                .Add("~/js/test.js")
+                .Render("~/js/output_1_2.js");
 
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script>\n<script type=\"text/javascript\" src=\"js/output_1_2.js?r=8E8C548F4F6300695269DE689B903BA3\"></script>", tag);
+            Assert.AreEqual("function product(d,c){return d*c}function sum(d,c){return d+c};", fileWriterFactory.Files[@"C:\js\output_1_2.js"]);
+        }
+
+        [Test]
+        public void CanBundleJavaScriptWithCdnAndQuerystringParameter()
+        {
+            var tag = javaScriptBundle
+                .AddCdn("~/js/test.js", "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js")
+                .Add("~/js/test.js")
+                .Render("~/js/output_querystring.js?v=2_2");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script>\n<script type=\"text/javascript\" src=\"js/output_querystring.js?v=2_2&r=8E8C548F4F6300695269DE689B903BA3\"></script>", tag);
+        }
+
+        [Test]
+        public void CanCreateNamedBundleWithCdn()
+        {
+            javaScriptBundle
+                .AddCdn("~/js/test.js", "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js")
+                .Add("~/js/test.js")
+                .AsNamed("TestCdn", "~/js/output_3_2.js");
+
+            var tag = javaScriptBundle.RenderNamed("TestCdn");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script>\n<script type=\"text/javascript\" src=\"js/output_3_2.js?r=8E8C548F4F6300695269DE689B903BA3\"></script>", tag);
+            Assert.AreEqual("function product(d,c){return d*c}function sum(d,c){return d+c};", fileWriterFactory.Files[@"C:\js\output_3_2.js"]);
+        }
+        //-------------------------------------------------------------------------
         [Test]
         public void CanRenderDebugTags()
         {
