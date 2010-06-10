@@ -1,0 +1,1 @@
+var menuItem={print:function(b,a){'<li><a href="'+this.uri+'">'+this.text+"</a></li>"}};document.writeln("<ul>");document.writeln(menuItem.print("Bing","http://www.bing.com"));document.writeln("</ul>");

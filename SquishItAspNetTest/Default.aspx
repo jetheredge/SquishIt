@@ -1,6 +1,9 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="SquishItAspNetTest._Default" %>
 <%@ Import Namespace="SquishIt.Framework.JavaScript.Minifiers"%>
 <%@ Import Namespace="SquishIt.Framework"%>
+<%@ Import Namespace="SquishItAspNetTest" %>
+
+<%@ Register src="Menu.ascx" tagname="Menu" tagprefix="uc1" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -20,6 +23,12 @@
                 //.ForceRelease()
                 //.ForceDebug()
                 .Render("~/js/combined_#.js") %>
+                <%
+                    Bundle.JavaScript()
+                        .Add("~/js/Menu.js")
+                        .RenderOnlyIfOutputFileMissing()
+                        .AsNamed(Constants.JavaScript.MenuItems, "~/js/menu_#.js"); %> 
+                
     <%= Bundle.Css()
                 .Add("~/css/jquery-ui-1.8rc3.css")
                 .Add("~/css/CodeThinked.css")
@@ -50,6 +59,8 @@
                 .Render("~/combinedimport_#.css") %>     
     <form id="form1" runat="server">
     <div>
+    
+        <uc1:Menu ID="Menu1" runat="server" />
     
     </div>
     </form>
