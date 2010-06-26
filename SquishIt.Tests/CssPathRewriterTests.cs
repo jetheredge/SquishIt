@@ -196,6 +196,29 @@ namespace SquishIt.Tests
 
             Assert.AreEqual(expected, result);
         }
+        
+        [Test]
+        public void CanRewritePathsInCssWhenMultipleOccurencesOfSameRelativePathAppearInOneCssFileWithDifferentCasing()
+        {
+            string css = @"
+                            .ui-icon { background-image: url(images/ui-icons_222222_256x240.png); }
+                            .ui-widget-content .ui-icon {background-image: url(Images/ui-icons_222222_256x240.png); }
+                            .ui-widget-header .ui-icon {background-image: url(iMages/ui-icons_222222_256x240.png); }
+                          "; 
+            
+            string sourceFile = @"C:\somepath\somesubpath\someothersubpath\myfile.css";
+            string targetFile = @"C:\somepath\somesubpath\myfile.css";
+            
+            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css);
+
+            string expected = @"
+                            .ui-icon { background-image: url(someothersubpath/images/ui-icons_222222_256x240.png); }
+                            .ui-widget-content .ui-icon {background-image: url(someothersubpath/Images/ui-icons_222222_256x240.png); }
+                            .ui-widget-header .ui-icon {background-image: url(someothersubpath/iMages/ui-icons_222222_256x240.png); }
+                          "; 
+
+            Assert.AreEqual(expected, result);
+        }
 
         [Test]
         public void CanRewritePathsInCssWhenAbsolutePathsAreUsed()
