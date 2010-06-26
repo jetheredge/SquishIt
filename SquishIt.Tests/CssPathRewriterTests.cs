@@ -175,6 +175,29 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanRewritePathsInCssWhenMultipleOccurencesOfSameRelativePathAppearInOneCssFile()
+        {
+            string css = @"
+                            .ui-icon { background-image: url(images/ui-icons_222222_256x240.png); }
+                            .ui-widget-content .ui-icon {background-image: url(images/ui-icons_222222_256x240.png); }
+                            .ui-widget-header .ui-icon {background-image: url(images/ui-icons_222222_256x240.png); }
+                          "; //real example from jquery ui-generated custom css file
+            
+            string sourceFile = @"C:\somepath\somesubpath\someothersubpath\myfile.css";
+            string targetFile = @"C:\somepath\somesubpath\myfile.css";
+            
+            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css);
+
+            string expected = @"
+                            .ui-icon { background-image: url(someothersubpath/images/ui-icons_222222_256x240.png); }
+                            .ui-widget-content .ui-icon {background-image: url(someothersubpath/images/ui-icons_222222_256x240.png); }
+                            .ui-widget-header .ui-icon {background-image: url(someothersubpath/images/ui-icons_222222_256x240.png); }
+                          "; //if it fails, it will look like this: url(someothersubpath/someothersubpath/someothersubpath/images/
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
         public void CanRewritePathsInCssWhenAbsolutePathsAreUsed()
         {
             string css = @"
