@@ -19,13 +19,10 @@ namespace SquishIt.Framework.Css
 
             foreach (string relativePath in  relativePaths)
             {
-                if (!relativePath.StartsWith("/"))
-                {
-                    var resolvedSourcePath = new Uri(sourceUri + relativePath );
-                    var resolvedOutput = outputUri.MakeRelativeUri(resolvedSourcePath);
-                    
-                    css = css.Replace(relativePath , resolvedOutput.OriginalString);    
-                }
+                var resolvedSourcePath = new Uri(sourceUri + relativePath );
+                var resolvedOutput = outputUri.MakeRelativeUri(resolvedSourcePath);
+                
+                css = css.Replace(relativePath , resolvedOutput.OriginalString);    
             }
             return css;
         }
