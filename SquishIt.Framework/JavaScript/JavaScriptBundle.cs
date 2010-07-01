@@ -226,8 +226,23 @@ namespace SquishIt.Framework.JavaScript
             var outputJavaScript = new StringBuilder();
             foreach (string file in files)
             {
-                string content = ReadFile(file);
-                outputJavaScript.Append(minifier.CompressContent(content));
+                try
+                {
+                    string content = ReadFile(file);
+                    if (file.EndsWith(".min.js"))
+                    {
+                        outputJavaScript.Append(content);
+                    }
+                    else
+                    {
+                        outputJavaScript.Append(minifier.CompressContent(content));
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(string.Format("Error processing {0}: {1}", file, e.Message), e);
+                }
+
             }
             return outputJavaScript;
         }
