@@ -8,8 +8,8 @@ namespace SquishIt.Framework.Files
         private StreamWriter sw;
 
         public FileWriter(string file)
-        {           
-            sw = new StreamWriter(file);
+        {
+            sw = new StreamWriter(file, false, System.Text.Encoding.UTF8);
         }
 
         public void Write(string value)
