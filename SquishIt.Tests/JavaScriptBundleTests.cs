@@ -98,7 +98,7 @@ namespace SquishIt.Tests
                 .Add("~/js/test.js")
                 .Render("~/js/output_1_2.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script>\n<script type=\"text/javascript\" src=\"js/output_1_2.js?r=8E8C548F4F6300695269DE689B903BA3\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_1_2.js?r=8E8C548F4F6300695269DE689B903BA3\"></script>", tag);
             Assert.AreEqual("function product(d,c){return d*c}function sum(d,c){return d+c};", fileWriterFactory.Files[@"C:\js\output_1_2.js"]);
         }
 
@@ -110,7 +110,7 @@ namespace SquishIt.Tests
                 .Add("~/js/test.js")
                 .Render("~/js/output_querystring.js?v=2_2");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script>\n<script type=\"text/javascript\" src=\"js/output_querystring.js?v=2_2&r=8E8C548F4F6300695269DE689B903BA3\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_querystring.js?v=2_2&r=8E8C548F4F6300695269DE689B903BA3\"></script>", tag);
         }
 
         [Test]
@@ -123,7 +123,7 @@ namespace SquishIt.Tests
 
             var tag = javaScriptBundle.RenderNamed("TestCdn");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script>\n<script type=\"text/javascript\" src=\"js/output_3_2.js?r=8E8C548F4F6300695269DE689B903BA3\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_3_2.js?r=8E8C548F4F6300695269DE689B903BA3\"></script>", tag);
             Assert.AreEqual("function product(d,c){return d*c}function sum(d,c){return d+c};", fileWriterFactory.Files[@"C:\js\output_3_2.js"]);
         }
         //-------------------------------------------------------------------------
