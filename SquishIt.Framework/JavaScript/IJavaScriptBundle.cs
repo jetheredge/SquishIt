@@ -3,7 +3,7 @@ namespace SquishIt.Framework.JavaScript
     public interface IJavaScriptBundle
     {
         IJavaScriptBundleBuilder Add(string javaScriptPath);
-        IJavaScriptBundleBuilder AddCdn(string javaScriptPath, string cdnUri);
+        IJavaScriptBundleBuilder AddRemote(string localPath, string remotePath);
         string RenderNamed(string name);
         void ClearCache();
     }

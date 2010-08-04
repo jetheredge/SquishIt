@@ -14,6 +14,7 @@ namespace SquishIt.Framework.Css
         private static Dictionary<string, string> renderedCssFiles = new Dictionary<string, string>();
         private static Dictionary<string, string> debugCssFiles = new Dictionary<string, string>();
         private List<string> cssFiles = new List<string>();
+        private List<string> remoteCssFiles = new List<string>();
         private string mediaTag = "";
         private CssCompressors cssCompressor = CssCompressors.YuiCompressor;
         private bool renderOnlyIfOutputFileMissing = false;
@@ -36,6 +37,32 @@ namespace SquishIt.Framework.Css
         ICssBundleBuilder ICssBundleBuilder.Add(string cssScriptPath)
         {
             cssFiles.Add(cssScriptPath);
+            return this;
+        }
+
+        ICssBundleBuilder ICssBundle.AddRemote(string localPath, string remotePath)
+        {
+            if (debugStatusReader.IsDebuggingEnabled())
+            {
+                cssFiles.Add(localPath);
+            }
+            else
+            {
+                remoteCssFiles.Add(remotePath);
+            }
+            return this;
+        }
+
+        ICssBundleBuilder ICssBundleBuilder.AddRemote(string javaScriptPath, string cdnUri)
+        {
+            if (debugStatusReader.IsDebuggingEnabled())
+            {
+                cssFiles.Add(javaScriptPath);
+            }
+            else
+            {
+                remoteCssFiles.Add(cdnUri);
+            }
             return this;
         }
 
@@ -149,7 +176,7 @@ namespace SquishIt.Framework.Css
                         string renderedCssTag;
                         if (hashInFileName)
                         {
-                            renderedCssTag = String.Format(CssTemplate, mediaTag, ExpandAppRelativePath(renderTo));
+                            renderedCssTag = FillTemplate(mediaTag, ExpandAppRelativePath(renderTo));
                         }
                         else
                         {
@@ -167,6 +194,7 @@ namespace SquishIt.Framework.Css
                     }
                 }
             }
+            renderedCssFiles[key] = String.Concat(GetFilesForCdn(), renderedCssFiles[key]);
             return renderedCssFiles[key];
         }
 
@@ -257,7 +285,7 @@ namespace SquishIt.Framework.Css
                 outputCss.Append(compressor.CompressContent(css));
             }
             return outputCss;
-        }        
+        }
 
         private string ProcessLess(string file)
         {
@@ -270,16 +298,31 @@ namespace SquishIt.Framework.Css
             lso.Key = file;
             return md.TransformToCss(lso);
         }
-        
+
         private string ProcessImport(string css)
         {
             return importPattern.Replace(css, new MatchEvaluator(ApplyFileContentsToMatchedImport));
         }
-        
+
         private string ApplyFileContentsToMatchedImport(Match match)
         {
             var file = ResolveAppRelativePathToFileSystem(match.Groups[1].Value);
             return ReadFile(file);
+        }
+
+        private string GetFilesForCdn()
+        {
+            var renderedCssFilesForCdn = new StringBuilder();
+            foreach (var uri in remoteCssFiles)
+            {
+                renderedCssFilesForCdn.Append(FillTemplate(mediaTag, uri));
+            }
+            return renderedCssFilesForCdn.ToString();
+        }
+
+        private string FillTemplate(string mediaTag, string path)
+        {
+            return String.Format(CssTemplate, mediaTag, path);
         }
     }
 }

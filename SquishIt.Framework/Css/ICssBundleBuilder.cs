@@ -5,6 +5,7 @@ namespace SquishIt.Framework.Css
     public interface ICssBundleBuilder
     {
         ICssBundleBuilder Add(string cssPath);
+        ICssBundleBuilder AddRemote(string localPath, string remotePath);
         ICssBundleBuilder WithMedia(string media);
         ICssBundleBuilder WithCompressor(CssCompressors cssCompressor);
         string Render(string renderTo);

@@ -118,6 +118,28 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanBundleCssWithRemote()
+        {
+            var mockDebugStatusReader = new StubDebugStatusReader(false);
+            var mockFileWriterFactory = new StubFileWriterFactory();
+            var mockFileReaderFactory = new StubFileReaderFactory();
+            mockFileReaderFactory.SetContents(css);
+
+            ICssBundle cssBundle = new CssBundle(mockDebugStatusReader,
+                                                 mockFileWriterFactory,
+                                                 mockFileReaderFactory);
+
+            string tag = cssBundle
+                            .AddRemote("/css/first.css", "http://www.someurl.com/css/first.css")
+                            .Add("/css/second.css")
+                            .Render("/css/output.css");
+
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\"  href=\"http://www.someurl.com/css/first.css\" /><link rel=\"stylesheet\" type=\"text/css\"  href=\"/css/output.css?r=A757BD759BA228D91481798C2C49A8DC\" />", tag);
+            Assert.AreEqual(1, mockFileWriterFactory.Files.Count);
+            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em;}th{font-weight:normal;vertical-align:bottom;}.FloatRight{float:right;}.FloatLeft{float:left;}", mockFileWriterFactory.Files[@"C:\css\output.css"]);
+        }
+
+        [Test]
         public void CanBundleCssWithLess()
         {
             var mockDebugStatusReader = new StubDebugStatusReader(false);

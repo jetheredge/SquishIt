@@ -12,8 +12,7 @@ namespace SquishIt.Framework.JavaScript
         private static Dictionary<string, string> renderedJavaScriptFiles = new Dictionary<string, string>();
         private static Dictionary<string, string> debugJavaScriptFiles = new Dictionary<string, string>();
         private List<string> javaScriptFiles = new List<string>();
-        //Added to support CND
-        private List<string> javaScriptFilesForCdn = new List<string>();
+        private List<string> remoteJavaScriptFiles = new List<string>();
         //
         private JavaScriptMinifiers javaScriptMinifier = JavaScriptMinifiers.Yui;
         private const string scriptTemplate = "<script type=\"text/javascript\" src=\"{0}\"></script>";
@@ -33,15 +32,15 @@ namespace SquishIt.Framework.JavaScript
             return this;
         }
 
-        IJavaScriptBundleBuilder IJavaScriptBundle.AddCdn(string javaScriptPath, string cdnUri)
+        IJavaScriptBundleBuilder IJavaScriptBundle.AddRemote(string localPath, string remotePath)
         {
             if (debugStatusReader.IsDebuggingEnabled())
             {
-                javaScriptFiles.Add(javaScriptPath);
+                javaScriptFiles.Add(localPath);
             }
             else
             {
-                javaScriptFilesForCdn.Add(cdnUri);
+                remoteJavaScriptFiles.Add(remotePath);
             }
             return this;
         }
@@ -64,7 +63,7 @@ namespace SquishIt.Framework.JavaScript
             return this;
         }
 
-        IJavaScriptBundleBuilder IJavaScriptBundleBuilder.AddCdn(string javaScriptPath, string cdnUri)
+        IJavaScriptBundleBuilder IJavaScriptBundleBuilder.AddRemote(string javaScriptPath, string cdnUri)
         {
             if (debugStatusReader.IsDebuggingEnabled())
             {
@@ -72,7 +71,7 @@ namespace SquishIt.Framework.JavaScript
             }
             else
             {
-                javaScriptFilesForCdn.Add(cdnUri);
+                remoteJavaScriptFiles.Add(cdnUri);
             }
             return this;
         }
@@ -178,11 +177,10 @@ namespace SquishIt.Framework.JavaScript
                             }
                         }
                         renderedJavaScriptFiles.Add(key, renderedScriptTag);
-                       
                     }
                 }
             }
-            renderedJavaScriptFiles[key] = String.Concat(GetJavascriptFilesForCdn(), renderedJavaScriptFiles[key]);
+            renderedJavaScriptFiles[key] = String.Concat(GetFilesForCdn(), renderedJavaScriptFiles[key]);
             return renderedJavaScriptFiles[key];
         }
 
@@ -232,15 +230,12 @@ namespace SquishIt.Framework.JavaScript
             return outputJavaScript;
         }
 
-        private string GetJavascriptFilesForCdn()
+        private string GetFilesForCdn()
         {
             var renderedJavaScriptFilesForCdn = new StringBuilder();
-            if (javaScriptFilesForCdn.Count > 0)
+            foreach (var uri in remoteJavaScriptFiles)
             {
-                foreach (var uri in javaScriptFilesForCdn)
-                {
-                    renderedJavaScriptFilesForCdn.AppendFormat(String.Format(scriptTemplate + "{1}", uri, "\n"));
-                }
+                renderedJavaScriptFilesForCdn.Append(String.Format(scriptTemplate, uri));
             }
             return renderedJavaScriptFilesForCdn.ToString();
         }

@@ -4,8 +4,8 @@ namespace SquishIt.Framework.JavaScript
 {
     public interface IJavaScriptBundleBuilder
     {
-        IJavaScriptBundleBuilder Add(string cssPath);
-        IJavaScriptBundleBuilder AddCdn(string javaScriptPath, string cdnUri);
+        IJavaScriptBundleBuilder Add(string path);
+        IJavaScriptBundleBuilder AddRemote(string localPath, string remotePath);
         IJavaScriptBundleBuilder WithMinifier(JavaScriptMinifiers javaScriptMinifier);
         IJavaScriptBundleBuilder RenderOnlyIfOutputFileMissing();
         string Render(string renderTo);
