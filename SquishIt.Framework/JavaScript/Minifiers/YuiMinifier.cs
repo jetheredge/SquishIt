@@ -1,5 +1,7 @@
 ﻿using System;
 using Yahoo.Yui.Compressor;
+using System.Text;
+using System.Globalization;
 
 namespace SquishIt.Framework.JavaScript.Minifiers
 {
@@ -17,7 +19,7 @@ namespace SquishIt.Framework.JavaScript.Minifiers
 
         public string CompressContent(string content)
         {
-            return JavaScriptCompressor.Compress(content);
+            return JavaScriptCompressor.Compress(content, true, true, false, false, -1, Encoding.UTF8, CultureInfo.InvariantCulture, false);
         }
     }
 }

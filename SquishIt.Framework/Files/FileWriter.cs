@@ -1,32 +1,33 @@
 using System;
 using System.IO;
+using System.Text;
 
 namespace SquishIt.Framework.Files
 {
     public class FileWriter: IFileWriter
     {
-        private StreamWriter sw;
+        private readonly StreamWriter streamWriter;
 
         public FileWriter(string file)
-        {           
-            sw = new StreamWriter(file);
+        {
+            streamWriter = new StreamWriter(file, false, Encoding.UTF8);
         }
 
         public void Write(string value)
         {
-            sw.Write(value);
+            streamWriter.Write(value);
         }
 
         public void WriteLine(string value)
         {
-            sw.WriteLine(value);
+            streamWriter.WriteLine(value);
         }
 
         public void Dispose()
         {
-            if (sw != null)
+            if (streamWriter != null)
             {
-                sw.Dispose();    
+                streamWriter.Dispose();    
             }
         }
     }

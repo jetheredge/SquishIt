@@ -7,11 +7,11 @@ namespace SquishIt.Framework.Directories
 {
     public class DirectoryEnumerator: IDirectoryEnumerator
     {
-        private IDirectory directory;
+        private readonly IDirectory directory;
 
         public DirectoryEnumerator()
         {
-            this.directory = new Directory();
+            directory = new Directory();
         }
 
         public DirectoryEnumerator(IDirectory directory)
@@ -20,12 +20,12 @@ namespace SquishIt.Framework.Directories
         }
 
         public IEnumerable<string> GetFiles(string path)
-        {            
-            var files = directory.GetFiles(path, "*.js").ToArray();
-            var vsDocFiles = directory.GetFiles(path, "*-vsdoc.js").ToArray();
-            files = files.Except(vsDocFiles).ToArray();
-            var ordering = GetOrdering(path);
+        {
+            var files = directory.GetFiles(path, "*.js")
+                .Where(file => !file.EndsWith("-vsdoc.js", StringComparison.OrdinalIgnoreCase))
+                .ToArray();
 
+            var ordering = GetOrdering(path);
             if (ordering.Count <= 0)
             {
                 return files;
@@ -39,31 +39,43 @@ namespace SquishIt.Framework.Directories
             return OrderFiles(ordering, files);
         }
 
-        private IEnumerable<string> OrderFiles(List<string> ordering, string[] files)
+        private static IEnumerable<string> OrderFiles(IEnumerable<string> ordering,
+            IEnumerable<string> files)
         {
-            var result = new List<string>();
-            foreach (string order in ordering)
-            {
-                foreach (string file in files)
-                {
-                    if (Path.GetFileName(file).ToLower() == order)
-                    {
-                        result.Add(file);
-                    }
-                }
-            }
-            return result;
+            var orderedFiles =
+                from order in ordering
+                from file in files
+                let fileName = Path.GetFileName(file)
+                where !String.IsNullOrEmpty(fileName)
+                    && fileName.Equals(order, StringComparison.OrdinalIgnoreCase)
+                select file;
+
+            return orderedFiles;
         }
 
-        private List<string> GetOrdering(string path)
+        private static List<string> GetOrdering(string path)
+        {
+            var orderingFile = Path.Combine(path, "ordering.txt");
+            if (!File.Exists(orderingFile))
+            {
+                return new List<string>();
+            }
+
+            return ReadOrderingFile(orderingFile);
+        }
+
+        private static List<string> ReadOrderingFile(string orderingFile)
         {
             var ordering = new List<string>();
-            string orderingFile = path + "ordering.txt";
-            if (File.Exists(path + "ordering.txt"))
+            using (var sr = new StreamReader(orderingFile))
             {
-                using (var sr = new StreamReader(orderingFile))
+                for (string entry = sr.ReadLine(); entry != null; entry = sr.ReadLine())
                 {
-                    ordering.Add(sr.ReadLine().ToLower());
+                    entry = entry.Trim();
+                    if (!String.IsNullOrEmpty(entry))
+                    {
+                        ordering.Add(entry);
+                    }
                 }
             }
             return ordering;
