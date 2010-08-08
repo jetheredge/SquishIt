@@ -190,11 +190,11 @@ namespace SquishIt.Framework.Css
                                 renderedCssTag = String.Format(CssTemplate, mediaTag, path + "?r=" + hash);
                             }
                         }
+                        renderedCssTag = String.Concat(GetFilesForRemote(), renderedCssTag);
                         renderedCssFiles.Add(key, renderedCssTag);
                     }
                 }
             }
-            renderedCssFiles[key] = String.Concat(GetFilesForCdn(), renderedCssFiles[key]);
             return renderedCssFiles[key];
         }
 
@@ -310,7 +310,7 @@ namespace SquishIt.Framework.Css
             return ReadFile(file);
         }
 
-        private string GetFilesForCdn()
+        private string GetFilesForRemote()
         {
             var renderedCssFilesForCdn = new StringBuilder();
             foreach (var uri in remoteCssFiles)

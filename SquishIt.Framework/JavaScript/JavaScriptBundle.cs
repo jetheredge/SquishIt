@@ -63,7 +63,7 @@ namespace SquishIt.Framework.JavaScript
             return this;
         }
 
-        IJavaScriptBundleBuilder IJavaScriptBundleBuilder.AddRemote(string javaScriptPath, string cdnUri)
+        IJavaScriptBundleBuilder IJavaScriptBundleBuilder.AddRemote(string javaScriptPath, string remoteUri)
         {
             if (debugStatusReader.IsDebuggingEnabled())
             {
@@ -71,7 +71,7 @@ namespace SquishIt.Framework.JavaScript
             }
             else
             {
-                remoteJavaScriptFiles.Add(cdnUri);
+                remoteJavaScriptFiles.Add(remoteUri);
             }
             return this;
         }
@@ -176,11 +176,11 @@ namespace SquishIt.Framework.JavaScript
                                 renderedScriptTag = String.Format(scriptTemplate, ExpandAppRelativePath(renderTo) + "?r=" + hash);        
                             }
                         }
+                        renderedScriptTag = String.Concat(GetFilesForRemote(), renderedScriptTag);
                         renderedJavaScriptFiles.Add(key, renderedScriptTag);
                     }
                 }
             }
-            renderedJavaScriptFiles[key] = String.Concat(GetFilesForCdn(), renderedJavaScriptFiles[key]);
             return renderedJavaScriptFiles[key];
         }
 
@@ -245,7 +245,7 @@ namespace SquishIt.Framework.JavaScript
             return outputJavaScript;
         }
 
-        private string GetFilesForCdn()
+        private string GetFilesForRemote()
         {
             var renderedJavaScriptFilesForCdn = new StringBuilder();
             foreach (var uri in remoteJavaScriptFiles)
