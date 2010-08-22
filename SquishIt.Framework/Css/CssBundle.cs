@@ -16,7 +16,7 @@ namespace SquishIt.Framework.Css
         private List<string> cssFiles = new List<string>();
         private List<string> remoteCssFiles = new List<string>();
         private string mediaTag = "";
-        private CssCompressors cssCompressor = CssCompressors.YuiCompressor;
+        private CssCompressors cssCompressor = CssCompressors.MsCompressor;
         private bool renderOnlyIfOutputFileMissing = false;
         private bool processImports = false;
         private const string CssTemplate = "<link rel=\"stylesheet\" type=\"text/css\" {0} href=\"{1}\" />";
@@ -206,8 +206,10 @@ namespace SquishIt.Framework.Css
                     return NullCompressor.Identifier;
                 case CssCompressors.YuiCompressor:
                     return YuiCompressor.Identifier;
+                case CssCompressors.MsCompressor:
+                    return MsCompressor.Identifier;
                 default:
-                    return YuiCompressor.Identifier;
+                    return MsCompressor.Identifier;
             }
         }
 

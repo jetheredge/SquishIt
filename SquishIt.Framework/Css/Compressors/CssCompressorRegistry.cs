@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace SquishIt.Framework.Css.Compressors
 {
@@ -8,8 +11,16 @@ namespace SquishIt.Framework.Css.Compressors
 
         static CssCompressorRegistry()
         {
-            registry.Add(NullCompressor.Identifier, new NullCompressor());
-            registry.Add(YuiCompressor.Identifier, new YuiCompressor());
+            var minifierTypes = Assembly.GetAssembly(typeof(MsCompressor)).GetTypes()
+                .Where(t => t.Namespace != null && t.Namespace.StartsWith("SquishIt.Framework.Css.Compressors"))
+                .Where(t => !t.IsInterface && !t.IsAbstract)
+                .Where(t => typeof(ICssCompressor).IsAssignableFrom(t));
+
+            foreach (Type type in minifierTypes)
+            {
+                var compressor = (ICssCompressor)Activator.CreateInstance(type);
+                registry.Add(compressor.Identifier, compressor);
+            }
         }        
 
         public static ICssCompressor Get(string identifier)

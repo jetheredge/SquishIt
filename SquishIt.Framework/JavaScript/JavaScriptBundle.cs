@@ -14,7 +14,7 @@ namespace SquishIt.Framework.JavaScript
         private List<string> javaScriptFiles = new List<string>();
         private List<string> remoteJavaScriptFiles = new List<string>();
         //
-        private JavaScriptMinifiers javaScriptMinifier = JavaScriptMinifiers.Yui;
+        private JavaScriptMinifiers javaScriptMinifier = JavaScriptMinifiers.Ms;
         private const string scriptTemplate = "<script type=\"text/javascript\" src=\"{0}\"></script>";
         private bool renderOnlyIfOutputFileMissing = false;
 
@@ -196,8 +196,10 @@ namespace SquishIt.Framework.JavaScript
                     return ClosureMinifier.Identifier;
                 case JavaScriptMinifiers.Yui:
                     return YuiMinifier.Identifier;
+                case JavaScriptMinifiers.Ms:
+                    return MsMinifier.Identifier;
                 default:
-                    return JsMinMinifier.Identifier;
+                    return MsMinifier.Identifier;
             }
         }
 

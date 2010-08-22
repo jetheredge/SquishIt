@@ -52,6 +52,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AjaxMin">
+      <HintPath>..\tools\microsoft-ajax-minifer\AjaxMin.dll</HintPath>
+    </Reference>
     <Reference Include="dotless.Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\tools\less\dotless.Core.dll</HintPath>
@@ -78,6 +81,7 @@
   <ItemGroup>
     <Compile Include="Bundle.cs" />
     <Compile Include="BundleBase.cs" />
+    <Compile Include="Css\Compressors\MsCompressor.cs" />
     <Compile Include="Css\CssBundle.cs" />
     <Compile Include="Css\Compressors\CssCompressors.cs" />
     <Compile Include="Css\Compressors\CssCompressorRegistry.cs" />
@@ -107,6 +111,7 @@
     <Compile Include="JavaScript\Minifiers\JavaScriptMinifiers.cs" />
     <Compile Include="JavaScript\Minifiers\JsMinMinifier.cs" />
     <Compile Include="JavaScript\Minifiers\MinifierRegistry.cs" />
+    <Compile Include="JavaScript\Minifiers\MsMinifier.cs" />
     <Compile Include="JavaScript\Minifiers\NullMinifier.cs" />
     <Compile Include="JavaScript\Minifiers\YuiMinifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

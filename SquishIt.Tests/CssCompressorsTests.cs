@@ -40,5 +40,13 @@ namespace SquishIt.Tests
             var compressedCss = cssCompressor.CompressContent(css);
             Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em;}th{font-weight:normal;vertical-align:bottom;}.FloatRight{float:right;}.FloatLeft{float:left;}", compressedCss);
         }
+
+        [Test]
+        public void MsCompressorTest()
+        {
+            var cssCompressor = CssCompressorRegistry.Get(MsCompressor.Identifier);
+            var compressedCss = cssCompressor.CompressContent(css);
+            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", compressedCss);
+        }
     }
 }
