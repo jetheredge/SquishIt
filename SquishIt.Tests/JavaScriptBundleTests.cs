@@ -223,7 +223,7 @@ namespace SquishIt.Tests
 
             fileReaderFactory.SetContents(javaScript2);
             fileReaderFactory.SetFileExists(true);
-            javaScriptBundle.ClearCache();
+            javaScriptBundle.ClearTestingCache();
 
             javaScriptBundle
                 .Add("~/js/test.js")
@@ -247,7 +247,7 @@ namespace SquishIt.Tests
             fileReaderFactory.SetContents(javaScript2);
             fileReaderFactory.SetFileExists(true);
             fileWriterFactory.Files.Clear();
-            javaScriptBundle.ClearCache();
+            javaScriptBundle.ClearTestingCache();
 
             javaScriptBundle2
                 .Add("~/js/test.js")

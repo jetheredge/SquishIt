@@ -19,14 +19,12 @@
                 .AddRemote("~/js/jquery_1.4.2.js", "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js")
                 .Add("~/js/jquery-ui-1.8rc3.js")
                 //.WithMinifier(JavaScriptMinifiers.Closure)
-                .RenderOnlyIfOutputFileMissing()
                 //.ForceRelease()
                 //.ForceDebug()
                 .Render("~/js/combined_#.js") %>
                 <%
                     Bundle.JavaScript()
                         .Add("~/js/Menu.js")
-                        .RenderOnlyIfOutputFileMissing()
                         .AsNamed(Constants.JavaScript.MenuItems, "~/js/menu_#.js"); %> 
                 
     <%= Bundle.Css()
@@ -37,14 +35,12 @@
                 .Add("~/css/testdotless.css.less")
                 .WithMedia("screen")
                 .ForceRelease()
-                //.RenderOnlyIfOutputFileMissing()
                 .Render("~/css/combined_#.css") %>
                 
     <%= Bundle.Css()
                 .Add("~/css/extra/extra.css")
                 .WithMedia("screen")
                 .ForceRelease()
-                //.RenderOnlyIfOutputFileMissing()
                 .Render("~/combined_#.css") %>
      <%= Bundle.Css()
                 .Add("~/css/extra/extra.css")

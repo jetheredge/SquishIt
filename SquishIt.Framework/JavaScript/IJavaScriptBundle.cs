@@ -5,6 +5,6 @@ namespace SquishIt.Framework.JavaScript
         IJavaScriptBundleBuilder Add(string javaScriptPath);
         IJavaScriptBundleBuilder AddRemote(string localPath, string remotePath);
         string RenderNamed(string name);
-        void ClearCache();
+        void ClearTestingCache();
     }
 }
