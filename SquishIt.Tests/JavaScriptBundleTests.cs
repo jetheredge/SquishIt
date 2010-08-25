@@ -284,9 +284,9 @@ namespace SquishIt.Tests
             debugJavaScriptBundle
                 .Add("~/js/test.js")
                 .ForceRelease()
-                .AsNamed("Test", "~/js/output_forcerelease.js");
+                .AsNamed("ForceRelease", "~/js/output_forcerelease.js");
 
-            var tag = javaScriptBundle.RenderNamed("Test");
+            var tag = javaScriptBundle.RenderNamed("ForceRelease");
 
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_forcerelease.js?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
             Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[@"C:\js\output_forcerelease.js"]);

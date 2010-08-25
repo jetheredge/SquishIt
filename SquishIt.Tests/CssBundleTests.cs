@@ -642,9 +642,9 @@ namespace SquishIt.Tests
             cssBundle
                     .Add("~/css/temp.css")
                     .ForceRelease()
-                    .AsNamed("Test", "~/css/named_withforce.css");
+                    .AsNamed("TestForce", "~/css/named_withforce.css");
 
-            string tag = cssBundle.RenderNamed("Test");
+            string tag = cssBundle.RenderNamed("TestForce");
 
             Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", mockFileWriterFactory.Files[@"C:\css\named_withforce.css"]);
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\"  href=\"css/named_withforce.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);

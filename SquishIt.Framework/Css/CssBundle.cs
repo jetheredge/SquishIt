@@ -269,6 +269,7 @@ namespace SquishIt.Framework.Css
         {
             bundleCache.ClearTestingCache();
             debugCssFiles.Clear();
+            namedState.Clear();
         }
 
         private StringBuilder CompressCss(string outputFilePath, List<string> files, ICssCompressor compressor)

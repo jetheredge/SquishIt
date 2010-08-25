@@ -109,6 +109,7 @@ namespace SquishIt.Framework.JavaScript
         {
             debugJavaScriptFiles.Clear();
             bundleCache.ClearTestingCache();
+            namedState.Clear();
         }
 
         string IJavaScriptBundleBuilder.Render(string renderTo)
