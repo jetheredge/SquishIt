@@ -127,6 +127,7 @@
     <Compile Include="Files\IFileReaderFactory.cs" />
     <Compile Include="Files\IFileWriter.cs" />
     <Compile Include="Files\IFileWriterFactory.cs" />
+    <Compile Include="Utilities\NamedState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="closure-compiler\compiler.jar">

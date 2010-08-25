@@ -14,6 +14,7 @@ namespace SquishIt.Framework.Css
     {
         private static BundleCache bundleCache = new BundleCache();
         private static Dictionary<string, string> debugCssFiles = new Dictionary<string, string>();
+        private static Dictionary<string, NamedState> namedState = new Dictionary<string, NamedState>();
         private List<string> cssFiles = new List<string>();
         private List<string> remoteCssFiles = new List<string>();
         private List<string> dependentFiles = new List<string>();
@@ -87,6 +88,7 @@ namespace SquishIt.Framework.Css
 
         void ICssBundleBuilder.AsNamed(string name, string renderTo)
         {
+            namedState[name] = new NamedState(debugStatusReader.IsDebuggingEnabled(), renderTo);
             Render(renderTo, name);
         }
 
@@ -116,12 +118,12 @@ namespace SquishIt.Framework.Css
 
         string ICssBundle.RenderNamed(string name)
         {
-            if (debugStatusReader.IsDebuggingEnabled())
+            NamedState state = namedState[name];
+            if (state.Debug)
             {
                 return debugCssFiles[name];
             }
-
-            return bundleCache.GetContent(name);
+            return RenderRelease(name, state.RenderTo);
         }
 
         string ICssBundleBuilder.Render(string renderTo)
@@ -138,6 +140,11 @@ namespace SquishIt.Framework.Css
                 return result;
             }
 
+            return RenderRelease(key, renderTo);
+        }
+
+        private string RenderRelease(string key, string renderTo)
+        {
             if (!bundleCache.ContainsKey(key))
             {
                 lock (bundleCache)

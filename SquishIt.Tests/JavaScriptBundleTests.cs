@@ -277,5 +277,19 @@ namespace SquishIt.Tests
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/outputunder_E36D384488ABCF73BCCE650C627FB74F.js\"></script>", tag);
             Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[@"C:\js\outputunder_E36D384488ABCF73BCCE650C627FB74F.js"]);
         }
+
+        [Test]
+        public void CanCreateNamedBundleWithForcedRelease()
+        {
+            debugJavaScriptBundle
+                .Add("~/js/test.js")
+                .ForceRelease()
+                .AsNamed("Test", "~/js/output_forcerelease.js");
+
+            var tag = javaScriptBundle.RenderNamed("Test");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_forcerelease.js?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
+            Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[@"C:\js\output_forcerelease.js"]);
+        }
     }
 }

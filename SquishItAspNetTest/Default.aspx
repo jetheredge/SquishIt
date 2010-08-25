@@ -25,8 +25,8 @@
                 <%
                     Bundle.JavaScript()
                         .Add("~/js/Menu.js")
-                        .AsNamed(Constants.JavaScript.MenuItems, "~/js/menu_#.js"); %> 
-                
+                        .AsNamed(Constants.JavaScript.MenuItems, "~/js/menu_#.js"); %>
+                                
     <%= Bundle.Css()
                 .AddRemote("~/css/jquery-ui-1.8rc3.css", "http://ajax.googleapis.com/ajax/libs/jquery/jquery-ui-1.8rc3.css")
                 .Add("~/css/jquery-ui-1.8rc3.css")

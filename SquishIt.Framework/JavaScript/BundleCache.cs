@@ -37,9 +37,9 @@ namespace SquishIt.Framework.JavaScript
             if (HttpContext.Current != null)
             {
                 HttpContext.Current.Cache.Add("squishit_" + key, content, new CacheDependency(files.ToArray()),
-                                                Cache.NoAbsoluteExpiration,
-                                                new TimeSpan(0, 2, 0, 0),
-                                                CacheItemPriority.High,
+                                                Cache.NoAbsoluteExpiration, 
+                                                new TimeSpan(365, 0, 0, 0),
+                                                CacheItemPriority.NotRemovable,
                                                 null);
             }
             else

@@ -11,6 +11,7 @@ namespace SquishIt.Framework.JavaScript
     {
         private static BundleCache bundleCache = new BundleCache();
         private static Dictionary<string, string> debugJavaScriptFiles = new Dictionary<string, string>();
+        private static Dictionary<string, NamedState> namedState = new Dictionary<string, NamedState>();
         private List<string> javaScriptFiles = new List<string>();
         private List<string> remoteJavaScriptFiles = new List<string>();
         //
@@ -78,6 +79,7 @@ namespace SquishIt.Framework.JavaScript
 
         public void AsNamed(string name, string renderTo)
         {
+            namedState[name] = new NamedState(debugStatusReader.IsDebuggingEnabled(), renderTo);
             Render(renderTo, name);
         }
 
@@ -95,11 +97,12 @@ namespace SquishIt.Framework.JavaScript
 
         string IJavaScriptBundle.RenderNamed(string name)
         {
-            if (debugStatusReader.IsDebuggingEnabled())
+            NamedState state = namedState[name];
+            if (state.Debug)
             {
                 return debugJavaScriptFiles[name];
             }
-            return bundleCache.GetContent(name);
+            return RenderRelease(name, state.RenderTo);
         }
 
         public void ClearTestingCache()
@@ -122,6 +125,11 @@ namespace SquishIt.Framework.JavaScript
                 return output;
             }
 
+            return RenderRelease(key, renderTo);
+        }
+
+        private string RenderRelease(string key, string renderTo)
+        {
             if (!bundleCache.ContainsKey(key))
             {
                 lock (bundleCache)

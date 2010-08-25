@@ -572,6 +572,34 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanRenderCssFileWithImportStatementSingleQuotes()
+        {
+            string importCss =
+                                    @"
+                                    @import url('/css/other.css');
+                                    #header {
+                                        color: #4D926F;
+                                    }";
+
+            var mockDebugStatusReader = new StubDebugStatusReader(false);
+            var mockFileWriterFactory = new StubFileWriterFactory();
+            var mockFileReaderFactory = new StubFileReaderFactory();
+            mockFileReaderFactory.SetContents(importCss);
+            mockFileReaderFactory.SetContentsForFile(@"C:\css\other.css", "#footer{color:#ffffff}");
+
+            ICssBundle cssBundle = new CssBundle(mockDebugStatusReader,
+                                                 mockFileWriterFactory,
+                                                 mockFileReaderFactory);
+
+            cssBundle
+                .Add("/css/first.css")
+                .ProcessImports()
+                .Render("/css/processed_import_singlequotes.css");
+
+            Assert.AreEqual("#footer{color:#fff}#header{color:#4d926f}", mockFileWriterFactory.Files[@"C:\css\processed_import_singlequotes.css"]);
+        }
+
+        [Test]
         public void CanRenderCssFileWithImportStatementUppercase()
         {
             string importCss =
@@ -597,6 +625,29 @@ namespace SquishIt.Tests
                             .Render("/css/processed_import_uppercase.css");
 
             Assert.AreEqual("#footer{color:#fff}#header{color:#4d926f}", mockFileWriterFactory.Files[@"C:\css\processed_import_uppercase.css"]);
+        }
+
+        [Test]
+        public void CanCreateNamedBundleWithForceRelease()
+        {
+            var mockDebugStatusReader = new StubDebugStatusReader(true);
+            var mockFileWriterFactory = new StubFileWriterFactory();
+            var mockFileReaderFactory = new StubFileReaderFactory();
+            mockFileReaderFactory.SetContents(css);
+
+            ICssBundle cssBundle = new CssBundle(mockDebugStatusReader,
+                                                 mockFileWriterFactory,
+                                                 mockFileReaderFactory);
+
+            cssBundle
+                    .Add("~/css/temp.css")
+                    .ForceRelease()
+                    .AsNamed("Test", "~/css/named_withforce.css");
+
+            string tag = cssBundle.RenderNamed("Test");
+
+            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", mockFileWriterFactory.Files[@"C:\css\named_withforce.css"]);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\"  href=\"css/named_withforce.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
         }
     }
 }

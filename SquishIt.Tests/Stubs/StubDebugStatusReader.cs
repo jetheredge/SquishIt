@@ -26,12 +26,12 @@ namespace SquishIt.Tests.Stubs
 
         public void ForceDebug()
         {
-            isDebuggingEnabled = false;
+            isDebuggingEnabled = true;
         }
 
         public void ForceRelease()
         {
-            isDebuggingEnabled = true;
+            isDebuggingEnabled = false;
         }
 
         #endregion
