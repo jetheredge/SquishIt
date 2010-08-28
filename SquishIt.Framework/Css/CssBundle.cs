@@ -23,8 +23,8 @@ namespace SquishIt.Framework.Css
         private bool renderOnlyIfOutputFileMissing = false;
         private bool processImports = false;
         private const string CssTemplate = "<link rel=\"stylesheet\" type=\"text/css\" {0} href=\"{1}\" />";
-        private static readonly Regex importPattern = new Regex("@import +url\\(\"{0,1}(.*?)\"{0,1}\\);", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
+        private static readonly Regex importPattern = new Regex(@"@import +url\(([""']){0,1}(.*?)\1{0,1}\);", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        
         public CssBundle()
             : base(new FileWriterFactory(), new FileReaderFactory(), new DebugStatusReader())
         {
@@ -311,7 +311,7 @@ namespace SquishIt.Framework.Css
 
         private string ApplyFileContentsToMatchedImport(Match match)
         {
-            var file = ResolveAppRelativePathToFileSystem(match.Groups[1].Value);
+            var file = ResolveAppRelativePathToFileSystem(match.Groups[2].Value);
             dependentFiles.Add(file);
             return ReadFile(file);
         }
