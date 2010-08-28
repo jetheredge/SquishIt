@@ -157,8 +157,8 @@ namespace SquishIt.Tests
 
             string contents = mockFileWriterFactory.Files[@"C:\css\output.css"];
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\"  href=\"css/output.css?r=B6B2E7F6525BFBE6045FC275CD84C03F\" />", tag);   
-            Assert.AreEqual("#header,h2{color:#4d926f}", contents);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\"  href=\"css/output.css?r=15D3D9555DEFACE69D6AB9E7FD972638\" />", tag);
+            Assert.AreEqual("#header{color:#4d926f}h2{color:#4d926f}", contents);
         }
 
         [Test]
@@ -209,8 +209,8 @@ namespace SquishIt.Tests
 
             string contents = mockFileWriterFactory.Files[@"C:\css\output_less_dot_css.css"];
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\"  href=\"css/output_less_dot_css.css?r=B6B2E7F6525BFBE6045FC275CD84C03F\" />", tag);
-            Assert.AreEqual("#header,h2{color:#4d926f}", contents);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\"  href=\"css/output_less_dot_css.css?r=15D3D9555DEFACE69D6AB9E7FD972638\" />", tag);
+            Assert.AreEqual("#header{color:#4d926f}h2{color:#4d926f}", contents);
         }
 
         [Test]

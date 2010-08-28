@@ -23,7 +23,6 @@ namespace SquishIt.Framework.Css
         private bool renderOnlyIfOutputFileMissing = false;
         private bool processImports = false;
         private const string CssTemplate = "<link rel=\"stylesheet\" type=\"text/css\" {0} href=\"{1}\" />";
-        //Added to support @import
         private static readonly Regex importPattern = new Regex("@import +url\\(\"{0,1}(.*?)\"{0,1}\\);", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public CssBundle()
@@ -300,13 +299,9 @@ namespace SquishIt.Framework.Css
         private string ProcessLess(string file)
         {
             var content = ReadFile(file);
-            var engine = new ExtensibleEngine();
-            var md = new MinifierDecorator(engine);
-            var lso = new LessSourceObject();
-            lso.Cacheable = false;
-            lso.Content = content;
-            lso.Key = file;
-            return md.TransformToCss(lso);
+            var engineFactory = new EngineFactory();
+            var engine = engineFactory.GetEngine();
+            return engine.TransformToCss(content, file);
         }
 
         private string ProcessImport(string css)
