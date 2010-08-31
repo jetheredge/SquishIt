@@ -249,33 +249,24 @@ namespace SquishIt.Framework.JavaScript
         protected string MinifyJavaScript(List<string> files, string minifierType)
         {
             IJavaScriptCompressor minifier = MinifierRegistry.Get(minifierType);
-            return MinifyJavaScript(files, minifier).ToString();
+            return MinifyJavaScript(files, minifier);
         }
 
-        private StringBuilder MinifyJavaScript(List<string> files, IJavaScriptCompressor minifier)
+        private string MinifyJavaScript(List<string> files, IJavaScriptCompressor minifier)
         {
-            var outputJavaScript = new StringBuilder();
-            foreach (string file in files)
+            try
             {
-                try
+                var inputJavaScript = new StringBuilder();
+                foreach (var file in files)
                 {
-                    string content = ReadFile(file);
-                    if (file.EndsWith(".min.js"))
-                    {
-                        outputJavaScript.Append(content);
-                    }
-                    else
-                    {
-                        outputJavaScript.Append(minifier.CompressContent(content));
-                    }
+                    inputJavaScript.Append(ReadFile(file));
                 }
-                catch (Exception e)
-                {
-                    throw new Exception(string.Format("Error processing {0}: {1}", file, e.Message), e);
-                }
-
+                return minifier.CompressContent(inputJavaScript.ToString());
             }
-            return outputJavaScript;
+            catch (Exception e)
+            {
+                throw new Exception(string.Format("Error processing: {0}", e.Message), e);
+            }
         }
 
         private string GetFilesForRemote()
