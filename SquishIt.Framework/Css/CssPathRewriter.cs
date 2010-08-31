@@ -29,7 +29,7 @@ namespace SquishIt.Framework.Css
         
         private static IEnumerable<string> FindDistinctRelativePathsIn(string css)
         {
-            var matches = Regex.Matches(css, @"url\(""{0,1}(.+?)""{0,1}\)", RegexOptions.IgnoreCase);
+            var matches = Regex.Matches(css, @"url\([""']{0,1}(.+?)[""']{0,1}\)", RegexOptions.IgnoreCase);
             var matchesHash = new HashSet<string>();
             foreach (Match match in matches)
             {
