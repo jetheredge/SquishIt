@@ -79,6 +79,16 @@ namespace SquishIt.Framework
             return result;
         }
 
+        protected List<InputFile> GetEmbeddedResourcePaths(List<string> list)
+        {
+            var result = new List<InputFile>();
+            foreach (string file in list)
+            {
+                result.Add(new InputFile(file, EmbeddedResourceResolver.Type));
+            }
+            return result;
+        }
+
         protected string ResolveAppRelativePathToFileSystem(string file)
         {
             if (HttpContext.Current == null)

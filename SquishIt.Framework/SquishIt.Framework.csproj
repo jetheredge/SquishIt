@@ -95,6 +95,7 @@
     <Compile Include="Directories\IDirectoryEnumerator.cs" />
     <Compile Include="FileGZipper.cs" />
     <Compile Include="FileResolvers\DirectoryResolver.cs" />
+    <Compile Include="FileResolvers\EmbeddedResourceResolver.cs" />
     <Compile Include="FileResolvers\FileResolver.cs" />
     <Compile Include="FileResolvers\FileResolverCollection.cs" />
     <Compile Include="FileResolvers\HttpResolver.cs" />

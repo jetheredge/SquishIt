@@ -6,6 +6,7 @@ namespace SquishIt.Framework.JavaScript
     {
         IJavaScriptBundleBuilder Add(string path);
         IJavaScriptBundleBuilder AddRemote(string localPath, string remotePath);
+        IJavaScriptBundleBuilder AddEmbeddedResource(string localPath, string embeddedResourcePath);
         IJavaScriptBundleBuilder WithMinifier(JavaScriptMinifiers javaScriptMinifier);
         IJavaScriptBundleBuilder RenderOnlyIfOutputFileMissing();
         string Render(string renderTo);

@@ -140,6 +140,47 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanBundleCssWithEmbedded()
+        {
+            var mockDebugStatusReader = new StubDebugStatusReader(false);
+            var mockFileWriterFactory = new StubFileWriterFactory();
+            var mockFileReaderFactory = new StubFileReaderFactory();
+            mockFileReaderFactory.SetContents(css);
+
+            ICssBundle cssBundle = new CssBundle(mockDebugStatusReader,
+                                                 mockFileWriterFactory,
+                                                 mockFileReaderFactory);
+
+            string tag = cssBundle
+                            .AddEmbeddedResource("/css/first.css", "SquishIt.Tests://SquishIt.Tests.EmbeddedResource.Embedded.css")
+                            .Render("/css/output_embedded.css");
+
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\"  href=\"/css/output_embedded.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
+            Assert.AreEqual(1, mockFileWriterFactory.Files.Count);
+            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", mockFileWriterFactory.Files[@"C:\css\output_embedded.css"]);
+        }
+
+        [Test]
+        public void CanDebugBundleCssWithEmbedded()
+        {
+            var mockDebugStatusReader = new StubDebugStatusReader(true);
+            var mockFileWriterFactory = new StubFileWriterFactory();
+            var mockFileReaderFactory = new StubFileReaderFactory();
+            mockFileReaderFactory.SetContents(css);
+
+            ICssBundle cssBundle = new CssBundle(mockDebugStatusReader,
+                                                 mockFileWriterFactory,
+                                                 mockFileReaderFactory);
+
+            string tag = cssBundle
+                            .AddEmbeddedResource("/css/first.css", "SquishIt.Tests://SquishIt.Tests.EmbeddedResource.Embedded.css")
+                            .Render("/css/output_embedded.css");
+
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\"  href=\"/css/first.css\" />", tag);
+            Assert.AreEqual(0, mockFileWriterFactory.Files.Count);
+        }
+
+        [Test]
         public void CanBundleCssWithLess()
         {
             var mockDebugStatusReader = new StubDebugStatusReader(false);

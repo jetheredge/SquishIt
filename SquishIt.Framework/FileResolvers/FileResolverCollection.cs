@@ -11,6 +11,7 @@ namespace SquishIt.Framework.FileResolvers
             fileResolvers.Add(FileResolver.Type, new FileResolver());
             fileResolvers.Add(DirectoryResolver.Type, new DirectoryResolver());
             fileResolvers.Add(HttpResolver.Type, new HttpResolver());
+            fileResolvers.Add(EmbeddedResourceResolver.Type, new EmbeddedResourceResolver());
         }
 
         public IEnumerable<string> Resolve(string argument, string type)

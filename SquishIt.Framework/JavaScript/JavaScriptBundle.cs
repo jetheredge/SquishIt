@@ -14,6 +14,7 @@ namespace SquishIt.Framework.JavaScript
         private static Dictionary<string, NamedState> namedState = new Dictionary<string, NamedState>();
         private List<string> javaScriptFiles = new List<string>();
         private List<string> remoteJavaScriptFiles = new List<string>();
+        private List<string> embeddedResourceJavaScriptFiles = new List<string>();
         //
         private JavaScriptMinifiers javaScriptMinifier = JavaScriptMinifiers.Ms;
         private const string scriptTemplate = "<script type=\"text/javascript\" src=\"{0}\"></script>";
@@ -43,6 +44,30 @@ namespace SquishIt.Framework.JavaScript
             {
                 remoteJavaScriptFiles.Add(remotePath);
             }
+            return this;
+        }
+
+        void AddEmbeddedResource(string localPath, string embeddedResourcePath)
+        {
+            if (debugStatusReader.IsDebuggingEnabled())
+            {
+                javaScriptFiles.Add(localPath);
+            }
+            else
+            {
+                embeddedResourceJavaScriptFiles.Add(embeddedResourcePath);
+            }
+        }
+
+        IJavaScriptBundleBuilder IJavaScriptBundle.AddEmbeddedResource(string localPath, string embeddedResourcePath)
+        {
+            AddEmbeddedResource(localPath, embeddedResourcePath);
+            return this;
+        }
+
+        IJavaScriptBundleBuilder IJavaScriptBundleBuilder.AddEmbeddedResource(string localPath, string embeddedResourcePath)
+        {
+            AddEmbeddedResource(localPath, embeddedResourcePath);
             return this;
         }
 
@@ -142,6 +167,7 @@ namespace SquishIt.Framework.JavaScript
                         bool hashInFileName = false;
                         
                         List<string> files = GetFiles(GetFilePaths(javaScriptFiles));
+                        files.AddRange(GetFiles(GetEmbeddedResourcePaths(embeddedResourceJavaScriptFiles)));
                         string identifier = MapMinifierToIdentifier(javaScriptMinifier);
                         
                         if (renderTo.Contains("#"))

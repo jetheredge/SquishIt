@@ -25,6 +25,7 @@ namespace SquishIt
                                     { "file=", "File to include", v => fileArguments.Add(new InputFile(v, FileResolver.Type)) },
                                     { "dir=", "Directory to include", v => fileArguments.Add(new InputFile(v, DirectoryResolver.Type)) },
                                     { "http=", "Http file to include", v => fileArguments.Add(new InputFile(v, HttpResolver.Type)) },
+                                    { "embedded=", "Embedded resource to include", v => fileArguments.Add(new InputFile(v, EmbeddedResourceResolver.Type)) },
                                     { "out=", "Output file", v => outputFile = v },
                                     { "outgz=", "Output file", v => gzippedOutputFile = v },
                                     { "min=", "Optional minifier to use (jsmin, closure, yui)", v => minifierType = v.ToLower() }

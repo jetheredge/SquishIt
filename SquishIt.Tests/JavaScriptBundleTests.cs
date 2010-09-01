@@ -126,6 +126,28 @@ namespace SquishIt.Tests
             Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_3_2.js?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
             Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[@"C:\js\output_3_2.js"]);
         }
+
+        [Test]
+        public void CanBundleJavaScriptWithEmbeddedResource()
+        {
+            var tag = javaScriptBundle
+                .AddEmbeddedResource("~/js/test.js", "SquishIt.Tests://SquishIt.Tests.EmbeddedResource.Embedded.js")
+                .Render("~/js/output_Embedded.js");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_Embedded.js?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
+            Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[@"C:\js\output_Embedded.js"]);
+        }
+
+        [Test]
+        public void CanDebugBundleJavaScriptWithEmbeddedResource()
+        {
+            var tag = debugJavaScriptBundle
+                .AddEmbeddedResource("~/js/test.js", "SquishIt.Tests://SquishIt.Tests.EmbeddedResource.Embedded.js")
+                .Render("~/js/output_Embedded.js");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test.js\"></script>", tag);
+        }
+
         //-------------------------------------------------------------------------
         [Test]
         public void CanRenderDebugTags()
@@ -195,6 +217,18 @@ namespace SquishIt.Tests
 
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_7.js?r=8AA0EB763B23F6041902F56782ADB346\"></script>", tag);
             Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;}", fileWriterFactory.Files[@"C:\js\output_7.js"]);
+        }
+
+        [Test]
+        public void CanCreateEmbeddedBundleWithJsMinMinifer()
+        {
+            var tag = javaScriptBundle
+                .AddEmbeddedResource("~/js/test.js", "SquishIt.Tests://SquishIt.Tests.EmbeddedResource.Embedded.js")
+                .WithMinifier(JavaScriptMinifiers.JsMin)
+                .Render("~/js/output_embedded7.js");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_embedded7.js?r=8AA0EB763B23F6041902F56782ADB346\"></script>", tag);
+            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;}", fileWriterFactory.Files[@"C:\js\output_embedded7.js"]);
         }
 
         [Test]

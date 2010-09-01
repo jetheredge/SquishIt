@@ -17,6 +17,7 @@ namespace SquishIt.Framework.Css
         private static Dictionary<string, NamedState> namedState = new Dictionary<string, NamedState>();
         private List<string> cssFiles = new List<string>();
         private List<string> remoteCssFiles = new List<string>();
+        private List<string> embeddedResourceCssFiles = new List<string>();
         private List<string> dependentFiles = new List<string>();
         private string mediaTag = "";
         private CssCompressors cssCompressor = CssCompressors.MsCompressor;
@@ -64,6 +65,30 @@ namespace SquishIt.Framework.Css
             {
                 remoteCssFiles.Add(cdnUri);
             }
+            return this;
+        }
+
+        void AddEmbeddedResource(string localPath, string embeddedResourcePath)
+        {
+            if (debugStatusReader.IsDebuggingEnabled())
+            {
+                cssFiles.Add(localPath);
+            }
+            else
+            {
+                embeddedResourceCssFiles.Add(embeddedResourcePath);
+            }
+        }
+
+        ICssBundleBuilder ICssBundle.AddEmbeddedResource(string localPath, string embeddedResourcePath)
+        {
+            AddEmbeddedResource(localPath, embeddedResourcePath);
+            return this;
+        }
+
+        ICssBundleBuilder ICssBundleBuilder.AddEmbeddedResource(string localPath, string embeddedResourcePath)
+        {
+            AddEmbeddedResource(localPath, embeddedResourcePath);
             return this;
         }
 
@@ -158,6 +183,7 @@ namespace SquishIt.Framework.Css
 
                         string outputFile = ResolveAppRelativePathToFileSystem(renderTo);
                         List<string> files = GetFiles(GetFilePaths(cssFiles));
+                        files.AddRange(GetFiles(GetEmbeddedResourcePaths(embeddedResourceCssFiles)));
                         dependentFiles.AddRange(files);
                         string identifier = MapCompressorToIdentifier(cssCompressor);
 
