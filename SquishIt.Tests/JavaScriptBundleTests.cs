@@ -131,7 +131,7 @@ namespace SquishIt.Tests
         public void CanBundleJavaScriptWithEmbeddedResource()
         {
             var tag = javaScriptBundle
-                .AddEmbeddedResource("~/js/test.js", "SquishIt.Tests://SquishIt.Tests.EmbeddedResource.Embedded.js")
+                .AddEmbeddedResource("~/js/test.js", "SquishIt.Tests://EmbeddedResource.Embedded.js")
                 .Render("~/js/output_Embedded.js");
 
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_Embedded.js?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
@@ -142,7 +142,7 @@ namespace SquishIt.Tests
         public void CanDebugBundleJavaScriptWithEmbeddedResource()
         {
             var tag = debugJavaScriptBundle
-                .AddEmbeddedResource("~/js/test.js", "SquishIt.Tests://SquishIt.Tests.EmbeddedResource.Embedded.js")
+                .AddEmbeddedResource("~/js/test.js", "SquishIt.Tests://EmbeddedResource.Embedded.js")
                 .Render("~/js/output_Embedded.js");
 
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test.js\"></script>", tag);
@@ -223,7 +223,7 @@ namespace SquishIt.Tests
         public void CanCreateEmbeddedBundleWithJsMinMinifer()
         {
             var tag = javaScriptBundle
-                .AddEmbeddedResource("~/js/test.js", "SquishIt.Tests://SquishIt.Tests.EmbeddedResource.Embedded.js")
+                .AddEmbeddedResource("~/js/test.js", "SquishIt.Tests://EmbeddedResource.Embedded.js")
                 .WithMinifier(JavaScriptMinifiers.JsMin)
                 .Render("~/js/output_embedded7.js");
 

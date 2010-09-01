@@ -152,7 +152,7 @@ namespace SquishIt.Tests
                                                  mockFileReaderFactory);
 
             string tag = cssBundle
-                            .AddEmbeddedResource("/css/first.css", "SquishIt.Tests://SquishIt.Tests.EmbeddedResource.Embedded.css")
+                            .AddEmbeddedResource("/css/first.css", "SquishIt.Tests://EmbeddedResource.Embedded.css")
                             .Render("/css/output_embedded.css");
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\"  href=\"/css/output_embedded.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
@@ -173,7 +173,7 @@ namespace SquishIt.Tests
                                                  mockFileReaderFactory);
 
             string tag = cssBundle
-                            .AddEmbeddedResource("/css/first.css", "SquishIt.Tests://SquishIt.Tests.EmbeddedResource.Embedded.css")
+                            .AddEmbeddedResource("/css/first.css", "SquishIt.Tests://EmbeddedResource.Embedded.css")
                             .Render("/css/output_embedded.css");
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\"  href=\"/css/first.css\" />", tag);
