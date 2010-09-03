@@ -63,6 +63,34 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanRewritePathsInCssWithSingleQuotes()
+        {
+            string css = @"
+                            .header {
+                                background-image: url('../img/something.jpg');
+                            }
+
+                            .footer {
+                                background-image: url('../img/blah/somethingelse.jpg');
+                            }
+                          ";
+            string sourceFile = @"C:\somepath\somesubpath\myfile.css";
+            string targetFile = @"C:\somepath\output.css";
+            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css);
+
+            string expected = @"
+                            .header {
+                                background-image: url('img/something.jpg');
+                            }
+
+                            .footer {
+                                background-image: url('img/blah/somethingelse.jpg');
+                            }
+                          ";
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
         public void CanRewritePathsInCssWithUppercaseUrlStatement()
         {
             string css = @"

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using dotless.Core;
@@ -236,12 +237,12 @@ namespace SquishIt.Framework.Css
                 {
                     string outputFile = ResolveAppRelativePathToFileSystem(file);
                     string css = ProcessLess(outputFile);
-                    outputFile = outputFile.Substring(0, outputFile.Length - 5);
+                    outputFile += ".debug.css";
                     using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
                     {
                         fileWriter.Write(css);
                     }
-                    processedCssFiles.Add(file.Substring(0, file.Length - 5));
+                    processedCssFiles.Add(file + ".debug.css");
                 }
                 else
                 {
@@ -298,10 +299,20 @@ namespace SquishIt.Framework.Css
 
         private string ProcessLess(string file)
         {
-            var content = ReadFile(file);
-            var engineFactory = new EngineFactory();
-            var engine = engineFactory.GetEngine();
-            return engine.TransformToCss(content, file);
+            var currentDirectory = Environment.CurrentDirectory;
+
+            try
+            {
+                Environment.CurrentDirectory = Path.GetDirectoryName(file) ?? currentDirectory;
+                var content = ReadFile(file);
+                var engineFactory = new EngineFactory();
+                var engine = engineFactory.GetEngine();
+                return engine.TransformToCss(content, file);
+            }
+            finally
+            {
+                Environment.CurrentDirectory = currentDirectory;
+            }
         }
 
         private string ProcessImport(string css)
