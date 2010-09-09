@@ -4,5 +4,6 @@ namespace SquishIt.Framework.Css.Compressors
     {
         string Identifier { get; }
         string CompressContent(string content);
+        string CompressContent(string content, bool removeComments);
     }
 }

@@ -9,9 +9,14 @@ namespace SquishIt.Framework.Css.Compressors
             get { return "YuiCompressor"; }
         }
 
+        public string CompressContent(string content, bool removeComments)
+        {
+            return CssCompressor.Compress(content, 0, CssCompressionType.StockYuiCompressor, removeComments);
+        }
+
         public string CompressContent(string content)
         {
-            return CssCompressor.Compress(content, 0, CssCompressionType.StockYuiCompressor);
+            return CompressContent(content, true);
         }
 
         string ICssCompressor.Identifier

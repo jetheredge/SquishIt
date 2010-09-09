@@ -25,7 +25,8 @@ namespace SquishIt.Framework.Css
         private bool processImports = false;
         private const string CssTemplate = "<link rel=\"stylesheet\" type=\"text/css\" {0} href=\"{1}\" />";
         private static readonly Regex importPattern = new Regex(@"@import +url\(([""']){0,1}(.*?)\1{0,1}\);", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        
+        private bool _removeComments = true;
+
         public CssBundle()
             : base(new FileWriterFactory(), new FileReaderFactory(), new DebugStatusReader())
         {
@@ -131,6 +132,12 @@ namespace SquishIt.Framework.Css
             return Render(renderTo, renderTo);
         }
 
+        public ICssBundleBuilder DontRemoveComments()
+        {
+            _removeComments = false;
+            return this;
+        }
+
         private string Render(string renderTo, string key)
         {
             if (debugStatusReader.IsDebuggingEnabled())
@@ -177,7 +184,7 @@ namespace SquishIt.Framework.Css
                         }
                         else
                         {
-                            compressedCss = CompressCss(outputFile, files, identifier);
+                            compressedCss = CompressCss(outputFile, files, identifier, _removeComments);
                             WriteCssToFiles(compressedCss, outputFile, null);
                         }
                         
@@ -261,8 +268,13 @@ namespace SquishIt.Framework.Css
 
         public string CompressCss(string outputFilePath, List<string> files, string compressorType)
         {
+            return CompressCss(outputFilePath, files, compressorType, true);
+        }
+
+        public string CompressCss(string outputFilePath, List<string> files, string compressorType, bool removeComments)
+        {
             ICssCompressor compressor = CssCompressorRegistry.Get(compressorType);
-            return CompressCss(outputFilePath, files, compressor).ToString();
+            return CompressCss(outputFilePath, files, compressor, removeComments).ToString();
         }
 
         public void ClearCache()
@@ -271,8 +283,11 @@ namespace SquishIt.Framework.Css
             debugCssFiles.Clear();
             namedState.Clear();
         }
-
         private StringBuilder CompressCss(string outputFilePath, List<string> files, ICssCompressor compressor)
+        {
+            return CompressCss(outputFilePath, files, compressor, true);
+        }
+        private StringBuilder CompressCss(string outputFilePath, List<string> files, ICssCompressor compressor, bool removeComments)
         {
             var outputCss = new StringBuilder();
             foreach (string file in files)
@@ -292,7 +307,7 @@ namespace SquishIt.Framework.Css
                     css = ProcessImport(css);
                 }
                 css = CssPathRewriter.RewriteCssPaths(outputFilePath, file, css);
-                outputCss.Append(compressor.CompressContent(css));
+                outputCss.Append(compressor.CompressContent(css, removeComments));
             }
             return outputCss;
         }

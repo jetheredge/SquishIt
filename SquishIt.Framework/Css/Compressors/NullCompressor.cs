@@ -12,6 +12,11 @@ namespace SquishIt.Framework.Css.Compressors
             return content;
         }
 
+        public string CompressContent(string content, bool removeComments)
+        {
+            return content;
+        }
+
         string ICssCompressor.Identifier
         {
             get { return Identifier; }

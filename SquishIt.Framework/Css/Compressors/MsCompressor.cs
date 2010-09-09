@@ -15,6 +15,17 @@ namespace SquishIt.Framework.Css.Compressors
             return minifier.MinifyStyleSheet(content);
         }
 
+        public string CompressContent(string content, bool removeComments)
+        {
+
+            var settings = new CssSettings();
+            if(removeComments)
+                settings.CommentMode = CssComment.None;
+
+            var minifier = new Minifier();
+            return minifier.MinifyStyleSheet(content, settings);
+        }
+
         string ICssCompressor.Identifier
         {
             get { return Identifier; }
