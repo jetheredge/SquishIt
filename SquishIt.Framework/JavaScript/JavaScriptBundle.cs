@@ -20,11 +20,12 @@ namespace SquishIt.Framework.JavaScript
         private const string scriptTemplate = "<script type=\"text/javascript\" src=\"{0}\"></script>";
         private bool renderOnlyIfOutputFileMissing = false;
 
-        public JavaScriptBundle(): base(new FileWriterFactory(), new FileReaderFactory(), new DebugStatusReader())
+        public JavaScriptBundle(): base(new FileWriterFactory(), new FileReaderFactory(), new DebugStatusReader(), new CurrentDirectoryWrapper())
         {
         }
 
-        public JavaScriptBundle(IDebugStatusReader debugStatusReader, IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory): base(fileWriterFactory, fileReaderFactory, debugStatusReader)
+        public JavaScriptBundle(IDebugStatusReader debugStatusReader, IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, ICurrentDirectoryWrapper currentDirectoryWrapper): 
+            base(fileWriterFactory, fileReaderFactory, debugStatusReader, currentDirectoryWrapper)
         {
         }
 

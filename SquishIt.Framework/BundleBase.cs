@@ -14,12 +14,14 @@ namespace SquishIt.Framework
         protected IFileWriterFactory fileWriterFactory;
         protected IFileReaderFactory fileReaderFactory;
         protected IDebugStatusReader debugStatusReader;
+        protected ICurrentDirectoryWrapper currentDirectoryWrapper;
 
-        protected BundleBase(IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, IDebugStatusReader debugStatusReader)
+        protected BundleBase(IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, IDebugStatusReader debugStatusReader, ICurrentDirectoryWrapper currentDirectoryWrapper)
         {
             this.fileWriterFactory = fileWriterFactory;
             this.fileReaderFactory = fileReaderFactory;
             this.debugStatusReader = debugStatusReader;
+            this.currentDirectoryWrapper = currentDirectoryWrapper;
         }
 
         protected string RenderFiles(string template, IEnumerable<string> files)
@@ -91,11 +93,17 @@ namespace SquishIt.Framework
 
         protected string ResolveAppRelativePathToFileSystem(string file)
         {
+            // Remove query string
+            if (file.IndexOf('?') != -1)
+            {
+                file = file.Substring(0, file.IndexOf('?'));
+            }
+            
             if (HttpContext.Current == null)
             {
                 file = file.Replace("/", "\\").TrimStart('~').TrimStart('\\');
                 return @"C:\" + file.Replace("/", "\\");
-            }            
+            }
             return HttpContext.Current.Server.MapPath(file);
         }
 

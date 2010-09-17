@@ -74,8 +74,10 @@
     <Compile Include="CssCompressorsTests.cs" />
     <Compile Include="CssPathRewriterTests.cs" />
     <Compile Include="Directories\DirectoryEnumeratorTests.cs" />
+    <Compile Include="Helpers\CssBundleFactory.cs" />
     <Compile Include="JavaScriptBundleTests.cs" />
     <Compile Include="JavaScriptMinifierTests.cs" />
+    <Compile Include="Stubs\StubCurrentDirectoryWrapper.cs" />
     <Compile Include="Stubs\StubDebugStatusReader.cs" />
     <Compile Include="Stubs\StubDirectoryEnumerator.cs" />
     <Compile Include="Stubs\StubFileReader.cs" />
@@ -109,7 +111,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="EmbeddedResource\" />
+    <EmbeddedResource Include="EmbeddedResource\Embedded.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EmbeddedResource\Embedded.css" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

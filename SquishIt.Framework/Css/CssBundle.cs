@@ -28,12 +28,12 @@ namespace SquishIt.Framework.Css
         private static readonly Regex importPattern = new Regex(@"@import +url\(([""']){0,1}(.*?)\1{0,1}\);", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         
         public CssBundle()
-            : base(new FileWriterFactory(), new FileReaderFactory(), new DebugStatusReader())
+            : base(new FileWriterFactory(), new FileReaderFactory(), new DebugStatusReader(), new CurrentDirectoryWrapper())
         {
         }
 
-        public CssBundle(IDebugStatusReader debugStatusReader, IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory)
-            : base(fileWriterFactory, fileReaderFactory, debugStatusReader)
+        public CssBundle(IDebugStatusReader debugStatusReader, IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, ICurrentDirectoryWrapper currentDirectoryWrapper)
+            : base(fileWriterFactory, fileReaderFactory, debugStatusReader, currentDirectoryWrapper)
         {
         }
 
@@ -325,11 +325,9 @@ namespace SquishIt.Framework.Css
 
         private string ProcessLess(string file)
         {
-            var currentDirectory = Environment.CurrentDirectory;
-
             try
             {
-                Environment.CurrentDirectory = Path.GetDirectoryName(file) ?? currentDirectory;
+                currentDirectoryWrapper.SetCurrentDirectory(Path.GetDirectoryName(file));
                 var content = ReadFile(file);
                 var engineFactory = new EngineFactory();
                 var engine = engineFactory.GetEngine();
@@ -337,7 +335,7 @@ namespace SquishIt.Framework.Css
             }
             finally
             {
-                Environment.CurrentDirectory = currentDirectory;
+                currentDirectoryWrapper.Revert();
             }
         }
 

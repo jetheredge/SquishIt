@@ -1,0 +1,18 @@
+﻿li {
+    margin-bottom:0.1em;
+    margin-left:0;
+    margin-top:0.1em;
+}
+
+th {
+    font-weight:normal;
+    vertical-align:bottom;
+}
+
+.FloatRight {
+    float:right;
+}
+                                
+.FloatLeft {
+    float:left;
+}

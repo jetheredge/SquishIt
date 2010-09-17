@@ -100,6 +100,8 @@
     <Compile Include="FileResolvers\FileResolverCollection.cs" />
     <Compile Include="FileResolvers\HttpResolver.cs" />
     <Compile Include="FileResolvers\IFileResolver.cs" />
+    <Compile Include="Files\CurrentDirectoryWrapper.cs" />
+    <Compile Include="Files\ICurrentDirectoryWrapper.cs" />
     <Compile Include="Files\InputFile.cs" />
     <Compile Include="Css\ICssBundleBuilder.cs" />
     <Compile Include="Css\ICssBundle.cs" />
