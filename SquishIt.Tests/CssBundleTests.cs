@@ -381,6 +381,26 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanBundleCssWithCompressorInstance()
+        {
+            ICssBundle cssBundle = cssBundleFactory
+                .WithDebuggingEnabled(false)
+                .Create();
+
+            cssBundleFactory.FileReaderFactory.SetContents(css);
+
+            string tag = cssBundle
+                            .Add("/css/first.css")
+                            .Add("/css/second.css")
+                            .WithCompressor(new MsCompressor())
+                            .Render("/css/compressor_instance.css");
+
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\"  href=\"/css/compressor_instance.css?r=C33D1225DED9D889876CEE87754EE305\" />", tag);
+            Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
+            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[@"C:\css\compressor_instance.css"]);
+        }
+
+        [Test]
         public void CanRenderOnlyIfFileMissing()
         {
             ICssBundle cssBundle = cssBundleFactory

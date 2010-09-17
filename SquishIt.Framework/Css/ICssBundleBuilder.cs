@@ -9,6 +9,7 @@ namespace SquishIt.Framework.Css
         ICssBundleBuilder AddEmbeddedResource(string localPath, string embeddedResourcePath);
         ICssBundleBuilder WithMedia(string media);
         ICssBundleBuilder WithCompressor(CssCompressors cssCompressor);
+        ICssBundleBuilder WithCompressor(ICssCompressor cssCompressor);
         string Render(string renderTo);
         void AsNamed(string name, string renderTo);
         ICssBundleBuilder RenderOnlyIfOutputFileMissing();

@@ -21,7 +21,7 @@ namespace SquishIt.Framework.Css
         private List<string> embeddedResourceCssFiles = new List<string>();
         private List<string> dependentFiles = new List<string>();
         private string mediaTag = "";
-        private CssCompressors cssCompressor = CssCompressors.MsCompressor;
+        private ICssCompressor cssCompressorInstance = new MsCompressor();
         private bool renderOnlyIfOutputFileMissing = false;
         private bool processImports = false;
         private const string CssTemplate = "<link rel=\"stylesheet\" type=\"text/css\" {0} href=\"{1}\" />";
@@ -107,7 +107,14 @@ namespace SquishIt.Framework.Css
 
         public ICssBundleBuilder WithCompressor(CssCompressors cssCompressor)
         {
-            this.cssCompressor = cssCompressor;
+            
+            this.cssCompressorInstance = MapCompressorEnumToType(cssCompressor);
+            return this;
+        }
+
+        public ICssBundleBuilder WithCompressor(ICssCompressor cssCompressor)
+        {
+            this.cssCompressorInstance = cssCompressor;
             return this;
         }
 
@@ -186,12 +193,11 @@ namespace SquishIt.Framework.Css
                         List<string> files = GetFiles(GetFilePaths(cssFiles));
                         files.AddRange(GetFiles(GetEmbeddedResourcePaths(embeddedResourceCssFiles)));
                         dependentFiles.AddRange(files);
-                        string identifier = MapCompressorToIdentifier(cssCompressor);
 
                         if (renderTo.Contains("#"))
                         {
                             hashInFileName = true;
-                            compressedCss = CompressCss(outputFile, files, identifier);
+                            compressedCss = CompressCss(outputFile, files, cssCompressorInstance);
                             hash = Hasher.Create(compressedCss);
                             renderTo = renderTo.Replace("#", hash);
                             outputFile = outputFile.Replace("#", hash);
@@ -203,7 +209,7 @@ namespace SquishIt.Framework.Css
                         }
                         else
                         {
-                            compressedCss = CompressCss(outputFile, files, identifier);
+                            compressedCss = CompressCss(outputFile, files, cssCompressorInstance);
                             WriteCssToFiles(compressedCss, outputFile, null);
                         }
                         
@@ -237,19 +243,26 @@ namespace SquishIt.Framework.Css
             return bundleCache.GetContent(key);
         }
 
-        private string MapCompressorToIdentifier(CssCompressors compressors)
+        private ICssCompressor MapCompressorEnumToType(CssCompressors compressors)
         {
+            string compressor;
             switch (compressors)
             {
                 case CssCompressors.NullCompressor:
-                    return NullCompressor.Identifier;
+                    compressor = NullCompressor.Identifier;
+                    break;
                 case CssCompressors.YuiCompressor:
-                    return YuiCompressor.Identifier;
+                    compressor = YuiCompressor.Identifier;
+                    break;
                 case CssCompressors.MsCompressor:
-                    return MsCompressor.Identifier;
+                    compressor = MsCompressor.Identifier;
+                    break;
                 default:
-                    return MsCompressor.Identifier;
+                    compressor = MsCompressor.Identifier;
+                    break;
             }
+
+            return CssCompressorRegistry.Get(compressor);
         }
 
         private string RenderDebugCss()
@@ -285,12 +298,6 @@ namespace SquishIt.Framework.Css
             WriteGZippedFile(compressedCss, null);
         }
 
-        public string CompressCss(string outputFilePath, List<string> files, string compressorType)
-        {
-            ICssCompressor compressor = CssCompressorRegistry.Get(compressorType);
-            return CompressCss(outputFilePath, files, compressor).ToString();
-        }
-
         public void ClearCache()
         {
             bundleCache.ClearTestingCache();
@@ -298,7 +305,7 @@ namespace SquishIt.Framework.Css
             namedState.Clear();
         }
 
-        private StringBuilder CompressCss(string outputFilePath, List<string> files, ICssCompressor compressor)
+        private string CompressCss(string outputFilePath, List<string> files, ICssCompressor compressor)
         {
             var outputCss = new StringBuilder();
             foreach (string file in files)
@@ -320,7 +327,7 @@ namespace SquishIt.Framework.Css
                 css = CssPathRewriter.RewriteCssPaths(outputFilePath, file, css);
                 outputCss.Append(compressor.CompressContent(css));
             }
-            return outputCss;
+            return outputCss.ToString();
         }
 
         private string ProcessLess(string file)
