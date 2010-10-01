@@ -16,5 +16,6 @@ namespace SquishIt.Framework.Css
         ICssBundleBuilder ForceDebug();
         ICssBundleBuilder ForceRelease();
         ICssBundleBuilder ProcessImports();
+        ICssBundleBuilder WithAttribute(string name, string value);
     }
 }

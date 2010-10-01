@@ -2,23 +2,47 @@ using Microsoft.Ajax.Utilities;
 
 namespace SquishIt.Framework.JavaScript.Minifiers
 {
-	public class MsMinifier : IJavaScriptCompressor
+	public class MsMinifier : IJavaScriptMinifier
 	{
-		public static string Identifier
+	    private readonly CodeSettings codeSettings;
+	    private readonly string[] globalNames = new string[0];
+
+	    public static string Identifier
 		{
 			get { return "MsJavaScriptMinifier"; }
 		}
 
-		string IJavaScriptCompressor.Identifier
+		string IJavaScriptMinifier.Identifier
 		{
 			get { return Identifier; }
 		}
 
-		public string CompressContent(string content)
+	    public MsMinifier()
+	    {
+	    }
+
+	    public MsMinifier(CodeSettings codeSettings)
+	    {
+	        this.codeSettings = codeSettings;
+	    }
+
+	    public MsMinifier(CodeSettings codeSettings, string[] globalNames)
+	    {
+	        this.codeSettings = codeSettings;
+	        this.globalNames = globalNames;
+	    }
+
+	    public string CompressContent(string content)
 		{
 			var minifer = new Minifier();
-			var settings = new CodeSettings();
-			return minifer.MinifyJavaScript(content);
+            if (codeSettings != null)
+            {
+                return minifer.MinifyJavaScript(content, codeSettings, globalNames);
+            }
+            else
+            {
+                return minifer.MinifyJavaScript(content, globalNames);
+            }
 		}
 	}
 }

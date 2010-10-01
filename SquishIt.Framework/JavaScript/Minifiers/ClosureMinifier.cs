@@ -6,14 +6,14 @@ using System.Web;
 
 namespace SquishIt.Framework.JavaScript.Minifiers
 {
-    public class ClosureMinifier: IJavaScriptCompressor
+    public class ClosureMinifier: IJavaScriptMinifier
     {
         public static string Identifier
         {
             get { return "closure"; }
         }
 
-        string IJavaScriptCompressor.Identifier
+        string IJavaScriptMinifier.Identifier
         {
             get { return Identifier; }
         }

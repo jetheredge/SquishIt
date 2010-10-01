@@ -227,6 +227,18 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanCreateBundleWithJsMinMiniferByPassingInstance()
+        {
+            var tag = javaScriptBundle
+                .Add("~/js/test.js")
+                .WithMinifier(new JsMinMinifier())
+                .Render("~/js/output_jsmininstance.js");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_jsmininstance.js?r=8AA0EB763B23F6041902F56782ADB346\"></script>", tag);
+            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;}", fileWriterFactory.Files[@"C:\js\output_jsmininstance.js"]);
+        }
+
+        [Test]
         public void CanCreateEmbeddedBundleWithJsMinMinifer()
         {
             var tag = javaScriptBundle
@@ -331,6 +343,40 @@ namespace SquishIt.Tests
 
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_forcerelease.js?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
             Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[@"C:\js\output_forcerelease.js"]);
+        }
+
+        [Test]
+        public void CanBundleJavaScriptWithSingleAttribute()
+        {
+            var tag = javaScriptBundle
+                .Add("~/js/test.js")
+                .WithAttribute("charset", "utf-8")
+                .Render("~/js/output_att.js");
+
+            Assert.AreEqual("<script type=\"text/javascript\" charset=\"utf-8\" src=\"js/output_att.js?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
+        }
+
+        [Test]
+        public void CanBundleJavaScriptWithSingleMultipleAttributes()
+        {
+            var tag = javaScriptBundle
+                .Add("~/js/test.js")
+                .WithAttribute("charset", "utf-8")
+                .WithAttribute("other", "value")
+                .Render("~/js/output_att2.js");
+
+            Assert.AreEqual("<script type=\"text/javascript\" charset=\"utf-8\" other=\"value\" src=\"js/output_att2.js?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
+        }
+
+        [Test]
+        public void CanDebugBundleWithAttribute()
+        {
+            string tag = debugJavaScriptBundle
+                .Add("~/js/test1.js")
+                .Add("~/js/test2.js")
+                .WithAttribute("charset", "utf-8")
+                .Render("~/js/output_debugattr.js");
+            Assert.AreEqual("<script type=\"text/javascript\" charset=\"utf-8\" src=\"js/test1.js\"></script><script type=\"text/javascript\" charset=\"utf-8\" src=\"js/test2.js\"></script>", tag);
         }
     }
 }

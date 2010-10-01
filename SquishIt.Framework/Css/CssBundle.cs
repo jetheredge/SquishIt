@@ -20,13 +20,12 @@ namespace SquishIt.Framework.Css
         private List<string> remoteCssFiles = new List<string>();
         private List<string> embeddedResourceCssFiles = new List<string>();
         private List<string> dependentFiles = new List<string>();
-        private string mediaTag = "";
         private ICssCompressor cssCompressorInstance = new MsCompressor();
         private bool renderOnlyIfOutputFileMissing = false;
         private bool processImports = false;
-        private const string CssTemplate = "<link rel=\"stylesheet\" type=\"text/css\" {0} href=\"{1}\" />";
+        private const string CssTemplate = "<link rel=\"stylesheet\" type=\"text/css\" {0}href=\"{1}\" />";
         private static readonly Regex importPattern = new Regex(@"@import +url\(([""']){0,1}(.*?)\1{0,1}\);", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        
+
         public CssBundle()
             : base(new FileWriterFactory(), new FileReaderFactory(), new DebugStatusReader(), new CurrentDirectoryWrapper())
         {
@@ -101,7 +100,19 @@ namespace SquishIt.Framework.Css
 
         ICssBundleBuilder ICssBundleBuilder.WithMedia(string media)
         {
-            mediaTag = "media=\"" + media + "\"";
+            return WithAttribute("media", media);
+        }
+
+        public ICssBundleBuilder WithAttribute(string name, string value)
+        {
+            if (attributes.ContainsKey(name))
+            {
+                attributes[name] = value;
+            }
+            else
+            {
+                attributes.Add(name, value);
+            }
             return this;
         }
 
@@ -221,18 +232,18 @@ namespace SquishIt.Framework.Css
                         string renderedCssTag;
                         if (hashInFileName)
                         {
-                            renderedCssTag = FillTemplate(mediaTag, ExpandAppRelativePath(renderTo));
+                            renderedCssTag = FillTemplate(ExpandAppRelativePath(renderTo));
                         }
                         else
                         {
                             string path = ExpandAppRelativePath(renderTo);
                             if (path.Contains("?"))
                             {
-                                renderedCssTag = String.Format(CssTemplate, mediaTag, path + "&r=" + hash);
+                                renderedCssTag = FillTemplate(path + "&r=" + hash);
                             }
                             else
                             {
-                                renderedCssTag = String.Format(CssTemplate, mediaTag, path + "?r=" + hash);
+                                renderedCssTag = FillTemplate(path + "?r=" + hash);
                             }
                         }
                         renderedCssTag = String.Concat(GetFilesForRemote(), renderedCssTag);
@@ -267,8 +278,7 @@ namespace SquishIt.Framework.Css
 
         private string RenderDebugCss()
         {
-            string modifiedCssTemplate = String.Format(CssTemplate, mediaTag, "{0}");
-
+            string modifiedCssTemplate = FillTemplate("{0}");
             var processedCssFiles = new List<string>();
             foreach (string file in cssFiles)
             {
@@ -363,14 +373,14 @@ namespace SquishIt.Framework.Css
             var renderedCssFilesForCdn = new StringBuilder();
             foreach (var uri in remoteCssFiles)
             {
-                renderedCssFilesForCdn.Append(FillTemplate(mediaTag, uri));
+                renderedCssFilesForCdn.Append(FillTemplate(uri));
             }
             return renderedCssFilesForCdn.ToString();
         }
 
-        private string FillTemplate(string mediaTag, string path)
+        private string FillTemplate(string path)
         {
-            return String.Format(CssTemplate, mediaTag, path);
+            return String.Format(CssTemplate, GetAdditionalAttributes(), path);
         }
     }
 }

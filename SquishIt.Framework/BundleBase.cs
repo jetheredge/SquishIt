@@ -15,6 +15,7 @@ namespace SquishIt.Framework
         protected IFileReaderFactory fileReaderFactory;
         protected IDebugStatusReader debugStatusReader;
         protected ICurrentDirectoryWrapper currentDirectoryWrapper;
+        protected Dictionary<string, string> attributes = new Dictionary<string, string>();
 
         protected BundleBase(IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, IDebugStatusReader debugStatusReader, ICurrentDirectoryWrapper currentDirectoryWrapper)
         {
@@ -130,6 +131,19 @@ namespace SquishIt.Framework
         protected bool FileExists(string file)
         {
             return fileReaderFactory.FileExists(file);
+        }
+
+        protected string GetAdditionalAttributes()
+        {
+            var result = new StringBuilder();
+            foreach (string key in attributes.Keys)
+            {
+                result.Append(key);
+                result.Append("=\"");
+                result.Append(attributes[key]);
+                result.Append("\" ");
+            }
+            return result.ToString();
         }
     }
 }
