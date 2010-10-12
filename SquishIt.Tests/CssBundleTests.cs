@@ -661,5 +661,38 @@ namespace SquishIt.Tests
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" test=\"other\" href=\"/css/first.css\" /><link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" test=\"other\" href=\"/css/second.css\" />", tag);
         }
+
+        [Test]
+        public void CanCreateCachedBundle()
+        {
+            ICssBundle cssBundle = cssBundleFactory
+                .WithDebuggingEnabled(false)
+                .WithContents(css)
+                .Create();
+
+            string tag = cssBundle
+                .Add("~/css/temp.css")
+                .AsCached("TestCached", "~/static/css/TestCached.css");
+
+            string contents = cssBundle.RenderCached("TestCached");
+
+            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", contents);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"static/css/TestCached.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
+        }
+
+        [Test]
+        public void CanCreateCachedBundleInDebugMode()
+        {
+            ICssBundle cssBundle = cssBundleFactory
+                .WithDebuggingEnabled(true)
+                .WithContents(css)
+                .Create();
+
+            string tag = cssBundle
+                .Add("~/css/temp.css")
+                .AsCached("TestCached", "~/static/css/TestCached.css");
+
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/temp.css\" />", tag);
+        }
     }
 }

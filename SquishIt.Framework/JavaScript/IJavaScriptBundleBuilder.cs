@@ -15,5 +15,6 @@ namespace SquishIt.Framework.JavaScript
         IJavaScriptBundleBuilder ForceDebug();
         IJavaScriptBundleBuilder ForceRelease();
         IJavaScriptBundleBuilder WithAttribute(string name, string value);
+        string AsCached(string name, string cssPath);
     }
 }

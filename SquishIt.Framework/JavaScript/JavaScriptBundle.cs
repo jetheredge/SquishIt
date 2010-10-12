@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.JavaScript.Minifiers;
+using SquishIt.Framework.Renderers;
 using SquishIt.Framework.Utilities;
 
 namespace SquishIt.Framework.JavaScript
@@ -15,10 +16,11 @@ namespace SquishIt.Framework.JavaScript
         private List<string> javaScriptFiles = new List<string>();
         private List<string> remoteJavaScriptFiles = new List<string>();
         private List<string> embeddedResourceJavaScriptFiles = new List<string>();
-        //
+        
         private IJavaScriptMinifier javaScriptMinifier = new MsMinifier();
         private const string scriptTemplate = "<script type=\"text/javascript\" {0}src=\"{1}\"></script>";
         private bool renderOnlyIfOutputFileMissing = false;
+        private string cachePrefix = "js";
 
         public JavaScriptBundle(): base(new FileWriterFactory(), new FileReaderFactory(), new DebugStatusReader(), new CurrentDirectoryWrapper())
         {
@@ -147,7 +149,9 @@ namespace SquishIt.Framework.JavaScript
             {
                 return debugJavaScriptFiles[name];
             }
-            return RenderRelease(name, state.RenderTo);
+
+            string outputFile = ResolveAppRelativePathToFileSystem(state.RenderTo);
+            return RenderRelease(name, state.RenderTo, new FileRenderer(fileWriterFactory));
         }
 
         public void ClearTestingCache()
@@ -155,6 +159,12 @@ namespace SquishIt.Framework.JavaScript
             debugJavaScriptFiles.Clear();
             bundleCache.ClearTestingCache();
             namedState.Clear();
+        }
+
+        public string RenderCached(string name)
+        {
+            var cacheRenderer = new CacheRenderer(cachePrefix, name);
+            return cacheRenderer.Get(name);
         }
 
         string IJavaScriptBundleBuilder.Render(string renderTo)
@@ -168,8 +178,16 @@ namespace SquishIt.Framework.JavaScript
             {
                 return RenderDebug(key);
             }
+            return RenderRelease(key, renderTo, new FileRenderer(fileWriterFactory));
+        }
 
-            return RenderRelease(key, renderTo);
+        public string AsCached(string name, string jsPath)
+        {
+            if (debugStatusReader.IsDebuggingEnabled())
+            {
+                return RenderDebug(name);
+            }
+            return RenderRelease(name, jsPath, new CacheRenderer(cachePrefix, name));
         }
 
         private string RenderDebug(string key)
@@ -180,7 +198,7 @@ namespace SquishIt.Framework.JavaScript
             return output;
         }
 
-        private string RenderRelease(string key, string renderTo)
+        private string RenderRelease(string key, string renderTo, IRenderer renderer)
         {
             if (!bundleCache.ContainsKey(key))
             {
@@ -203,7 +221,7 @@ namespace SquishIt.Framework.JavaScript
                             renderTo = renderTo.Replace("#", hash);
                         }
 
-                        string outputFile = ResolveAppRelativePathToFileSystem(renderTo);
+                        var outputFile = ResolveAppRelativePathToFileSystem(renderTo);
 
                         string minifiedJavaScript;
                         if (renderOnlyIfOutputFileMissing && FileExists(outputFile))
@@ -213,7 +231,7 @@ namespace SquishIt.Framework.JavaScript
                         else
                         {
                             minifiedJavaScript = MinifyJavaScript(files, javaScriptMinifier);
-                            WriteJavaScriptToFile(minifiedJavaScript, outputFile, null);
+                            renderer.Render(minifiedJavaScript, outputFile);
                         }
                         
                         if (hash == null)
@@ -271,12 +289,6 @@ namespace SquishIt.Framework.JavaScript
                     break;
             }
             return MinifierRegistry.Get(minifier);
-        }
-
-        protected void WriteJavaScriptToFile(string minifiedJavaScript, string outputFile, string gzippedOutputFile)
-        {
-            WriteFiles(minifiedJavaScript, outputFile);
-            WriteGZippedFile(minifiedJavaScript, null);
         }
 
         private string MinifyJavaScript(List<string> files, IJavaScriptMinifier minifier)

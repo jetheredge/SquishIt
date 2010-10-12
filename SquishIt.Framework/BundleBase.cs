@@ -47,21 +47,6 @@ namespace SquishIt.Framework
             return files;
         }
 
-        protected void WriteFiles(string output, string outputFile)
-        {
-            if (outputFile != null)
-            {
-                using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
-                {
-                    fileWriter.Write(output); 
-                }
-            }
-            else
-            {
-                Console.WriteLine(output);
-            }
-        }
-
         protected void WriteGZippedFile(string outputJavaScript, string gzippedOutputFile)
         {
             if (gzippedOutputFile != null)

@@ -7,5 +7,6 @@ namespace SquishIt.Framework.Css
         ICssBundleBuilder AddEmbeddedResource(string localPath, string embeddedResourcePath);
         string RenderNamed(string name);
         void ClearCache();
+        string RenderCached(string name);
     }
 }

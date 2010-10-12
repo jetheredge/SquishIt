@@ -119,6 +119,9 @@
     <Compile Include="JavaScript\Minifiers\NullMinifier.cs" />
     <Compile Include="JavaScript\Minifiers\YuiMinifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Renderers\CacheRenderer.cs" />
+    <Compile Include="Renderers\FileRenderer.cs" />
+    <Compile Include="Renderers\IRenderer.cs" />
     <Compile Include="Utilities\DebugStatusReader.cs" />
     <Compile Include="Files\FileReader.cs" />
     <Compile Include="Files\FileReaderFactory.cs" />

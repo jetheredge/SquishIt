@@ -70,7 +70,9 @@
     <Content Include="js\jquery-ui-1.8rc3.js" />
     <Content Include="js\Menu.js" />
     <Content Include="Menu.ascx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
