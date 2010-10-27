@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using SquishIt.Framework.Css;
+using SquishIt.Framework.Utilities;
 
 namespace SquishIt.Tests
 {
@@ -9,6 +10,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanRewritePathsInCssWhenAbsolutePathsAreUsed()
         {
+            ICssAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -21,7 +23,7 @@ namespace SquishIt.Tests
                                                     ";
             string sourceFile = @"C:\somepath\somesubpath\myfile.css";
             string targetFile = @"C:\somepath\someothersubpath\evendeeper\output.css";
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css);
+            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"
@@ -39,6 +41,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanRewritePathsInCssWhenDifferentFoldersAtSameDepth()
         {
+            ICssAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -51,7 +54,7 @@ namespace SquishIt.Tests
                                                     ";
             string sourceFile = @"C:\somepath\somesubpath\myfile.css";
             string targetFile = @"C:\somepath\someothersubpath\output.css";
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css);
+            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"
@@ -69,6 +72,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanRewritePathsInCssWhenMultipleOccurencesOfSameRelativePathAppearInOneCssFile()
         {
+            ICssAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .ui-icon { background-image: url(images/ui-icons_222222_256x240.png); }
@@ -80,7 +84,7 @@ namespace SquishIt.Tests
             string sourceFile = @"C:\somepath\somesubpath\someothersubpath\myfile.css";
             string targetFile = @"C:\somepath\somesubpath\myfile.css";
 
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css);
+            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"
@@ -96,6 +100,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanRewritePathsInCssWhenMultipleOccurencesOfSameRelativePathAppearInOneCssFileWithDifferentCasing()
         {
+            ICssAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .ui-icon { background-image: url(images/ui-icons_222222_256x240.png); }
@@ -106,7 +111,7 @@ namespace SquishIt.Tests
             string sourceFile = @"C:\somepath\somesubpath\someothersubpath\myfile.css";
             string targetFile = @"C:\somepath\somesubpath\myfile.css";
 
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css);
+            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"
@@ -121,6 +126,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanRewritePathsInCssWhenOutputFolderDeeper()
         {
+            ICssAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -133,7 +139,7 @@ namespace SquishIt.Tests
                                                     ";
             string sourceFile = @"C:\somepath\somesubpath\myfile.css";
             string targetFile = @"C:\somepath\someothersubpath\evendeeper\output.css";
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css);
+            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"
@@ -151,6 +157,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanRewritePathsInCssWhenOutputFolderMoreShallow()
         {
+            ICssAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -163,7 +170,7 @@ namespace SquishIt.Tests
                                                     ";
             string sourceFile = @"C:\somepath\somesubpath\myfile.css";
             string targetFile = @"C:\somepath\output.css";
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css);
+            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"
@@ -181,6 +188,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanRewritePathsInCssWhenRelativePathsInsideOfSourceFolder()
         {
+            ICssAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -193,7 +201,7 @@ namespace SquishIt.Tests
                                                     ";
             string sourceFile = @"C:\somepath\somesubpath\myfile.css";
             string targetFile = @"C:\somepath\someothersubpath\evendeeper\output.css";
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css);
+            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"
@@ -211,6 +219,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanRewritePathsInCssWithQuotes()
         {
+            ICssAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -223,7 +232,7 @@ namespace SquishIt.Tests
                                                     ";
             string sourceFile = @"C:\somepath\somesubpath\myfile.css";
             string targetFile = @"C:\somepath\output.css";
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css);
+            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"
@@ -241,6 +250,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanRewritePathsInCssWithSingleQuotes()
         {
+            ICssAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -253,7 +263,7 @@ namespace SquishIt.Tests
                                                     ";
             string sourceFile = @"C:\somepath\somesubpath\myfile.css";
             string targetFile = @"C:\somepath\output.css";
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css);
+            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"
@@ -271,6 +281,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanRewritePathsInCssWithUppercaseUrlStatement()
         {
+            ICssAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -283,7 +294,7 @@ namespace SquishIt.Tests
                                                     ";
             string sourceFile = @"C:\somepath\somesubpath\myfile.css";
             string targetFile = @"C:\somepath\output.css";
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css);
+            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"
@@ -301,6 +312,7 @@ namespace SquishIt.Tests
         [Test]
         public void WontRewriteAbsolutePaths()
         {
+            ICssAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -313,7 +325,7 @@ namespace SquishIt.Tests
                                                     ";
             string sourceFile = @"C:\somepath\somesubpath\myfile.css";
             string targetFile = @"C:\somepath\someothersubpath\evendeeper\output.css";
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css);
+            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"

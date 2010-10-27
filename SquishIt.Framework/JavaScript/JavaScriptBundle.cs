@@ -22,12 +22,13 @@ namespace SquishIt.Framework.JavaScript
         private bool renderOnlyIfOutputFileMissing = false;
         private string cachePrefix = "js";
 
-        public JavaScriptBundle(): base(new FileWriterFactory(), new FileReaderFactory(), new DebugStatusReader(), new CurrentDirectoryWrapper())
+        public JavaScriptBundle()
+            : base(new FileWriterFactory(new RetryableFileOpener(), 5), new FileReaderFactory(new RetryableFileOpener(), 5), new DebugStatusReader(), new CurrentDirectoryWrapper(), new Hasher(new RetryableFileOpener()))
         {
         }
 
-        public JavaScriptBundle(IDebugStatusReader debugStatusReader, IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, ICurrentDirectoryWrapper currentDirectoryWrapper): 
-            base(fileWriterFactory, fileReaderFactory, debugStatusReader, currentDirectoryWrapper)
+        public JavaScriptBundle(IDebugStatusReader debugStatusReader, IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, ICurrentDirectoryWrapper currentDirectoryWrapper, IHasher hasher): 
+            base(fileWriterFactory, fileReaderFactory, debugStatusReader, currentDirectoryWrapper, hasher)
         {
         }
 
@@ -217,7 +218,7 @@ namespace SquishIt.Framework.JavaScript
                         {
                             hashInFileName = true;
                             compressedJavaScript = MinifyJavaScript(files, javaScriptMinifier);
-                            hash = Hasher.Create(compressedJavaScript);
+                            hash = hasher.GetHash(compressedJavaScript);
                             renderTo = renderTo.Replace("#", hash);
                         }
 
@@ -236,7 +237,7 @@ namespace SquishIt.Framework.JavaScript
                         
                         if (hash == null)
                         {
-                            hash = Hasher.Create(minifiedJavaScript);                            
+                            hash = hasher.GetHash(minifiedJavaScript);                            
                         }
                         
                         string renderedScriptTag;

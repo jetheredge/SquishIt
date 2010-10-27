@@ -1,6 +1,4 @@
-using System;
 using System.IO;
-using System.Text;
 
 namespace SquishIt.Framework.Files
 {
@@ -8,9 +6,9 @@ namespace SquishIt.Framework.Files
     {
         private readonly StreamReader streamReader;
 
-        public FileReader(string file)
+        public FileReader(IRetryableFileOpener retryableFileOpener, int numberOfRetries, string file)
         {
-            streamReader = new StreamReader(file, Encoding.UTF8);
+            streamReader = retryableFileOpener.OpenTextStreamReader(file, numberOfRetries);
         }
 
         public string ReadLine()

@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssetsFileHasherTests.cs" />
     <Compile Include="CssBundleTests.cs" />
     <Compile Include="CssCompressorsTests.cs" />
     <Compile Include="CssPathRewriterTests.cs" />
@@ -82,10 +83,12 @@
     <Compile Include="Stubs\StubDirectoryEnumerator.cs" />
     <Compile Include="Stubs\StubFileReader.cs" />
     <Compile Include="Stubs\StubFileReaderFactory.cs" />
+    <Compile Include="Stubs\StubFileResolver.cs" />
     <Compile Include="Stubs\StubFileWriter.cs" />
     <Compile Include="Stubs\StubFileWriterFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileResolverTests.cs" />
+    <Compile Include="Stubs\StubHasher.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SquishIt.Framework\SquishIt.Framework.csproj">

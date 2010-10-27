@@ -1,5 +1,4 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="SquishItAspNetTest._Default" %>
-<%@ Import Namespace="SquishIt.Framework.JavaScript.Minifiers"%>
 <%@ Import Namespace="SquishIt.Framework"%>
 <%@ Import Namespace="SquishItAspNetTest" %>
 
@@ -17,7 +16,7 @@
                 //Any files added with AddCdn will be placed above the
                 //generated compressed file.
                 .AddRemote("~/js/jquery_1.4.2.js", "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js")
-                .Add("~/js/jquery-ui-1.8rc3.js")
+                .Add("~/js/jquery-ui-1.8.5.js")
                 //.WithMinifier(JavaScriptMinifiers.Closure)
                 //.ForceRelease()
                 //.ForceDebug()
@@ -28,11 +27,12 @@
                         .AsNamed(Constants.JavaScript.MenuItems, "~/js/menu_#.js"); %>
                                 
     <%= Bundle.Css()
-                .AddRemote("~/css/jquery-ui-1.8rc3.css", "http://ajax.googleapis.com/ajax/libs/jquery/jquery-ui-1.8rc3.css")
-                .Add("~/css/jquery-ui-1.8rc3.css")
+                .AddRemote("~/css/jquery-ui-1.8.5.css", "http://ajax.googleapis.com/ajax/libs/jquery/jquery-ui-1.8.5.css")
+                .Add("~/css/jquery-ui-1.8.5.css")
                 .Add("~/css/CodeThinked.css")
                 .Add("~/css/extra/extra.css")
                 .Add("~/css/testdotless.css.less")
+                .AppendHashForAssets()
                 .WithMedia("screen")
                 .ForceRelease()
                 .Render("~/css/combined_#.css") %>

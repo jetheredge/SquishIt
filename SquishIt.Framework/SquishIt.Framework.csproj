@@ -122,17 +122,22 @@
     <Compile Include="Renderers\CacheRenderer.cs" />
     <Compile Include="Renderers\FileRenderer.cs" />
     <Compile Include="Renderers\IRenderer.cs" />
+    <Compile Include="Utilities\CssAssetsFileHasher.cs" />
     <Compile Include="Utilities\DebugStatusReader.cs" />
     <Compile Include="Files\FileReader.cs" />
     <Compile Include="Files\FileReaderFactory.cs" />
     <Compile Include="Files\FileWriter.cs" />
     <Compile Include="Files\FileWriterFactory.cs" />
+    <Compile Include="Files\IRetryableFileOpener.cs" />
+    <Compile Include="Files\RetryableFileOpener.cs" />
     <Compile Include="Utilities\Hasher.cs" />
+    <Compile Include="Utilities\ICssAssetsFileHasher.cs" />
     <Compile Include="Utilities\IDebugStatusReader.cs" />
     <Compile Include="Files\IFileReader.cs" />
     <Compile Include="Files\IFileReaderFactory.cs" />
     <Compile Include="Files\IFileWriter.cs" />
     <Compile Include="Files\IFileWriterFactory.cs" />
+    <Compile Include="Utilities\IHasher.cs" />
     <Compile Include="Utilities\NamedState.cs" />
   </ItemGroup>
   <ItemGroup>

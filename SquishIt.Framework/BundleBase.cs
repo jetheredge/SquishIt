@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using System.Web;
 using SquishIt.Framework.FileResolvers;
@@ -15,14 +14,16 @@ namespace SquishIt.Framework
         protected IFileReaderFactory fileReaderFactory;
         protected IDebugStatusReader debugStatusReader;
         protected ICurrentDirectoryWrapper currentDirectoryWrapper;
+        protected IHasher hasher;
         protected Dictionary<string, string> attributes = new Dictionary<string, string>();
 
-        protected BundleBase(IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, IDebugStatusReader debugStatusReader, ICurrentDirectoryWrapper currentDirectoryWrapper)
+        protected BundleBase(IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, IDebugStatusReader debugStatusReader, ICurrentDirectoryWrapper currentDirectoryWrapper, IHasher hasher)
         {
             this.fileWriterFactory = fileWriterFactory;
             this.fileReaderFactory = fileReaderFactory;
             this.debugStatusReader = debugStatusReader;
             this.currentDirectoryWrapper = currentDirectoryWrapper;
+            this.hasher = hasher;
         }
 
         protected string RenderFiles(string template, IEnumerable<string> files)

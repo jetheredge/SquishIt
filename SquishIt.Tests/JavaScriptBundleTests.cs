@@ -1,7 +1,9 @@
 using NUnit.Framework;
+using SquishIt.Framework.Files;
 using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.JavaScript.Minifiers;
 using SquishIt.Framework.Tests.Mocks;
+using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Stubs;
 
 namespace SquishIt.Tests
@@ -30,37 +32,45 @@ namespace SquishIt.Tests
 				private StubFileWriterFactory fileWriterFactory;
 				private StubFileReaderFactory fileReaderFactory;
 				private StubCurrentDirectoryWrapper currentDirectoryWrapper;
+                private IHasher hasher;
 
 				[SetUp]
 				public void Setup()
 				{
-						var nonDebugStatusReader = new StubDebugStatusReader(false);
-						var debugStatusReader = new StubDebugStatusReader(true);
-						fileWriterFactory = new StubFileWriterFactory();
-						fileReaderFactory = new StubFileReaderFactory();
-						currentDirectoryWrapper = new StubCurrentDirectoryWrapper();
+					var nonDebugStatusReader = new StubDebugStatusReader(false);
+					var debugStatusReader = new StubDebugStatusReader(true);
+					fileWriterFactory = new StubFileWriterFactory();
+					fileReaderFactory = new StubFileReaderFactory();
+					currentDirectoryWrapper = new StubCurrentDirectoryWrapper();
 
-						fileReaderFactory.SetContents(javaScript);
+                    var retryableFileOpener = new RetryableFileOpener();
+                    hasher = new Hasher(retryableFileOpener);
 
-						javaScriptBundle = new JavaScriptBundle(nonDebugStatusReader,
-																										fileWriterFactory,
-																										fileReaderFactory,
-																										currentDirectoryWrapper);
+					fileReaderFactory.SetContents(javaScript);
 
-						javaScriptBundle2 = new JavaScriptBundle(nonDebugStatusReader,
-																										fileWriterFactory,
-																										fileReaderFactory,
-																										currentDirectoryWrapper);
+					javaScriptBundle = new JavaScriptBundle(nonDebugStatusReader,
+																									fileWriterFactory,
+																									fileReaderFactory,
+																									currentDirectoryWrapper,
+                                                                                                    hasher);
 
-						debugJavaScriptBundle = new JavaScriptBundle(debugStatusReader, 
-																												fileWriterFactory, 
-																												fileReaderFactory,
-																												currentDirectoryWrapper);
+					javaScriptBundle2 = new JavaScriptBundle(nonDebugStatusReader,
+																									fileWriterFactory,
+																									fileReaderFactory,
+																									currentDirectoryWrapper,
+                                                                                                    hasher);
 
-						debugJavaScriptBundle2 = new JavaScriptBundle(debugStatusReader,
-																												fileWriterFactory,
-																												fileReaderFactory,
-																												currentDirectoryWrapper);
+					debugJavaScriptBundle = new JavaScriptBundle(debugStatusReader, 
+																											fileWriterFactory, 
+																											fileReaderFactory,
+																											currentDirectoryWrapper,
+                                                                                                            hasher);
+
+					debugJavaScriptBundle2 = new JavaScriptBundle(debugStatusReader,
+																											fileWriterFactory,
+																											fileReaderFactory,
+																											currentDirectoryWrapper,
+                                                                                                            hasher);
 				}
 
 				[Test]

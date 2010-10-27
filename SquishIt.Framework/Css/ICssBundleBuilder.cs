@@ -18,5 +18,7 @@ namespace SquishIt.Framework.Css
         ICssBundleBuilder ProcessImports();
         ICssBundleBuilder WithAttribute(string name, string value);
         string AsCached(string name, string cssPath);
+        ICssBundleBuilder AppendHashForAssets();
+        ICssBundleBuilder HashQueryStringNamed(string hashQueryStringKeyName);
     }
 }

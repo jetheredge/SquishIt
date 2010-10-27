@@ -2,7 +2,9 @@ using SquishIt.Framework;
 using NUnit.Framework;
 using SquishIt.Framework.Css;
 using SquishIt.Framework.Css.Compressors;
+using SquishIt.Framework.Files;
 using SquishIt.Framework.Tests.Mocks;
+using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Helpers;
 using SquishIt.Tests.Stubs;
 
@@ -54,17 +56,21 @@ namespace SquishIt.Tests
                                     }";
 
         private CssBundleFactory cssBundleFactory;
+        private IHasher hasher;
 
         [SetUp]
         public void Setup()
         {
             cssBundleFactory = new CssBundleFactory();
+            var retryableFileOpener = new RetryableFileOpener();
+            hasher = new Hasher(retryableFileOpener);
         }
 
         [Test]
         public void CanBundleCss()
         {
             ICssBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .Create();
 
@@ -84,9 +90,10 @@ namespace SquishIt.Tests
         public void CanBundleCssWithQueryStringParameter()
         {
             ICssBundle cssBundle = cssBundleFactory
-                                        .WithContents(css)
-                                        .WithDebuggingEnabled(false)
-                                        .Create();
+                .WithHasher(hasher)
+                .WithContents(css)
+                .WithDebuggingEnabled(false)
+                .Create();
 
             string tag = cssBundle
                             .Add("/css/first.css")
@@ -100,6 +107,7 @@ namespace SquishIt.Tests
         public void CanBundleCssWithMediaAttribute()
         {
             ICssBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .WithContents(css)
                 .Create();
@@ -119,6 +127,7 @@ namespace SquishIt.Tests
         public void CanBundleCssWithRemote()
         {
             ICssBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .WithContents(css)
                 .Create();
@@ -137,6 +146,7 @@ namespace SquishIt.Tests
         public void CanBundleCssWithEmbedded()
         {
             ICssBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .WithContents(css)
                 .Create();
@@ -170,6 +180,7 @@ namespace SquishIt.Tests
         public void CanBundleCssWithLess()
         {
             ICssBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .WithContents(cssLess)
                 .Create();
@@ -213,6 +224,7 @@ namespace SquishIt.Tests
         public void CanBundleCssWithLessWithLessDotCssFileExtension()
         {
             ICssBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .WithContents(cssLess)
                 .Create();
@@ -231,6 +243,7 @@ namespace SquishIt.Tests
         public void CanCreateNamedBundle()
         {
             ICssBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .WithContents(css)
                 .Create();
@@ -267,6 +280,7 @@ namespace SquishIt.Tests
         public void CanCreateNamedBundleWithMediaAttribute()
         {
             ICssBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .WithContents(css)
                 .Create();
@@ -346,6 +360,7 @@ namespace SquishIt.Tests
         public void CanBundleCssWithCompressorAttribute()
         {
             ICssBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
                  .WithDebuggingEnabled(false)
                  .WithContents(css)
                  .Create();
@@ -365,6 +380,7 @@ namespace SquishIt.Tests
         public void CanBundleCssWithNullCompressorAttribute()
         {
             ICssBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .WithContents(css)
                 .Create();
@@ -384,6 +400,7 @@ namespace SquishIt.Tests
         public void CanBundleCssWithCompressorInstance()
         {
             ICssBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .Create();
 
@@ -466,6 +483,7 @@ namespace SquishIt.Tests
         public void CanRenderCssFileWithHashInFileName()
         {
             ICssBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .WithContents(css)
                 .Create();
@@ -611,6 +629,7 @@ namespace SquishIt.Tests
         public void CanCreateNamedBundleWithForceRelease()
         {
             ICssBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
                 .WithDebuggingEnabled(true)
                 .WithContents(css)
                 .Create();
@@ -630,6 +649,7 @@ namespace SquishIt.Tests
         public void CanBundleCssWithArbitraryAttributes()
         {
             ICssBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
                     .WithDebuggingEnabled(false)
                     .WithContents(css)
                     .Create();
@@ -666,6 +686,7 @@ namespace SquishIt.Tests
         public void CanCreateCachedBundle()
         {
             ICssBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .WithContents(css)
                 .Create();

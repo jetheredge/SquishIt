@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using dotless.Core;
 using SquishIt.Framework.Css.Compressors;
+using SquishIt.Framework.FileResolvers;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.Renderers;
@@ -24,17 +25,19 @@ namespace SquishIt.Framework.Css
         private ICssCompressor cssCompressorInstance = new MsCompressor();
         private bool renderOnlyIfOutputFileMissing = false;
         private bool processImports = false;
+        private bool appendHashForAssets = false;
+        private string hashQueryStringKeyName = "r";
         private const string CssTemplate = "<link rel=\"stylesheet\" type=\"text/css\" {0}href=\"{1}\" />";
         private static readonly Regex importPattern = new Regex(@"@import +url\(([""']){0,1}(.*?)\1{0,1}\);", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private string cachePrefix = "css";
 
         public CssBundle()
-            : base(new FileWriterFactory(), new FileReaderFactory(), new DebugStatusReader(), new CurrentDirectoryWrapper())
+            : base(new FileWriterFactory(new RetryableFileOpener(), 5), new FileReaderFactory(new RetryableFileOpener(), 5), new DebugStatusReader(), new CurrentDirectoryWrapper(), new Hasher(new RetryableFileOpener()))
         {
         }
 
-        public CssBundle(IDebugStatusReader debugStatusReader, IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, ICurrentDirectoryWrapper currentDirectoryWrapper)
-            : base(fileWriterFactory, fileReaderFactory, debugStatusReader, currentDirectoryWrapper)
+        public CssBundle(IDebugStatusReader debugStatusReader, IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, ICurrentDirectoryWrapper currentDirectoryWrapper, IHasher hasher)
+            : base(fileWriterFactory, fileReaderFactory, debugStatusReader, currentDirectoryWrapper, hasher)
         {
         }
 
@@ -161,6 +164,18 @@ namespace SquishIt.Framework.Css
             return this;
         }
 
+        public ICssBundleBuilder AppendHashForAssets()
+        {
+            appendHashForAssets = true;
+            return this;
+        }
+
+        public ICssBundleBuilder HashQueryStringNamed(string hashQueryStringKeyName)
+        {
+            this.hashQueryStringKeyName = hashQueryStringKeyName;
+            return this;
+        }
+
         string ICssBundle.RenderNamed(string name)
         {
             NamedState state = namedState[name];
@@ -221,8 +236,8 @@ namespace SquishIt.Framework.Css
                         if (renderTo.Contains("#"))
                         {
                             hashInFileName = true;
-                            compressedCss = CompressCss(outputFile, files, cssCompressorInstance);
-                            hash = Hasher.Create(compressedCss);
+                            compressedCss = CompressCss(outputFile, files, cssCompressorInstance, appendHashForAssets);
+                            hash = hasher.GetHash(compressedCss);
                             renderTo = renderTo.Replace("#", hash);
                             outputFile = outputFile.Replace("#", hash);
                         }
@@ -233,13 +248,13 @@ namespace SquishIt.Framework.Css
                         }
                         else
                         {
-                            compressedCss = CompressCss(outputFile, files, cssCompressorInstance);
+                            compressedCss = CompressCss(outputFile, files, cssCompressorInstance, appendHashForAssets);
                             renderer.Render(compressedCss, outputFile);
                         }
                         
                         if (hash == null)
                         {
-                            hash = Hasher.Create(compressedCss);
+                            hash = hasher.GetHash(compressedCss);
                         }
 
                         string renderedCssTag;
@@ -252,11 +267,11 @@ namespace SquishIt.Framework.Css
                             string path = ExpandAppRelativePath(renderTo);
                             if (path.Contains("?"))
                             {
-                                renderedCssTag = FillTemplate(path + "&r=" + hash);
+                                renderedCssTag = FillTemplate(path + "&" + hashQueryStringKeyName + "=" + hash);
                             }
                             else
                             {
-                                renderedCssTag = FillTemplate(path + "?r=" + hash);
+                                renderedCssTag = FillTemplate(path + "?" + hashQueryStringKeyName + "=" + hash);
                             }
                         }
                         renderedCssTag = String.Concat(GetFilesForRemote(), renderedCssTag);
@@ -328,7 +343,7 @@ namespace SquishIt.Framework.Css
             return cacheRenderer.Get(name);
         }
 
-        private string CompressCss(string outputFilePath, List<string> files, ICssCompressor compressor)
+        private string CompressCss(string outputFilePath, List<string> files, ICssCompressor compressor, bool appendHashToAssets)
         {
             var outputCss = new StringBuilder();
             foreach (string file in files)
@@ -347,7 +362,16 @@ namespace SquishIt.Framework.Css
                 {
                     css = ProcessImport(css);
                 }
-                css = CssPathRewriter.RewriteCssPaths(outputFilePath, file, css);
+
+                ICssAssetsFileHasher fileHasher = null;
+
+                if (appendHashToAssets)
+                {
+                    var fileResolver = new FileResolver();
+                    fileHasher = new CssAssetsFileHasher(hashQueryStringKeyName, fileResolver, hasher);
+                }
+
+                css = CssPathRewriter.RewriteCssPaths(outputFilePath, file, css, fileHasher);
                 outputCss.Append(compressor.CompressContent(css));
             }
             return outputCss.ToString();
