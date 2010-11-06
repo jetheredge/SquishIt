@@ -170,7 +170,8 @@ namespace SquishIt.Framework.JavaScript
 
         string IJavaScriptBundleBuilder.Render(string renderTo)
         {
-            return Render(renderTo, renderTo);
+            string key = renderTo + string.Join(",", javaScriptFiles.ToArray()).GetHashCode().ToString();
+            return Render(renderTo, key);
         }
 
         private string Render(string renderTo, string key)

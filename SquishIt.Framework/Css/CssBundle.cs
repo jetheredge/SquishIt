@@ -188,7 +188,8 @@ namespace SquishIt.Framework.Css
 
         string ICssBundleBuilder.Render(string renderTo)
         {
-            return Render(renderTo, renderTo);
+            string key = renderTo + string.Join(",", cssFiles.ToArray()).GetHashCode().ToString();
+            return Render(renderTo, key);
         }
 
         private string Render(string renderTo, string key)
