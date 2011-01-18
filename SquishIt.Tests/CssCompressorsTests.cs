@@ -38,7 +38,7 @@ namespace SquishIt.Tests
         {
             var cssCompressor = CssCompressorRegistry.Get(YuiCompressor.Identifier);
             var compressedCss = cssCompressor.CompressContent(css);
-            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em;}th{font-weight:normal;vertical-align:bottom;}.FloatRight{float:right;}.FloatLeft{float:left;}", compressedCss);
+            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}\nth{font-weight:normal;vertical-align:bottom}\n.FloatRight{float:right}\n.FloatLeft{float:left}", compressedCss);
         }
 
         [Test]

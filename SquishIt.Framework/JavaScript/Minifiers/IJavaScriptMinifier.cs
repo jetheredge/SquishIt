@@ -1,6 +1,6 @@
 namespace SquishIt.Framework.JavaScript.Minifiers
 {
-    public interface IJavaScriptCompressor
+    public interface IJavaScriptMinifier
     {
         string Identifier { get; }        
         string CompressContent(string content);

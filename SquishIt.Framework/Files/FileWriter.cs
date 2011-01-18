@@ -1,6 +1,5 @@
-using System;
 using System.IO;
-using System.Text;
+using SquishIt.Framework.Utilities;
 
 namespace SquishIt.Framework.Files
 {
@@ -8,9 +7,9 @@ namespace SquishIt.Framework.Files
     {
         private readonly StreamWriter streamWriter;
 
-        public FileWriter(string file)
+        public FileWriter(IRetryableFileOpener retryableFileOpener, int numberOfRetries, string file)
         {
-            streamWriter = new StreamWriter(file, false, Encoding.UTF8);
+            streamWriter = retryableFileOpener.OpenTextStreamWriter(file, numberOfRetries, false);
         }
 
         public void Write(string value)

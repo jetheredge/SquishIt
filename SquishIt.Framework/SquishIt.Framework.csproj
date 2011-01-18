@@ -95,10 +95,13 @@
     <Compile Include="Directories\IDirectoryEnumerator.cs" />
     <Compile Include="FileGZipper.cs" />
     <Compile Include="FileResolvers\DirectoryResolver.cs" />
+    <Compile Include="FileResolvers\EmbeddedResourceResolver.cs" />
     <Compile Include="FileResolvers\FileResolver.cs" />
     <Compile Include="FileResolvers\FileResolverCollection.cs" />
     <Compile Include="FileResolvers\HttpResolver.cs" />
     <Compile Include="FileResolvers\IFileResolver.cs" />
+    <Compile Include="Files\CurrentDirectoryWrapper.cs" />
+    <Compile Include="Files\ICurrentDirectoryWrapper.cs" />
     <Compile Include="Files\InputFile.cs" />
     <Compile Include="Css\ICssBundleBuilder.cs" />
     <Compile Include="Css\ICssBundle.cs" />
@@ -108,7 +111,7 @@
     <Compile Include="JavaScript\JavaScriptBundle.cs" />
     <Compile Include="JavaScript\jsmin\JavaScriptMinifier.cs" />
     <Compile Include="JavaScript\Minifiers\ClosureMinifier.cs" />
-    <Compile Include="JavaScript\Minifiers\IJavaScriptCompressor.cs" />
+    <Compile Include="JavaScript\Minifiers\IJavaScriptMinifier.cs" />
     <Compile Include="JavaScript\Minifiers\JavaScriptMinifiers.cs" />
     <Compile Include="JavaScript\Minifiers\JsMinMinifier.cs" />
     <Compile Include="JavaScript\Minifiers\MinifierRegistry.cs" />
@@ -116,17 +119,25 @@
     <Compile Include="JavaScript\Minifiers\NullMinifier.cs" />
     <Compile Include="JavaScript\Minifiers\YuiMinifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Renderers\CacheRenderer.cs" />
+    <Compile Include="Renderers\FileRenderer.cs" />
+    <Compile Include="Renderers\IRenderer.cs" />
+    <Compile Include="Utilities\CssAssetsFileHasher.cs" />
     <Compile Include="Utilities\DebugStatusReader.cs" />
     <Compile Include="Files\FileReader.cs" />
     <Compile Include="Files\FileReaderFactory.cs" />
     <Compile Include="Files\FileWriter.cs" />
     <Compile Include="Files\FileWriterFactory.cs" />
+    <Compile Include="Files\IRetryableFileOpener.cs" />
+    <Compile Include="Files\RetryableFileOpener.cs" />
     <Compile Include="Utilities\Hasher.cs" />
+    <Compile Include="Utilities\ICssAssetsFileHasher.cs" />
     <Compile Include="Utilities\IDebugStatusReader.cs" />
     <Compile Include="Files\IFileReader.cs" />
     <Compile Include="Files\IFileReaderFactory.cs" />
     <Compile Include="Files\IFileWriter.cs" />
     <Compile Include="Files\IFileWriterFactory.cs" />
+    <Compile Include="Utilities\IHasher.cs" />
     <Compile Include="Utilities\NamedState.cs" />
   </ItemGroup>
   <ItemGroup>

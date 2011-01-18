@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using SquishIt.Framework.Utilities;
 
@@ -9,8 +8,7 @@ namespace SquishIt.Framework.Css
 {
     public class CssPathRewriter
     {
-
-        public static string RewriteCssPaths(string outputPath, string sourcePath, string css)
+        public static string RewriteCssPaths(string outputPath, string sourcePath, string css, ICssAssetsFileHasher cssAssetsFileHasher)
         {
             var sourceUri = new Uri(Path.GetDirectoryName(sourcePath) + "/", UriKind.Absolute);
             var outputUri = new Uri(Path.GetDirectoryName(outputPath) + "/", UriKind.Absolute);
@@ -24,6 +22,21 @@ namespace SquishIt.Framework.Css
                 
                 css = css.Replace(relativePath , resolvedOutput.OriginalString);    
             }
+
+            if (cssAssetsFileHasher != null)
+            {
+                var localRelativePathsThatExist = FindDistinctLocalRelativePathsThatExist(css);
+
+                foreach (string localRelativePathThatExist in localRelativePathsThatExist)
+                {
+                    var localRelativePathThatExistWithFileHash = cssAssetsFileHasher.AppendFileHash(outputPath, localRelativePathThatExist);
+
+                    if (localRelativePathThatExist != localRelativePathThatExistWithFileHash)
+                    {
+                        css = css.Replace(localRelativePathThatExist, localRelativePathThatExistWithFileHash);
+                    }
+                }
+            }
             return css;
         }
         
@@ -34,14 +47,30 @@ namespace SquishIt.Framework.Css
             foreach (Match match in matches)
             {
                 var path = match.Groups[1].Captures[0].Value;
-                if (!path.StartsWith("/"))
+                if (!path.StartsWith("/") && !path.StartsWith("http://") && !path.StartsWith("https://"))
                 {
                     if (matchesHash.Add(path))
                     {
                         yield return path;
                     }
                 }
+            }
+        }
 
+        private static IEnumerable<string> FindDistinctLocalRelativePathsThatExist(string css)
+        {
+            var matches = Regex.Matches(css, @"url\([""']{0,1}(.+?)[""']{0,1}\)", RegexOptions.IgnoreCase);
+            var matchesHash = new HashSet<string>();
+            foreach (Match match in matches)
+            {
+                var path = match.Groups[1].Captures[0].Value;
+                if (!path.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    if (matchesHash.Add(path))
+                    {
+                        yield return path;
+                    }
+                }
             }
         }
     }

@@ -2,14 +2,14 @@
 
 namespace SquishIt.Framework.JavaScript.Minifiers
 {
-    public class NullMinifier: IJavaScriptCompressor
+    public class NullMinifier: IJavaScriptMinifier
     {
         public static string Identifier
         {
             get { return "null"; }
         }
 
-        string IJavaScriptCompressor.Identifier
+        string IJavaScriptMinifier.Identifier
         {
             get { return Identifier; }
         }

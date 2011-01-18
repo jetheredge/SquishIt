@@ -3,14 +3,14 @@ using SquishIt.Framework.JavaScript.jsmin;
 
 namespace SquishIt.Framework.JavaScript.Minifiers
 {
-    public class JsMinMinifier: IJavaScriptCompressor
+    public class JsMinMinifier: IJavaScriptMinifier
     {
         public static string Identifier
         {
             get { return "jsmin"; }
         }
 
-        string IJavaScriptCompressor.Identifier
+        string IJavaScriptMinifier.Identifier
         {
             get { return Identifier; }
         }

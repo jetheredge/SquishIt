@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using System.Web;
 using SquishIt.Framework.FileResolvers;
@@ -14,12 +13,17 @@ namespace SquishIt.Framework
         protected IFileWriterFactory fileWriterFactory;
         protected IFileReaderFactory fileReaderFactory;
         protected IDebugStatusReader debugStatusReader;
+        protected ICurrentDirectoryWrapper currentDirectoryWrapper;
+        protected IHasher hasher;
+        protected Dictionary<string, string> attributes = new Dictionary<string, string>();
 
-        protected BundleBase(IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, IDebugStatusReader debugStatusReader)
+        protected BundleBase(IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, IDebugStatusReader debugStatusReader, ICurrentDirectoryWrapper currentDirectoryWrapper, IHasher hasher)
         {
             this.fileWriterFactory = fileWriterFactory;
             this.fileReaderFactory = fileReaderFactory;
             this.debugStatusReader = debugStatusReader;
+            this.currentDirectoryWrapper = currentDirectoryWrapper;
+            this.hasher = hasher;
         }
 
         protected string RenderFiles(string template, IEnumerable<string> files)
@@ -44,21 +48,6 @@ namespace SquishIt.Framework
             return files;
         }
 
-        protected void WriteFiles(string output, string outputFile)
-        {
-            if (outputFile != null)
-            {
-                using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
-                {
-                    fileWriter.Write(output); 
-                }
-            }
-            else
-            {
-                Console.WriteLine(output);
-            }
-        }
-
         protected void WriteGZippedFile(string outputJavaScript, string gzippedOutputFile)
         {
             if (gzippedOutputFile != null)
@@ -79,13 +68,29 @@ namespace SquishIt.Framework
             return result;
         }
 
+        protected List<InputFile> GetEmbeddedResourcePaths(List<string> list)
+        {
+            var result = new List<InputFile>();
+            foreach (string file in list)
+            {
+                result.Add(new InputFile(file, EmbeddedResourceResolver.Type));
+            }
+            return result;
+        }
+
         protected string ResolveAppRelativePathToFileSystem(string file)
         {
+            // Remove query string
+            if (file.IndexOf('?') != -1)
+            {
+                file = file.Substring(0, file.IndexOf('?'));
+            }
+            
             if (HttpContext.Current == null)
             {
                 file = file.Replace("/", "\\").TrimStart('~').TrimStart('\\');
                 return @"C:\" + file.Replace("/", "\\");
-            }            
+            }
             return HttpContext.Current.Server.MapPath(file);
         }
 
@@ -112,6 +117,19 @@ namespace SquishIt.Framework
         protected bool FileExists(string file)
         {
             return fileReaderFactory.FileExists(file);
+        }
+
+        protected string GetAdditionalAttributes()
+        {
+            var result = new StringBuilder();
+            foreach (string key in attributes.Keys)
+            {
+                result.Append(key);
+                result.Append("=\"");
+                result.Append(attributes[key]);
+                result.Append("\" ");
+            }
+            return result.ToString();
         }
     }
 }
