@@ -380,17 +380,20 @@ namespace SquishIt.Framework.Css
 
         private string ProcessLess(string file)
         {
-            try
+            lock (typeof(CssBundle))
             {
-                currentDirectoryWrapper.SetCurrentDirectory(Path.GetDirectoryName(file));
-                var content = ReadFile(file);
-                var engineFactory = new EngineFactory();
-                var engine = engineFactory.GetEngine();
-                return engine.TransformToCss(content, file);
-            }
-            finally
-            {
-                currentDirectoryWrapper.Revert();
+                try
+                {
+                    currentDirectoryWrapper.SetCurrentDirectory(Path.GetDirectoryName(file));
+                    var content = ReadFile(file);
+                    var engineFactory = new EngineFactory();
+                    var engine = engineFactory.GetEngine();
+                    return engine.TransformToCss(content, file);
+                }
+                finally
+                {
+                    currentDirectoryWrapper.Revert();
+                }
             }
         }
 
