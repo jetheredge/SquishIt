@@ -52,12 +52,16 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AjaxMin">
-      <HintPath>..\tools\microsoft-ajax-minifer\AjaxMin.dll</HintPath>
-    </Reference>
-    <Reference Include="dotless.Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
+    <Reference Include="AjaxMin, Version=4.13.4076.28499, Culture=neutral, PublicKeyToken=24297a69a7eae424, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\tools\less\dotless.Core.dll</HintPath>
+      <HintPath>..\packages\AjaxMin.4.13.4076.28499\lib\AjaxMin.dll</HintPath>
+    </Reference>
+    <Reference Include="dotless.Core, Version=1.1.0.4, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\dotless.1.1.0\lib\dotless.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EcmaScript.NET.modified, Version=0.1.1.0, Culture=neutral, PublicKeyToken=7d53ba4f537753a5, processorArchitecture=MSIL">
+      <HintPath>..\packages\YUICompressor.NET.1.5.0.0\lib\NET35\EcmaScript.NET.modified.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -73,9 +77,8 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Yahoo.Yui.Compressor, Version=1.4.1.0, Culture=neutral, PublicKeyToken=f8b4b81ec75097e2, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\tools\yui-compressor\Yahoo.Yui.Compressor.dll</HintPath>
+    <Reference Include="Yahoo.Yui.Compressor, Version=1.5.0.0, Culture=neutral, PublicKeyToken=f8b4b81ec75097e2, processorArchitecture=MSIL">
+      <HintPath>..\packages\YUICompressor.NET.1.5.0.0\lib\NET35\Yahoo.Yui.Compressor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +155,7 @@
     <None Include="closure-compiler\README">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
