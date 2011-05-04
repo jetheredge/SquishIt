@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using SquishIt.Framework.FileResolvers;
+using SquishIt.Framework.Resolvers;
 
 namespace SquishIt.Tests.Stubs
 {
-    public class StubFileResolver : IFileResolver
+    public class StubFileResolver : IResolver
     {
         private string _pathToResolveTo;
         public StubFileResolver(string pathToResolveTo)

@@ -29,7 +29,7 @@ namespace SquishIt.Framework.Renderers
             }
         }
 
-        public string Get(string name)
+        public static string Get(string prefix, string name)
         {
             readerWriterLockSlim.EnterReadLock();
             try

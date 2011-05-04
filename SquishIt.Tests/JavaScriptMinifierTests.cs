@@ -1,5 +1,7 @@
 using NUnit.Framework;
-using SquishIt.Framework.JavaScript.Minifiers;
+using SquishIt.Framework.JavaScript;
+using SquishIt.Framework.Minifiers;
+using SquishIt.Framework.Minifiers.JavaScript;
 
 namespace SquishIt.Tests
 {
@@ -19,16 +21,16 @@ namespace SquishIt.Tests
         [Test]
         public void NullMinifierTest()
         {
-            var javaScriptMinifier = MinifierRegistry.Get(NullMinifier.Identifier);
-            string minifiedJavaScript = javaScriptMinifier.CompressContent(javaScript);
+            var javaScriptMinifier = MinifierFactory.Get<JavaScriptBundle, NullMinifier>();
+            string minifiedJavaScript = javaScriptMinifier.Minify(javaScript);
             Assert.AreEqual(javaScript, minifiedJavaScript);
         }
 
         [Test]
         public void JsMinMinifierTest()
         {
-            var javaScriptMinifier = MinifierRegistry.Get(JsMinMinifier.Identifier);
-            string minifiedJavaScript = javaScriptMinifier.CompressContent(javaScript);
+            var javaScriptMinifier = MinifierFactory.Get<JavaScriptBundle, JsMinMinifier>();
+            string minifiedJavaScript = javaScriptMinifier.Minify(javaScript);
             Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;}", minifiedJavaScript);
         }
 
@@ -43,16 +45,16 @@ namespace SquishIt.Tests
         [Test]
         public void YuiMinifierTest()
         {
-            var javaScriptMinifier = MinifierRegistry.Get(YuiMinifier.Identifier);
-            string minifiedJavaScript = javaScriptMinifier.CompressContent(javaScript);
-            Assert.AreEqual("function product(d,c){return d*c}function sum(d,c){return d+c};", minifiedJavaScript);
+            var javaScriptMinifier = MinifierFactory.Get<JavaScriptBundle, YuiMinifier>();
+            string minifiedJavaScript = javaScriptMinifier.Minify(javaScript);
+			Assert.AreEqual("function product(c,d){return c*d}function sum(c,d){return c+d};", minifiedJavaScript);
         }
 
         [Test]
         public void MsMinifierTest()
         {
-            var javaScriptMinifier = MinifierRegistry.Get(MsMinifier.Identifier);
-            string minifiedJavaScript = javaScriptMinifier.CompressContent(javaScript);
+            var javaScriptMinifier = MinifierFactory.Get<JavaScriptBundle, MsMinifier>();
+            string minifiedJavaScript = javaScriptMinifier.Minify(javaScript);
             Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", minifiedJavaScript);
         }
     }
