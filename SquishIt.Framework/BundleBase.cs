@@ -89,6 +89,10 @@ namespace SquishIt.Framework
             if (HttpContext.Current == null)
             {
                 file = file.Replace("/", "\\").TrimStart('~').TrimStart('\\');
+                
+                if (file.Length > 2 && file[1] == ':')
+                    return file;
+
                 return @"C:\" + file.Replace("/", "\\");
             }
             return HttpContext.Current.Server.MapPath(file);
