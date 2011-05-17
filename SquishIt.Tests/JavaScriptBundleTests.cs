@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.JavaScript;
-using SquishIt.Framework.JavaScript.Minifiers;
+using SquishIt.Framework.Minifiers.JavaScript;
 using SquishIt.Framework.Tests.Mocks;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Stubs;
@@ -24,11 +24,10 @@ namespace SquishIt.Tests
 				private string javaScript2 = @"function sum(a, b){
 																						return a + b;
 																			 }";
-
-				private IJavaScriptBundle javaScriptBundle;
-				private IJavaScriptBundle javaScriptBundle2;
-				private IJavaScriptBundle debugJavaScriptBundle;
-				private IJavaScriptBundle debugJavaScriptBundle2;
+                private JavaScriptBundle javaScriptBundle;
+                private JavaScriptBundle javaScriptBundle2;
+                private JavaScriptBundle debugJavaScriptBundle;
+                private JavaScriptBundle debugJavaScriptBundle2;
 				private StubFileWriterFactory fileWriterFactory;
 				private StubFileReaderFactory fileReaderFactory;
 				private StubCurrentDirectoryWrapper currentDirectoryWrapper;
@@ -217,11 +216,11 @@ namespace SquishIt.Tests
 				{
 						var tag = javaScriptBundle
 								.Add("~/js/test.js")
-								.WithMinifier(JavaScriptMinifiers.NullMinifier)
+								.WithMinifier<NullMinifier>()
 								.Render("~/js/output_6.js");
 
-						Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_6.js?r=361CBAF229793498C1325D939DE3B25F\"></script>", tag);
-						Assert.AreEqual(javaScript, fileWriterFactory.Files[@"C:\js\output_6.js"]);
+						Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_6.js?r=949F09B640D6E7CD4BBCC8AFE9155197\"></script>", tag);
+						Assert.AreEqual(javaScript + "\n", fileWriterFactory.Files[@"C:\js\output_6.js"]);
 				}
 
 				[Test]
@@ -229,7 +228,7 @@ namespace SquishIt.Tests
 				{
 						var tag = javaScriptBundle
 								.Add("~/js/test.js")
-								.WithMinifier(JavaScriptMinifiers.JsMin)
+								.WithMinifier<JsMinMinifier>()
 								.Render("~/js/output_7.js");
 
 						Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_7.js?r=8AA0EB763B23F6041902F56782ADB346\"></script>", tag);
@@ -241,7 +240,7 @@ namespace SquishIt.Tests
 				{
 						var tag = javaScriptBundle
 								.Add("~/js/test.js")
-								.WithMinifier(new JsMinMinifier())
+								.WithMinifier<JsMinMinifier>()
 								.Render("~/js/output_jsmininstance.js");
 
 						Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_jsmininstance.js?r=8AA0EB763B23F6041902F56782ADB346\"></script>", tag);
@@ -253,7 +252,7 @@ namespace SquishIt.Tests
 				{
 						var tag = javaScriptBundle
 								.AddEmbeddedResource("~/js/test.js", "SquishIt.Tests://EmbeddedResource.Embedded.js")
-								.WithMinifier(JavaScriptMinifiers.JsMin)
+								.WithMinifier<JsMinMinifier>()
 								.Render("~/js/output_embedded7.js");
 
 						Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_embedded7.js?r=8AA0EB763B23F6041902F56782ADB346\"></script>", tag);
@@ -279,18 +278,16 @@ namespace SquishIt.Tests
 
 						javaScriptBundle
 								.Add("~/js/test.js")
-								.RenderOnlyIfOutputFileMissing()
 								.Render("~/js/output_9.js");
 
 						Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[@"C:\js\output_9.js"]);
 
 						fileReaderFactory.SetContents(javaScript2);
 						fileReaderFactory.SetFileExists(true);
-						javaScriptBundle.ClearTestingCache();
+						javaScriptBundle.ClearCache();
 
 						javaScriptBundle
 								.Add("~/js/test.js")
-								.RenderOnlyIfOutputFileMissing()
 								.Render("~/js/output_9.js");
 
 						Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[@"C:\js\output_9.js"]);
@@ -303,6 +300,7 @@ namespace SquishIt.Tests
 
 						javaScriptBundle
 								.Add("~/js/test.js")
+                                .AlwaysRender()
 								.Render("~/js/output_10.js");
 
 						Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[@"C:\js\output_10.js"]);
@@ -310,7 +308,7 @@ namespace SquishIt.Tests
 						fileReaderFactory.SetContents(javaScript2);
 						fileReaderFactory.SetFileExists(true);
 						fileWriterFactory.Files.Clear();
-						javaScriptBundle.ClearTestingCache();
+						javaScriptBundle.ClearCache();
 
 						javaScriptBundle2
 								.Add("~/js/test.js")

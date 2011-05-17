@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using SquishIt;
-using SquishIt.Framework.FileResolvers;
+using SquishIt.Framework.Resolvers;
 using SquishIt.Framework.Files;
 
 namespace SquishIt
@@ -22,10 +22,10 @@ namespace SquishIt
                                 {
                                     { "noheader", "Doesn't show application info and version", v => header = v == null},
                                     { "h|?|help", "Shows help", v => showHelp = v != null},
-                                    { "file=", "File to include", v => fileArguments.Add(new InputFile(v, FileResolver.Type)) },
-                                    { "dir=", "Directory to include", v => fileArguments.Add(new InputFile(v, DirectoryResolver.Type)) },
-                                    { "http=", "Http file to include", v => fileArguments.Add(new InputFile(v, HttpResolver.Type)) },
-                                    { "embedded=", "Embedded resource to include", v => fileArguments.Add(new InputFile(v, EmbeddedResourceResolver.Type)) },
+                                    { "file=", "File to include", v => fileArguments.Add(new InputFile(v, new FileResolver())) },
+                                    { "dir=", "Directory to include", v => fileArguments.Add(new InputFile(v, new DirectoryResolver())) },
+                                    { "http=", "Http file to include", v => fileArguments.Add(new InputFile(v, new HttpResolver())) },
+                                    { "embedded=", "Embedded resource to include", v => fileArguments.Add(new InputFile(v, new EmbeddedResourceResolver())) },
                                     { "out=", "Output file", v => outputFile = v },
                                     { "outgz=", "Output file", v => gzippedOutputFile = v },
                                     { "min=", "Optional minifier to use (jsmin, closure, yui)", v => minifierType = v.ToLower() }

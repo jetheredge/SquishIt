@@ -1,12 +1,13 @@
-namespace SquishIt.Framework.Css
+using SquishIt.Framework.Base;
+
+
+namespace SquishIt.Framework.CSS
 {
-    public interface ICssBundle
+    /*
+    public interface ICSSBundle : IBundle<ICSSBundle>
     {
-        ICssBundleBuilder Add(string cssPath);
-        ICssBundleBuilder AddRemote(string localPath, string remotePath);
-        ICssBundleBuilder AddEmbeddedResource(string localPath, string embeddedResourcePath);
-        string RenderNamed(string name);
-        void ClearCache();
-        string RenderCached(string name);
-    }
+        ICSSBundle ProcessImports();
+        ICSSBundle AppendHashForAssets();
+        ICSSBundle HashQueryStringNamed(string hashQueryStringKeyName);
+    }*/
 }

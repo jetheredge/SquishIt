@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
-using SquishIt.Framework.FileResolvers;
+using SquishIt.Framework.Resolvers;
 using SquishIt.Tests.Stubs;
 
 namespace SquishIt.Tests

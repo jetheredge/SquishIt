@@ -2,17 +2,17 @@
 using System.IO;
 using System.Linq;
 using System.Web;
-using SquishIt.Framework.FileResolvers;
+using SquishIt.Framework.Resolvers;
 
 namespace SquishIt.Framework.Utilities
 {
     public class CssAssetsFileHasher : ICssAssetsFileHasher
     {
         protected readonly string HashQueryStringKeyName;
-        protected readonly IFileResolver FileResolver;
+        protected readonly IResolver FileResolver;
         protected readonly IHasher Hasher;
 
-        public CssAssetsFileHasher(string hashQueryStringKeyName, IFileResolver fileResolver, IHasher hasher)
+        public CssAssetsFileHasher(string hashQueryStringKeyName, IResolver fileResolver, IHasher hasher)
         {
             HashQueryStringKeyName = hashQueryStringKeyName;
             FileResolver = fileResolver;

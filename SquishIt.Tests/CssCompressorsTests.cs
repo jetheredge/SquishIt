@@ -1,5 +1,7 @@
 using NUnit.Framework;
-using SquishIt.Framework.Css.Compressors;
+using SquishIt.Framework.CSS;
+using SquishIt.Framework.Minifiers;
+using SquishIt.Framework.Minifiers.CSS;
 
 namespace SquishIt.Tests
 {
@@ -28,24 +30,24 @@ namespace SquishIt.Tests
         [Test]
         public void NullCompressorTest()
         {
-            var cssCompressor = CssCompressorRegistry.Get(NullCompressor.Identifier);
-            var uncompressedCss = cssCompressor.CompressContent(css);
+            var cssCompressor = MinifierFactory.Get<CSSBundle, NullCompressor>();
+            var uncompressedCss = cssCompressor.Minify(css);
             Assert.AreEqual(css, uncompressedCss);
         }
         
         [Test]
         public void YuiCompressorTest()
         {
-            var cssCompressor = CssCompressorRegistry.Get(YuiCompressor.Identifier);
-            var compressedCss = cssCompressor.CompressContent(css);
-            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em;}th{font-weight:normal;vertical-align:bottom;}.FloatRight{float:right;}.FloatLeft{float:left;}", compressedCss);
+            var cssCompressor = MinifierFactory.Get<CSSBundle, YuiCompressor>();
+            var compressedCss = cssCompressor.Minify(css);
+            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}\nth{font-weight:normal;vertical-align:bottom}\n.FloatRight{float:right}\n.FloatLeft{float:left}", compressedCss);
         }
 
         [Test]
         public void MsCompressorTest()
         {
-            var cssCompressor = CssCompressorRegistry.Get(MsCompressor.Identifier);
-            var compressedCss = cssCompressor.CompressContent(css);
+            var cssCompressor = MinifierFactory.Get<CSSBundle, MsCompressor>();
+            var compressedCss = cssCompressor.Minify(css);
             Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", compressedCss);
         }
     }

@@ -3,12 +3,12 @@ namespace SquishIt.Framework.Files
     public class InputFile
     {
         public string FilePath { get; private set; }
-        public string FileType { get; private set; }
+        public Resolvers.IResolver Resolver { get; private set; }
 
-        public InputFile(string filePath, string fileType)
+        public InputFile(string filePath, Resolvers.IResolver resolver)
         {
             FilePath = filePath;
-            FileType = fileType;
+            Resolver = resolver;
         }
     }
 }
