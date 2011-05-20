@@ -15,7 +15,7 @@ namespace SquishIt.Framework.Css
 {
     internal class CssBundle : BundleBase, ICssBundle, ICssBundleBuilder
     {
-        private static BundleCache bundleCache = new BundleCache();
+        private static BundleCache<string> bundleCache = new BundleCache<string>();
         private static Dictionary<string, string> debugCssFiles = new Dictionary<string, string>();
         private static Dictionary<string, NamedState> namedState = new Dictionary<string, NamedState>();
         private List<string> cssFiles = new List<string>();
@@ -33,6 +33,11 @@ namespace SquishIt.Framework.Css
 
         public CssBundle()
             : base(new FileWriterFactory(new RetryableFileOpener(), 5), new FileReaderFactory(new RetryableFileOpener(), 5), new DebugStatusReader(), new CurrentDirectoryWrapper(), new Hasher(new RetryableFileOpener()))
+        {
+        }
+
+        public CssBundle(IDebugStatusReader debugStatusReader)
+            : base(new FileWriterFactory(new RetryableFileOpener(), 5), new FileReaderFactory(new RetryableFileOpener(), 5), debugStatusReader, new CurrentDirectoryWrapper(), new Hasher(new RetryableFileOpener()))
         {
         }
 

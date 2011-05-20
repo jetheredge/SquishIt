@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using SquishIt.Framework.JavaScript.Minifiers;
 
 namespace SquishIt.Framework.JavaScript
@@ -16,5 +17,6 @@ namespace SquishIt.Framework.JavaScript
         IJavaScriptBundleBuilder ForceRelease();
         IJavaScriptBundleBuilder WithAttribute(string name, string value);
         string AsCached(string name, string cssPath);
+        IEnumerable<string> AsEnumerable(string renderTo);
     }
 }
