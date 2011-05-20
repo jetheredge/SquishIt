@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 using NUnit.Framework;
-using SquishIt.Framework.FileResolvers;
+using SquishIt.Framework.Resolvers;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Stubs;
 

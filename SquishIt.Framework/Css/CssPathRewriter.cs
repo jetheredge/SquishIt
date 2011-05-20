@@ -4,9 +4,9 @@ using System.IO;
 using System.Text.RegularExpressions;
 using SquishIt.Framework.Utilities;
 
-namespace SquishIt.Framework.Css
+namespace SquishIt.Framework.CSS
 {
-    public class CssPathRewriter
+    public class CSSPathRewriter
     {
         public static string RewriteCssPaths(string outputPath, string sourcePath, string css, ICssAssetsFileHasher cssAssetsFileHasher)
         {

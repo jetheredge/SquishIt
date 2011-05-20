@@ -1,4 +1,4 @@
-using SquishIt.Framework.Css;
+using SquishIt.Framework.CSS;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Tests.Mocks;
 using SquishIt.Framework.Utilities;
@@ -47,9 +47,9 @@ namespace SquishIt.Tests.Helpers
             return this;
         }
 
-        public CssBundle Create()
+        public CSSBundle Create()
         {
-            return new CssBundle(debugStatusReader, fileWriterFactory, fileReaderFactory, currentDirectoryWrapper, hasher);
+            return new CSSBundle(debugStatusReader, fileWriterFactory, fileReaderFactory, currentDirectoryWrapper, hasher);
         }
 
         public CssBundleFactory WithContents(string css)

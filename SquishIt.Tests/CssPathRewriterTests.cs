@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using SquishIt.Framework.Css;
+using SquishIt.Framework.CSS;
 using SquishIt.Framework.Utilities;
 
 namespace SquishIt.Tests
@@ -23,7 +23,7 @@ namespace SquishIt.Tests
                                                     ";
             string sourceFile = @"C:\somepath\somesubpath\myfile.css";
             string targetFile = @"C:\somepath\someothersubpath\evendeeper\output.css";
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
+            string result = CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"
@@ -54,7 +54,7 @@ namespace SquishIt.Tests
                                                     ";
             string sourceFile = @"C:\somepath\somesubpath\myfile.css";
             string targetFile = @"C:\somepath\someothersubpath\output.css";
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
+            string result = CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"
@@ -84,7 +84,7 @@ namespace SquishIt.Tests
             string sourceFile = @"C:\somepath\somesubpath\someothersubpath\myfile.css";
             string targetFile = @"C:\somepath\somesubpath\myfile.css";
 
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
+            string result = CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"
@@ -111,7 +111,7 @@ namespace SquishIt.Tests
             string sourceFile = @"C:\somepath\somesubpath\someothersubpath\myfile.css";
             string targetFile = @"C:\somepath\somesubpath\myfile.css";
 
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
+            string result = CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"
@@ -139,7 +139,7 @@ namespace SquishIt.Tests
                                                     ";
             string sourceFile = @"C:\somepath\somesubpath\myfile.css";
             string targetFile = @"C:\somepath\someothersubpath\evendeeper\output.css";
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
+            string result = CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"
@@ -170,7 +170,7 @@ namespace SquishIt.Tests
                                                     ";
             string sourceFile = @"C:\somepath\somesubpath\myfile.css";
             string targetFile = @"C:\somepath\output.css";
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
+            string result = CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"
@@ -201,7 +201,7 @@ namespace SquishIt.Tests
                                                     ";
             string sourceFile = @"C:\somepath\somesubpath\myfile.css";
             string targetFile = @"C:\somepath\someothersubpath\evendeeper\output.css";
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
+            string result = CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"
@@ -232,7 +232,7 @@ namespace SquishIt.Tests
                                                     ";
             string sourceFile = @"C:\somepath\somesubpath\myfile.css";
             string targetFile = @"C:\somepath\output.css";
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
+            string result = CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"
@@ -263,7 +263,7 @@ namespace SquishIt.Tests
                                                     ";
             string sourceFile = @"C:\somepath\somesubpath\myfile.css";
             string targetFile = @"C:\somepath\output.css";
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
+            string result = CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"
@@ -294,7 +294,7 @@ namespace SquishIt.Tests
                                                     ";
             string sourceFile = @"C:\somepath\somesubpath\myfile.css";
             string targetFile = @"C:\somepath\output.css";
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
+            string result = CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"
@@ -325,7 +325,7 @@ namespace SquishIt.Tests
                                                     ";
             string sourceFile = @"C:\somepath\somesubpath\myfile.css";
             string targetFile = @"C:\somepath\someothersubpath\evendeeper\output.css";
-            string result = CssPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
+            string result = CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             string expected =
                 @"
