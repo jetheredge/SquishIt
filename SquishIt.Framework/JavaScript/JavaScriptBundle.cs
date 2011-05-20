@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.JavaScript.Minifiers;
 using SquishIt.Framework.Renderers;
@@ -10,7 +12,8 @@ namespace SquishIt.Framework.JavaScript
 {
     internal class JavaScriptBundle: BundleBase, IJavaScriptBundle, IJavaScriptBundleBuilder
     {
-        private static BundleCache bundleCache = new BundleCache();
+        private static Regex httpMatcher = new Regex(@"^https?://");
+        private static BundleCache<RenderedScriptBundle> bundleCache = new BundleCache<RenderedScriptBundle>();
         private static Dictionary<string, string> debugJavaScriptFiles = new Dictionary<string, string>();
         private static Dictionary<string, NamedState> namedState = new Dictionary<string, NamedState>();
         private List<string> javaScriptFiles = new List<string>();
@@ -133,7 +136,7 @@ namespace SquishIt.Framework.JavaScript
         public void AsNamed(string name, string renderTo)
         {
             namedState[name] = new NamedState(debugStatusReader.IsDebuggingEnabled(), renderTo);
-            Render(renderTo, name);
+            Render(name, renderTo, new FileRenderer(fileWriterFactory));
         }
 
         public IJavaScriptBundleBuilder ForceDebug()
@@ -156,8 +159,7 @@ namespace SquishIt.Framework.JavaScript
                 return debugJavaScriptFiles[name];
             }
 
-            string outputFile = ResolveAppRelativePathToFileSystem(state.RenderTo);
-            return RenderRelease(name, state.RenderTo, new FileRenderer(fileWriterFactory));
+            return Render(name, state.RenderTo, new FileRenderer(fileWriterFactory));
         }
 
         public void ClearTestingCache()
@@ -176,25 +178,56 @@ namespace SquishIt.Framework.JavaScript
         string IJavaScriptBundleBuilder.Render(string renderTo)
         {
             string key = renderTo + string.Join(",", javaScriptFiles.ToArray()).GetHashCode().ToString();
-            return Render(renderTo, key);
+            return Render(key, renderTo, new FileRenderer(fileWriterFactory));
         }
 
-        private string Render(string renderTo, string key)
+        private string Render(string key, string renderTo, IRenderer renderer)
         {
             if (debugStatusReader.IsDebuggingEnabled())
             {
                 return RenderDebug(key);
             }
-            return RenderRelease(key, renderTo, new FileRenderer(fileWriterFactory));
+
+            return RenderScriptTags(RenderRelease(key, renderTo, renderer));
+        }
+
+        private string RenderScriptTags(RenderedScriptBundle renderedScriptBundle)
+        {
+            StringBuilder builder = new StringBuilder();
+            foreach (var file in renderedScriptBundle.Files)
+            {
+                if (httpMatcher.IsMatch(file) || file.Contains(renderedScriptBundle.Hash))
+                {
+                    builder.Append(FillTemplate(file));
+                }
+                else
+                {
+                    if (file.Contains("?"))
+                    {
+                        builder.Append(FillTemplate(file + "&r=" + renderedScriptBundle.Hash));
+                    }
+                    else
+                    {
+                        builder.Append(FillTemplate(file + "?r=" + renderedScriptBundle.Hash));
+                    }
+                }
+            }
+            return builder.ToString();
         }
 
         public string AsCached(string name, string jsPath)
         {
+            return Render(name, jsPath, new CacheRenderer(cachePrefix, name));
+        }
+
+        public IEnumerable<string> AsEnumerable(string renderTo)
+        {
             if (debugStatusReader.IsDebuggingEnabled())
             {
-                return RenderDebug(name);
+                return javaScriptFiles.Select(ExpandAppRelativePath);
             }
-            return RenderRelease(name, jsPath, new CacheRenderer(cachePrefix, name));
+            string key = renderTo + string.Join(",", javaScriptFiles.ToArray()).GetHashCode().ToString();
+            return RenderRelease(key, renderTo, new FileRenderer(fileWriterFactory)).Files;
         }
 
         private string RenderDebug(string key)
@@ -205,7 +238,14 @@ namespace SquishIt.Framework.JavaScript
             return output;
         }
 
-        private string RenderRelease(string key, string renderTo, IRenderer renderer)
+        private string MinifyFiles(string renderTo, List<string> files, out string hash, out string minifiedJavaScript)
+        {
+            minifiedJavaScript = MinifyJavaScript(files, javaScriptMinifier);
+            hash = hasher.GetHash(minifiedJavaScript);
+            return renderTo.Replace("#", hash);
+        }
+
+        private RenderedScriptBundle RenderRelease(string key, string renderTo, IRenderer renderer)
         {
             if (!bundleCache.ContainsKey(key))
             {
@@ -213,58 +253,22 @@ namespace SquishIt.Framework.JavaScript
                 {
                     if (!bundleCache.ContainsKey(key))
                     {
-                        string compressedJavaScript;
-                        string hash = null;
-                        bool hashInFileName = false;
-                        
                         List<string> files = GetFiles(GetFilePaths(javaScriptFiles));
                         files.AddRange(GetFiles(GetEmbeddedResourcePaths(embeddedResourceJavaScriptFiles)));
-                        
-                        if (renderTo.Contains("#"))
-                        {
-                            hashInFileName = true;
-                            compressedJavaScript = MinifyJavaScript(files, javaScriptMinifier);
-                            hash = hasher.GetHash(compressedJavaScript);
-                            renderTo = renderTo.Replace("#", hash);
-                        }
-
-                        var outputFile = ResolveAppRelativePathToFileSystem(renderTo);
 
                         string minifiedJavaScript;
-                        if (renderOnlyIfOutputFileMissing && FileExists(outputFile))
+                        string hash;
+                        var outputFile = MinifyFiles(renderTo, files, out hash, out minifiedJavaScript);
+
+                        if (!renderOnlyIfOutputFileMissing || !FileExists(outputFile))
                         {
-                            minifiedJavaScript = ReadFile(outputFile);
+                            renderer.Render(minifiedJavaScript, ResolveAppRelativePathToFileSystem(outputFile));
                         }
-                        else
-                        {
-                            minifiedJavaScript = MinifyJavaScript(files, javaScriptMinifier);
-                            renderer.Render(minifiedJavaScript, outputFile);
-                        }
-                        
-                        if (hash == null)
-                        {
-                            hash = hasher.GetHash(minifiedJavaScript);                            
-                        }
-                        
-                        string renderedScriptTag;
-                        if (hashInFileName)
-                        {
-                            renderedScriptTag = FillTemplate(ExpandAppRelativePath(renderTo));
-                        }
-                        else
-                        {
-                            string path = ExpandAppRelativePath(renderTo);
-                            if (path.Contains("?"))
-                            {
-                                renderedScriptTag = FillTemplate(ExpandAppRelativePath(renderTo) + "&r=" + hash);    
-                            }
-                            else
-                            {
-                                renderedScriptTag = FillTemplate(ExpandAppRelativePath(renderTo) + "?r=" + hash);        
-                            }
-                        }
-                        renderedScriptTag = String.Concat(GetFilesForRemote(), renderedScriptTag);
-                        bundleCache.AddToCache(key, renderedScriptTag, files);
+
+                        var allFiles = new List<string>();
+                        allFiles.AddRange(remoteJavaScriptFiles);
+                        allFiles.Add(ExpandAppRelativePath(outputFile));
+                        bundleCache.AddToCache(key, new RenderedScriptBundle { Files = allFiles.ToArray(), Hash = hash }, files);
                     }
                 }
             }
@@ -298,31 +302,21 @@ namespace SquishIt.Framework.JavaScript
             return MinifierRegistry.Get(minifier);
         }
 
-		private string MinifyJavaScript(List<string> files, IJavaScriptMinifier minifier)
-		{
-			try
-			{
-				var inputJavaScript = new StringBuilder();
-				foreach (var file in files)
-				{
-					inputJavaScript.Append(ReadFile(file) + "\n");
-				}
-				return minifier.CompressContent(inputJavaScript.ToString());
-			}
-			catch (Exception e)
-			{
-				throw new Exception(string.Format("Error processing: {0}", e.Message), e);
-			}
-		}
-
-        private string GetFilesForRemote()
+        private string MinifyJavaScript(List<string> files, IJavaScriptMinifier minifier)
         {
-            var renderedJavaScriptFilesForCdn = new StringBuilder();
-            foreach (var uri in remoteJavaScriptFiles)
+            try
             {
-                renderedJavaScriptFilesForCdn.Append(FillTemplate(uri));
+                var inputJavaScript = new StringBuilder();
+                foreach (var file in files)
+                {
+                    inputJavaScript.Append(ReadFile(file) + "\n");
+                }
+                return minifier.CompressContent(inputJavaScript.ToString());
             }
-            return renderedJavaScriptFilesForCdn.ToString();
+            catch (Exception e)
+            {
+                throw new Exception(string.Format("Error processing: {0}", e.Message), e);
+            }
         }
 
         private string FillTemplate(string path)
