@@ -15,7 +15,7 @@ namespace SquishIt.Framework.Css
 {
     internal class CssBundle : BundleBase, ICssBundle, ICssBundleBuilder
     {
-        private static BundleCache bundleCache = new BundleCache();
+        private static BundleCache<string> bundleCache = new BundleCache<string>();
         private static Dictionary<string, string> debugCssFiles = new Dictionary<string, string>();
         private static Dictionary<string, NamedState> namedState = new Dictionary<string, NamedState>();
         private List<string> cssFiles = new List<string>();

@@ -5,15 +5,15 @@ using System.Web.Caching;
 
 namespace SquishIt.Framework.JavaScript
 {
-    public class BundleCache
+    public class BundleCache<T>
     {
-        private static Dictionary<string, string> cache = new Dictionary<string, string>();
+        private static Dictionary<string, T> cache = new Dictionary<string, T>();
 
-        public string GetContent(string name)
+        public T GetContent(string name)
         {
             if (HttpContext.Current != null)
             {
-                return (string)HttpContext.Current.Cache["squishit_" + name];
+                return (T)HttpContext.Current.Cache["squishit_" + name];
             }
             return cache[name];
         }
@@ -32,7 +32,7 @@ namespace SquishIt.Framework.JavaScript
             return cache.ContainsKey(key);
         }
 
-        public void AddToCache(string key, string content, List<string> files)
+        public void AddToCache(string key, T content, List<string> files)
         {
             if (HttpContext.Current != null)
             {

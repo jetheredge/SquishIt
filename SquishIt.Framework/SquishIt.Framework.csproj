@@ -121,6 +121,7 @@
     <Compile Include="JavaScript\Minifiers\MsMinifier.cs" />
     <Compile Include="JavaScript\Minifiers\NullMinifier.cs" />
     <Compile Include="JavaScript\Minifiers\YuiMinifier.cs" />
+    <Compile Include="JavaScript\RenderedScriptBundle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderers\CacheRenderer.cs" />
     <Compile Include="Renderers\FileRenderer.cs" />
