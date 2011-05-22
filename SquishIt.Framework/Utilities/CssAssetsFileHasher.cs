@@ -50,6 +50,11 @@ namespace SquishIt.Framework.Utilities
                 url = url.Substring(0, queryStringPosition);
             }
 
+            if (FileSystem.Unix)
+            {
+                url = url.TrimStart('/');
+            }
+
             var resolvedUrl = string.Empty;
 
             var urlUri = new Uri(url, UriKind.RelativeOrAbsolute);
@@ -59,6 +64,11 @@ namespace SquishIt.Framework.Utilities
                 if (!url.StartsWith("/"))
                 {
                     var resolvedPath = Path.GetDirectoryName(cssFilePath);
+                    if (FileSystem.Unix)
+                    {
+                        resolvedPath = resolvedPath.Replace("file:", "");
+                    }
+
                     var outputUri = new Uri(resolvedPath + "/", UriKind.Absolute);
 
                     var resolvedSourcePath = new Uri(outputUri, urlUri);
@@ -66,23 +76,13 @@ namespace SquishIt.Framework.Utilities
                 }
                 else
                 {
-                    resolvedUrl = ResolveAppRelativePathToFileSystem(url);
+                    resolvedUrl = FileSystem.ResolveAppRelativePathToFileSystem(url);
                 }
 
                 return FileResolver.TryResolve(resolvedUrl).ToList()[0];
             }
 
             return urlUri.LocalPath;
-        }
-
-        private string ResolveAppRelativePathToFileSystem(string file)
-        {
-            if (HttpContext.Current == null)
-            {
-                file = file.Replace("/", "\\").TrimStart('~').TrimStart('\\');
-                return @"C:\" + file.Replace("/", "\\");
-            }
-            return HttpContext.Current.Server.MapPath(file);
         }
 
         /// <summary>
@@ -109,13 +109,28 @@ namespace SquishIt.Framework.Utilities
 
             querystring.Add(key, value);
 
-            var querystringwithAppendedValue = querystring.ToString();
+            var querystringwithAppendedValue = FlattenedQueryString(querystring);
+
             if (!string.IsNullOrEmpty(querystringwithAppendedValue))
             {
                 querystringwithAppendedValue = "?" + querystringwithAppendedValue;
             }
 
             return path + querystringwithAppendedValue;
+        }
+
+        //workaround for mono bug - queryString.ToString() above was returning "System.Collections.Specialized.NameValueCollection"
+        static string FlattenedQueryString(System.Collections.Specialized.NameValueCollection queryString)
+        {
+            var output = new System.Text.StringBuilder();
+            for (int i = 0; i < queryString.Count; i++)
+            {
+                if (i > 0) output.Append("&");
+                output.Append(queryString.AllKeys[i]);
+                output.Append("=");
+                output.Append(queryString[i]);
+            }
+            return output.ToString();
         }
     }
 }

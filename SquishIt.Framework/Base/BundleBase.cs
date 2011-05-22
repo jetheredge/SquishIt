@@ -32,7 +32,7 @@ namespace SquishIt.Framework.Base
     	}
 
     	protected string HashKeyName { get; set; }
-        private bool ShouldAlwaysRender { get; set; }
+        private bool ShouldRenderOnlyIfOutputFileIsMissing { get; set; }
         protected List<string> DependentFiles = new List<string>();
         internal Dictionary<string, GroupBundle> GroupBundles = new Dictionary<string, GroupBundle>
         {
@@ -48,7 +48,7 @@ namespace SquishIt.Framework.Base
             this.debugStatusReader = debugStatusReader;
             this.currentDirectoryWrapper = currentDirectoryWrapper;
             this.hasher = hasher;
-            ShouldAlwaysRender = false;
+            ShouldRenderOnlyIfOutputFileIsMissing = false;
             HashKeyName = "r";
         	this.bundleCache = bundleCache;
         }
@@ -198,11 +198,11 @@ namespace SquishIt.Framework.Base
             return (T)this;
         }
 
-        public T AlwaysRender()
-        {
-            ShouldAlwaysRender = true;
-            return (T)this;
-        }
+		public T RenderOnlyIfOutputFileMissing()
+		{
+			ShouldRenderOnlyIfOutputFileIsMissing = true;
+			return (T)this;
+		}
 
         public T ForceDebug()
         {
@@ -338,7 +338,7 @@ namespace SquishIt.Framework.Base
                         outputFile = outputFile.Replace("#", hash);
                     }
 
-                    if (!ShouldAlwaysRender && FileExists(outputFile) && minifiedContent == null)
+                    if (ShouldRenderOnlyIfOutputFileIsMissing && FileExists(outputFile) && minifiedContent == null)
                     {
                         minifiedContent = ReadFile(outputFile);
                     }
@@ -431,11 +431,17 @@ namespace SquishIt.Framework.Base
             return (T)this;
         }
 
-        public T WithMinifier<Min>() where Min : IMinifier<T>
+        public T WithMinifier<TMin>() where TMin : IMinifier<T>
         {
-            Minifier = MinifierFactory.Get<T, Min>();
+            Minifier = MinifierFactory.Get<T, TMin>();
             return (T)this;
         }
+
+		public T WithMinifier<TMin>(TMin minifier) where TMin : IMinifier<T>
+		{
+			Minifier = minifier;
+			return (T)this;
+		}
 
         private string FillTemplate(GroupBundle groupBundle, string path)
         {

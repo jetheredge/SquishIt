@@ -47,7 +47,7 @@ namespace SquishIt.Tests
         {
             var javaScriptMinifier = MinifierFactory.Get<JavaScriptBundle, YuiMinifier>();
             string minifiedJavaScript = javaScriptMinifier.Minify(javaScript);
-			Assert.AreEqual("function product(c,d){return c*d}function sum(c,d){return c+d};", minifiedJavaScript);
+            Assert.AreEqual("function product(c,d){return c*d}function sum(c,d){return c+d};", minifiedJavaScript);
         }
 
         [Test]

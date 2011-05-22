@@ -62,7 +62,7 @@ namespace SquishIt.Framework
             var result = new List<InputFile>();
             foreach (string file in list)
             {
-                string mappedPath = ResolveAppRelativePathToFileSystem(file);
+                string mappedPath = FileSystem.ResolveAppRelativePathToFileSystem(file);
                 result.Add(new InputFile(mappedPath, FileResolver.Type));
             }
             return result;
@@ -76,26 +76,6 @@ namespace SquishIt.Framework
                 result.Add(new InputFile(file, EmbeddedResourceResolver.Type));
             }
             return result;
-        }
-
-        protected string ResolveAppRelativePathToFileSystem(string file)
-        {
-            // Remove query string
-            if (file.IndexOf('?') != -1)
-            {
-                file = file.Substring(0, file.IndexOf('?'));
-            }
-            
-            if (HttpContext.Current == null)
-            {
-                file = file.Replace("/", "\\").TrimStart('~').TrimStart('\\');
-                
-                if (file.Length > 2 && file[1] == ':')
-                    return file;
-
-                return @"C:\" + file.Replace("/", "\\");
-            }
-            return HttpContext.Current.Server.MapPath(file);
         }
 
         protected string ExpandAppRelativePath(string file)

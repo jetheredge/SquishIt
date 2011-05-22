@@ -19,7 +19,7 @@ namespace SquishIt.Framework.Tests
                 for (int i = 0; i < 3; i++)
                 {
                     CreateJsFileWithRandomName(temporaryDirectory);
-                }                    
+                }
 
                 var directoryEnumerator = new DirectoryEnumerator();
                 var result = directoryEnumerator.GetFiles(temporaryDirectory).ToList();
@@ -60,10 +60,10 @@ namespace SquishIt.Framework.Tests
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    string fileName = String.Format("{0}File{1}.js", temporaryDirectory, (1 + i));
+                    string fileName = Path.Combine(temporaryDirectory, String.Format("File{0}.js", (1 + i)));
                     File.CreateText(fileName).Dispose();
                 }
-                using (var ordering = File.CreateText(temporaryDirectory + "ordering.txt"))
+                using (var ordering = File.CreateText(Path.Combine(temporaryDirectory, "ordering.txt")))
                 {
                     ordering.WriteLine("File3.js");
                     ordering.WriteLine("File4.js");
@@ -76,10 +76,10 @@ namespace SquishIt.Framework.Tests
 
                 var expectedList = new List<string>
                 {
-                    temporaryDirectory + "File3.js",
-                    temporaryDirectory + "File4.js",
-                    temporaryDirectory + "File1.js",
-                    temporaryDirectory + "File2.js"
+                    Path.Combine(temporaryDirectory, "File3.js"),
+                    Path.Combine(temporaryDirectory, "File4.js"),
+                    Path.Combine(temporaryDirectory, "File1.js"),
+                    Path.Combine(temporaryDirectory, "File2.js")
                 };
                 CollectionAssert.AreEqual(expectedList, result, StringComparer.OrdinalIgnoreCase);
             }
@@ -91,7 +91,7 @@ namespace SquishIt.Framework.Tests
 
         private static string CreateNewTemporaryDirectory()
         {
-            string temporaryDirectory = Path.GetTempPath() + "\\" + Path.GetRandomFileName() + "\\";
+            string temporaryDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());//Path.GetTempPath() + "\\" + Path.GetRandomFileName() + "\\";
             System.IO.Directory.CreateDirectory(temporaryDirectory);
             return temporaryDirectory;
         }
@@ -108,7 +108,7 @@ namespace SquishIt.Framework.Tests
 
         private static void CreateJsFile(string temporaryDirectory, string nameWithoutExtension)
         {
-            string filePath = temporaryDirectory + nameWithoutExtension + ".js";
+            string filePath = Path.Combine(temporaryDirectory, nameWithoutExtension + ".js");
             File.CreateText(filePath).Dispose();
         }
     }

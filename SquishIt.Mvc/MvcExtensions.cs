@@ -7,24 +7,24 @@ namespace SquishIt.Mvc
 {
 	public static class MvcExtensions
 	{
-		public static IHtmlString RenderMvc(this CSSBundle cssBundleBuilder, string renderTo)
+		public static MvcHtmlString RenderMvc(this CSSBundle cssBundleBuilder, string renderTo)
 		{
-			return new MvcHtmlString(cssBundleBuilder.Render(renderTo));
+			return MvcHtmlString.Create(cssBundleBuilder.Render(renderTo));
 		}
 
-		public static IHtmlString RenderMvc(this JavaScriptBundle javaScriptBundleBuilder, string renderTo)
+		public static MvcHtmlString RenderMvc(this JavaScriptBundle javaScriptBundleBuilder, string renderTo)
 		{
-			return new MvcHtmlString(javaScriptBundleBuilder.Render(renderTo));
+			return MvcHtmlString.Create(javaScriptBundleBuilder.Render(renderTo));
 		}
 
-        public static IHtmlString RenderNamedMvc(this JavaScriptBundle javaScriptBundle, string name)
+		public static MvcHtmlString RenderNamedMvc(this JavaScriptBundle javaScriptBundle, string name)
 		{
-			return new MvcHtmlString(javaScriptBundle.RenderNamed(name));
+			return MvcHtmlString.Create(javaScriptBundle.RenderNamed(name));
 		}
 
-		public static IHtmlString RenderNamedMvc(this CSSBundle cssBundle, string name)
+		public static MvcHtmlString RenderNamedMvc(this CSSBundle cssBundle, string name)
 		{
-			return new MvcHtmlString(cssBundle.RenderNamed(name));
+			return MvcHtmlString.Create(cssBundle.RenderNamed(name));
 		}
 	}
 }

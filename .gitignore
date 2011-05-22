@@ -3,3 +3,6 @@ bin
 obj
 *.suo
 _ReSharper*
+*.pidb
+test-results/
+*.userprefs

@@ -10,17 +10,23 @@ namespace SquishIt.Framework.CSS
     {
         public static string RewriteCssPaths(string outputPath, string sourcePath, string css, ICssAssetsFileHasher cssAssetsFileHasher)
         {
+            //see http://stackoverflow.com/questions/3692818/uri-makerelativeuri-behavior-on-mono
+            if (FileSystem.Unix)
+            {
+                outputPath += "/";
+            }
+
             var sourceUri = new Uri(Path.GetDirectoryName(sourcePath) + "/", UriKind.Absolute);
             var outputUri = new Uri(Path.GetDirectoryName(outputPath) + "/", UriKind.Absolute);
 
             var relativePaths = FindDistinctRelativePathsIn(css);
 
-            foreach (string relativePath in  relativePaths)
+            foreach (string relativePath in relativePaths)
             {
-                var resolvedSourcePath = new Uri(sourceUri + relativePath );
+                var resolvedSourcePath = new Uri(sourceUri + relativePath);
                 var resolvedOutput = outputUri.MakeRelativeUri(resolvedSourcePath);
-                
-                css = css.Replace(relativePath , resolvedOutput.OriginalString);    
+
+                css = css.Replace(relativePath, resolvedOutput.OriginalString);
             }
 
             if (cssAssetsFileHasher != null)
@@ -39,7 +45,7 @@ namespace SquishIt.Framework.CSS
             }
             return css;
         }
-        
+
         private static IEnumerable<string> FindDistinctRelativePathsIn(string css)
         {
             var matches = Regex.Matches(css, @"url\([""']{0,1}(.+?)[""']{0,1}\)", RegexOptions.IgnoreCase);
