@@ -1,7 +1,7 @@
 <package>
   <metadata>
     <id>SquishIt</id>
-    <version>0.7.1</version>
+    <version>0.8.0</version>
     <authors>Justin Etheredge</authors>
     <description>
       SquishIt lets you easily compress and combine JavaScript and CSS. It also includes the ability to use dotless to process your CSS.

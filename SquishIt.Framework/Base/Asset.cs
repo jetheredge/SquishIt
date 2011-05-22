@@ -14,7 +14,7 @@ namespace SquishIt.Framework.Base
         internal Asset(string localPath, string remotePath = null, int order = 0, bool isEmbeddedResource = false)
         {
             LocalPath = localPath;
-            RemotePath = null;
+            RemotePath = remotePath;
             Order = order;
             IsEmbeddedResource = isEmbeddedResource;
         }

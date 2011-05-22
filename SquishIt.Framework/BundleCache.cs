@@ -5,18 +5,18 @@ using System.Web.Caching;
 
 namespace SquishIt.Framework
 {
-    public static class BundleCache
+    public class BundleCache: IBundleCache
     {
         private const string KEY_PREFIX = "squishit_";
 
-        private static List<string> CacheKeys = new List<string>();
+        private List<string> CacheKeys = new List<string>();
 
-        public static string GetContent(string name)
+        public string GetContent(string name)
         {
             return (string)HttpRuntime.Cache[KEY_PREFIX + name];
         }
 
-        public static void ClearTestingCache()
+        public void ClearTestingCache()
         {
             foreach (var key in CacheKeys)
             {
@@ -24,19 +24,19 @@ namespace SquishIt.Framework
             }
         }
 
-        public static bool ContainsKey(string key)
+        public bool ContainsKey(string key)
         {
             return HttpRuntime.Cache[KEY_PREFIX + key] != null;
         }
 
-        public static bool TryGetValue(string key, out string content)
+        public bool TryGetValue(string key, out string content)
         {
             content = (string)HttpRuntime.Cache[KEY_PREFIX + key];
 
             return content != null;
         }
 
-        public static void Add(string key, string content, List<string> files)
+        public void Add(string key, string content, List<string> files)
         {
             CacheKeys.Add(KEY_PREFIX + key);
             HttpRuntime.Cache.Add(KEY_PREFIX + key, content, new CacheDependency(files.ToArray()),

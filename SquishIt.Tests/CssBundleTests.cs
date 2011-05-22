@@ -157,7 +157,7 @@ namespace SquishIt.Tests
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_embedded.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
-            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[@"C:\css\output_embedded.css"]);
+			Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[@"C:\css\output_embedded.css"]);
         }
 
         [Test]
@@ -189,7 +189,7 @@ namespace SquishIt.Tests
                 .Add("~/css/test.less")
                 .Render("~/css/output.css");
 
-            string contents = cssBundleFactory.FileWriterFactory.Files[@"C:\css\output.css"];
+			string contents = cssBundleFactory.FileWriterFactory.Files[@"C:\css\output.css"];
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output.css?r=15D3D9555DEFACE69D6AB9E7FD972638\" />", tag);
             Assert.AreEqual("#header{color:#4d926f}h2{color:#4d926f}", contents);
@@ -215,7 +215,7 @@ namespace SquishIt.Tests
                 .Add("~/css/something/test.less")
                 .Render("~/css/output_less_with_rewrites.css");
 
-            string contents = cssBundleFactory.FileWriterFactory.Files[@"C:\css\output_less_with_rewrites.css"];
+			string contents = cssBundleFactory.FileWriterFactory.Files[@"C:\css\output_less_with_rewrites.css"];
 
             Assert.AreEqual("#header{color:#4d926f;background-image:url(image/mygif.gif)}", contents);
         }
@@ -233,7 +233,7 @@ namespace SquishIt.Tests
                 .Add("~/css/test.less.css")
                 .Render("~/css/output_less_dot_css.css");
 
-            string contents = cssBundleFactory.FileWriterFactory.Files[@"C:\css\output_less_dot_css.css"];
+			string contents = cssBundleFactory.FileWriterFactory.Files[@"C:\css\output_less_dot_css.css"];
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output_less_dot_css.css?r=15D3D9555DEFACE69D6AB9E7FD972638\" />", tag);
             Assert.AreEqual("#header{color:#4d926f}h2{color:#4d926f}", contents);
@@ -254,7 +254,7 @@ namespace SquishIt.Tests
 
             string tag = cssBundle.RenderNamed("Test");
 
-            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[@"C:\css\output.css"]);
+			Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[@"C:\css\output.css"]);
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
         }
 
@@ -292,7 +292,7 @@ namespace SquishIt.Tests
 
             string tag = cssBundle.RenderNamed("TestWithMedia");
 
-            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[@"C:\css\output.css"]);
+			Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[@"C:\css\output.css"]);
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"css/output.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
         }
 
@@ -371,9 +371,9 @@ namespace SquishIt.Tests
                             .WithMinifier<YuiCompressor>()
                             .Render("/css/css_with_compressor_output.css");
 
-			Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/css_with_compressor_output.css?r=23D6019A4B502913579DE4BB98131201\" />", tag);
+			Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/css_with_compressor_output.css?r=1D0C7C68EDD1B4BD490CCE557E427268\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
-            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}\nth{font-weight:normal;vertical-align:bottom}\n.FloatRight{float:right}\n.FloatLeft{float:left}\nli{margin-bottom:.1em;margin-left:0;margin-top:.1em}\nth{font-weight:normal;vertical-align:bottom}\n.FloatRight{float:right}\n.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[@"C:\css\css_with_compressor_output.css"]);
+			Assert.AreEqual(" li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:400;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:400;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[@"C:\css\css_with_compressor_output.css"]);
         }
 
         [Test]
@@ -391,7 +391,7 @@ namespace SquishIt.Tests
                             .WithMinifier<NullCompressor>()
                             .Render("/css/css_with_null_compressor_output.css");
 
-			Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/css_with_null_compressor_output.css?r=B79161F2F4979E630DBB09E482976D5F\" />", tag);
+			Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/css_with_null_compressor_output.css?r=54F52AC95333FEFD5243AC373F573A07\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
             Assert.AreEqual(css + "\n" + css + "\n", cssBundleFactory.FileWriterFactory.Files[@"C:\css\css_with_null_compressor_output.css"]);
         }
@@ -495,7 +495,7 @@ namespace SquishIt.Tests
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_C33D1225DED9D889876CEE87754EE305.css\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
-            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[@"C:\css\output_C33D1225DED9D889876CEE87754EE305.css"]);
+			Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[@"C:\css\output_C33D1225DED9D889876CEE87754EE305.css"]);
         }
   
         [Test]
@@ -547,7 +547,7 @@ namespace SquishIt.Tests
                             .ProcessImports()
                             .Render("/css/processed_import.css");
 
-            Assert.AreEqual("#footer{color:#fff}#header{color:#4d926f}", cssBundleFactory.FileWriterFactory.Files[@"C:\css\processed_import.css"]);
+			Assert.AreEqual("#footer{color:#fff}#header{color:#4d926f}", cssBundleFactory.FileWriterFactory.Files[@"C:\css\processed_import.css"]);
         }
 
         [Test]
@@ -572,7 +572,7 @@ namespace SquishIt.Tests
                             .ProcessImports()
                             .Render("/css/processed_import_noquotes.css");
 
-            Assert.AreEqual("#footer{color:#fff}#header{color:#4d926f}", cssBundleFactory.FileWriterFactory.Files[@"C:\css\processed_import_noquotes.css"]);
+			Assert.AreEqual("#footer{color:#fff}#header{color:#4d926f}", cssBundleFactory.FileWriterFactory.Files[@"C:\css\processed_import_noquotes.css"]);
         }
 
         [Test]
@@ -597,7 +597,7 @@ namespace SquishIt.Tests
                 .ProcessImports()
                 .Render("/css/processed_import_singlequotes.css");
 
-            Assert.AreEqual("#footer{color:#fff}#header{color:#4d926f}", cssBundleFactory.FileWriterFactory.Files[@"C:\css\processed_import_singlequotes.css"]);
+			Assert.AreEqual("#footer{color:#fff}#header{color:#4d926f}", cssBundleFactory.FileWriterFactory.Files[@"C:\css\processed_import_singlequotes.css"]);
         }
 
         [Test]
@@ -622,7 +622,7 @@ namespace SquishIt.Tests
                             .ProcessImports()
                             .Render("/css/processed_import_uppercase.css");
 
-            Assert.AreEqual("#footer{color:#fff}#header{color:#4d926f}", cssBundleFactory.FileWriterFactory.Files[@"C:\css\processed_import_uppercase.css"]);
+			Assert.AreEqual("#footer{color:#fff}#header{color:#4d926f}", cssBundleFactory.FileWriterFactory.Files[@"C:\css\processed_import_uppercase.css"]);
         }
 
         [Test]
@@ -673,11 +673,11 @@ namespace SquishIt.Tests
                     .Create();
 
             string tag = cssBundle
-                                            .Add("/css/first.css")
-                                            .Add("/css/second.css")
-                                            .WithAttribute("media", "screen")
-                                            .WithAttribute("test", "other")
-                                            .Render("/css/css_with_debugattribute_output.css");
+				.Add("/css/first.css")
+				.Add("/css/second.css")
+				.WithAttribute("media", "screen")
+				.WithAttribute("test", "other")
+				.Render("/css/css_with_debugattribute_output.css");
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" test=\"other\" href=\"/css/first.css\" /><link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" test=\"other\" href=\"/css/second.css\" />", tag);
         }

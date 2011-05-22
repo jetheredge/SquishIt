@@ -5,8 +5,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using dotless.Core;
 using SquishIt.Framework.Base;
-using SquishIt.Framework.CSS;
 using SquishIt.Framework.Minifiers;
+using SquishIt.Framework.Minifiers.CSS;
 using SquishIt.Framework.Resolvers;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Utilities;
@@ -28,27 +28,32 @@ namespace SquishIt.Framework.CSS
             get { return CSS_TEMPLATE; }
         }
 
-        protected override string CachePrefix
+    	protected override string CachePrefix
         {
             get { return CACHE_PREFIX; }
         }
 
-        public CSSBundle()
-            : base(new FileWriterFactory(new RetryableFileOpener(), 5), new FileReaderFactory(new RetryableFileOpener(), 5), new DebugStatusReader(), new CurrentDirectoryWrapper(), new Hasher(new RetryableFileOpener()))
+    	protected override IMinifier<CSSBundle> DefaultMinifier
+    	{
+    		get { return new MsCompressor(); }
+    	}
+
+    	public CSSBundle()
+            : base(new FileWriterFactory(new RetryableFileOpener(), 5), new FileReaderFactory(new RetryableFileOpener(), 5), new DebugStatusReader(), new CurrentDirectoryWrapper(), new Hasher(new RetryableFileOpener()), new BundleCache())
         {
         }
 
-        public CSSBundle(IDebugStatusReader debugStatusReader)
-            : base(new FileWriterFactory(new RetryableFileOpener(), 5), new FileReaderFactory(new RetryableFileOpener(), 5), debugStatusReader, new CurrentDirectoryWrapper(), new Hasher(new RetryableFileOpener()))
+    	public CSSBundle(IDebugStatusReader debugStatusReader)
+            : base(new FileWriterFactory(new RetryableFileOpener(), 5), new FileReaderFactory(new RetryableFileOpener(), 5), debugStatusReader, new CurrentDirectoryWrapper(), new Hasher(new RetryableFileOpener()), new BundleCache())
         {
         }
 
-        public CSSBundle(IDebugStatusReader debugStatusReader, IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, ICurrentDirectoryWrapper currentDirectoryWrapper, IHasher hasher)
-            : base(fileWriterFactory, fileReaderFactory, debugStatusReader, currentDirectoryWrapper, hasher)
+    	public CSSBundle(IDebugStatusReader debugStatusReader, IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, ICurrentDirectoryWrapper currentDirectoryWrapper, IHasher hasher, IBundleCache bundleCache)
+            : base(fileWriterFactory, fileReaderFactory, debugStatusReader, currentDirectoryWrapper, hasher, bundleCache)
         {
         }
 
-        private string ProcessLess(string file)
+    	private string ProcessLess(string file)
         {
             lock (typeof(CSSBundle))
             {
@@ -67,31 +72,31 @@ namespace SquishIt.Framework.CSS
             }
         }
 
-        private string ProcessImport(string css)
+    	private string ProcessImport(string css)
         {
             return IMPORT_PATTERN.Replace(css, new MatchEvaluator(ApplyFileContentsToMatchedImport));
         }
 
-        private string ApplyFileContentsToMatchedImport(Match match)
+    	private string ApplyFileContentsToMatchedImport(Match match)
         {
             var file = ResolveAppRelativePathToFileSystem(match.Groups[2].Value);
             DependentFiles.Add(file);
             return ReadFile(file);
         }
 
-        public CSSBundle ProcessImports()
+    	public CSSBundle ProcessImports()
         {
             ShouldImport = true;
             return this;
         }
 
-        public CSSBundle AppendHashForAssets()
+    	public CSSBundle AppendHashForAssets()
         {
             ShouldAppendHashForAssets = true;
             return this;
         }
 
-        protected override string BeforeMinify(string outputFile, List<string> filePaths)
+    	protected override string BeforeMinify(string outputFile, List<string> filePaths)
         {
             var outputCss = new StringBuilder();
             foreach (string file in filePaths)

@@ -1,3 +1,4 @@
+using SquishIt.Framework;
 using SquishIt.Framework.CSS;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Tests.Mocks;
@@ -13,6 +14,7 @@ namespace SquishIt.Tests.Helpers
         private IFileReaderFactory fileReaderFactory = new StubFileReaderFactory();
         private ICurrentDirectoryWrapper currentDirectoryWrapper = new StubCurrentDirectoryWrapper();
         private IHasher hasher = new StubHasher("hash");
+    	private IBundleCache bundleCache = new StubBundleCache();
 
         public StubFileReaderFactory FileReaderFactory { get { return fileReaderFactory as StubFileReaderFactory; } }
         public StubFileWriterFactory FileWriterFactory { get { return fileWriterFactory as StubFileWriterFactory; } }
@@ -49,7 +51,7 @@ namespace SquishIt.Tests.Helpers
 
         public CSSBundle Create()
         {
-            return new CSSBundle(debugStatusReader, fileWriterFactory, fileReaderFactory, currentDirectoryWrapper, hasher);
+            return new CSSBundle(debugStatusReader, fileWriterFactory, fileReaderFactory, currentDirectoryWrapper, hasher, bundleCache);
         }
 
         public CssBundleFactory WithContents(string css)
