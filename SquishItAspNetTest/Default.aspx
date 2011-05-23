@@ -26,32 +26,32 @@
                         .Add("~/js/Menu.js")
                         .AsNamed(Constants.JavaScript.MenuItems, "~/js/menu_#.js"); %>
                                 
-    <%= Bundle.Css()
+    <%= Bundle.CSS()
                 .AddRemote("~/css/jquery-ui-1.8.5.css", "http://ajax.googleapis.com/ajax/libs/jquery/jquery-ui-1.8.5.css")
                 .Add("~/css/jquery-ui-1.8.5.css")
                 .Add("~/css/CodeThinked.css")
                 .Add("~/css/extra/extra.css")
                 .Add("~/css/testdotless.css.less")
                 .AppendHashForAssets()
-                .WithMedia("screen")
+                .WithAttribute("media", "screen")
                 .ForceRelease()
                 .Render("~/css/combined_#.css") %>
                 
-    <%= Bundle.Css()
+    <%= Bundle.CSS()
                 .Add("~/css/extra/extra.css")
-                .WithMedia("screen")
+                        .WithAttribute("media", "screen")
                 .ForceRelease()
                 .Render("~/combined_#.css") %>
-     <%= Bundle.Css()
+     <%= Bundle.CSS()
                 .Add("~/css/extra/extra.css")
                 .Add("~/css/import.css")
                 .Add("~/css/CodeThinked.css")
-                .WithMedia("screen")
+                .WithAttribute("media", "screen")
                 .ForceRelease()
                 .Render("~/css/combinedimport_#.css") %>
-    <%= Bundle.Css()
+    <%= Bundle.CSS()
                 .Add("~/css/import.css")
-                .WithMedia("screen")
+                .WithAttribute("media", "screen")
                 .ForceRelease()
                 .Render("~/combinedimport_#.css") %>     
     <form id="form1" runat="server">
