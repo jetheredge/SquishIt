@@ -87,29 +87,13 @@ namespace SquishIt.Framework.Base
 
         private InputFile GetFileSystemPath(string localPath)
         {
-            string mappedPath = ResolveAppRelativePathToFileSystem(localPath);
+            string mappedPath = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
             return new InputFile(mappedPath, ResolverFactory.Get<FileResolver>());
         }
         
         private InputFile GetEmbeddedResourcePath(string resourcePath)
         {
             return new InputFile(resourcePath, ResolverFactory.Get<EmbeddedResourceResolver>());
-        }
-
-        protected string ResolveAppRelativePathToFileSystem(string file)
-        {
-            // Remove query string
-            if (file.IndexOf('?') != -1)
-            {
-                file = file.Substring(0, file.IndexOf('?'));
-            }
-            
-            if (HttpContext.Current == null)
-            {
-                file = file.Replace("/", "\\").TrimStart('~').TrimStart('\\');
-                return @"C:\" + file.Replace("/", "\\");
-            }
-            return HttpContext.Current.Server.MapPath(file);
         }
 
         private string ExpandAppRelativePath(string file)
@@ -322,7 +306,7 @@ namespace SquishIt.Framework.Base
 						renderPathCache[CachePrefix + "." + group + "." + key] = renderTo;
 					}
 
-                    string outputFile = ResolveAppRelativePathToFileSystem(renderTo);
+                    string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(renderTo);
                     var renderToPath = ExpandAppRelativePath(renderTo);
 
                     var localAssetPaths = new List<string>();

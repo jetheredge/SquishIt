@@ -79,7 +79,7 @@ namespace SquishIt.Framework.CSS
 
     	private string ApplyFileContentsToMatchedImport(Match match)
         {
-            var file = ResolveAppRelativePathToFileSystem(match.Groups[2].Value);
+            var file = FileSystem.ResolveAppRelativePathToFileSystem(match.Groups[2].Value);
             DependentFiles.Add(file);
             return ReadFile(file);
         }
@@ -145,7 +145,7 @@ namespace SquishIt.Framework.CSS
                     var localPath = asset.LocalPath;
                     if (localPath.ToLower().EndsWith(".less") || localPath.ToLower().EndsWith(".less.css"))
                     {
-                        string outputFile = ResolveAppRelativePathToFileSystem(localPath);
+                        string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
                         string css = ProcessLess(outputFile);
                         outputFile += ".debug.css";
                         using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
