@@ -1,0 +1,12 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    @SquishIt.Framework.Bundle.JavaScript().MvcRenderCachedAssetTag("main")
+</head>
+
+<body>
+    @RenderBody()
+</body>
+</html>

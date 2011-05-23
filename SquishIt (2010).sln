@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishItAspNetTest", "Squis
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.Mvc", "SquishIt.Mvc\SquishIt.Mvc.csproj", "{A9F9331C-C3AA-4844-AB33-7714761F725D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishItMvcTest", "SquishItMvcTest\SquishItMvcTest.csproj", "{3839F732-7DD5-4773-BC5B-24353FA50CB3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{A9F9331C-C3AA-4844-AB33-7714761F725D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9F9331C-C3AA-4844-AB33-7714761F725D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9F9331C-C3AA-4844-AB33-7714761F725D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3839F732-7DD5-4773-BC5B-24353FA50CB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3839F732-7DD5-4773-BC5B-24353FA50CB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3839F732-7DD5-4773-BC5B-24353FA50CB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3839F732-7DD5-4773-BC5B-24353FA50CB3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

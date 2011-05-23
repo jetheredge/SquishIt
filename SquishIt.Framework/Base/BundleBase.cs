@@ -12,7 +12,9 @@ namespace SquishIt.Framework.Base
 {
     public abstract class BundleBase<T> where T : BundleBase<T>
     {
-        private const string DEFAULT_GROUP = "default";
+		private static Dictionary<string, string> renderPathCache = new Dictionary<string, string>();
+		
+		private const string DEFAULT_GROUP = "default";
         protected IFileWriterFactory fileWriterFactory;
         protected IFileReaderFactory fileReaderFactory;
         protected IDebugStatusReader debugStatusReader;
@@ -241,6 +243,15 @@ namespace SquishIt.Framework.Base
             return CacheRenderer.Get(CachePrefix, name);
         }
 
+		public string RenderCachedAssetTag(string name)
+		{
+			if (debugStatusReader.IsDebuggingEnabled())
+			{
+				return RenderDebug(name);
+			}
+			return RenderRelease(name, null, new CacheRenderer(CachePrefix, name));
+		}
+
         public void AsNamed(string name, string renderTo)
         {
             Render(renderTo, name, true);
@@ -252,7 +263,6 @@ namespace SquishIt.Framework.Base
             {
                 return RenderDebug(name);
             }
-
             return RenderRelease(name, filePath, new CacheRenderer(CachePrefix, name));
         }
 
@@ -302,6 +312,15 @@ namespace SquishIt.Framework.Base
                     bool hashInFileName = false;
 
                     DependentFiles.Clear();
+
+					if (renderTo == null)
+					{
+						renderTo = renderPathCache[CachePrefix + "." + group + "." + key];
+					}
+					else
+					{
+						renderPathCache[CachePrefix + "." + group + "." + key] = renderTo;
+					}
 
                     string outputFile = ResolveAppRelativePathToFileSystem(renderTo);
                     var renderToPath = ExpandAppRelativePath(renderTo);

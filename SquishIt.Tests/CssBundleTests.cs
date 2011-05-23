@@ -703,6 +703,27 @@ namespace SquishIt.Tests
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"static/css/TestCached.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
         }
 
+		[Test]
+		public void CanCreateCachedBundleAssetTag()
+		{
+			CSSBundle cssBundle = cssBundleFactory
+				.WithHasher(hasher)
+				.WithDebuggingEnabled(false)
+				.WithContents(css)
+				.Create();
+
+			cssBundle
+				.Add("~/css/temp.css")
+				.AsCached("TestCached", "~/static/css/TestCached.css");
+
+			string contents = cssBundle.RenderCached("TestCached");
+			cssBundle.ClearCache();
+			string tag = cssBundle.RenderCachedAssetTag("TestCached");
+
+			Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", contents);
+			Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"static/css/TestCached.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
+		}
+
         [Test]
         public void CanCreateCachedBundleInDebugMode()
         {
