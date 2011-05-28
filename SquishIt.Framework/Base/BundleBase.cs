@@ -174,15 +174,15 @@ namespace SquishIt.Framework.Base
             return (T)this;
         }
 
-        public T AddInGroup(string group, params string[] filesPath)
+        public T AddToGroup(string group, params string[] filesPath)
         {
             foreach (var filePath in filesPath)
-                AddInGroup(group, filePath);
+                AddToGroup(group, filePath);
 
             return (T)this;
         }
 
-        public T AddInGroup( string group, string filePath)
+        public T AddToGroup( string group, string filePath)
         {
             AddAsset(new Asset(filePath), group);
             return (T)this;
