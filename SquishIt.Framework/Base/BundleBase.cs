@@ -274,7 +274,7 @@ namespace SquishIt.Framework.Base
         protected string RenderDebug(string name = null)
         {
             string content = null;
-            if (!bundleCache.TryGetValue(name, out content))
+            if (true || !bundleCache.TryGetValue(name, out content))
             {
                 DependentFiles.Clear();
 
@@ -307,6 +307,7 @@ namespace SquishIt.Framework.Base
 						}
 						/// FIX-----------------------------------------------------
                         sb.Append(FillTemplate(groupBundle, processedFile));
+						sb.Append("\n");
                     }
                 }
 
