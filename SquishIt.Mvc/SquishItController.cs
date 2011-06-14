@@ -7,12 +7,12 @@ namespace SquishIt.Mvc
 	{
 		public ActionResult Js(string id)
 		{
-			return Content(Bundle.JavaScript().RenderCached(id));
+            return Content(Bundle.JavaScript().RenderCached(id), "application/javascript");
 		}
 
 		public ActionResult Css(string id)
 		{
-			return Content(Bundle.CSS().RenderCached(id));
+            return Content(Bundle.CSS().RenderCached(id), "text/css");
 		}
 	}
 }
