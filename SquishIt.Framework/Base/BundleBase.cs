@@ -68,6 +68,20 @@ namespace SquishIt.Framework.Base
             return resolvedFilePaths;
         }
 
+		/// FIX-----------------------------------------------------
+		private InputFile GetInputFile(Asset asset)
+		{
+			if (!asset.IsEmbeddedResource)
+			{
+				return String.IsNullOrEmpty(asset.RemotePath) ? GetFileSystemPath(asset.LocalPath) : GetHttpPath(asset.RemotePath);
+			}
+			else
+			{
+				return GetEmbeddedResourcePath(asset.RemotePath);
+			}
+		}
+		/// FIX-----------------------------------------------------
+		
         private List<InputFile> GetInputFiles(List<Asset> assets)
         {
             var inputFiles = new List<InputFile>();
@@ -90,6 +104,13 @@ namespace SquishIt.Framework.Base
             string mappedPath = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
             return new InputFile(mappedPath, ResolverFactory.Get<FileResolver>());
         }
+
+		/// FIX-----------------------------------------------------
+		private InputFile GetHttpPath(string remotePath)
+		{
+ 			return new InputFile(remotePath, ResolverFactory.Get<HttpResolver>());
+		}
+		/// FIX-----------------------------------------------------
         
         private InputFile GetEmbeddedResourcePath(string resourcePath)
         {
@@ -269,7 +290,7 @@ namespace SquishIt.Framework.Base
         protected string RenderDebug(string name = null)
         {
             string content = null;
-            if (!bundleCache.TryGetValue(name, out content))
+            if (true || !bundleCache.TryGetValue(name, out content))
             {
                 DependentFiles.Clear();
 
@@ -284,8 +305,25 @@ namespace SquishIt.Framework.Base
                     DependentFiles.AddRange(GetFiles(assets));
                     foreach (var asset in assets)
                     {
-                        string processedFile = ExpandAppRelativePath(asset.LocalPath);
+						string processedFile = ExpandAppRelativePath(asset.LocalPath);
+						/// FIX-----------------------------------------------------
+						if (!String.IsNullOrEmpty(asset.RemotePath))
+						{
+							IEnumerable<String> files = null;
+							var inputFile = GetInputFile(asset);
+							files = inputFile.Resolver.TryResolve(asset.IsEmbeddedResource ? inputFile.FilePath : asset.RemotePath);
+							var debugContent = String.Empty;
+							var tsb = new StringBuilder();
+							foreach(var fn in files)
+							{
+								tsb.Append(ReadFile(fn) + "\n\n\n");
+							}
+							var renderer = new FileRenderer(fileWriterFactory);
+							renderer.Render(tsb.ToString(), FileSystem.ResolveAppRelativePathToFileSystem((processedFile)));
+						}
+						/// FIX-----------------------------------------------------
                         sb.Append(FillTemplate(groupBundle, processedFile));
+						sb.Append("\n");
                     }
                 }
 
@@ -372,24 +410,24 @@ namespace SquishIt.Framework.Base
                         hash = hasher.GetHash(minifiedContent);
                     }
 
-                    string renderedCssTag;
+                    string renderedTag;
                     if (hashInFileName)
                     {
-                        renderedCssTag = FillTemplate(groupBundle, renderToPath);
+                        renderedTag = FillTemplate(groupBundle, renderToPath);
                     }
                     else
                     {
                         if (renderToPath.Contains("?"))
                         {
-                            renderedCssTag = FillTemplate(groupBundle, renderToPath + "&" + HashKeyName + "=" + hash);
+                            renderedTag = FillTemplate(groupBundle, renderToPath + "&" + HashKeyName + "=" + hash);
                         }
                         else
                         {
-                            renderedCssTag = FillTemplate(groupBundle, renderToPath + "?" + HashKeyName + "=" + hash);
+                            renderedTag = FillTemplate(groupBundle, renderToPath + "?" + HashKeyName + "=" + hash);
                         }
                     }
 
-                    content += String.Concat(GetFilesForRemote(remoteAssetPaths, groupBundle), renderedCssTag);
+                    content += String.Concat(GetFilesForRemote(remoteAssetPaths, groupBundle), renderedTag);
                 }
 
                 bundleCache.Add(key, content, DependentFiles);
@@ -400,7 +438,7 @@ namespace SquishIt.Framework.Base
         
 		public void ClearCache()
         {
-            bundleCache.ClearTestingCache();
+			bundleCache.ClearTestingCache();
         }
 
         private void AddAttributes(Dictionary<string, string> attributes, string group = DEFAULT_GROUP, bool merge = true)
