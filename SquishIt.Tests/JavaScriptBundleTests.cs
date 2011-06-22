@@ -34,7 +34,7 @@ namespace SquishIt.Tests
         private StubFileReaderFactory fileReaderFactory;
         private StubCurrentDirectoryWrapper currentDirectoryWrapper;
         private IHasher hasher;
-    	private StubBundleCache stubBundleCache;
+        private StubBundleCache stubBundleCache;
 
         [SetUp]
         public void Setup()
@@ -44,7 +44,7 @@ namespace SquishIt.Tests
             fileWriterFactory = new StubFileWriterFactory();
             fileReaderFactory = new StubFileReaderFactory();
             currentDirectoryWrapper = new StubCurrentDirectoryWrapper();
-        	stubBundleCache = new StubBundleCache();
+            stubBundleCache = new StubBundleCache();
 
             var retryableFileOpener = new RetryableFileOpener();
             hasher = new Hasher(retryableFileOpener);
@@ -56,28 +56,28 @@ namespace SquishIt.Tests
                                                         fileReaderFactory,
                                                         currentDirectoryWrapper,
                                                         hasher,
-														stubBundleCache);
+                                                        stubBundleCache);
 
             javaScriptBundle2 = new JavaScriptBundle(nonDebugStatusReader,
                                                         fileWriterFactory,
                                                         fileReaderFactory,
                                                         currentDirectoryWrapper,
                                                         hasher,
-														stubBundleCache);
+                                                        stubBundleCache);
 
             debugJavaScriptBundle = new JavaScriptBundle(debugStatusReader,
                                                         fileWriterFactory,
                                                         fileReaderFactory,
                                                         currentDirectoryWrapper,
                                                         hasher,
-														stubBundleCache);
+                                                        stubBundleCache);
 
             debugJavaScriptBundle2 = new JavaScriptBundle(debugStatusReader,
                                                         fileWriterFactory,
                                                         fileReaderFactory,
                                                         currentDirectoryWrapper,
                                                         hasher,
-														stubBundleCache);
+                                                        stubBundleCache);
         }
 
         [Test]
@@ -169,10 +169,9 @@ namespace SquishIt.Tests
                     .AddEmbeddedResource("~/js/test.js", "SquishIt.Tests://EmbeddedResource.Embedded.js")
                     .Render("~/js/output_Embedded.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test.js\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test.js\"></script>\n", tag);
         }
 
-        //-------------------------------------------------------------------------
         [Test]
         public void CanRenderDebugTags()
         {
@@ -183,7 +182,7 @@ namespace SquishIt.Tests
 
             var tag = debugJavaScriptBundle.RenderNamed("TestWithDebug");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script><script type=\"text/javascript\" src=\"js/test2.js\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script>\n<script type=\"text/javascript\" src=\"js/test2.js\"></script>\n", tag);
         }
 
         [Test]
@@ -202,8 +201,8 @@ namespace SquishIt.Tests
             var tag1 = debugJavaScriptBundle.RenderNamed("TestWithDebug");
             var tag2 = debugJavaScriptBundle2.RenderNamed("TestWithDebug");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script><script type=\"text/javascript\" src=\"js/test2.js\"></script>", tag1);
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script><script type=\"text/javascript\" src=\"js/test2.js\"></script>", tag2);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script>\n<script type=\"text/javascript\" src=\"js/test2.js\"></script>\n", tag1);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script>\n<script type=\"text/javascript\" src=\"js/test2.js\"></script>\n", tag2);
         }
 
         [Test]
@@ -216,7 +215,7 @@ namespace SquishIt.Tests
 
             var tag = debugJavaScriptBundle.RenderNamed("NamedWithDebug");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script><script type=\"text/javascript\" src=\"js/test2.js\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script>\n<script type=\"text/javascript\" src=\"js/test2.js\"></script>\n", tag);
         }
 
         [Test]
@@ -224,7 +223,7 @@ namespace SquishIt.Tests
         {
             var tag = javaScriptBundle
                     .Add("~/js/test.js")
-					.WithMinifier<NullMinifier>()
+                    .WithMinifier<NullMinifier>()
                     .Render("~/js/output_6.js");
 
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_6.js?r=1C5788F076B8F8FB10AF9A76E7B822CB\"></script>", tag);
@@ -286,14 +285,14 @@ namespace SquishIt.Tests
 
             javaScriptBundle
                     .Add("~/js/test.js")
-					.RenderOnlyIfOutputFileMissing()
+                    .RenderOnlyIfOutputFileMissing()
                     .Render("~/js/output_9.js");
 
             Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_9.js")]);
 
             fileReaderFactory.SetContents(javaScript2);
             fileReaderFactory.SetFileExists(true);
-        	javaScriptBundle.ClearCache();
+            javaScriptBundle.ClearCache();
 
             javaScriptBundle
                     .Add("~/js/test.js")
@@ -393,7 +392,7 @@ namespace SquishIt.Tests
                     .Add("~/js/test2.js")
                     .WithAttribute("charset", "utf-8")
                     .Render("~/js/output_debugattr.js");
-            Assert.AreEqual("<script type=\"text/javascript\" charset=\"utf-8\" src=\"js/test1.js\"></script><script type=\"text/javascript\" charset=\"utf-8\" src=\"js/test2.js\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" charset=\"utf-8\" src=\"js/test1.js\"></script>\n<script type=\"text/javascript\" charset=\"utf-8\" src=\"js/test2.js\"></script>\n", tag);
         }
 
         [Test]
@@ -409,20 +408,20 @@ namespace SquishIt.Tests
             Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", content);
         }
 
-		[Test]
-		public void CanCreateCachedBundleAssetTag()
-		{
-			javaScriptBundle
-					.Add("~/js/test.js")
-					.AsCached("Test", "~/assets/js/main");
+        [Test]
+        public void CanCreateCachedBundleAssetTag()
+        {
+            javaScriptBundle
+                    .Add("~/js/test.js")
+                    .AsCached("Test", "~/assets/js/main");
 
-			var content = javaScriptBundle.RenderCached("Test");
-			javaScriptBundle.ClearCache();
-			var tag = javaScriptBundle.RenderCachedAssetTag("Test");
+            var content = javaScriptBundle.RenderCached("Test");
+            javaScriptBundle.ClearCache();
+            var tag = javaScriptBundle.RenderCachedAssetTag("Test");
 
-			Assert.AreEqual("<script type=\"text/javascript\" src=\"assets/js/main?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
-			Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", content);
-		}
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"assets/js/main?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
+            Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", content);
+        }
 
         [Test]
         public void CanCreateCachedBundleWithDebug()
@@ -430,7 +429,7 @@ namespace SquishIt.Tests
             var tag = debugJavaScriptBundle
                     .Add("~/js/test.js")
                     .AsCached("Test", "~/js/output_2.js");
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test.js\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test.js\"></script>\n", tag);
         }
     }
 }
