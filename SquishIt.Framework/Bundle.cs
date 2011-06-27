@@ -15,12 +15,12 @@ namespace SquishIt.Framework
             return new JavaScriptBundle(debugStatusReader);
         }
        
-        public static CSSBundle CSS()
+        public static CSSBundle Css()
         {
             return new CSSBundle();
         }
 
-        public static CSSBundle CSS(Utilities.IDebugStatusReader debugStatusReader)
+        public static CSSBundle Css(Utilities.IDebugStatusReader debugStatusReader)
         {
             return new CSSBundle(debugStatusReader);
         }

@@ -26,7 +26,7 @@
                         .Add("~/js/Menu.js")
                         .AsNamed(Constants.JavaScript.MenuItems, "~/js/menu_#.js"); %>
                                 
-    <%= Bundle.CSS()
+    <%= Bundle.Css()
                 .AddRemote("~/css/jquery-ui-1.8.5.css", "http://ajax.googleapis.com/ajax/libs/jquery/jquery-ui-1.8.5.css")
                 .Add("~/css/jquery-ui-1.8.5.css")
                 .Add("~/css/CodeThinked.css")
@@ -37,19 +37,19 @@
                 .ForceRelease()
                 .Render("~/css/combined_#.css") %>
                 
-    <%= Bundle.CSS()
+    <%= Bundle.Css()
                 .Add("~/css/extra/extra.css")
                         .WithAttribute("media", "screen")
                 .ForceRelease()
                 .Render("~/combined_#.css") %>
-     <%= Bundle.CSS()
+     <%= Bundle.Css()
                 .Add("~/css/extra/extra.css")
                 .Add("~/css/import.css")
                 .Add("~/css/CodeThinked.css")
                 .WithAttribute("media", "screen")
                 .ForceRelease()
                 .Render("~/css/combinedimport_#.css") %>
-    <%= Bundle.CSS()
+    <%= Bundle.Css()
                 .Add("~/css/import.css")
                 .WithAttribute("media", "screen")
                 .ForceRelease()
