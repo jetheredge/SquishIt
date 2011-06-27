@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Caching;
-using SquishIt.Framework.CSS;
+using SquishIt.Framework.Css;
 using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.Minifiers;
 

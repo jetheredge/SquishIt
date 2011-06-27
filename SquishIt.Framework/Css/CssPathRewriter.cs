@@ -4,7 +4,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using SquishIt.Framework.Utilities;
 
-namespace SquishIt.Framework.CSS
+namespace SquishIt.Framework.Css
 {
     public class CSSPathRewriter
     {

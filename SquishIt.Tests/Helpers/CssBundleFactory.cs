@@ -1,5 +1,5 @@
 using SquishIt.Framework;
-using SquishIt.Framework.CSS;
+using SquishIt.Framework.Css;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Tests.Mocks;
 using SquishIt.Framework.Utilities;

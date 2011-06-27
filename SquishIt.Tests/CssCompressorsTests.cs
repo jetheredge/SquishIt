@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using SquishIt.Framework.CSS;
+using SquishIt.Framework.Css;
 using SquishIt.Framework.Minifiers;
 using SquishIt.Framework.Minifiers.CSS;
 

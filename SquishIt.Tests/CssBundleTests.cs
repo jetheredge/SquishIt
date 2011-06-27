@@ -1,6 +1,6 @@
 using SquishIt.Framework;
 using NUnit.Framework;
-using SquishIt.Framework.CSS;
+using SquishIt.Framework.Css;
 using SquishIt.Framework.Minifiers.CSS;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Tests.Mocks;

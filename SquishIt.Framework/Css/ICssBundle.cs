@@ -1,7 +1,7 @@
 using SquishIt.Framework.Base;
 
 
-namespace SquishIt.Framework.CSS
+namespace SquishIt.Framework.Css
 {
     /*
     public interface ICSSBundle : IBundle<ICSSBundle>

@@ -11,7 +11,7 @@ using SquishIt.Framework.Resolvers;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Utilities;
 
-namespace SquishIt.Framework.CSS
+namespace SquishIt.Framework.Css
 {
     public class CSSBundle : BundleBase<CSSBundle>
     {
