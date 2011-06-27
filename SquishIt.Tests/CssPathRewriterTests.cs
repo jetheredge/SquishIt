@@ -344,5 +344,30 @@ namespace SquishIt.Tests
                                                     ";
             Assert.AreEqual(expected, result);
         }
+
+        [Test]
+        public void WontRewriteDataUrls()
+        {
+            
+
+            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            string css =
+                @"
+                                                        .header {
+                                                                background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUg...') no-repeat 0 0;
+                                                        }
+                                                    ";
+            string sourceFile = TestUtilities.PreparePath(@"C:\somepath\somesubpath\myfile.css");
+            string targetFile = TestUtilities.PreparePath(@"C:\somepath\someothersubpath\evendeeper\output.css");
+            string result = CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
+
+            string expected =
+                @"
+                                                        .header {
+                                                                background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUg...') no-repeat 0 0;
+                                                        }
+                                                    ";
+            Assert.AreEqual(expected, result);
+        }
     }
 }

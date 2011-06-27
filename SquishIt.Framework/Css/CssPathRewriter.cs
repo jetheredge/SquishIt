@@ -53,7 +53,7 @@ namespace SquishIt.Framework.Css
             foreach (Match match in matches)
             {
                 var path = match.Groups[1].Captures[0].Value;
-                if (!path.StartsWith("/") && !path.StartsWith("http://") && !path.StartsWith("https://"))
+                if (!path.StartsWith("/") && !path.StartsWith("http://") && !path.StartsWith("https://") && !path.StartsWith("data:"))
                 {
                     if (matchesHash.Add(path))
                     {
