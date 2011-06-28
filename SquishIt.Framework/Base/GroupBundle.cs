@@ -3,7 +3,7 @@ using SquishIt.Framework.Minifiers;
 
 namespace SquishIt.Framework.Base
 {
-    internal class GroupBundle
+    public class GroupBundle
     {
         internal List<Asset> Assets = new List<Asset>();
         internal Dictionary<string, string> Attributes = new Dictionary<string, string>();

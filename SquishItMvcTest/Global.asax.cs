@@ -39,6 +39,7 @@ namespace SquishItMvcTest
 
 			Bundle.JavaScript()
 				.Add("~/js/jquery-1.6.1.js")
+                .ForceRelease()
 				.AsCached("main", "~/assets/js/main");
 		}
 	}

@@ -13,8 +13,8 @@ namespace SquishIt.Framework.Base
     public abstract class BundleBase<T> where T : BundleBase<T>
     {
         private static Dictionary<string, string> renderPathCache = new Dictionary<string, string>();
-
-        private const string DEFAULT_GROUP = "default";
+        private static Dictionary<string, NamedState> namedState = new Dictionary<string, NamedState>();
+        private static Dictionary<string, string> debugFiles = new Dictionary<string, string>();
         protected IFileWriterFactory fileWriterFactory;
         protected IFileReaderFactory fileReaderFactory;
         protected IDebugStatusReader debugStatusReader;
@@ -36,11 +36,7 @@ namespace SquishIt.Framework.Base
         protected string HashKeyName { get; set; }
         private bool ShouldRenderOnlyIfOutputFileIsMissing { get; set; }
         protected List<string> DependentFiles = new List<string>();
-        internal Dictionary<string, GroupBundle> GroupBundles = new Dictionary<string, GroupBundle>
-        {
-            { DEFAULT_GROUP, new GroupBundle() }
-        };
-
+        internal GroupBundle GroupBundle = new GroupBundle();
         private IBundleCache bundleCache;
 
         protected BundleBase(IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, IDebugStatusReader debugStatusReader, ICurrentDirectoryWrapper currentDirectoryWrapper, IHasher hasher, IBundleCache bundleCache)
@@ -162,19 +158,9 @@ namespace SquishIt.Framework.Base
             return sb.ToString();
         }
 
-        private void AddAsset(Asset asset, string group = DEFAULT_GROUP)
+        private void AddAsset(Asset asset)
         {
-            GroupBundle groupBundle;
-            if (GroupBundles.TryGetValue(group, out groupBundle))
-            {
-                groupBundle.Assets.Add(asset);
-            }
-            else
-            {
-                groupBundle = new GroupBundle();
-                groupBundle.Assets.Add(asset);
-                GroupBundles[group] = groupBundle;
-            }
+            GroupBundle.Assets.Add(asset);
         }
 
         public T Add(params string[] filesPath)
@@ -188,20 +174,6 @@ namespace SquishIt.Framework.Base
         public T Add(string filePath)
         {
             AddAsset(new Asset(filePath));
-            return (T)this;
-        }
-
-        public T AddToGroup(string group, params string[] filesPath)
-        {
-            foreach (var filePath in filesPath)
-                AddToGroup(group, filePath);
-
-            return (T)this;
-        }
-
-        public T AddToGroup(string group, string filePath)
-        {
-            AddAsset(new Asset(filePath), group);
             return (T)this;
         }
 
@@ -237,7 +209,7 @@ namespace SquishIt.Framework.Base
 
         public string Render(string renderTo)
         {
-            string key = renderTo + GroupBundles.GetHashCode();
+            string key = renderTo + GroupBundle.GetHashCode();
             return Render(renderTo, key);
         }
 
@@ -245,14 +217,21 @@ namespace SquishIt.Framework.Base
         {
             if (debugStatusReader.IsDebuggingEnabled())
             {
-                return RenderDebug(isNamed ? key : null);
+                string result = RenderDebug(isNamed ? key : null);
+                debugFiles[key] = result;
+                return result;
             }
             return RenderRelease(key, renderTo, new FileRenderer(fileWriterFactory));
         }
 
         public string RenderNamed(string name)
         {
-            return bundleCache.GetContent(name);
+            NamedState state = namedState[name];
+            if (state.Debug)
+            {
+                return debugFiles[name];
+            }
+            return RenderRelease(name, state.RenderTo, new FileRenderer(fileWriterFactory));
         }
 
         public string RenderCached(string name)
@@ -262,23 +241,28 @@ namespace SquishIt.Framework.Base
 
         public string RenderCachedAssetTag(string name)
         {
-            if (debugStatusReader.IsDebuggingEnabled())
+            NamedState state = namedState[name];
+            if (state.Debug)
             {
-                return RenderDebug(name);
+                return debugFiles[name];
             }
             return RenderRelease(name, null, new CacheRenderer(CachePrefix, name));
         }
 
         public void AsNamed(string name, string renderTo)
         {
+            namedState[name] = new NamedState(debugStatusReader.IsDebuggingEnabled(), renderTo);
             Render(renderTo, name, true);
         }
 
         public string AsCached(string name, string filePath)
         {
+            namedState[name] = new NamedState(debugStatusReader.IsDebuggingEnabled(), filePath);
             if (debugStatusReader.IsDebuggingEnabled())
             {
-                return RenderDebug(name);
+                string result = RenderDebug(name);
+                debugFiles[name] = result;
+                return result;
             }
             return RenderRelease(name, filePath, new CacheRenderer(CachePrefix, name));
         }
@@ -290,35 +274,30 @@ namespace SquishIt.Framework.Base
             {
                 DependentFiles.Clear();
 
-                var modifiedGroupBundles = BeforeRenderDebug();
+                BeforeRenderDebug();
+                
                 var sb = new StringBuilder();
-                foreach (var groupBundleKVP in modifiedGroupBundles)
+                var assets = GroupBundle.Assets;
+                DependentFiles.AddRange(GetFiles(assets));
+                foreach (var asset in assets)
                 {
-                    var groupBundle = groupBundleKVP.Value;
-                    var attributes = GetAdditionalAttributes(groupBundle);
-                    var assets = groupBundle.Assets;
-
-                    DependentFiles.AddRange(GetFiles(assets));
-                    foreach (var asset in assets)
+                    string processedFile = ExpandAppRelativePath(asset.LocalPath);
+                    if (!String.IsNullOrEmpty(asset.RemotePath))
                     {
-                        string processedFile = ExpandAppRelativePath(asset.LocalPath);
-                        if (!String.IsNullOrEmpty(asset.RemotePath))
+                        IEnumerable<String> files = null;
+                        var inputFile = GetInputFile(asset);
+                        files = inputFile.Resolver.TryResolve(asset.IsEmbeddedResource ? inputFile.FilePath : asset.RemotePath);
+                        var debugContent = String.Empty;
+                        var tsb = new StringBuilder();
+                        foreach (var fn in files)
                         {
-                            IEnumerable<String> files = null;
-                            var inputFile = GetInputFile(asset);
-                            files = inputFile.Resolver.TryResolve(asset.IsEmbeddedResource ? inputFile.FilePath : asset.RemotePath);
-                            var debugContent = String.Empty;
-                            var tsb = new StringBuilder();
-                            foreach (var fn in files)
-                            {
-                                tsb.Append(ReadFile(fn) + "\n\n\n");
-                            }
-                            var renderer = new FileRenderer(fileWriterFactory);
-                            renderer.Render(tsb.ToString(), FileSystem.ResolveAppRelativePathToFileSystem((processedFile)));
+                            tsb.Append(ReadFile(fn) + "\n\n\n");
                         }
-                        sb.Append(FillTemplate(groupBundle, processedFile));
-                        sb.Append("\n");
+                        var renderer = new FileRenderer(fileWriterFactory);
+                        renderer.Render(tsb.ToString(), FileSystem.ResolveAppRelativePathToFileSystem((processedFile)));
                     }
+                    sb.Append(FillTemplate(GroupBundle, processedFile));
+                    sb.Append("\n");
                 }
 
                 content = sb.ToString();
@@ -334,95 +313,89 @@ namespace SquishIt.Framework.Base
             if (!bundleCache.TryGetValue(key, out content))
             {
                 var files = new List<string>();
-                foreach (var groupBundleKVP in GroupBundles)
+                string minifiedContent = null;
+                string hash = null;
+                bool hashInFileName = false;
+
+                DependentFiles.Clear();
+
+                if (renderTo == null)
                 {
-                    var group = groupBundleKVP.Key;
-                    var groupBundle = groupBundleKVP.Value;
-
-                    string minifiedContent = null;
-                    string hash = null;
-                    bool hashInFileName = false;
-
-                    DependentFiles.Clear();
-
-                    if (renderTo == null)
-                    {
-                        renderTo = renderPathCache[CachePrefix + "." + group + "." + key];
-                    }
-                    else
-                    {
-                        renderPathCache[CachePrefix + "." + group + "." + key] = renderTo;
-                    }
-
-                    string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(renderTo);
-                    var renderToPath = ExpandAppRelativePath(renderTo);
-
-                    var localAssetPaths = new List<string>();
-                    var remoteAssetPaths = new List<string>();
-                    var embeddedAssetPaths = new List<string>();
-                    foreach (var asset in groupBundle.Assets)
-                    {
-                        if (asset.RemotePath == null)
-                        {
-                            localAssetPaths.Add(asset.LocalPath);
-                        }
-                        else if (!asset.IsEmbeddedResource)
-                        {
-                            remoteAssetPaths.Add(asset.RemotePath);
-                        }
-                        else if (asset.IsEmbeddedResource)
-                        {
-                            embeddedAssetPaths.Add(asset.RemotePath);
-                        }
-                    }
-
-                    files.AddRange(GetFiles(groupBundle.Assets));
-                    DependentFiles.AddRange(files);
-
-                    if (renderTo.Contains("#"))
-                    {
-                        hashInFileName = true;
-                        minifiedContent = Minifier.Minify(BeforeMinify(outputFile, files));
-                        hash = hasher.GetHash(minifiedContent);
-                        renderTo = renderTo.Replace("#", hash);
-                        renderToPath = renderToPath.Replace("#", hash);
-                        outputFile = outputFile.Replace("#", hash);
-                    }
-
-                    if (ShouldRenderOnlyIfOutputFileIsMissing && FileExists(outputFile) && minifiedContent == null)
-                    {
-                        minifiedContent = ReadFile(outputFile);
-                    }
-                    else
-                    {
-                        minifiedContent = minifiedContent ?? Minifier.Minify(BeforeMinify(outputFile, files));
-                        renderer.Render(minifiedContent, outputFile);
-                    }
-
-                    if (hash == null)
-                    {
-                        hash = hasher.GetHash(minifiedContent);
-                    }
-
-                    string renderedTag;
-                    if (hashInFileName)
-                    {
-                        renderedTag = FillTemplate(groupBundle, renderToPath);
-                    }
-                    else
-                    {
-                        if (renderToPath.Contains("?"))
-                        {
-                            renderedTag = FillTemplate(groupBundle, renderToPath + "&" + HashKeyName + "=" + hash);
-                        }
-                        else
-                        {
-                            renderedTag = FillTemplate(groupBundle, renderToPath + "?" + HashKeyName + "=" + hash);
-                        }
-                    }
-
-                    content += String.Concat(GetFilesForRemote(remoteAssetPaths, groupBundle), renderedTag);
+                    renderTo = renderPathCache[CachePrefix + "." + key];
                 }
+                else
+                {
+                    renderPathCache[CachePrefix + "." + key] = renderTo;
+                }
+
+                string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(renderTo);
+                var renderToPath = ExpandAppRelativePath(renderTo);
+
+                var localAssetPaths = new List<string>();
+                var remoteAssetPaths = new List<string>();
+                var embeddedAssetPaths = new List<string>();
+                foreach (var asset in GroupBundle.Assets)
+                {
+                    if (asset.RemotePath == null)
+                    {
+                        localAssetPaths.Add(asset.LocalPath);
+                    }
+                    else if (!asset.IsEmbeddedResource)
+                    {
+                        remoteAssetPaths.Add(asset.RemotePath);
+                    }
+                    else if (asset.IsEmbeddedResource)
+                    {
+                        embeddedAssetPaths.Add(asset.RemotePath);
+                    }
+                }
+
+                files.AddRange(GetFiles(GroupBundle.Assets));
+                DependentFiles.AddRange(files);
+
+                if (renderTo.Contains("#"))
+                {
+                    hashInFileName = true;
+                    minifiedContent = Minifier.Minify(BeforeMinify(outputFile, files));
+                    hash = hasher.GetHash(minifiedContent);
+                    renderTo = renderTo.Replace("#", hash);
+                    renderToPath = renderToPath.Replace("#", hash);
+                    outputFile = outputFile.Replace("#", hash);
+                }
+
+                if (ShouldRenderOnlyIfOutputFileIsMissing && FileExists(outputFile) && minifiedContent == null)
+                {
+                    minifiedContent = ReadFile(outputFile);
+                }
+                else
+                {
+                    minifiedContent = minifiedContent ?? Minifier.Minify(BeforeMinify(outputFile, files));
+                    renderer.Render(minifiedContent, outputFile);
+                }
+
+                if (hash == null)
+                {
+                    hash = hasher.GetHash(minifiedContent);
+                }
+
+                string renderedTag;
+                if (hashInFileName)
+                {
+                    renderedTag = FillTemplate(GroupBundle, renderToPath);
+                }
+                else
+                {
+                    if (renderToPath.Contains("?"))
+                    {
+                        renderedTag = FillTemplate(GroupBundle, renderToPath + "&" + HashKeyName + "=" + hash);
+                    }
+                    else
+                    {
+                        renderedTag = FillTemplate(GroupBundle, renderToPath + "?" + HashKeyName + "=" + hash);
+                    }
+                }
+
+                content += String.Concat(GetFilesForRemote(remoteAssetPaths, GroupBundle), renderedTag);
 
                 bundleCache.Add(key, content, DependentFiles);
             }
@@ -433,28 +406,22 @@ namespace SquishIt.Framework.Base
         public void ClearCache()
         {
             bundleCache.ClearTestingCache();
+            debugFiles.Clear();
+            namedState.Clear();
         }
 
-        private void AddAttributes(Dictionary<string, string> attributes, string group = DEFAULT_GROUP, bool merge = true)
+        private void AddAttributes(Dictionary<string, string> attributes, bool merge = true)
         {
-            GroupBundle groupBundle;
-            if (GroupBundles.TryGetValue(group, out groupBundle))
+            if (merge)
             {
-                if (merge)
+                foreach (var attribute in attributes)
                 {
-                    foreach (var attribute in attributes)
-                    {
-                        groupBundle.Attributes[attribute.Key] = attribute.Value;
-                    }
-                }
-                else
-                {
-                    groupBundle.Attributes = attributes;
+                    GroupBundle.Attributes[attribute.Key] = attribute.Value;
                 }
             }
             else
             {
-                GroupBundles[group] = new GroupBundle(attributes);
+                GroupBundle.Attributes = attributes;
             }
         }
 
@@ -467,18 +434,6 @@ namespace SquishIt.Framework.Base
         public T WithAttributes(Dictionary<string, string> attributes, bool merge = true)
         {
             AddAttributes(attributes, merge: merge);
-            return (T)this;
-        }
-
-        public T WithGroupAttribute(string name, string value, string group)
-        {
-            AddAttributes(new Dictionary<string, string> { { name, value } }, group);
-            return (T)this;
-        }
-
-        public T WithGroupAttributes(Dictionary<string, string> attributes, string group, bool merge = true)
-        {
-            AddAttributes(attributes, group, merge);
             return (T)this;
         }
 
@@ -516,9 +471,9 @@ namespace SquishIt.Framework.Base
             return sb.ToString();
         }
 
-        internal virtual Dictionary<string, GroupBundle> BeforeRenderDebug()
+        internal virtual void BeforeRenderDebug()
         {
-            return GroupBundles;
+            
         }
 
         protected abstract string Template { get; }
