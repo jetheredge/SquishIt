@@ -416,6 +416,7 @@ namespace SquishIt.Tests
                     .AsCached("Test", "~/assets/js/main");
 
             var content = javaScriptBundle.RenderCached("Test");
+            javaScriptBundle.ClearCache();
             var tag = javaScriptBundle.RenderCachedAssetTag("Test");
 
             Assert.AreEqual("<script type=\"text/javascript\" src=\"assets/js/main?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);

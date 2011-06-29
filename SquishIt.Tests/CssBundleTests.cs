@@ -79,8 +79,8 @@ namespace SquishIt.Tests
             cssBundle1.Add("/css/first.css", "/css/second.css");
             cssBundle2.Add("/css/first.css").Add("/css/second.css");
 
-            var cssBundle1Assets = cssBundle1.GroupBundle.Assets;
-            var cssBundle2Assets = cssBundle2.GroupBundle.Assets;
+            var cssBundle1Assets = cssBundle1.GroupBundles["default"].Assets;
+            var cssBundle2Assets = cssBundle1.GroupBundles["default"].Assets;
 
             Assert.AreEqual(cssBundle1Assets.Count, cssBundle2Assets.Count);
             for (var i = 0; i < cssBundle1Assets.Count; i++)
@@ -92,6 +92,33 @@ namespace SquishIt.Tests
             }
         }
 
+        [Test]
+        public void CanAddMultiplePathFilesToGroup()
+        {
+            var myGroup = "myGroup";
+            var cssBundle1 = cssBundleFactory
+                .WithDebuggingEnabled(true)
+                .Create();
+
+            var cssBundle2 = cssBundleFactory
+                .WithDebuggingEnabled(true)
+                .Create();
+
+            cssBundle1.AddToGroup(myGroup, "/css/first.css", "/css/second.css");
+            cssBundle2.AddToGroup(myGroup, "/css/first.css").AddToGroup(myGroup, "/css/second.css");
+
+            var cssBundle1Assets = cssBundle1.GroupBundles[myGroup].Assets;
+            var cssBundle2Assets = cssBundle1.GroupBundles[myGroup].Assets;
+
+            Assert.AreEqual(cssBundle1Assets.Count, cssBundle2Assets.Count);
+            for (var i = 0; i < cssBundle1Assets.Count; i++)
+            {
+                var assetBundle1 = cssBundle1Assets[i];
+                var assetBundle2 = cssBundle2Assets[i];
+                Assert.AreEqual(assetBundle1.LocalPath, assetBundle2.LocalPath);
+                Assert.AreEqual(assetBundle1.Order, assetBundle2.Order);
+            }
+        }
         [Test]
         public void CanBundleCss()
         {
@@ -744,6 +771,7 @@ namespace SquishIt.Tests
                 .AsCached("TestCached", "~/static/css/TestCached.css");
 
             string contents = cssBundle.RenderCached("TestCached");
+            cssBundle.ClearCache();
             string tag = cssBundle.RenderCachedAssetTag("TestCached");
 
             Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", contents);
