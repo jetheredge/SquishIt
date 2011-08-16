@@ -32,7 +32,6 @@ namespace SquishIt.Framework
         public bool TryGetValue(string key, out string content)
         {
             content = (string)HttpRuntime.Cache[KEY_PREFIX + key];
-
             return content != null;
         }
 

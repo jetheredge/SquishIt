@@ -39,6 +39,8 @@ namespace SquishIt.Framework.Base
             { DEFAULT_GROUP, new GroupBundle() }
         };
 
+        private static Dictionary<string,Dictionary<string, GroupBundle>> groupBundlesCache = new Dictionary<string, Dictionary<string, GroupBundle>>();
+
         private IBundleCache bundleCache;
 
         protected BundleBase(IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, IDebugStatusReader debugStatusReader, ICurrentDirectoryWrapper currentDirectoryWrapper, IHasher hasher, IBundleCache bundleCache)
@@ -252,27 +254,33 @@ namespace SquishIt.Framework.Base
 
         public string RenderNamed(string name)
         {
+            GroupBundles = groupBundlesCache[CachePrefix + name];
             return bundleCache.GetContent(CachePrefix + name);
         }
 
         public string RenderCached(string name)
         {
+            GroupBundles = groupBundlesCache[CachePrefix + name];
             return CacheRenderer.Get(CachePrefix, name);
         }
 
         public string RenderCachedAssetTag(string name)
         {
+            GroupBundles = groupBundlesCache[CachePrefix + name];
             return Render(null, name, new CacheRenderer(CachePrefix, name));
         }
 
         public void AsNamed(string name, string renderTo)
         {
             Render(renderTo, name, new FileRenderer(fileWriterFactory));
+            groupBundlesCache[CachePrefix + name] = GroupBundles;
         }
 
         public string AsCached(string name, string filePath)
         {
-            return Render(filePath, name, new CacheRenderer(CachePrefix, name));
+            string result = Render(filePath, name, new CacheRenderer(CachePrefix, name));
+            groupBundlesCache[CachePrefix + name] = GroupBundles;
+            return result;
         }
 
         protected string RenderDebug(string name = null)
