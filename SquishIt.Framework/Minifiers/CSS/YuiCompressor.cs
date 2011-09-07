@@ -6,6 +6,7 @@ namespace SquishIt.Framework.Minifiers.CSS
     {
         private readonly int columnWidth = 0;
         private readonly CssCompressionType compressionType = CssCompressionType.Hybrid;
+        private readonly bool removeComments = true;
 
         internal YuiCompressor()
         {
@@ -22,9 +23,16 @@ namespace SquishIt.Framework.Minifiers.CSS
             this.compressionType = compressionType;
         }
 
+        internal YuiCompressor(int columnWidth, CssCompressionType compressionType, bool removeComments)
+        {
+            this.columnWidth = columnWidth;
+            this.compressionType = compressionType;
+            this.removeComments = removeComments;
+        }
+
         public string Minify(string content)
         {
-            return CssCompressor.Compress(content, columnWidth, compressionType, true);
+            return CssCompressor.Compress(content, columnWidth, compressionType, removeComments);
         }
     }
 }
