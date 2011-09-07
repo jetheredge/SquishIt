@@ -23,7 +23,7 @@ namespace SquishIt.Framework.Css
 
             foreach (string relativePath in relativePaths)
             {
-                var resolvedSourcePath = new Uri(sourceUri + relativePath, true);
+                var resolvedSourcePath = new Uri(sourceUri + relativePath, UriKind.Absolute);
                 var resolvedOutput = outputUri.MakeRelativeUri(resolvedSourcePath);
 
                 css = css.Replace(relativePath, resolvedOutput.OriginalString);
