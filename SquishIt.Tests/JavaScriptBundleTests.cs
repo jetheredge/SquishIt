@@ -431,5 +431,17 @@ namespace SquishIt.Tests
                     .AsCached("Test", "~/js/output_2.js");
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test.js\"></script>\n", tag);
         }
+
+        [Test]
+        public void WithoutTypeAttribute () 
+        {
+            var tag = javaScriptBundle
+                    .Add ("~/js/test.js")
+                    .WithoutTypeAttribute ()
+                    .Render ("~/js/output_1.js");
+
+            Assert.AreEqual ("<script src=\"js/output_1.js?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
+            Assert.AreEqual ("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory (@"C:\js\output_1.js")]);
+        }
     }
 }
