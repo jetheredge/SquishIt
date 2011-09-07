@@ -24,7 +24,7 @@ namespace SquishIt.Framework.Minifiers.CSS
 
         public string Minify(string content)
         {
-            return CssCompressor.Compress(content, columnWidth, compressionType);
+            return CssCompressor.Compress(content, columnWidth, compressionType, true);
         }
     }
 }
