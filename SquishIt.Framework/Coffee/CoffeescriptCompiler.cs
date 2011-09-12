@@ -17,6 +17,10 @@ namespace SquishIt.Framework.Coffee
         public string Compile(string input)
         {
             CoffeeScriptEngine.SetGlobalValue("Source", input);
+
+            // Errors go from here straight on to the rendered page; 
+            // we don't want to hide them because they provide valuable feedback
+            // on the location of the error
             string result = CoffeeScriptEngine.Evaluate<string>("CoffeeScript.compile(Source, {bare: true})");
 
             return result;
