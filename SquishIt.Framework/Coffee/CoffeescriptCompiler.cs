@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using EcmaScript.NET;
 using Jurassic;
 
 namespace SquishIt.Framework.Coffee
