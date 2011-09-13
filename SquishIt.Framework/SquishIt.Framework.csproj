@@ -63,8 +63,8 @@
     <Reference Include="EcmaScript.NET.modified">
       <HintPath>..\packages\YUICompressor.NET.1.6.0.0\lib\NET35\EcmaScript.NET.modified.dll</HintPath>
     </Reference>
-    <Reference Include="Jurassic">
-      <HintPath>..\tools\jurassic\Jurassic.dll</HintPath>
+    <Reference Include="Jurassic, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jurassic.2.1.1\lib\Jurassic.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
