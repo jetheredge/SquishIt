@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssetsFileHasherTests.cs" />
+    <Compile Include="Coffee\CoffeescriptCompilerTests.cs" />
     <Compile Include="CssBundleTests.cs" />
     <Compile Include="CssCompressorsTests.cs" />
     <Compile Include="CssPathRewriterTests.cs" />

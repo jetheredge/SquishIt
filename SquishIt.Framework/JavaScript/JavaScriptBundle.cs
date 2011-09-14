@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using SquishIt.Framework.Base;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Minifiers;
@@ -40,6 +43,68 @@ namespace SquishIt.Framework.JavaScript {
         protected override string CachePrefix 
         {
             get { return CACHE_PREFIX; }
+        }
+
+        internal override Dictionary<string, GroupBundle> BeforeRenderDebug()
+        {
+            var modifiedGroupBundles = new Dictionary<string, GroupBundle>(GroupBundles);
+
+            foreach (var groupBundleKVP in modifiedGroupBundles)
+            {
+                var groupBundle = groupBundleKVP.Value;
+
+                foreach (var asset in groupBundle.Assets)
+                {
+                    var localPath = asset.LocalPath;
+                    if (localPath.ToLower().EndsWith(".coffee"))
+                    {
+                        string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
+                        string javascript = ProcessCoffee(outputFile);
+                        outputFile += ".debug.js";
+                        using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
+                        {
+                            fileWriter.Write(javascript);
+                        }
+
+                        asset.LocalPath = localPath + ".debug.js";
+                    }
+                }
+            }
+
+            return modifiedGroupBundles;
+        }
+
+        protected override string BeforeMinify(string outputFile, List<string> files)
+        {
+            var sb = new StringBuilder();
+            foreach (var file in files)
+            {
+                string content = file.EndsWith(".coffee")
+                                     ? ProcessCoffee(file)
+                                     : ReadFile(file);
+
+                sb.Append(content + "\n");
+            }
+
+            return sb.ToString();
+        }
+
+        private string ProcessCoffee(string file)
+        {
+            lock (typeof(JavaScriptBundle))
+            {
+                try
+                {
+                    currentDirectoryWrapper.SetCurrentDirectory(Path.GetDirectoryName(file));
+                    var content = ReadFile(file);
+                    var compiler = new Coffee.CoffeescriptCompiler();
+                    return compiler.Compile(content);
+                }
+                finally
+                {
+                    currentDirectoryWrapper.Revert();
+                }
+            }
         }
     }
 }
