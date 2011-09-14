@@ -17,7 +17,7 @@ namespace SquishIt.Tests.Coffee
 
             string result = compiler.Compile("alert 'test' ");
 
-            Assert.AreEqual("alert('test');", result);
+            Assert.AreEqual("(function() {\n  alert('test');\n}).call(this);\n", result);
         }
 
         [Test]
