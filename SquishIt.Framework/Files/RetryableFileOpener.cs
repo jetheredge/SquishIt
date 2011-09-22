@@ -48,6 +48,10 @@ namespace SquishIt.Framework.Files
                     var stream = new FileStream(filePath, fileMode, fileAccess, fileShare);
                     return stream;
                 }
+    			catch(DirectoryNotFoundException)
+				{
+					throw;
+				}
                 catch (FileNotFoundException)
                 {
                     throw;
@@ -62,7 +66,7 @@ namespace SquishIt.Framework.Files
             }
 
             //We will never get here
-            throw new IOException("Unable to open file");
+            throw new IOException(System.String.Format("Unable to open file '{0}'", filePath));
         }
 
         /// <summary>
@@ -101,6 +105,10 @@ namespace SquishIt.Framework.Files
                     var stream = new StreamReader(filePath, Encoding.UTF8);
                     return stream;
                 }
+        		catch(DirectoryNotFoundException)
+				{
+					throw;
+				}
                 catch(FileNotFoundException)
                 {
                     throw;
@@ -115,7 +123,7 @@ namespace SquishIt.Framework.Files
             }
 
             //We will never get here
-            throw new IOException("Unable to open file");
+            throw new IOException(System.String.Format("Unable to open file '{0}'", filePath));
         }
 
         /// <summary>
