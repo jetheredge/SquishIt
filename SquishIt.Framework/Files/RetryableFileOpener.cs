@@ -48,10 +48,10 @@ namespace SquishIt.Framework.Files
                     var stream = new FileStream(filePath, fileMode, fileAccess, fileShare);
                     return stream;
                 }
-    			catch(DirectoryNotFoundException)
-				{
-					throw;
-				}
+    		catch(DirectoryNotFoundException)
+		{
+		    throw;
+		}
                 catch (FileNotFoundException)
                 {
                     throw;
@@ -105,10 +105,10 @@ namespace SquishIt.Framework.Files
                     var stream = new StreamReader(filePath, Encoding.UTF8);
                     return stream;
                 }
-        		catch(DirectoryNotFoundException)
-				{
-					throw;
-				}
+        	catch(DirectoryNotFoundException)
+		{
+		    throw;
+		}
                 catch(FileNotFoundException)
                 {
                     throw;
