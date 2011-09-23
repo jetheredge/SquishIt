@@ -15,6 +15,7 @@ namespace SquishIt.Framework.Base
         private static Dictionary<string, string> renderPathCache = new Dictionary<string, string>();
 
         private const string DEFAULT_GROUP = "default";
+        protected string BaseOutputHref = String.Empty;
         protected IFileWriterFactory fileWriterFactory;
         protected IFileReaderFactory fileReaderFactory;
         protected IDebugStatusReader debugStatusReader;
@@ -235,6 +236,12 @@ namespace SquishIt.Framework.Base
             return (T)this;
         }
 
+        public T WithOutputBaseHref(string href)
+        {
+            BaseOutputHref = href;
+            return (T)this;
+        }
+
         public string Render(string renderTo)
         {
             string key = renderTo + GroupBundles.GetHashCode();
@@ -355,6 +362,11 @@ namespace SquishIt.Framework.Base
 
                     string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(renderTo);
                     var renderToPath = ExpandAppRelativePath(renderTo);
+
+                    if (!String.IsNullOrEmpty(BaseOutputHref))
+                    {
+                        renderToPath = String.Concat(BaseOutputHref.TrimEnd('/'), "/", renderToPath.TrimStart('/'));
+                    }
 
                     var localAssetPaths = new List<string>();
                     var remoteAssetPaths = new List<string>();
