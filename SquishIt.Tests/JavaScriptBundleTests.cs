@@ -87,8 +87,8 @@ namespace SquishIt.Tests
                     .Add("~/js/test.js")
                     .Render("~/js/output_1.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_1.js?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
-            Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_1.js")]);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_1.js?r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
+            Assert.AreEqual("function product(n,t){return n*t}function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_1.js")]);
         }
 
         [Test]
@@ -98,7 +98,7 @@ namespace SquishIt.Tests
                     .Add("~/js/test.js")
                     .Render("~/js/output_querystring.js?v=2");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_querystring.js?v=2&r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_querystring.js?v=2&r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
         }
 
         [Test]
@@ -110,8 +110,8 @@ namespace SquishIt.Tests
 
             var tag = javaScriptBundle.RenderNamed("TestNamed");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_namedbundle.js?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
-            Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_namedbundle.js")]);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_namedbundle.js?r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
+            Assert.AreEqual("function product(n,t){return n*t}function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_namedbundle.js")]);
         }
 
         [Test]
@@ -122,8 +122,8 @@ namespace SquishIt.Tests
                     .Add("~/js/test.js")
                     .Render("~/js/output_1_2.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_1_2.js?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
-            Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_1_2.js")]);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_1_2.js?r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
+            Assert.AreEqual("function product(n,t){return n*t}function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_1_2.js")]);
         }
 
         [Test]
@@ -134,7 +134,7 @@ namespace SquishIt.Tests
                     .Add("~/js/test.js")
                     .Render("~/js/output_querystring.js?v=2_2");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_querystring.js?v=2_2&r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_querystring.js?v=2_2&r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
         }
 
         [Test]
@@ -147,8 +147,8 @@ namespace SquishIt.Tests
 
             var tag = javaScriptBundle.RenderNamed("TestCdn");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_3_2.js?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
-            Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_3_2.js")]);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_3_2.js?r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
+            Assert.AreEqual("function product(n,t){return n*t}function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_3_2.js")]);
         }
 
         [Test]
@@ -158,8 +158,8 @@ namespace SquishIt.Tests
                     .AddEmbeddedResource("~/js/test.js", "SquishIt.Tests://EmbeddedResource.Embedded.js")
                     .Render("~/js/output_Embedded.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_Embedded.js?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
-            Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_Embedded.js")]);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_Embedded.js?r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
+            Assert.AreEqual("function product(n,t){return n*t}function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_Embedded.js")]);
         }
 
         [Test]
@@ -275,7 +275,7 @@ namespace SquishIt.Tests
                         .Render("~/js/output_8.js");
 
                 Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_8.js?r=00DFDFFC4078EFF6DFCC6244EAB77420\"></script>", tag);
-                Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b};\r\n", fileWriterFactory.Files[@"C:\js\output_8.js"]);
+                Assert.AreEqual("function product(n,t){return n*t}function sum(n,t){return n+t};\r\n", fileWriterFactory.Files[@"C:\js\output_8.js"]);
         }*/
 
         [Test]
@@ -288,7 +288,7 @@ namespace SquishIt.Tests
                     .RenderOnlyIfOutputFileMissing()
                     .Render("~/js/output_9.js");
 
-            Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_9.js")]);
+            Assert.AreEqual("function product(n,t){return n*t}function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_9.js")]);
 
             fileReaderFactory.SetContents(javaScript2);
             fileReaderFactory.SetFileExists(true);
@@ -299,7 +299,7 @@ namespace SquishIt.Tests
                     .RenderOnlyIfOutputFileMissing()
                     .Render("~/js/output_9.js");
 
-            Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_9.js")]);
+            Assert.AreEqual("function product(n,t){return n*t}function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_9.js")]);
         }
 
         [Test]
@@ -311,7 +311,7 @@ namespace SquishIt.Tests
                     .Add("~/js/test.js")
                     .Render("~/js/output_10.js");
 
-            Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_10.js")]);
+            Assert.AreEqual("function product(n,t){return n*t}function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_10.js")]);
 
             fileReaderFactory.SetContents(javaScript2);
             fileReaderFactory.SetFileExists(true);
@@ -322,7 +322,7 @@ namespace SquishIt.Tests
                     .Add("~/js/test.js")
                     .Render("~/js/output_10.js");
 
-            Assert.AreEqual("function sum(a,b){return a+b}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_10.js")]);
+            Assert.AreEqual("function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_10.js")]);
         }
 
         [Test]
@@ -332,8 +332,8 @@ namespace SquishIt.Tests
                     .Add("~/js/test.js")
                     .Render("~/js/output_#.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_E36D384488ABCF73BCCE650C627FB74F.js\"></script>", tag);
-            Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_E36D384488ABCF73BCCE650C627FB74F.js")]);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_36286D0CEA57C5ED24B868EB0D2898E9.js\"></script>", tag);
+            Assert.AreEqual("function product(n,t){return n*t}function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_36286D0CEA57C5ED24B868EB0D2898E9.js")]);
         }
 
         [Test]
@@ -343,8 +343,8 @@ namespace SquishIt.Tests
                     .Add("~/js/test_file.js")
                     .Render("~/js/outputunder_#.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/outputunder_E36D384488ABCF73BCCE650C627FB74F.js\"></script>", tag);
-            Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\outputunder_E36D384488ABCF73BCCE650C627FB74F.js")]);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/outputunder_36286D0CEA57C5ED24B868EB0D2898E9.js\"></script>", tag);
+            Assert.AreEqual("function product(n,t){return n*t}function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\outputunder_36286D0CEA57C5ED24B868EB0D2898E9.js")]);
         }
 
         [Test]
@@ -357,8 +357,8 @@ namespace SquishIt.Tests
 
             var tag = javaScriptBundle.RenderNamed("ForceRelease");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_forcerelease.js?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
-            Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_forcerelease.js")]);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_forcerelease.js?r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
+            Assert.AreEqual("function product(n,t){return n*t}function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_forcerelease.js")]);
         }
 
         [Test]
@@ -369,7 +369,7 @@ namespace SquishIt.Tests
                     .WithAttribute("charset", "utf-8")
                     .Render("~/js/output_att.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" charset=\"utf-8\" src=\"js/output_att.js?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" charset=\"utf-8\" src=\"js/output_att.js?r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
         }
 
         [Test]
@@ -381,7 +381,7 @@ namespace SquishIt.Tests
                     .WithAttribute("other", "value")
                     .Render("~/js/output_att2.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" charset=\"utf-8\" other=\"value\" src=\"js/output_att2.js?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" charset=\"utf-8\" other=\"value\" src=\"js/output_att2.js?r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
         }
 
         [Test]
@@ -404,8 +404,8 @@ namespace SquishIt.Tests
 
             var content = javaScriptBundle.RenderCached("Test");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_2.js?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
-            Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", content);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_2.js?r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
+            Assert.AreEqual("function product(n,t){return n*t}function sum(n,t){return n+t}", content);
         }
 
         [Test]
@@ -419,8 +419,8 @@ namespace SquishIt.Tests
             javaScriptBundle.ClearCache();
             var tag = javaScriptBundle.RenderCachedAssetTag("Test");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"assets/js/main?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
-            Assert.AreEqual("function product(a,b){return a*b}function sum(a,b){return a+b}", content);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"assets/js/main?r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
+            Assert.AreEqual("function product(n,t){return n*t}function sum(n,t){return n+t}", content);
         }
 
         [Test]
@@ -440,8 +440,8 @@ namespace SquishIt.Tests
                     .WithoutTypeAttribute ()
                     .Render ("~/js/output_1.js");
 
-            Assert.AreEqual ("<script src=\"js/output_1.js?r=E36D384488ABCF73BCCE650C627FB74F\"></script>", tag);
-            Assert.AreEqual ("function product(a,b){return a*b}function sum(a,b){return a+b}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory (@"C:\js\output_1.js")]);
+            Assert.AreEqual ("<script src=\"js/output_1.js?r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
+            Assert.AreEqual ("function product(n,t){return n*t}function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory (@"C:\js\output_1.js")]);
         }
     }
 }
