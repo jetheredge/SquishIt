@@ -1,16 +1,17 @@
 <package>
   <metadata>
     <id>SquishIt</id>
-    <version>0.8.0</version>
+    <version>0.9.0</version>
     <authors>Justin Etheredge</authors>
+	<owners>Justin Etheredge</owners>
     <description>
       SquishIt lets you easily compress and combine JavaScript and CSS. It also includes the ability to use dotless to process your CSS.
     </description>
 	<projectUrl>https://github.com/jetheredge/SquishIt</projectUrl>
 	<dependencies>
-      <dependency id="YUICompressor.NET" version="1.5.0.0" />
-	  <dependency id="dotless" version="1.1.0" />
-	  <dependency id="AjaxMin" version="4.13.4076.28499" />
+      <dependency id="YUICompressor.NET" version="1.6.0.2" />
+	  <dependency id="dotless" version="1.2.1.0" />
+	  <dependency id="AjaxMin" version="4.30.4295.16112" />
 	  <dependency id="Jurassic" version="2.1.1" />
     </dependencies>
   </metadata>

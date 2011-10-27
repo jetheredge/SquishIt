@@ -1,12 +1,11 @@
 <Configuration>
   <CoverageFilters>
-    <AllowFilters>
-      <Filter>
-        <ClassFilter>*</ClassFilter>
-        <FunctionFilter>*</FunctionFilter>
-        <ModuleFilter>*</ModuleFilter>
-      </Filter>
-    </AllowFilters>
-    <DenyFilters />
+    <IncludeFilters>
+      <Filter ModuleMask="*" ClassMask="*" FunctionMask="*" />
+    </IncludeFilters>
+    <ExcludeFilters />
   </CoverageFilters>
+  <SnapshotDialog>
+    <InitialDirectory>C:\development\SquishIt</InitialDirectory>
+  </SnapshotDialog>
 </Configuration>
