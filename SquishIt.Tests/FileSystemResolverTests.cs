@@ -58,5 +58,21 @@ namespace SquishIt.Tests
                 Assert.AreEqual(values[key], resolvedFile[0], key);
             }
         }
+
+		[Test]
+		public void CanResolveDirectory()
+		{
+			string path = Guid.NewGuid().ToString();
+			var directory = Directory.CreateDirectory(path);
+			File.Create(Path.Combine(directory.FullName, "file1")).Close();
+			File.Create(Path.Combine(directory.FullName, "file2")).Close();
+
+			var result = new FileSystemResolver().TryResolve(path).ToList();
+			Assert.AreEqual (2, result.Count);
+			Assert.Contains (path + Path.DirectorySeparatorChar + "file1", result);
+			Assert.Contains (path + Path.DirectorySeparatorChar + "file2", result);
+			
+			Directory.Delete(path, true);
+		}
     }
 }
