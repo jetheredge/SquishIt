@@ -15,6 +15,11 @@ namespace SquishIt.Framework.Coffee
 
         public string Compile(string input)
         {
+			if(FileSystem.Unix)
+			{
+				throw new NotSupportedException ("Coffeescript not yet supported for mono.");
+			}
+
             CoffeeScriptEngine.SetGlobalValue("Source", input);
 
             // Errors go from here straight on to the rendered page; 
@@ -40,7 +45,7 @@ namespace SquishIt.Framework.Coffee
             }
         }
 
-        public static string Compiler 
+        static string Compiler 
         { 
             get
             {
