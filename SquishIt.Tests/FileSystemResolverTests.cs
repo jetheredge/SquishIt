@@ -4,12 +4,11 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using SquishIt.Framework.Resolvers;
-using SquishIt.Tests.Stubs;
 
 namespace SquishIt.Tests
 {
     [TestFixture]
-    public class FileResolverTests
+    public class FileSystemResolverTests
     {
         [Test, Platform(Exclude = "Unix, Linux, Mono")]
         public void CanResolveFile()
@@ -32,7 +31,7 @@ namespace SquishIt.Tests
                                  {@"..\..\testfile.js", Path.GetFullPath(Environment.CurrentDirectory + @"\..\..\testfile.js")}
                              };
 
-            var fileResolver = new FileResolver();
+            var fileResolver = new FileSystemResolver();
             foreach (string key in values.Keys)
             {
                 var resolvedFile = fileResolver.TryResolve(key).ToList();
@@ -52,26 +51,12 @@ namespace SquishIt.Tests
 								 {@"../testfile.js", Path.Combine(currentDirectory.Substring(0, currentDirectory.LastIndexOf("/")), "testfile.js")}
                              };
 
-            var fileResolver = new FileResolver();
+            var fileResolver = new FileSystemResolver();
             foreach (string key in values.Keys)
             {
                 var resolvedFile = fileResolver.TryResolve(key).ToList();
                 Assert.AreEqual(values[key], resolvedFile[0], key);
             }
-        }
-
-        [Test]
-        public void CanResolveDirectory()
-        {
-            var directoryEnumerator = new StubDirectoryEnumerator();
-            var fileResolver = new DirectoryResolver(directoryEnumerator);
-            var files = fileResolver.TryResolve(@"C:\test\").ToList();
-
-            Assert.AreEqual(@"C:\test\file1.js", files[0]);
-            Assert.AreEqual(@"C:\test\file2.js", files[1]);
-            Assert.AreEqual(@"C:\test\file3.js", files[2]);
-            Assert.AreEqual(@"C:\test\file4.js", files[3]);
-            Assert.AreEqual(@"C:\test\file5.js", files[4]);
         }
     }
 }

@@ -12,9 +12,8 @@ namespace SquishIt.Framework.Resolvers
     {
         private static Dictionary<string, IResolver> resolvers = new Dictionary<string, IResolver>
         {
-            {typeof(DirectoryResolver).FullName, new DirectoryResolver()},
             {typeof(EmbeddedResourceResolver).FullName, new EmbeddedResourceResolver()},
-            {typeof(FileResolver).FullName, new FileResolver()},
+            {typeof(FileSystemResolver).FullName, new FileSystemResolver()},
             {typeof(HttpResolver).FullName, new HttpResolver()},
         };
 

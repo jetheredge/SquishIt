@@ -9,13 +9,13 @@ namespace SquishIt.Framework.Utilities
     public class CssAssetsFileHasher : ICssAssetsFileHasher
     {
         protected readonly string HashQueryStringKeyName;
-        protected readonly IResolver FileResolver;
+        protected readonly IResolver FileSystemResolver;
         protected readonly IHasher Hasher;
 
         public CssAssetsFileHasher(string hashQueryStringKeyName, IResolver fileResolver, IHasher hasher)
         {
             HashQueryStringKeyName = hashQueryStringKeyName;
-            FileResolver = fileResolver;
+            FileSystemResolver = fileResolver;
             Hasher = hasher;
         }
 
@@ -79,7 +79,7 @@ namespace SquishIt.Framework.Utilities
                     resolvedUrl = FileSystem.ResolveAppRelativePathToFileSystem(url);
                 }
 
-                return FileResolver.TryResolve(resolvedUrl).ToList()[0];
+                return FileSystemResolver.TryResolve(resolvedUrl).ToList()[0];
             }
 
             return urlUri.LocalPath;

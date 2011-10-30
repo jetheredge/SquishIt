@@ -32,5 +32,11 @@ namespace SquishIt.Framework
             }
             return HttpContext.Current.Server.MapPath(file);
         }
+
+        public static string ResolveFileSystemPathToAppRelative(string file)
+        {
+            var root = new Uri(HttpContext.Current.Request.PhysicalApplicationPath);
+            return root.MakeRelativeUri(new Uri(file)).ToString();
+        }
     }
 }
