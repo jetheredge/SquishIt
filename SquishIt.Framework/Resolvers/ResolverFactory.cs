@@ -14,7 +14,7 @@ namespace SquishIt.Framework.Resolvers
         {
             {typeof(DirectoryResolver).FullName, new DirectoryResolver()},
             {typeof(EmbeddedResourceResolver).FullName, new EmbeddedResourceResolver()},
-            {typeof(FileResolver).FullName, new FileResolver()},
+            {typeof(FileSystemResolver).FullName, new FileSystemResolver()},
             {typeof(HttpResolver).FullName, new HttpResolver()},
         };
 

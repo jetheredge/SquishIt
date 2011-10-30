@@ -104,7 +104,7 @@
     <Compile Include="FileGZipper.cs" />
     <Compile Include="Resolvers\DirectoryResolver.cs" />
     <Compile Include="Resolvers\EmbeddedResourceResolver.cs" />
-    <Compile Include="Resolvers\FileResolver.cs" />
+    <Compile Include="Resolvers\FileSystemResolver.cs" />
     <Compile Include="Resolvers\HttpResolver.cs" />
     <Compile Include="Resolvers\IResolver.cs" />
     <Compile Include="Resolvers\ResolverFactory.cs" />

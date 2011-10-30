@@ -120,7 +120,7 @@ namespace SquishIt.Framework.Css
 
                 if (ShouldAppendHashForAssets)
                 {
-                    var fileResolver = new FileResolver();
+                    var fileResolver = new FileSystemResolver();
                     fileHasher = new CssAssetsFileHasher(HashKeyName, fileResolver, hasher);
                 }
 

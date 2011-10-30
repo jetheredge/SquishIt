@@ -101,7 +101,7 @@ namespace SquishIt.Framework.Base
         private InputFile GetFileSystemPath(string localPath)
         {
             string mappedPath = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
-            return new InputFile(mappedPath, ResolverFactory.Get<FileResolver>());
+            return new InputFile(mappedPath, ResolverFactory.Get<FileSystemResolver>());
         }
 
         private InputFile GetHttpPath(string remotePath)
@@ -308,22 +308,35 @@ namespace SquishIt.Framework.Base
                     DependentFiles.AddRange(GetFiles(assets));
                     foreach (var asset in assets)
                     {
-                        string processedFile = ExpandAppRelativePath(asset.LocalPath);
+                        var inputFile = GetInputFile(asset);
+                        var files = inputFile.Resolver.TryResolve(inputFile.FilePath);
+
                         if (asset.IsEmbeddedResource)
                         {
-                            IEnumerable<String> files = null;
-                            var inputFile = GetInputFile(asset);
-                            files = inputFile.Resolver.TryResolve(inputFile.FilePath);
                             var tsb = new StringBuilder();
+
                             foreach (var fn in files)
                             {
                                 tsb.Append(ReadFile(fn) + "\n\n\n");
                             }
+
                             var renderer = new FileRenderer(fileWriterFactory);
-                            renderer.Render(tsb.ToString(), FileSystem.ResolveAppRelativePathToFileSystem((processedFile)));
+                            var processedFile = ExpandAppRelativePath(asset.LocalPath);
+                            renderer.Render(tsb.ToString(), FileSystem.ResolveAppRelativePathToFileSystem(processedFile));
+                            sb.AppendLine(FillTemplate(groupBundle, processedFile));
                         }
-                        sb.Append(FillTemplate(groupBundle, processedFile));
-                        sb.Append("\n");
+                        else if (asset.RemotePath != null)
+                        {
+                            sb.AppendLine(FillTemplate(groupBundle, ExpandAppRelativePath(asset.LocalPath)));
+                        }
+                        else
+                        {
+                            foreach (var file in files)
+                            {
+                                var relativePath = FileSystem.ResolveFileSystemPathToAppRelative(file);
+                                sb.AppendLine(FillTemplate(groupBundle, HttpContext.Current.Request.ApplicationPath + relativePath));
+                            }
+                        }
                     }
                 }
 
