@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using SquishIt.Framework;
 
@@ -37,6 +39,16 @@ namespace SquishIt.Tests.Helpers
             //hash is calculated differently w/ different newline characters
             //normalize windows -> unix bc it's easier
             return contents.Replace("\r\n", "\n");
+        }
+
+        public static string CreateFile(string path, string contents)
+        {
+            using (var file = File.Create(path))
+            {
+                var bytes = Encoding.UTF8.GetBytes(contents);
+                file.Write(bytes, 0, bytes.Length);
+            }
+            return path;
         }
     }
 }

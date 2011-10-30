@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using NUnit.Framework;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.JavaScript;
@@ -170,7 +171,7 @@ namespace SquishIt.Tests
                     .AddEmbeddedResource("~/js/test.js", "SquishIt.Tests://EmbeddedResource.Embedded.js")
                     .Render("~/js/output_Embedded.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test.js\"></script>" + Environment.NewLine, tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test.js\"></script>\n", TestUtilities.NormalizeLineEndings(tag));
         }
 
         [Test]
@@ -183,7 +184,7 @@ namespace SquishIt.Tests
 
             var tag = debugJavaScriptBundle.RenderNamed("TestWithDebug");
 
-            Assert.AreEqual(string.Format("<script type=\"text/javascript\" src=\"js/test1.js\"></script>{0}<script type=\"text/javascript\" src=\"js/test2.js\"></script>{0}", Environment.NewLine), tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script>\n<script type=\"text/javascript\" src=\"js/test2.js\"></script>\n", TestUtilities.NormalizeLineEndings(tag));
         }
 
         [Test]
@@ -202,8 +203,8 @@ namespace SquishIt.Tests
             var tag1 = debugJavaScriptBundle.RenderNamed("TestWithDebug");
             var tag2 = debugJavaScriptBundle2.RenderNamed("TestWithDebug");
 
-            Assert.AreEqual(string.Format("<script type=\"text/javascript\" src=\"js/test1.js\"></script>{0}<script type=\"text/javascript\" src=\"js/test2.js\"></script>{0}", Environment.NewLine), tag1);
-            Assert.AreEqual(string.Format("<script type=\"text/javascript\" src=\"js/test1.js\"></script>{0}<script type=\"text/javascript\" src=\"js/test2.js\"></script>{0}", Environment.NewLine), tag2);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script>\n<script type=\"text/javascript\" src=\"js/test2.js\"></script>\n", TestUtilities.NormalizeLineEndings(tag1));
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script>\n<script type=\"text/javascript\" src=\"js/test2.js\"></script>\n", TestUtilities.NormalizeLineEndings(tag2));
         }
 
         [Test]
@@ -216,7 +217,7 @@ namespace SquishIt.Tests
 
             var tag = debugJavaScriptBundle.RenderNamed("NamedWithDebug");
 
-            Assert.AreEqual(string.Format("<script type=\"text/javascript\" src=\"js/test1.js\"></script>{0}<script type=\"text/javascript\" src=\"js/test2.js\"></script>{0}", Environment.NewLine), tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script>\n<script type=\"text/javascript\" src=\"js/test2.js\"></script>\n", TestUtilities.NormalizeLineEndings(tag));
         }
 
         [Test]
@@ -393,7 +394,7 @@ namespace SquishIt.Tests
                     .Add("~/js/test2.js")
                     .WithAttribute("charset", "utf-8")
                     .Render("~/js/output_debugattr.js");
-            Assert.AreEqual(string.Format("<script type=\"text/javascript\" charset=\"utf-8\" src=\"js/test1.js\"></script>{0}<script type=\"text/javascript\" charset=\"utf-8\" src=\"js/test2.js\"></script>{0}", Environment.NewLine), tag);
+            Assert.AreEqual("<script type=\"text/javascript\" charset=\"utf-8\" src=\"js/test1.js\"></script>\n<script type=\"text/javascript\" charset=\"utf-8\" src=\"js/test2.js\"></script>\n", TestUtilities.NormalizeLineEndings(tag));
         }
 
         [Test]
@@ -430,19 +431,78 @@ namespace SquishIt.Tests
             var tag = debugJavaScriptBundle
                     .Add("~/js/test.js")
                     .AsCached("Test", "~/js/output_2.js");
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test.js\"></script>" + Environment.NewLine, tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test.js\"></script>\n", TestUtilities.NormalizeLineEndings(tag));
         }
 
         [Test]
-        public void WithoutTypeAttribute () 
+        public void WithoutTypeAttribute()
         {
             var tag = javaScriptBundle
-                    .Add ("~/js/test.js")
-                    .WithoutTypeAttribute ()
-                    .Render ("~/js/output_1.js");
+                    .Add("~/js/test.js")
+                    .WithoutTypeAttribute()
+                    .Render("~/js/output_1.js");
 
-            Assert.AreEqual ("<script src=\"js/output_1.js?r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
-            Assert.AreEqual ("function product(n,t){return n*t}function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory (@"C:\js\output_1.js")]);
+            Assert.AreEqual("<script src=\"js/output_1.js?r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
+            Assert.AreEqual("function product(n,t){return n*t}function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\js\output_1.js")]);
+        }
+
+        [Test]
+        public void CanBundleDirectoryContentsInDebug()
+        {
+            //TODO: currently assumes you want to include ALL files found in directory. Would be nice to be able to pass in a file extension.
+            //using real directory / files for now because of the way directory existence is checked
+            var path = Guid.NewGuid().ToString();
+            var fullPath = Path.Combine(Directory.GetDirectoryRoot(Environment.CurrentDirectory), path);
+            try
+            {
+                var directory = Directory.CreateDirectory(fullPath);
+                TestUtilities.CreateFile(Path.Combine(directory.FullName, "file1.js"), "");
+                TestUtilities.CreateFile(Path.Combine(directory.FullName, "file2.js"), "");
+                var tag = new JavaScriptBundle(new StubDebugStatusReader(true))
+                    .Add(path)
+                    .Render("~/output.js");
+
+                var expectedTag = string.Format("<script type=\"text/javascript\" src=\"/{0}/file1.js\"></script>\n<script type=\"text/javascript\" src=\"/{0}/file2.js\"></script>\n", path);
+                Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+            }
+            finally
+            {
+                Directory.Delete(fullPath, true);
+            }
+        }
+
+        [Test]
+        public void CanBundleDirectoryContentsInRelease()
+        {
+            //TODO: currently assumes you want to include ALL files found in directory. Would be nice to be able to pass in a file extension.
+            //using real directory / files for now because of the way directory existence is checked
+            var path = Guid.NewGuid().ToString();
+            var fullPath = Path.Combine(Directory.GetDirectoryRoot(Environment.CurrentDirectory), path);
+            try
+            {
+                var directory = Directory.CreateDirectory(fullPath);
+                var file1 = TestUtilities.CreateFile(Path.Combine(directory.FullName, "file1.js"), javaScript2.Replace("sum", "replace"));
+                var file2 = TestUtilities.CreateFile(Path.Combine(directory.FullName, "file2.js"), javaScript);
+
+                var tag = new JavaScriptBundle(new StubDebugStatusReader(false),
+                                                        fileWriterFactory,
+                                                        new FileReaderFactory(new RetryableFileOpener(), 5), 
+                                                        currentDirectoryWrapper,
+                                                        hasher,
+                                                        stubBundleCache)
+                    .Add(path)
+                    .Render("~/output.js");
+
+                var expectedTag = "<script type=\"text/javascript\" src=\"output.js?r=5E8D9BDD30EBB8A54A4C24AE33ED81DA\"></script>";
+                Assert.AreEqual(expectedTag, tag);
+                
+                var combined = fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\output.js")];
+                Assert.AreEqual("function replace(n,t){return n+t}function product(n,t){return n*t}function sum(n,t){return n+t}", combined);
+            }
+            finally
+            {
+                Directory.Delete(fullPath, true);
+            }
         }
     }
 }

@@ -1,10 +1,9 @@
 using System;
-using SquishIt.Framework;
+using System.IO;
 using NUnit.Framework;
 using SquishIt.Framework.Css;
 using SquishIt.Framework.Minifiers.CSS;
 using SquishIt.Framework.Files;
-using SquishIt.Framework.Tests.Mocks;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Helpers;
 using SquishIt.Tests.Stubs;
@@ -120,7 +119,7 @@ namespace SquishIt.Tests
                 Assert.AreEqual(assetBundle1.Order, assetBundle2.Order);
             }
         }
-        
+
         [Test]
         public void CanBundleCss()
         {
@@ -251,7 +250,7 @@ namespace SquishIt.Tests
                             .AddEmbeddedResource("/css/first.css", "SquishIt.Tests://EmbeddedResource.Embedded.css")
                             .Render("/css/output_embedded.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/first.css\" />" + Environment.NewLine, tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/first.css\" />\n", TestUtilities.NormalizeLineEndings(tag));
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
         }
 
@@ -352,7 +351,7 @@ namespace SquishIt.Tests
 
             string tag = cssBundle.RenderNamed("TestWithDebug");
 
-            Assert.AreEqual(string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/temp1.css\" />{0}<link rel=\"stylesheet\" type=\"text/css\" href=\"css/temp2.css\" />{0}", Environment.NewLine), tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/temp1.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"css/temp2.css\" />\n", TestUtilities.NormalizeLineEndings(tag));
         }
 
         [Test]
@@ -388,7 +387,7 @@ namespace SquishIt.Tests
                 .Add("/css/second.css")
                 .Render("/css/output.css");
 
-            Assert.AreEqual(string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/first.css\" />{0}<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/second.css\" />{0}", Environment.NewLine), tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/first.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/second.css\" />\n", TestUtilities.NormalizeLineEndings(tag));
         }
 
         [Test]
@@ -414,8 +413,8 @@ namespace SquishIt.Tests
                 .Add("/css/second.css")
                 .Render("/css/output.css");
 
-			Assert.AreEqual (string.Format ("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/first.css\" />{0}<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/second.css\" />{0}", Environment.NewLine), tag1);
-			Assert.AreEqual (string.Format ("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/first.css\" />{0}<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/second.css\" />{0}", Environment.NewLine), tag2);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/first.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/second.css\" />\n", TestUtilities.NormalizeLineEndings(tag1));
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/first.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/second.css\" />\n", TestUtilities.NormalizeLineEndings(tag2));
         }
 
         [Test]
@@ -432,7 +431,7 @@ namespace SquishIt.Tests
                 .WithAttribute("media", "screen")
                 .Render("/css/output.css");
 
-            Assert.AreEqual(string.Format("<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"/css/first.css\" />{0}<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"/css/second.css\" />{0}", Environment.NewLine), tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"/css/first.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"/css/second.css\" />\n", TestUtilities.NormalizeLineEndings(tag));
         }
 
         [Test]
@@ -759,7 +758,7 @@ namespace SquishIt.Tests
                 .WithAttribute("test", "other")
                 .Render("/css/css_with_debugattribute_output.css");
 
-            Assert.AreEqual(string.Format("<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" test=\"other\" href=\"/css/first.css\" />{0}<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" test=\"other\" href=\"/css/second.css\" />{0}", Environment.NewLine), tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" test=\"other\" href=\"/css/first.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" test=\"other\" href=\"/css/second.css\" />\n", TestUtilities.NormalizeLineEndings(tag));
         }
 
         [Test]
@@ -814,7 +813,58 @@ namespace SquishIt.Tests
                 .Add("~/css/temp.css")
                 .AsCached("TestCached", "~/static/css/TestCached.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/temp.css\" />" + Environment.NewLine, tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/temp.css\" />\n", TestUtilities.NormalizeLineEndings(tag));
+        }
+
+        [Test]
+        public void CanBundleDirectoryContentsInDebug()
+        {
+            //TODO: currently assumes you want to include ALL files found in directory. Would be nice to be able to pass in a file extension.
+            //using real directory / files for now because of the way directory existence is checked
+            var path = Guid.NewGuid().ToString();
+            var fullPath = Path.Combine(Directory.GetDirectoryRoot(Environment.CurrentDirectory), path);
+            try
+            {
+                var directory = Directory.CreateDirectory(fullPath);
+                TestUtilities.CreateFile(Path.Combine(directory.FullName, "file1.css"), "");
+                TestUtilities.CreateFile(Path.Combine(directory.FullName, "file2.css"), "");
+                var tag = new CSSBundle(new StubDebugStatusReader(true))
+                    .Add(path)
+                    .Render("/output.css");
+
+                var expectedTag = string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"/{0}/file1.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"/{0}/file2.css\" />\n", path);
+                Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+            }
+            finally
+            {
+                Directory.Delete(fullPath, true);
+            }
+        }
+
+        [Test]
+        public void CanBundleDirectoryContentsInRelease()
+        {
+            //TODO: currently assumes you want to include ALL files found in directory. Would be nice to be able to pass in a file extension.
+            //using real directory / files for now because of the way directory existence is checked
+            var path = Guid.NewGuid().ToString();
+            var fullPath = Path.Combine(Directory.GetDirectoryRoot(Environment.CurrentDirectory), path);
+            try
+            {
+                var directory = Directory.CreateDirectory(fullPath);
+                var file1 = TestUtilities.CreateFile(Path.Combine(directory.FullName, "file1.css"), css2.Replace("sum", "replace"));
+                var file2 = TestUtilities.CreateFile(Path.Combine(directory.FullName, "file2.css"), css);
+
+                var tag = new CSSBundle(new StubDebugStatusReader(false))
+                    .Add(path)
+                    .Render("~/output.css");
+
+                var expectedTag = "<link rel=\"stylesheet\" type=\"text/css\" href=\"output.css?r=BF0F69168A1C98FB6C2E3AEAE6DB7A45\" />";
+                Assert.AreEqual(expectedTag, tag);
+            }
+            finally
+            {
+                Directory.Delete(fullPath, true);
+            }
         }
     }
 }
