@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.JavaScript;
@@ -169,7 +170,7 @@ namespace SquishIt.Tests
                     .AddEmbeddedResource("~/js/test.js", "SquishIt.Tests://EmbeddedResource.Embedded.js")
                     .Render("~/js/output_Embedded.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test.js\"></script>\n", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test.js\"></script>" + Environment.NewLine, tag);
         }
 
         [Test]
@@ -182,7 +183,7 @@ namespace SquishIt.Tests
 
             var tag = debugJavaScriptBundle.RenderNamed("TestWithDebug");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script>\n<script type=\"text/javascript\" src=\"js/test2.js\"></script>\n", tag);
+            Assert.AreEqual(string.Format("<script type=\"text/javascript\" src=\"js/test1.js\"></script>{0}<script type=\"text/javascript\" src=\"js/test2.js\"></script>{0}", Environment.NewLine), tag);
         }
 
         [Test]
@@ -201,8 +202,8 @@ namespace SquishIt.Tests
             var tag1 = debugJavaScriptBundle.RenderNamed("TestWithDebug");
             var tag2 = debugJavaScriptBundle2.RenderNamed("TestWithDebug");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script>\n<script type=\"text/javascript\" src=\"js/test2.js\"></script>\n", tag1);
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script>\n<script type=\"text/javascript\" src=\"js/test2.js\"></script>\n", tag2);
+            Assert.AreEqual(string.Format("<script type=\"text/javascript\" src=\"js/test1.js\"></script>{0}<script type=\"text/javascript\" src=\"js/test2.js\"></script>{0}", Environment.NewLine), tag1);
+            Assert.AreEqual(string.Format("<script type=\"text/javascript\" src=\"js/test1.js\"></script>{0}<script type=\"text/javascript\" src=\"js/test2.js\"></script>{0}", Environment.NewLine), tag2);
         }
 
         [Test]
@@ -215,7 +216,7 @@ namespace SquishIt.Tests
 
             var tag = debugJavaScriptBundle.RenderNamed("NamedWithDebug");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test1.js\"></script>\n<script type=\"text/javascript\" src=\"js/test2.js\"></script>\n", tag);
+            Assert.AreEqual(string.Format("<script type=\"text/javascript\" src=\"js/test1.js\"></script>{0}<script type=\"text/javascript\" src=\"js/test2.js\"></script>{0}", Environment.NewLine), tag);
         }
 
         [Test]
@@ -392,7 +393,7 @@ namespace SquishIt.Tests
                     .Add("~/js/test2.js")
                     .WithAttribute("charset", "utf-8")
                     .Render("~/js/output_debugattr.js");
-            Assert.AreEqual("<script type=\"text/javascript\" charset=\"utf-8\" src=\"js/test1.js\"></script>\n<script type=\"text/javascript\" charset=\"utf-8\" src=\"js/test2.js\"></script>\n", tag);
+            Assert.AreEqual(string.Format("<script type=\"text/javascript\" charset=\"utf-8\" src=\"js/test1.js\"></script>{0}<script type=\"text/javascript\" charset=\"utf-8\" src=\"js/test2.js\"></script>{0}", Environment.NewLine), tag);
         }
 
         [Test]
@@ -429,7 +430,7 @@ namespace SquishIt.Tests
             var tag = debugJavaScriptBundle
                     .Add("~/js/test.js")
                     .AsCached("Test", "~/js/output_2.js");
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test.js\"></script>\n", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test.js\"></script>" + Environment.NewLine, tag);
         }
 
         [Test]

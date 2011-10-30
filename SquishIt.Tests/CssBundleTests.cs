@@ -1,3 +1,4 @@
+using System;
 using SquishIt.Framework;
 using NUnit.Framework;
 using SquishIt.Framework.Css;
@@ -250,7 +251,7 @@ namespace SquishIt.Tests
                             .AddEmbeddedResource("/css/first.css", "SquishIt.Tests://EmbeddedResource.Embedded.css")
                             .Render("/css/output_embedded.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/first.css\" />\n", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/first.css\" />" + Environment.NewLine, tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
         }
 
@@ -351,7 +352,7 @@ namespace SquishIt.Tests
 
             string tag = cssBundle.RenderNamed("TestWithDebug");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/temp1.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"css/temp2.css\" />\n", tag);
+            Assert.AreEqual(string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/temp1.css\" />{0}<link rel=\"stylesheet\" type=\"text/css\" href=\"css/temp2.css\" />{0}", Environment.NewLine), tag);
         }
 
         [Test]
@@ -387,7 +388,7 @@ namespace SquishIt.Tests
                 .Add("/css/second.css")
                 .Render("/css/output.css");
 
-            Assert.AreEqual(tag, "<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/first.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/second.css\" />\n");
+            Assert.AreEqual(string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/first.css\" />{0}<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/second.css\" />{0}", Environment.NewLine), tag);
         }
 
         [Test]
@@ -413,8 +414,8 @@ namespace SquishIt.Tests
                 .Add("/css/second.css")
                 .Render("/css/output.css");
 
-            Assert.AreEqual(tag1, "<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/first.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/second.css\" />\n");
-            Assert.AreEqual(tag2, "<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/first.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/second.css\" />\n");
+			Assert.AreEqual (string.Format ("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/first.css\" />{0}<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/second.css\" />{0}", Environment.NewLine), tag1);
+			Assert.AreEqual (string.Format ("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/first.css\" />{0}<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/second.css\" />{0}", Environment.NewLine), tag2);
         }
 
         [Test]
@@ -431,7 +432,7 @@ namespace SquishIt.Tests
                 .WithAttribute("media", "screen")
                 .Render("/css/output.css");
 
-            Assert.AreEqual(tag, "<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"/css/first.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"/css/second.css\" />\n");
+            Assert.AreEqual(string.Format("<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"/css/first.css\" />{0}<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"/css/second.css\" />{0}", Environment.NewLine), tag);
         }
 
         [Test]
@@ -758,7 +759,7 @@ namespace SquishIt.Tests
                 .WithAttribute("test", "other")
                 .Render("/css/css_with_debugattribute_output.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" test=\"other\" href=\"/css/first.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" test=\"other\" href=\"/css/second.css\" />\n", tag);
+            Assert.AreEqual(string.Format("<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" test=\"other\" href=\"/css/first.css\" />{0}<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" test=\"other\" href=\"/css/second.css\" />{0}", Environment.NewLine), tag);
         }
 
         [Test]
@@ -813,7 +814,7 @@ namespace SquishIt.Tests
                 .Add("~/css/temp.css")
                 .AsCached("TestCached", "~/static/css/TestCached.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/temp.css\" />\n", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/temp.css\" />" + Environment.NewLine, tag);
         }
     }
 }

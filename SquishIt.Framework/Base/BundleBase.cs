@@ -334,7 +334,11 @@ namespace SquishIt.Framework.Base
                             foreach (var file in files)
                             {
                                 var relativePath = FileSystem.ResolveFileSystemPathToAppRelative(file);
-                                sb.AppendLine(FillTemplate(groupBundle, HttpContext.Current.Request.ApplicationPath + relativePath));
+								//TODO: lose the voodoo
+                            	var path = HttpContext.Current == null
+									? (asset.LocalPath.StartsWith ("~") ? "" : "/") + relativePath 
+									: HttpContext.Current.Request.ApplicationPath + relativePath;
+                            	sb.AppendLine(FillTemplate(groupBundle, path));
                             }
                         }
                     }

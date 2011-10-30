@@ -35,7 +35,9 @@ namespace SquishIt.Framework
 
         public static string ResolveFileSystemPathToAppRelative(string file)
         {
-            var root = new Uri(HttpContext.Current.Request.PhysicalApplicationPath);
+            var root = HttpContext.Current != null 
+				? new Uri(HttpContext.Current.Request.PhysicalApplicationPath)
+				: new Uri(Directory.GetDirectoryRoot(Environment.CurrentDirectory));
             return root.MakeRelativeUri(new Uri(file)).ToString();
         }
     }
