@@ -97,12 +97,7 @@
     <Compile Include="BundleCache.cs" />
     <Compile Include="Css\CssBundle.cs" />
     <Compile Include="Css\CssPathRewriter.cs" />
-    <Compile Include="Directories\Directory.cs" />
-    <Compile Include="Directories\DirectoryEnumerator.cs" />
-    <Compile Include="Directories\IDirectory.cs" />
-    <Compile Include="Directories\IDirectoryEnumerator.cs" />
     <Compile Include="FileGZipper.cs" />
-    <Compile Include="Resolvers\DirectoryResolver.cs" />
     <Compile Include="Resolvers\EmbeddedResourceResolver.cs" />
     <Compile Include="Resolvers\FileSystemResolver.cs" />
     <Compile Include="Resolvers\HttpResolver.cs" />
