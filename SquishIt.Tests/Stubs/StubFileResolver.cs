@@ -3,10 +3,10 @@ using SquishIt.Framework.Resolvers;
 
 namespace SquishIt.Tests.Stubs
 {
-    public class StubFileResolver : IResolver
+    public class StubFileSystemResolver : IResolver
     {
         private string _pathToResolveTo;
-        public StubFileResolver(string pathToResolveTo)
+        public StubFileSystemResolver(string pathToResolveTo)
         {
             _pathToResolveTo = pathToResolveTo;
         }

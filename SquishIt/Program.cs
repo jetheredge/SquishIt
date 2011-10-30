@@ -22,8 +22,7 @@ namespace SquishIt
                                 {
                                     { "noheader", "Doesn't show application info and version", v => header = v == null},
                                     { "h|?|help", "Shows help", v => showHelp = v != null},
-                                    { "file=", "File to include", v => fileArguments.Add(new InputFile(v, new FileResolver())) },
-                                    { "dir=", "Directory to include", v => fileArguments.Add(new InputFile(v, new DirectoryResolver())) },
+                                    { "file=", "File or directory to include", v => fileArguments.Add(new InputFile(v, new FileSystemResolver())) },
                                     { "http=", "Http file to include", v => fileArguments.Add(new InputFile(v, new HttpResolver())) },
                                     { "embedded=", "Embedded resource to include", v => fileArguments.Add(new InputFile(v, new EmbeddedResourceResolver())) },
                                     { "out=", "Output file", v => outputFile = v },
