@@ -449,7 +449,6 @@ namespace SquishIt.Tests
         [Test]
         public void CanBundleDirectoryContentsInDebug()
         {
-            //TODO: currently assumes you want to include ALL files found in directory. Would be nice to be able to pass in a file extension.
             //using real directory / files for now because of the way directory existence is checked
             var path = Guid.NewGuid().ToString();
             var fullPath = Path.Combine(Directory.GetDirectoryRoot(Environment.CurrentDirectory), path);
@@ -458,6 +457,8 @@ namespace SquishIt.Tests
                 var directory = Directory.CreateDirectory(fullPath);
                 TestUtilities.CreateFile(Path.Combine(directory.FullName, "file1.js"), "");
                 TestUtilities.CreateFile(Path.Combine(directory.FullName, "file2.js"), "");
+                //ensure that non-js files are ignored
+                TestUtilities.CreateFile(Path.Combine(directory.FullName, "file3.css"), "");
                 var tag = new JavaScriptBundle(new StubDebugStatusReader(true))
                     .Add(path)
                     .Render("~/output.js");
@@ -474,7 +475,6 @@ namespace SquishIt.Tests
         [Test]
         public void CanBundleDirectoryContentsInRelease()
         {
-            //TODO: currently assumes you want to include ALL files found in directory. Would be nice to be able to pass in a file extension.
             //using real directory / files for now because of the way directory existence is checked
             var path = Guid.NewGuid().ToString();
             var fullPath = Path.Combine(Directory.GetDirectoryRoot(Environment.CurrentDirectory), path);
@@ -486,7 +486,7 @@ namespace SquishIt.Tests
 
                 var tag = new JavaScriptBundle(new StubDebugStatusReader(false),
                                                         fileWriterFactory,
-                                                        new FileReaderFactory(new RetryableFileOpener(), 5), 
+                                                        new FileReaderFactory(new RetryableFileOpener(), 5),
                                                         currentDirectoryWrapper,
                                                         hasher,
                                                         stubBundleCache)
@@ -495,7 +495,7 @@ namespace SquishIt.Tests
 
                 var expectedTag = "<script type=\"text/javascript\" src=\"output.js?r=5E8D9BDD30EBB8A54A4C24AE33ED81DA\"></script>";
                 Assert.AreEqual(expectedTag, tag);
-                
+
                 var combined = fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\output.js")];
                 Assert.AreEqual("function replace(n,t){return n+t}function product(n,t){return n*t}function sum(n,t){return n+t}", combined);
             }

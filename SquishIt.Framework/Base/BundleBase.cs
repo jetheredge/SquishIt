@@ -22,6 +22,7 @@ namespace SquishIt.Framework.Base
         protected ICurrentDirectoryWrapper currentDirectoryWrapper;
         protected IHasher hasher;
         protected abstract IMinifier<T> DefaultMinifier { get; }
+        protected abstract string[] allowedExtensions { get; }
         private IMinifier<T> minifier;
         protected IMinifier<T> Minifier
         {
@@ -63,7 +64,7 @@ namespace SquishIt.Framework.Base
 
             foreach (InputFile file in inputFiles)
             {
-                resolvedFilePaths.AddRange(file.Resolver.TryResolve(file.FilePath));
+                resolvedFilePaths.AddRange(file.Resolver.TryResolve(file.FilePath, allowedExtensions));
             }
 
             return resolvedFilePaths;
@@ -309,7 +310,7 @@ namespace SquishIt.Framework.Base
                     foreach (var asset in assets)
                     {
                         var inputFile = GetInputFile(asset);
-                        var files = inputFile.Resolver.TryResolve(inputFile.FilePath);
+                        var files = inputFile.Resolver.TryResolve(inputFile.FilePath, allowedExtensions);
 
                         if (asset.IsEmbeddedResource)
                         {

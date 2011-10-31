@@ -7,7 +7,7 @@ namespace SquishIt.Framework.Resolvers
 {
     public class EmbeddedResourceResolver : IResolver
     {
-        public IEnumerable<string> TryResolve(string file)
+        public IEnumerable<string> TryResolve(string file, string[] allowedExtensions)
         {
             var split = file.Split(new[] { "://" }, StringSplitOptions.None);
             var assemblyName = split.ElementAt(0);

@@ -819,7 +819,6 @@ namespace SquishIt.Tests
         [Test]
         public void CanBundleDirectoryContentsInDebug()
         {
-            //TODO: currently assumes you want to include ALL files found in directory. Would be nice to be able to pass in a file extension.
             //using real directory / files for now because of the way directory existence is checked
             var path = Guid.NewGuid().ToString();
             var fullPath = Path.Combine(Directory.GetDirectoryRoot(Environment.CurrentDirectory), path);
@@ -828,6 +827,8 @@ namespace SquishIt.Tests
                 var directory = Directory.CreateDirectory(fullPath);
                 TestUtilities.CreateFile(Path.Combine(directory.FullName, "file1.css"), "");
                 TestUtilities.CreateFile(Path.Combine(directory.FullName, "file2.css"), "");
+                //ensuring that non-css files are ignored
+                TestUtilities.CreateFile(Path.Combine(directory.FullName, "file3.js"), "");
                 var tag = new CSSBundle(new StubDebugStatusReader(true))
                     .Add(path)
                     .Render("/output.css");
@@ -844,7 +845,6 @@ namespace SquishIt.Tests
         [Test]
         public void CanBundleDirectoryContentsInRelease()
         {
-            //TODO: currently assumes you want to include ALL files found in directory. Would be nice to be able to pass in a file extension.
             //using real directory / files for now because of the way directory existence is checked
             var path = Guid.NewGuid().ToString();
             var fullPath = Path.Combine(Directory.GetDirectoryRoot(Environment.CurrentDirectory), path);
