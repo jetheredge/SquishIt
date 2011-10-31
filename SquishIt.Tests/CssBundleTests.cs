@@ -821,7 +821,7 @@ namespace SquishIt.Tests
         {
             //using real directory / files for now because of the way directory existence is checked
             var path = Guid.NewGuid().ToString();
-            var fullPath = Path.Combine(Directory.GetDirectoryRoot(Environment.CurrentDirectory), path);
+            var fullPath = Path.Combine(Environment.CurrentDirectory, path);
             try
             {
                 var directory = Directory.CreateDirectory(fullPath);
@@ -830,8 +830,8 @@ namespace SquishIt.Tests
                 //ensuring that non-css files are ignored
                 TestUtilities.CreateFile(Path.Combine(directory.FullName, "file3.js"), "");
                 var tag = new CSSBundle(new StubDebugStatusReader(true))
-                    .Add(path)
-                    .Render("/output.css");
+                    .Add("/" + path)
+                    .Render("~/output.css");
 
                 var expectedTag = string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"/{0}/file1.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"/{0}/file2.css\" />\n", path);
                 Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
@@ -847,7 +847,7 @@ namespace SquishIt.Tests
         {
             //using real directory / files for now because of the way directory existence is checked
             var path = Guid.NewGuid().ToString();
-            var fullPath = Path.Combine(Directory.GetDirectoryRoot(Environment.CurrentDirectory), path);
+            var fullPath = Path.Combine(Environment.CurrentDirectory, path);
             try
             {
                 var directory = Directory.CreateDirectory(fullPath);
@@ -855,7 +855,7 @@ namespace SquishIt.Tests
                 var file2 = TestUtilities.CreateFile(Path.Combine(directory.FullName, "file2.css"), css);
 
                 var tag = new CSSBundle(new StubDebugStatusReader(false))
-                    .Add(path)
+                    .Add("/" + path)
                     .Render("~/output.css");
 
                 var expectedTag = "<link rel=\"stylesheet\" type=\"text/css\" href=\"output.css?r=BF0F69168A1C98FB6C2E3AEAE6DB7A45\" />";

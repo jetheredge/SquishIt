@@ -451,7 +451,7 @@ namespace SquishIt.Tests
         {
             //using real directory / files for now because of the way directory existence is checked
             var path = Guid.NewGuid().ToString();
-            var fullPath = Path.Combine(Directory.GetDirectoryRoot(Environment.CurrentDirectory), path);
+            var fullPath = Path.Combine(Environment.CurrentDirectory, path);
             try
             {
                 var directory = Directory.CreateDirectory(fullPath);
@@ -477,7 +477,7 @@ namespace SquishIt.Tests
         {
             //using real directory / files for now because of the way directory existence is checked
             var path = Guid.NewGuid().ToString();
-            var fullPath = Path.Combine(Directory.GetDirectoryRoot(Environment.CurrentDirectory), path);
+            var fullPath = Path.Combine(Environment.CurrentDirectory, path);
             try
             {
                 var directory = Directory.CreateDirectory(fullPath);
