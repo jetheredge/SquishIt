@@ -31,6 +31,10 @@ namespace SquishIt.Tests.Helpers
                 var extendedPath = PreparePath(path);
                 path = Environment.CurrentDirectory + extendedPath; //combine won't work here for some reason?
             }
+            else 
+            {
+                path = driveLetter.Replace (path, Path.GetPathRoot (Environment.CurrentDirectory));
+            }
             return path;
         }
 
