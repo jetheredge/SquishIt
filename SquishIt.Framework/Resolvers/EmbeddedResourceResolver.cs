@@ -7,7 +7,7 @@ namespace SquishIt.Framework.Resolvers
 {
     public class EmbeddedResourceResolver : IResolver
     {
-        public IEnumerable<string> TryResolve(string file, string[] allowedExtensions)
+        public string TryResolve(string file)
         {
             var split = file.Split(new[] { "://" }, StringSplitOptions.None);
             var assemblyName = split.ElementAt(0);
@@ -28,8 +28,16 @@ namespace SquishIt.Framework.Resolvers
                 {
                     sw.Write(contents);
                 }
-                return new[] { fileName };
+                return fileName;
             }
+        }
+
+        public IEnumerable<string> TryResolveFolder(string path, string[] allowedExtensions) {
+            throw new NotImplementedException("Adding entire directories only supported by FileSystemResolver.");
+        }
+
+        public virtual bool IsDirectory(string path) {
+            return false;
         }
     }
 }

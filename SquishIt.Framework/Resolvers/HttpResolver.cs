@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -6,7 +7,7 @@ namespace SquishIt.Framework.Resolvers
 {
     public class HttpResolver: IResolver
     {
-        public IEnumerable<string> TryResolve(string file, string[] allowedExtensions)
+        public string TryResolve(string file)
         {
             var webRequestObject = (HttpWebRequest)WebRequest.Create(file);
             var webResponse = webRequestObject.GetResponse();
@@ -23,12 +24,20 @@ namespace SquishIt.Framework.Resolvers
                 {
                     sw.Write(contents);
                 }
-                return new[] { fileName };
+                return fileName;
             }
             finally
             {
                 webResponse.Close();
             }            
+        }
+
+        public IEnumerable<string> TryResolveFolder(string path, string[] allowedExtensions) {
+            throw new NotImplementedException("Adding entire directories only supported by FileSystemResolver.");
+        }
+
+        public virtual bool IsDirectory(string path) {
+            return false;
         }
     }
 }

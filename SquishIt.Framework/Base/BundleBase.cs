@@ -62,15 +62,15 @@ namespace SquishIt.Framework.Base
             var inputFiles = GetInputFiles(assets);
             var resolvedFilePaths = new List<string>();
 
-            foreach (InputFile file in inputFiles)
+            foreach (Input input in inputFiles)
             {
-                resolvedFilePaths.AddRange(file.Resolver.TryResolve(file.FilePath, allowedExtensions));
+                resolvedFilePaths.AddRange(input.TryResolve(allowedExtensions));
             }
 
             return resolvedFilePaths;
         }
 
-        private InputFile GetInputFile(Asset asset)
+        private Input GetInputFile(Asset asset)
         {
             if (!asset.IsEmbeddedResource)
             {
@@ -82,9 +82,9 @@ namespace SquishIt.Framework.Base
             }
         }
 
-        private List<InputFile> GetInputFiles(List<Asset> assets)
+        private List<Input> GetInputFiles(List<Asset> assets)
         {
-            var inputFiles = new List<InputFile>();
+            var inputFiles = new List<Input>();
             foreach (var asset in assets)
             {
                 if (asset.RemotePath == null)
@@ -99,20 +99,20 @@ namespace SquishIt.Framework.Base
             return inputFiles;
         }
 
-        private InputFile GetFileSystemPath(string localPath)
+        private Input GetFileSystemPath(string localPath)
         {
             string mappedPath = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
-            return new InputFile(mappedPath, ResolverFactory.Get<FileSystemResolver>());
+            return new Input(mappedPath, ResolverFactory.Get<FileSystemResolver>());
         }
 
-        private InputFile GetHttpPath(string remotePath)
+        private Input GetHttpPath(string remotePath)
         {
-            return new InputFile(remotePath, ResolverFactory.Get<HttpResolver>());
+            return new Input(remotePath, ResolverFactory.Get<HttpResolver>());
         }
 
-        private InputFile GetEmbeddedResourcePath(string resourcePath)
+        private Input GetEmbeddedResourcePath(string resourcePath)
         {
-            return new InputFile(resourcePath, ResolverFactory.Get<EmbeddedResourceResolver>());
+            return new Input(resourcePath, ResolverFactory.Get<EmbeddedResourceResolver>());
         }
 
         private string ExpandAppRelativePath(string file)
@@ -310,7 +310,7 @@ namespace SquishIt.Framework.Base
                     foreach (var asset in assets)
                     {
                         var inputFile = GetInputFile(asset);
-                        var files = inputFile.Resolver.TryResolve(inputFile.FilePath, allowedExtensions);
+                        var files = inputFile.TryResolve(allowedExtensions);
 
                         if (asset.IsEmbeddedResource)
                         {

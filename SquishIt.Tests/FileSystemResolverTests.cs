@@ -34,8 +34,8 @@ namespace SquishIt.Tests
             var fileResolver = new FileSystemResolver();
             foreach (string key in values.Keys)
             {
-                var resolvedFile = fileResolver.TryResolve(key, null).ToList();
-                Assert.AreEqual(values[key], resolvedFile[0], key);
+                var resolvedFile = fileResolver.TryResolve(key);
+                Assert.AreEqual(values[key], resolvedFile, key);
             }
         }
 
@@ -54,7 +54,7 @@ namespace SquishIt.Tests
             var fileResolver = new FileSystemResolver();
             foreach (string key in values.Keys)
             {
-                var resolvedFile = fileResolver.TryResolve(key, null).ToList();
+                var resolvedFile = fileResolver.TryResolve(key).ToList();
                 Assert.AreEqual(values[key], resolvedFile[0], key);
             }
         }
@@ -64,32 +64,63 @@ namespace SquishIt.Tests
         {
             string path = Guid.NewGuid().ToString();
             var directory = Directory.CreateDirectory(path);
-            File.Create(Path.Combine(directory.FullName, "file1")).Close();
-            File.Create(Path.Combine(directory.FullName, "file2")).Close();
 
-            var result = new FileSystemResolver().TryResolve(path, null).ToList();
-            Assert.AreEqual(2, result.Count);
-            Assert.Contains(path + Path.DirectorySeparatorChar + "file1", result);
-            Assert.Contains(path + Path.DirectorySeparatorChar + "file2", result);
+            try 
+            {
+                File.Create(Path.Combine(directory.FullName, "file1")).Close();
+                File.Create(Path.Combine(directory.FullName, "file2")).Close();
 
-            Directory.Delete(path, true);
+                var result = new FileSystemResolver().TryResolveFolder(path, null).ToList();
+                Assert.AreEqual(2, result.Count);
+                Assert.Contains(path + Path.DirectorySeparatorChar + "file1", result);
+                Assert.Contains(path + Path.DirectorySeparatorChar + "file2", result);
+            }
+            finally 
+            {
+                Directory.Delete(path, true);
+            }
         }
 
         [Test]
         public void CanResolveDirectory_Filters_Files_By_Extension()
         {
-            string path = Guid.NewGuid().ToString();
+            var path = Guid.NewGuid().ToString();
             var directory = Directory.CreateDirectory(path);
-            File.Create(Path.Combine(directory.FullName, "file1.js")).Close();
-            File.Create(Path.Combine(directory.FullName, "file2.css")).Close();
-            File.Create(Path.Combine(directory.FullName, "file21.JS")).Close();
 
-            var result = new FileSystemResolver().TryResolve(path, new [] { ".js" }).ToList();
-            Assert.AreEqual(2, result.Count);
-            Assert.Contains(path + Path.DirectorySeparatorChar + "file1.js", result);
-            Assert.Contains(path + Path.DirectorySeparatorChar + "file21.JS", result);
+            try 
+            {
+                File.Create(Path.Combine(directory.FullName, "file1.js")).Close();
+                File.Create(Path.Combine(directory.FullName, "file2.css")).Close();
+                File.Create(Path.Combine(directory.FullName, "file21.JS")).Close();
 
-            Directory.Delete(path, true);
+                var result = new FileSystemResolver().TryResolveFolder(path, new[] { ".js" }).ToList();
+                Assert.AreEqual(2, result.Count);
+                Assert.Contains(path + Path.DirectorySeparatorChar + "file1.js", result);
+                Assert.Contains(path + Path.DirectorySeparatorChar + "file21.JS", result);
+            }
+            finally 
+            {
+                Directory.Delete(path, true);
+            }
+        }
+
+        [Test]
+        public void IsDirectory() 
+        {
+            var path = Guid.NewGuid().ToString();
+            var directory = Directory.CreateDirectory(path);
+            File.Create(Path.Combine(directory.FullName, "file")).Close();
+
+            try 
+            {
+                var resolver = new FileSystemResolver();
+                Assert.IsTrue(resolver.IsDirectory(path));
+                Assert.IsFalse(resolver.IsDirectory(Path.Combine(path, "file")));
+            }
+            finally 
+            {
+                Directory.Delete(path, true);
+            }
         }
     }
 }

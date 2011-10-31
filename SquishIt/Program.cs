@@ -13,7 +13,7 @@ namespace SquishIt
         {                        
             bool showHelp = false;
             bool header = true;
-            var fileArguments = new List<InputFile>();
+            var fileArguments = new List<Input>();
             string outputFile = null;
             string gzippedOutputFile = null;
             string minifierType = null;
@@ -22,9 +22,9 @@ namespace SquishIt
                                 {
                                     { "noheader", "Doesn't show application info and version", v => header = v == null},
                                     { "h|?|help", "Shows help", v => showHelp = v != null},
-                                    { "file=", "File or directory to include", v => fileArguments.Add(new InputFile(v, new FileSystemResolver())) },
-                                    { "http=", "Http file to include", v => fileArguments.Add(new InputFile(v, new HttpResolver())) },
-                                    { "embedded=", "Embedded resource to include", v => fileArguments.Add(new InputFile(v, new EmbeddedResourceResolver())) },
+                                    { "file=", "File or directory to include", v => fileArguments.Add(new Input(v, new FileSystemResolver())) },
+                                    { "http=", "Http file to include", v => fileArguments.Add(new Input(v, new HttpResolver())) },
+                                    { "embedded=", "Embedded resource to include", v => fileArguments.Add(new Input(v, new EmbeddedResourceResolver())) },
                                     { "out=", "Output file", v => outputFile = v },
                                     { "outgz=", "Output file", v => gzippedOutputFile = v },
                                     { "min=", "Optional minifier to use (jsmin, closure, yui)", v => minifierType = v.ToLower() }

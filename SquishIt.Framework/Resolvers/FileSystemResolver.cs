@@ -7,21 +7,20 @@ namespace SquishIt.Framework.Resolvers
 {
     public class FileSystemResolver : IResolver
     {
-        //public IEnumerable<string> TryResolve(string path)
-        //{
-        //    if (Directory.Exists(path))
-        //    {
-        //        var files = Directory.GetFiles(path);
-        //        Array.Sort(files);
-        //        return files;
-        //    }
-
-        //    return new[] { Path.GetFullPath(path) };
-        //}
-
-        public IEnumerable<string> TryResolve(string path, string[] allowedFileExtensions)
+        public string TryResolve(string path) 
         {
-            if (Directory.Exists(path))
+            return Path.GetFullPath(path);
+        }
+
+        //for partial mocking
+        public virtual bool IsDirectory(string path) 
+        {
+            return Directory.Exists(path);
+        }
+
+        public IEnumerable<string> TryResolveFolder(string path, string[] allowedFileExtensions)
+        {
+            if (IsDirectory(path)) 
             {
                 var files = Directory.GetFiles(path)
                     .Where(

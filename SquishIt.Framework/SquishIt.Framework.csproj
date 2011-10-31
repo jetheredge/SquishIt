@@ -105,7 +105,7 @@
     <Compile Include="Resolvers\ResolverFactory.cs" />
     <Compile Include="Files\CurrentDirectoryWrapper.cs" />
     <Compile Include="Files\ICurrentDirectoryWrapper.cs" />
-    <Compile Include="Files\InputFile.cs" />
+    <Compile Include="Files\Input.cs" />
     <Compile Include="Css\ICssBundle.cs" />
     <Compile Include="JavaScript\IJavaScriptBundle.cs" />
     <Compile Include="JavaScript\JavaScriptBundle.cs" />
