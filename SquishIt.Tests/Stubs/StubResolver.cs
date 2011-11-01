@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace SquishIt.Tests.Stubs
 {
-    public class StubFileSystemResolver : IResolver
+    public class StubResolver : IResolver
     {
         private string _pathToResolveTo;
         private string[] _directoryContents;
 
-        public StubFileSystemResolver(string pathToResolveTo, string [] directoryContents = null)
+        private StubResolver(string pathToResolveTo, string [] directoryContents = null)
         {
             _pathToResolveTo = pathToResolveTo;
             _directoryContents = directoryContents;
@@ -28,6 +28,16 @@ namespace SquishIt.Tests.Stubs
 
         public virtual bool IsDirectory(string path) {
             return _directoryContents != null;
+        }
+    
+        public static IResolver ForDirectory(string[] files)
+        {
+            return new StubResolver(null, files);   
+        }
+        
+        public static IResolver ForFile(string file)
+        {
+            return new StubResolver(file, null);   
         }
     }
 }

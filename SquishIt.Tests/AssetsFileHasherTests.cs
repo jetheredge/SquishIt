@@ -91,7 +91,7 @@ namespace SquishIt.Tests
             var cssFilePath = Path.Combine(Path.GetDirectoryName(uri), @"output.css");
             var url = "/" + Path.GetFileName(uri);
             var pathToResolveTo = Assembly.GetExecutingAssembly().Location;
-            var fileResolver = new StubFileSystemResolver(pathToResolveTo);
+            var fileResolver = StubResolver.ForFile(pathToResolveTo);
             var assetsFileHasher = new CssAssetsFileHasher(hashQueryStringKeyName, fileResolver, hasher);
 
             var expectedUrl = url + "?" + hashQueryStringKeyName + "=" + hashValue;
@@ -111,7 +111,7 @@ namespace SquishIt.Tests
             var cssFilePath = Path.GetDirectoryName(uri) + @"\output.css";
             var url = "/" + Path.GetFileName(uri) + "?test=value";
             var pathToResolveTo = Assembly.GetExecutingAssembly().Location;
-            var fileResolver = new StubFileSystemResolver(pathToResolveTo);
+            var fileResolver = StubResolver.ForFile(pathToResolveTo);
             var assetsFileHasher = new CssAssetsFileHasher(hashQueryStringKeyName, fileResolver, hasher);
 
             var expectedUrl = url + "&" + hashQueryStringKeyName + "=" + hashValue;

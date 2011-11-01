@@ -21,5 +21,18 @@ namespace SquishIt.Framework.Resolvers
         {
             return (T)resolvers[typeof(T).FullName];
         }
+        
+        internal void SetContent<T>(T resolver) where T : IResolver 
+        {
+            var key = typeof(T).FullName; 
+            if(resolvers.ContainsKey(key))
+            {
+                resolvers[key] = resolver;   
+            }
+            else 
+            {
+                resolvers.Add(key, resolver);   
+            }
+        }
     }
 }
