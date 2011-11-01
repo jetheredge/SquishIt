@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -54,13 +54,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -83,13 +80,13 @@
     <Compile Include="Stubs\StubDebugStatusReader.cs" />
     <Compile Include="Stubs\StubFileReader.cs" />
     <Compile Include="Stubs\StubFileReaderFactory.cs" />
-    <Compile Include="Stubs\StubFileResolver.cs" />
     <Compile Include="Stubs\StubFileWriter.cs" />
     <Compile Include="Stubs\StubFileWriterFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileSystemResolverTests.cs" />
     <Compile Include="Stubs\StubHasher.cs" />
     <Compile Include="Helpers\TestUtilities.cs" />
+    <Compile Include="Stubs\StubResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SquishIt.Framework\SquishIt.Framework.csproj">

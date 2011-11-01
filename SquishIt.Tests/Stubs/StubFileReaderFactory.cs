@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using SquishIt.Framework.Files;
 
+//TODO: fix namespace (stubs)
 namespace SquishIt.Framework.Tests.Mocks
 {
     public class StubFileReaderFactory: IFileReaderFactory

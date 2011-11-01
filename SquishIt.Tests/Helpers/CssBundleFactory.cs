@@ -25,13 +25,13 @@ namespace SquishIt.Tests.Helpers
             return this;
         }
 
-        private CssBundleFactory WithFileWriterFactory(IFileWriterFactory fileWriterFactory)
+        public CssBundleFactory WithFileWriterFactory(IFileWriterFactory fileWriterFactory)
         {
             this.fileWriterFactory = fileWriterFactory;
             return this;
         }
 
-        private CssBundleFactory WithFileReaderFactory(IFileReaderFactory fileReaderFactory)
+        public CssBundleFactory WithFileReaderFactory(IFileReaderFactory fileReaderFactory)
         {
             this.fileReaderFactory = fileReaderFactory;
             return this;
