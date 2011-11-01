@@ -37,10 +37,8 @@ namespace SquishIt.Framework
         {
             var root = HttpContext.Current != null 
 				? new Uri(HttpContext.Current.Request.PhysicalApplicationPath)
-				: new Uri(Environment.CurrentDirectory);
-            var path = root.MakeRelativeUri(new Uri(file, UriKind.RelativeOrAbsolute)).ToString();
-			if (Unix) { path = path.Substring(path.IndexOf("/") + 1); }
-			return path;
+				: new Uri(Directory.GetDirectoryRoot(Environment.CurrentDirectory));
+            return root.MakeRelativeUri(new Uri(file)).ToString();
         }
     }
 }
