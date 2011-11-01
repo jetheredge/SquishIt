@@ -473,35 +473,32 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleDirectoryContentsInRelease()
-        {
-            //using real directory / files for now because of the way directory existence is checked
+        public void CanBundleDirectoryContentsInRelease() {
             var path = Guid.NewGuid().ToString();
-            var fullPath = Path.Combine(Directory.GetDirectoryRoot(Environment.CurrentDirectory), path);
-            try
-            {
-                var directory = Directory.CreateDirectory(fullPath);
-                var file1 = TestUtilities.CreateFile(Path.Combine(directory.FullName, "file1.js"), javaScript2.Replace("sum", "replace"));
-                var file2 = TestUtilities.CreateFile(Path.Combine(directory.FullName, "file2.js"), javaScript);
+            var file1 = TestUtilities.PreparePathRelativeToWorkingDirectory("C:\\" + path + "\\file1.js");
+            var file2 = TestUtilities.PreparePathRelativeToWorkingDirectory("C:\\" + path + "\\file2.js");
 
-                var tag = new JavaScriptBundle(new StubDebugStatusReader(false),
-                                                        fileWriterFactory,
-                                                        new FileReaderFactory(new RetryableFileOpener(), 5),
-                                                        currentDirectoryWrapper,
-                                                        hasher,
-                                                        stubBundleCache)
-                    .Add(path)
-                    .Render("~/output.js");
+            using (new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 }))) {
+                var frf = new StubFileReaderFactory();
+                frf.SetContentsForFile(file1, javaScript2.Replace("sum", "replace"));
+                frf.SetContentsForFile(file2, javaScript);
 
-                var expectedTag = "<script type=\"text/javascript\" src=\"output.js?r=5E8D9BDD30EBB8A54A4C24AE33ED81DA\"></script>";
+                var writerFactory = new StubFileWriterFactory();
+
+                var tag = new JavaScriptBundleFactory()
+                        .WithDebuggingEnabled(false)
+                        .WithFileReaderFactory(frf)
+                        .WithFileWriterFactory(writerFactory)
+                        .WithHasher(new StubHasher("hashy"))
+                        .Create()
+                        .Add(path)
+                        .Render("~/output.js");
+
+                var expectedTag = "<script type=\"text/javascript\" src=\"output.js?r=hashy\"></script>";
                 Assert.AreEqual(expectedTag, tag);
 
-                var combined = fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\output.js")];
-                Assert.AreEqual("function replace(n,t){return n+t}function product(n,t){return n*t}function sum(n,t){return n+t}", combined);
-            }
-            finally
-            {
-                Directory.Delete(fullPath, true);
+                var combined = "function replace(n,t){return n+t}function product(n,t){return n*t}function sum(n,t){return n+t}";
+                Assert.AreEqual(combined, writerFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory("C:\\output.js")]);
             }
         }
     }
