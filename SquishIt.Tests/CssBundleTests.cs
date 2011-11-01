@@ -843,12 +843,14 @@ namespace SquishIt.Tests
             }
         }
 
+
         [Test]
         public void CanBundleDirectoryContentsInRelease()
         {
             var path = Guid.NewGuid().ToString();
             var file1 = TestUtilities.PreparePathRelativeToWorkingDirectory("C:\\" + path + "\\file1.css");
             var file2 = TestUtilities.PreparePathRelativeToWorkingDirectory ("C:\\" + path + "\\file2.css");
+
             
             SquishIt.Framework.Resolvers.ResolverFactory.SetContent(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new [] { file1, file2 }));
             
@@ -870,6 +872,7 @@ namespace SquishIt.Tests
                 Assert.AreEqual(expectedTag, tag);
 
             SquishIt.Framework.Resolvers.ResolverFactory.Reset();
+
             cssBundleFactory = new CssBundleFactory();
         }
     }
