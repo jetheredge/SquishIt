@@ -54,8 +54,8 @@ namespace SquishIt.Tests
             var fileResolver = new FileSystemResolver();
             foreach (string key in values.Keys)
             {
-                var resolvedFile = fileResolver.TryResolve(key).ToList();
-                Assert.AreEqual(values[key], resolvedFile[0], key);
+                var resolvedFile = fileResolver.TryResolve(key);
+                Assert.AreEqual(values[key], resolvedFile, key);
             }
         }
 
