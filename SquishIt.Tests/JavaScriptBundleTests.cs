@@ -447,33 +447,34 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleDirectoryContentsInDebug()
-        {
-            //using real directory / files for now because of the way directory existence is checked
+        public void CanBundleDirectoryContentsInRelease() {
             var path = Guid.NewGuid().ToString();
-            var fullPath = Path.Combine(Directory.GetDirectoryRoot(Environment.CurrentDirectory), path);
-            try
-            {
-                var directory = Directory.CreateDirectory(fullPath);
-                TestUtilities.CreateFile(Path.Combine(directory.FullName, "file1.js"), "");
-                TestUtilities.CreateFile(Path.Combine(directory.FullName, "file2.js"), "");
-                //ensure that non-js files are ignored
-                TestUtilities.CreateFile(Path.Combine(directory.FullName, "file3.css"), "");
-                var tag = new JavaScriptBundle(new StubDebugStatusReader(true))
-                    .Add(path)
-                    .Render("~/output.js");
+            var file1 = TestUtilities.PreparePathRelativeToWorkingDirectory("C:\\" + path + "\\file1.js");
+            var file2 = TestUtilities.PreparePathRelativeToWorkingDirectory("C:\\" + path + "\\file2.js");
+
+            using (new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 }))) {
+                var frf = new StubFileReaderFactory();
+                frf.SetContentsForFile(file1, javaScript2.Replace("sum", "replace"));
+                frf.SetContentsForFile(file2, javaScript);
+
+                var writerFactory = new StubFileWriterFactory();
+
+                var tag = new JavaScriptBundleFactory()
+                        .WithDebuggingEnabled(true)
+                        .WithFileReaderFactory(frf)
+                        .WithFileWriterFactory(writerFactory)
+                        .WithHasher(new StubHasher("hashy"))
+                        .Create()
+                        .Add(path)
+                        .Render("~/output.js");
 
                 var expectedTag = string.Format("<script type=\"text/javascript\" src=\"/{0}/file1.js\"></script>\n<script type=\"text/javascript\" src=\"/{0}/file2.js\"></script>\n", path);
                 Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
             }
-            finally
-            {
-                Directory.Delete(fullPath, true);
-            }
         }
 
         [Test]
-        public void CanBundleDirectoryContentsInRelease() {
+        public void CanBundleDirectoryContentsInDebug() {
             var path = Guid.NewGuid().ToString();
             var file1 = TestUtilities.PreparePathRelativeToWorkingDirectory("C:\\" + path + "\\file1.js");
             var file2 = TestUtilities.PreparePathRelativeToWorkingDirectory("C:\\" + path + "\\file2.js");

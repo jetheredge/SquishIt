@@ -818,18 +818,20 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleDirectoryContentsInDebug() {
+        public void CanBundleDirectoryContentsInDebug()
+        {
             var path = Guid.NewGuid().ToString();
             var file1 = TestUtilities.PreparePathRelativeToWorkingDirectory("C:\\" + path + "\\file1.css");
-            var file2 = TestUtilities.PreparePathRelativeToWorkingDirectory("C:\\" + path + "\\file2.css");
-
-            using (new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 }))) {
+            var file2 = TestUtilities.PreparePathRelativeToWorkingDirectory ("C:\\" + path + "\\file2.css");
+            
+            using(new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, css2);
                 frf.SetContentsForFile(file2, css);
-
+            
                 var writerFactory = new StubFileWriterFactory();
-
+            
                 var tag = cssBundleFactory.WithDebuggingEnabled(true)
                         .WithFileReaderFactory(frf)
                         .WithFileWriterFactory(writerFactory)
@@ -837,12 +839,12 @@ namespace SquishIt.Tests
                         .Create()
                         .Add(path)
                         .Render("~/output.css");
-
+            
                 var expectedTag = string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"/{0}/file1.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"/{0}/file2.css\" />\n", path);
                 Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
             }
         }
-
+                        
         [Test]
         public void CanBundleDirectoryContentsInRelease()
         {
