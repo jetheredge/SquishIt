@@ -16,23 +16,32 @@ namespace SquishIt.Framework.Resolvers
             {typeof(FileSystemResolver).FullName, new FileSystemResolver()},
             {typeof(HttpResolver).FullName, new HttpResolver()},
         };
-
-        public static T Get<T>() where T : IResolver
+        
+        public static IResolver Get<T>() where T : IResolver
         {
-            return (T)resolvers[typeof(T).FullName];
+            return resolvers[typeof(T).FullName];
         }
         
-        internal void SetContent<T>(T resolver) where T : IResolver 
+        internal static void SetContent(string key, IResolver resolver) 
         {
-            var key = typeof(T).FullName; 
             if(resolvers.ContainsKey(key))
             {
                 resolvers[key] = resolver;   
             }
             else 
             {
-                resolvers.Add(key, resolver);   
+                throw new InvalidOperationException("Invalid resolver type injected");  
             }
+        }
+        
+        internal static void Reset() 
+        {
+            resolvers = new Dictionary<string, IResolver>
+            {
+                {typeof(EmbeddedResourceResolver).FullName, new EmbeddedResourceResolver()},
+                {typeof(FileSystemResolver).FullName, new FileSystemResolver()},
+                {typeof(HttpResolver).FullName, new HttpResolver()},
+            };
         }
     }
 }

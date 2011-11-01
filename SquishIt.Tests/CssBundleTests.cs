@@ -7,6 +7,7 @@ using SquishIt.Framework.Files;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Helpers;
 using SquishIt.Tests.Stubs;
+using SquishIt.Framework.Tests.Mocks;
 
 namespace SquishIt.Tests
 {
@@ -845,26 +846,31 @@ namespace SquishIt.Tests
         [Test]
         public void CanBundleDirectoryContentsInRelease()
         {
-            //using real directory / files for now because of the way directory existence is checked
             var path = Guid.NewGuid().ToString();
-            var fullPath = Path.Combine(Directory.GetDirectoryRoot(Environment.CurrentDirectory), path);
-            try
-            {
-                var directory = Directory.CreateDirectory(fullPath);
-                var file1 = TestUtilities.CreateFile(Path.Combine(directory.FullName, "file1.css"), css2.Replace("sum", "replace"));
-                var file2 = TestUtilities.CreateFile(Path.Combine(directory.FullName, "file2.css"), css);
-
-                var tag = new CSSBundle(new StubDebugStatusReader(false))
+            var file1 = Path.Combine("/" + path, "file1.css");;
+            var file2 = Path.Combine("/" + path, "file2.css");
+            
+            SquishIt.Framework.Resolvers.ResolverFactory.SetContent(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new [] { file1, file2 }));
+            
+            var frf = new StubFileReaderFactory();
+            frf.SetContentsForFile(file1, css2);
+            frf.SetContentsForFile(file2, css);
+            
+            var writerFactory = new StubFileWriterFactory();
+            
+            var tag = cssBundleFactory.WithDebuggingEnabled(false)
+                    .WithFileReaderFactory(frf)
+                    .WithFileWriterFactory(writerFactory)
+                    .WithHasher(new StubHasher("hashy"))
+                    .Create()
                     .Add(path)
                     .Render("~/output.css");
-
-                var expectedTag = "<link rel=\"stylesheet\" type=\"text/css\" href=\"output.css?r=BF0F69168A1C98FB6C2E3AEAE6DB7A45\" />";
+            
+            var expectedTag = "<link rel=\"stylesheet\" type=\"text/css\" href=\"output.css?r=hashy\" />";
                 Assert.AreEqual(expectedTag, tag);
-            }
-            finally
-            {
-                Directory.Delete(fullPath, true);
-            }
+
+            SquishIt.Framework.Resolvers.ResolverFactory.Reset();
+            cssBundleFactory = new CssBundleFactory();
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using SquishIt.Framework.Files;
 
+//TODO: fix namespace (stubs)
 namespace SquishIt.Framework.Tests.Mocks
 {
     public class StubFileReader: IFileReader
