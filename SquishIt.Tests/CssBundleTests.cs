@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using NUnit.Framework;
-using SquishIt.Framework;
 using SquishIt.Framework.Css;
 using SquishIt.Framework.Minifiers.CSS;
 using SquishIt.Framework.Files;
@@ -822,8 +821,7 @@ namespace SquishIt.Tests
         {
             //using real directory / files for now because of the way directory existence is checked
             var path = Guid.NewGuid().ToString();
-            var root = FileSystem.Unix ? Environment.CurrentDirectory : Path.GetPathRoot (Environment.CurrentDirectory);
-            var fullPath = Path.Combine (root, path);
+            var fullPath = Path.Combine(Environment.CurrentDirectory, path);
             try
             {
                 var directory = Directory.CreateDirectory(fullPath);
@@ -849,8 +847,7 @@ namespace SquishIt.Tests
         {
             //using real directory / files for now because of the way directory existence is checked
             var path = Guid.NewGuid().ToString();
-            var root = FileSystem.Unix ? Environment.CurrentDirectory : Path.GetPathRoot (Environment.CurrentDirectory);
-            var fullPath = Path.Combine (root, path);
+            var fullPath = Path.Combine(Environment.CurrentDirectory, path);
             try
             {
                 var directory = Directory.CreateDirectory(fullPath);

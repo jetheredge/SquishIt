@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using NUnit.Framework;
-using SquishIt.Framework;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.Minifiers.JavaScript;
@@ -452,8 +451,7 @@ namespace SquishIt.Tests
         {
             //using real directory / files for now because of the way directory existence is checked
             var path = Guid.NewGuid().ToString();
-            var root = FileSystem.Unix ? Environment.CurrentDirectory : Path.GetPathRoot (Environment.CurrentDirectory);
-            var fullPath = Path.Combine (root, path);
+            var fullPath = Path.Combine(Environment.CurrentDirectory, path);
             try
             {
                 var directory = Directory.CreateDirectory(fullPath);
@@ -479,8 +477,7 @@ namespace SquishIt.Tests
         {
             //using real directory / files for now because of the way directory existence is checked
             var path = Guid.NewGuid().ToString();
-            var root = FileSystem.Unix ? Environment.CurrentDirectory : Path.GetPathRoot(Environment.CurrentDirectory);
-            var fullPath = Path.Combine(root, path);
+            var fullPath = Path.Combine(Environment.CurrentDirectory, path);
             try
             {
                 var directory = Directory.CreateDirectory(fullPath);
@@ -499,7 +496,7 @@ namespace SquishIt.Tests
                 var expectedTag = "<script type=\"text/javascript\" src=\"output.js?r=5E8D9BDD30EBB8A54A4C24AE33ED81DA\"></script>";
                 Assert.AreEqual(expectedTag, tag);
 
-                var combined = fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(Path.Combine(root, "output.js"))];
+                var combined = fileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\output.js")];
                 Assert.AreEqual("function replace(n,t){return n+t}function product(n,t){return n*t}function sum(n,t){return n+t}", combined);
             }
             finally

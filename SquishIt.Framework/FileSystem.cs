@@ -25,7 +25,7 @@ namespace SquishIt.Framework
                 if (!(Unix))
                 {
                     file = file.Replace("/", "\\").TrimStart('~').TrimStart('\\');
-                    return Path.GetPathRoot(Environment.CurrentDirectory) + file.Replace("/", "\\");
+                    return @"C:\" + file.Replace("/", "\\");
                 }
                 file = file.TrimStart('~', '/');
                 return Path.Combine(Environment.CurrentDirectory, file);
@@ -37,8 +37,10 @@ namespace SquishIt.Framework
         {
             var root = HttpContext.Current != null 
 				? new Uri(HttpContext.Current.Request.PhysicalApplicationPath)
-				: new Uri(Directory.GetDirectoryRoot(Environment.CurrentDirectory));
-            return root.MakeRelativeUri (new Uri (file, UriKind.RelativeOrAbsolute)).ToString ();
+				: new Uri(Environment.CurrentDirectory);
+            var path = root.MakeRelativeUri(new Uri(file, UriKind.RelativeOrAbsolute)).ToString();
+			if (Unix) { path = path.Substring(path.IndexOf("/") + 1); }
+			return path;
         }
     }
 }
