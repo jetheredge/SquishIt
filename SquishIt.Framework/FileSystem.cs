@@ -44,7 +44,7 @@ namespace SquishIt.Framework
             {
                 var root = new Uri(Environment.CurrentDirectory);
                 var path = root.MakeRelativeUri(new Uri(file, UriKind.RelativeOrAbsolute)).ToString();
-                return path.Substring(path.IndexOf("/") + 1);
+                return path;
             }
         }
     }

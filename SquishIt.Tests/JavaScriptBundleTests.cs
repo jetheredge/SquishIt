@@ -80,6 +80,15 @@ namespace SquishIt.Tests
                                                         currentDirectoryWrapper,
                                                         hasher,
                                                         stubBundleCache);
+
+            Environment.CurrentDirectory = Path.GetPathRoot(Environment.CurrentDirectory);
+        }
+
+
+        static string oldCurrent = Environment.CurrentDirectory;
+        [TearDown]
+        public void TearDown() {
+            Environment.CurrentDirectory = oldCurrent;
         }
 
         [Test]

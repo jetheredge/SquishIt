@@ -337,7 +337,7 @@ namespace SquishIt.Framework.Base
                                 var relativePath = FileSystem.ResolveFileSystemPathToAppRelative(file);
 								//TODO: lose the voodoo
                             	var path = HttpContext.Current == null
-									? (asset.LocalPath.StartsWith ("~") ? "" : "/") + relativePath 
+									? (asset.LocalPath.StartsWith("~/") ? "" : "/") + relativePath
 									: HttpContext.Current.Request.ApplicationPath + relativePath;
                             	sb.AppendLine(FillTemplate(groupBundle, path));
                             }
