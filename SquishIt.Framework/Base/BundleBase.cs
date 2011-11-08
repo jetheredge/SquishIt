@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using SquishIt.Framework.Minifiers;
 using SquishIt.Framework.Resolvers;
@@ -335,9 +337,9 @@ namespace SquishIt.Framework.Base
                             foreach (var file in files)
                             {
                                 var relativePath = FileSystem.ResolveFileSystemPathToAppRelative(file);
-								//TODO: lose the voodoo
+								//TODO: lose the voodoo - part without HTTP context is primarily for test code
                             	var path = HttpContext.Current == null
-									? (asset.LocalPath.StartsWith("~/") ? "" : "/") + relativePath
+									? (asset.LocalPath.StartsWith("~/") ? "" : "/") + mangledDriveLetter.Replace(relativePath, "")
 									: HttpContext.Current.Request.ApplicationPath + relativePath;
                             	sb.AppendLine(FillTemplate(groupBundle, path));
                             }
@@ -351,6 +353,8 @@ namespace SquishIt.Framework.Base
 
             return content;
         }
+
+        static readonly Regex mangledDriveLetter = new Regex (@"[a-zA-Z]{1}:/", RegexOptions.Compiled);
 
         private string RenderRelease(string key, string renderTo, IRenderer renderer)
         {
