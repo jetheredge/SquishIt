@@ -245,7 +245,7 @@ namespace SquishIt.Framework.Base
 
         public string Render(string renderTo)
         {
-            string key = renderTo + GroupBundles.GetHashCode();
+            string key = renderTo;
             return Render(renderTo, key, new FileRenderer(fileWriterFactory));
         }
 
@@ -417,7 +417,7 @@ namespace SquishIt.Framework.Base
                         outputFile = outputFile.Replace("#", hash);
                     }
 
-                    if (ShouldRenderOnlyIfOutputFileIsMissing && FileExists(outputFile) && minifiedContent == null)
+                    if (ShouldRenderOnlyIfOutputFileIsMissing && FileExists(outputFile))
                     {
                         minifiedContent = ReadFile(outputFile);
                     }

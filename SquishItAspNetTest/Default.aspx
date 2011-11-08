@@ -18,7 +18,7 @@
                 .AddRemote("~/js/jquery_1.4.2.js", "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js")
                 .Add("~/js/jquery-ui-1.8.5.js")
                 //.WithMinifier(JavaScriptMinifiers.Closure)
-                //.ForceRelease()
+                .ForceRelease()
                 //.ForceDebug()
                 .Render("~/js/combined_#.js") %>
                 <%
