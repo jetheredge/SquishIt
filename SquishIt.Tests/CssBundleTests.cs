@@ -64,16 +64,6 @@ namespace SquishIt.Tests
             cssBundleFactory = new CssBundleFactory();
             var retryableFileOpener = new RetryableFileOpener();
             hasher = new Hasher(retryableFileOpener);
-            
-            Environment.CurrentDirectory = Path.GetPathRoot(Environment.CurrentDirectory);
-        }
-
-
-        static string oldCurrent = Environment.CurrentDirectory;
-        [TearDown]
-        public void TearDown() 
-        {
-            Environment.CurrentDirectory = oldCurrent;
         }
 
         [Test]
