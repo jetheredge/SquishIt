@@ -74,6 +74,10 @@ namespace SquishIt.Framework.Base
         {
             if (!asset.IsEmbeddedResource)
             {
+                if (debugStatusReader.IsDebuggingEnabled())
+                {
+                    return GetFileSystemPath(asset.LocalPath);
+                }
                 return String.IsNullOrEmpty(asset.RemotePath) ? GetFileSystemPath(asset.LocalPath) : GetHttpPath(asset.RemotePath);
             }
             else
@@ -87,14 +91,7 @@ namespace SquishIt.Framework.Base
             var inputFiles = new List<Input>();
             foreach (var asset in assets)
             {
-                if (asset.RemotePath == null)
-                {
-                    inputFiles.Add(GetFileSystemPath(asset.LocalPath));
-                }
-                else if (asset.IsEmbeddedResource)
-                {
-                    inputFiles.Add(GetEmbeddedResourcePath(asset.RemotePath));
-                }
+                inputFiles.Add(GetInputFile(asset));
             }
             return inputFiles;
         }
