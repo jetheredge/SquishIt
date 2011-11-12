@@ -471,7 +471,7 @@ namespace SquishIt.Tests
                             .WithMinifier<NullCompressor>()
                             .Render("/css/css_with_null_compressor_output.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/css_with_null_compressor_output.css?r=54F52AC95333FEFD5243AC373F573A07\" />", tag);
+            Assert.AreEqual ("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/css_with_null_compressor_output.css?r=54F52AC95333FEFD5243AC373F573A07\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
             Assert.AreEqual(css + "\n" + css + "\n", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory(@"C:\css\css_with_null_compressor_output.css")]);
         }
@@ -874,6 +874,65 @@ namespace SquishIt.Tests
                 var combined = "li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}";
                 Assert.AreEqual(combined, writerFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory("C:\\output.css")]);
             }
+        }
+
+        [Test]
+        public void CanRenderArbitraryStringsInDebug () 
+        {
+            var css2Format = "{0}{1}";
+
+            var hrColor = "hr {color:sienna;}";
+            var p = "p {margin-left:20px;}";
+
+            var tag = new CssBundleFactory ()
+                .WithDebuggingEnabled (true)
+                .Create ()
+                .AddString (css)
+                .AddString (css2Format, hrColor, p)
+                .Render ("doesn't matter where...");
+
+            var expectedTag = string.Format ("<style type=\"text/css\">{0}</style>\n<style type=\"text/css\">{1}</style>\n", css, string.Format (css2Format, hrColor, p));
+            Assert.AreEqual (expectedTag, TestUtilities.NormalizeLineEndings (tag));
+        }
+
+        [Test]
+        public void DoesNotRenderDuplicateArbitraryStringsInDebug () 
+        {
+            var tag = new CssBundleFactory ()
+                .WithDebuggingEnabled (true)
+                .Create ()
+                .AddString (css)
+                .AddString (css)
+                .Render ("doesn't matter where...");
+
+            var expectedTag = string.Format ("<style type=\"text/css\">{0}</style>\n", css);
+            Assert.AreEqual (expectedTag, TestUtilities.NormalizeLineEndings (tag));
+        }
+
+        [Test]
+        public void CanBundleArbitraryContentsInRelease () 
+        {
+            var css2Format = "{0}{1}";
+
+            var hrColor = "hr {color:sienna;}";
+            var p = "p {margin-left:20px;}";
+
+            var writerFactory = new StubFileWriterFactory ();
+
+            var tag = new CssBundleFactory ()
+                    .WithDebuggingEnabled (false)
+                    .WithFileWriterFactory (writerFactory)
+                    .WithHasher (new StubHasher ("hashy"))
+                    .Create ()
+                    .AddString (css)
+                    .AddString (css2Format, hrColor, p)
+                    .Render ("~/output.css");
+
+            var expectedTag = "<link rel=\"stylesheet\" type=\"text/css\" href=\"output.css?r=hashy\" />";
+            Assert.AreEqual (expectedTag, TestUtilities.NormalizeLineEndings (tag));
+
+            var minifiedScript = "li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}hr{color:#a0522d}p{margin-left:20px}";
+            Assert.AreEqual (minifiedScript, writerFactory.Files[TestUtilities.PreparePathRelativeToWorkingDirectory ("C:\\output.css")]);
         }
     }
 }

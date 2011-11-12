@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using dotless.Core;
@@ -45,7 +46,7 @@ namespace SquishIt.Framework.Css
 
         protected override string tagFormat
         {
-            get { throw new NotImplementedException(); }
+            get { return "<style type=\"text/css\">{0}</style>"; }
         }
 
         public CSSBundle()
@@ -109,36 +110,40 @@ namespace SquishIt.Framework.Css
         protected override string BeforeMinify(string outputFile, List<string> filePaths, IEnumerable<string> arbitraryContent)
         {
             var outputCss = new StringBuilder();
-            foreach (string file in filePaths)
-            {
-                string css;
-                if (file.ToLower().EndsWith(".less") || file.ToLower().EndsWith(".less.css"))
-                {
-                    css = ProcessLess(file);
-                }
-                else
-                {
-                    css = ReadFile(file);
-                }
 
-                if (ShouldImport)
-                {
-                    css = ProcessImport(css);
-                }
-
-                ICssAssetsFileHasher fileHasher = null;
-
-                if (ShouldAppendHashForAssets)
-                {
-                    var fileResolver = new FileSystemResolver();
-                    fileHasher = new CssAssetsFileHasher(HashKeyName, fileResolver, hasher);
-                }
-
-                css = CSSPathRewriter.RewriteCssPaths(outputFile, file, css, fileHasher);
-                outputCss.Append(css + "\n");
-            }
+            filePaths.Select(file => ProcessCssFile(file, outputFile))
+                .Concat(arbitraryContent)
+                .Aggregate(outputCss, (builder, val) => builder.Append(val + "\n"));
 
             return outputCss.ToString();
+        }
+
+        string ProcessCssFile(string file, string outputFile) {
+            string css;
+            if (file.ToLower().EndsWith(".less") || file.ToLower().EndsWith(".less.css"))
+            {
+                css = ProcessLess(file);
+            }
+            else
+            {
+                css = ReadFile(file);
+            }
+
+            if (ShouldImport)
+            {
+                css = ProcessImport(css);
+            }
+
+            ICssAssetsFileHasher fileHasher = null;
+
+            if (ShouldAppendHashForAssets)
+            {
+                var fileResolver = new FileSystemResolver();
+                fileHasher = new CssAssetsFileHasher(HashKeyName, fileResolver, hasher);
+            }
+
+            css = CSSPathRewriter.RewriteCssPaths(outputFile, file, css, fileHasher);
+            return css;
         }
 
         internal override Dictionary<string, GroupBundle> BeforeRenderDebug()
