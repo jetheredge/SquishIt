@@ -91,7 +91,8 @@ namespace SquishIt.Framework.JavaScript
         {
             var sb = new StringBuilder();
             
-            files.Select(file => file.EndsWith(".coffee") ? ProcessCoffee(file) : ReadFile(file)).Union(arbitraryContent)
+            files.Select(file => file.EndsWith(".coffee") ? ProcessCoffee(file) : ReadFile(file))
+                .Concat(arbitraryContent)
                 .Aggregate(sb, (builder, val) => builder.Append(val + "\n"));
 
             return sb.ToString();
