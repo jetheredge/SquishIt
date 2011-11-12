@@ -503,7 +503,7 @@ namespace SquishIt.Tests
                 Assert.AreEqual(expectedTag, tag);
 
                 var combined = "function replace(n,t){return n+t}function product(n,t){return n*t}function sum(n,t){return n+t}";
-                Assert.AreEqual(combined, writerFactory.Files[TestUtilities.PrepareRelativePath(@"\output.js")]);
+                Assert.AreEqual(combined, writerFactory.Files[TestUtilities.PrepareRelativePath(@"output.js")]);
             }
         }
 

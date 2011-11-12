@@ -498,7 +498,7 @@ namespace SquishIt.Tests
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/compressor_instance.css?r=C33D1225DED9D889876CEE87754EE305\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
             Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}"
-                            , cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"\css\compressor_instance.css")]);
+                            , cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\compressor_instance.css")]);
         }
 
         [Test]
@@ -875,7 +875,7 @@ namespace SquishIt.Tests
                 Assert.AreEqual(expectedTag, tag);
 
                 var combined = "li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}";
-                Assert.AreEqual(combined, writerFactory.Files[TestUtilities.PrepareRelativePath(@"\output.css")]);
+                Assert.AreEqual(combined, writerFactory.Files[TestUtilities.PrepareRelativePath(@"output.css")]);
             }
         }
 
