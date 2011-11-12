@@ -43,6 +43,11 @@ namespace SquishIt.Framework.Css
             get { return new [] {".CSS"}; }
         }
 
+        protected override string tagFormat
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         public CSSBundle()
             : base(new FileWriterFactory(new RetryableFileOpener(), 5), new FileReaderFactory(new RetryableFileOpener(), 5), new DebugStatusReader(), new CurrentDirectoryWrapper(), new Hasher(new RetryableFileOpener()), new BundleCache())
         {
@@ -101,7 +106,7 @@ namespace SquishIt.Framework.Css
             return this;
         }
 
-        protected override string BeforeMinify(string outputFile, List<string> filePaths)
+        protected override string BeforeMinify(string outputFile, List<string> filePaths, IEnumerable<string> arbitraryContent)
         {
             var outputCss = new StringBuilder();
             foreach (string file in filePaths)

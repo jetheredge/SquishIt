@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Web;
 using SquishIt.Framework.Minifiers;
@@ -23,6 +24,9 @@ namespace SquishIt.Framework.Base
         protected IHasher hasher;
         protected abstract IMinifier<T> DefaultMinifier { get; }
         protected abstract string[] allowedExtensions { get; }
+        protected abstract string tagFormat { get; }
+        protected HashSet<string> arbitrary = new HashSet<string>();
+
         private IMinifier<T> minifier;
         protected IMinifier<T> Minifier
         {
@@ -193,6 +197,18 @@ namespace SquishIt.Framework.Base
             return (T)this;
         }
 
+        public T AddString(string content)
+        {
+            arbitrary.Add(content);
+            return (T)this;
+        }
+
+        public T AddString(string format, params object[] values)
+        {
+            var content = string.Format(format, values);
+            return AddString(content);
+        }
+
         public T AddToGroup(string group, params string[] filesPath)
         {
             foreach (var filePath in filesPath)
@@ -345,6 +361,11 @@ namespace SquishIt.Framework.Base
                     }
                 }
 
+                foreach(var cntnt in arbitrary)
+                {
+                    sb.AppendLine(string.Format(tagFormat, cntnt));
+                }
+
                 content = sb.ToString();
                 bundleCache.Add(name, content, DependentFiles);
             }
@@ -411,7 +432,7 @@ namespace SquishIt.Framework.Base
                     if (renderTo.Contains("#"))
                     {
                         hashInFileName = true;
-                        minifiedContent = Minifier.Minify(BeforeMinify(outputFile, files));
+                        minifiedContent = Minifier.Minify(BeforeMinify(outputFile, files, arbitrary));
                         hash = hasher.GetHash(minifiedContent);
                         renderToPath = renderToPath.Replace("#", hash);
                         outputFile = outputFile.Replace("#", hash);
@@ -423,7 +444,7 @@ namespace SquishIt.Framework.Base
                     }
                     else
                     {
-                        minifiedContent = minifiedContent ?? Minifier.Minify(BeforeMinify(outputFile, files));
+                        minifiedContent = minifiedContent ?? Minifier.Minify(BeforeMinify(outputFile, files, arbitrary));
                         renderer.Render(minifiedContent, outputFile);
                     }
 
@@ -533,12 +554,13 @@ namespace SquishIt.Framework.Base
             return (T)this;
         }
 
-        protected virtual string BeforeMinify(string outputFile, List<string> files)
+        protected virtual string BeforeMinify(string outputFile, List<string> files, IEnumerable<string> arbitraryContent)
         {
             var sb = new StringBuilder();
-            foreach (var file in files)
+            var allContent = files.Select(ReadFile).Union(arbitraryContent);
+            foreach (var content in allContent)
             {
-                sb.Append(ReadFile(file) + "\n");
+                sb.Append(ReadFile(content) + "\n");
             }
 
             return sb.ToString();

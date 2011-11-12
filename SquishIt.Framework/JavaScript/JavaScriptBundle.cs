@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using SquishIt.Framework.Base;
 using SquishIt.Framework.Files;
@@ -25,6 +26,11 @@ namespace SquishIt.Framework.JavaScript
         protected override string[] allowedExtensions
         {
             get { return new[] { ".JS" }; }
+        }
+
+        protected override string tagFormat
+        {
+            get { return "<script type=\"text/javascript\">{0}</script>"; }
         }
 
         public JavaScriptBundle()
@@ -81,17 +87,12 @@ namespace SquishIt.Framework.JavaScript
             return modifiedGroupBundles;
         }
 
-        protected override string BeforeMinify(string outputFile, List<string> files)
+        protected override string BeforeMinify(string outputFile, List<string> files, IEnumerable<string> arbitraryContent)
         {
             var sb = new StringBuilder();
-            foreach (var file in files)
-            {
-                string content = file.EndsWith(".coffee")
-                                     ? ProcessCoffee(file)
-                                     : ReadFile(file);
-
-                sb.Append(content + "\n");
-            }
+            
+            files.Select(file => file.EndsWith(".coffee") ? ProcessCoffee(file) : ReadFile(file)).Union(arbitraryContent)
+                .Aggregate(sb, (builder, val) => builder.Append(val + "\n"));
 
             return sb.ToString();
         }
