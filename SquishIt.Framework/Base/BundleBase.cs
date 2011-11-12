@@ -78,6 +78,10 @@ namespace SquishIt.Framework.Base
         {
             if (!asset.IsEmbeddedResource)
             {
+                if (debugStatusReader.IsDebuggingEnabled())
+                {
+                    return GetFileSystemPath(asset.LocalPath);
+                }
                 return String.IsNullOrEmpty(asset.RemotePath) ? GetFileSystemPath(asset.LocalPath) : GetHttpPath(asset.RemotePath);
             }
             else
@@ -91,14 +95,7 @@ namespace SquishIt.Framework.Base
             var inputFiles = new List<Input>();
             foreach (var asset in assets)
             {
-                if (asset.RemotePath == null)
-                {
-                    inputFiles.Add(GetFileSystemPath(asset.LocalPath));
-                }
-                else if (asset.IsEmbeddedResource)
-                {
-                    inputFiles.Add(GetEmbeddedResourcePath(asset.RemotePath));
-                }
+                inputFiles.Add(GetInputFile(asset));
             }
             return inputFiles;
         }
@@ -261,7 +258,7 @@ namespace SquishIt.Framework.Base
 
         public string Render(string renderTo)
         {
-            string key = renderTo + GroupBundles.GetHashCode();
+            string key = renderTo;
             return Render(renderTo, key, new FileRenderer(fileWriterFactory));
         }
 
@@ -351,11 +348,23 @@ namespace SquishIt.Framework.Base
                             foreach (var file in files)
                             {
                                 var relativePath = FileSystem.ResolveFileSystemPathToAppRelative(file);
-								//TODO: lose the voodoo
-                            	var path = HttpContext.Current == null
-									? (asset.LocalPath.StartsWith ("~") ? "" : "/") + relativePath 
-									: HttpContext.Current.Request.ApplicationPath + relativePath;
-                            	sb.AppendLine(FillTemplate(groupBundle, path));
+                            	string path;
+                                if (HttpContext.Current == null)
+                                {
+                                    path = (asset.LocalPath.StartsWith("~") ? "" : "/") + relativePath;
+                                }
+                                else
+                                {
+                                    if (HttpContext.Current.Request.ApplicationPath.EndsWith("/"))
+                                    {
+                                        path = HttpContext.Current.Request.ApplicationPath + relativePath;    
+                                    }
+                                    else
+                                    {
+                                        path = HttpContext.Current.Request.ApplicationPath + "/" + relativePath;
+                                    }
+                                }
+                                sb.AppendLine(FillTemplate(groupBundle, path));
                             }
                         }
                     }
@@ -438,7 +447,7 @@ namespace SquishIt.Framework.Base
                         outputFile = outputFile.Replace("#", hash);
                     }
 
-                    if (ShouldRenderOnlyIfOutputFileIsMissing && FileExists(outputFile) && minifiedContent == null)
+                    if (ShouldRenderOnlyIfOutputFileIsMissing && FileExists(outputFile))
                     {
                         minifiedContent = ReadFile(outputFile);
                     }
