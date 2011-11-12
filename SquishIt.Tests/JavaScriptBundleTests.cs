@@ -124,7 +124,7 @@ namespace SquishIt.Tests
                     .Add("~/js/test.js")
                     .Render("~/js/output_1_2.js");
 
-            Assert.AreEqual ("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_1_2.js?r=42C40AB6B5ED5B2868E70CB08201F965\"></script>", tag);
+            Assert.AreEqual ("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_1_2.js?r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
             Assert.AreEqual ("function product(n,t){return n*t}function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_1_2.js")]);
         }
 
@@ -136,7 +136,7 @@ namespace SquishIt.Tests
                     .Add("~/js/test.js")
                     .Render("~/js/output_querystring.js?v=2_2");
 
-            Assert.AreEqual ("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_querystring.js?v=2_2&r=42C40AB6B5ED5B2868E70CB08201F965\"></script>", tag);
+            Assert.AreEqual ("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_querystring.js?v=2_2&r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
         }
 
         [Test]
@@ -149,7 +149,7 @@ namespace SquishIt.Tests
 
             var tag = javaScriptBundle.RenderNamed("TestCdn");
 
-            Assert.AreEqual ("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_3_2.js?r=42C40AB6B5ED5B2868E70CB08201F965\"></script>", tag);
+            Assert.AreEqual ("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_3_2.js?r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
             Assert.AreEqual ("function product(n,t){return n*t}function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_3_2.js")]);
         }
 
@@ -160,7 +160,7 @@ namespace SquishIt.Tests
                     .AddEmbeddedResource("~/js/test.js", "SquishIt.Tests://EmbeddedResource.Embedded.js")
                     .Render("~/js/output_Embedded.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_Embedded.js?r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
+            Assert.AreEqual ("<script type=\"text/javascript\" src=\"js/output_Embedded.js?r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
             Assert.AreEqual ("function product(n,t){return n*t}function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_Embedded.js")]);
         }
 
@@ -264,7 +264,7 @@ namespace SquishIt.Tests
                     .WithMinifier<JsMinMinifier>()
                     .Render("~/js/output_embedded7.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_embedded7.js?r=8AA0EB763B23F6041902F56782ADB346\"></script>", tag);
+            Assert.AreEqual ("<script type=\"text/javascript\" src=\"js/output_embedded7.js?r=8AA0EB763B23F6041902F56782ADB346\"></script>", tag);
             Assert.AreEqual ("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;}", fileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_embedded7.js")]);
         }
 

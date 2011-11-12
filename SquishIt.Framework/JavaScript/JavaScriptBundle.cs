@@ -90,7 +90,7 @@ namespace SquishIt.Framework.JavaScript
         protected override string BeforeMinify(string outputFile, List<string> files, IEnumerable<string> arbitraryContent)
         {
             var sb = new StringBuilder();
-            
+
             files.Select(file => file.EndsWith(".coffee") ? ProcessCoffee(file) : ReadFile(file))
                 .Concat(arbitraryContent)
                 .Aggregate(sb, (builder, val) => builder.Append(val + "\n"));

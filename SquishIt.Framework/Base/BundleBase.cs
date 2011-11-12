@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using SquishIt.Framework.Minifiers;
 using SquishIt.Framework.Resolvers;
@@ -435,7 +436,8 @@ namespace SquishIt.Framework.Base
                         }
                     }
 
-                    files.AddRange(GetFiles(groupBundle.Assets));
+                    files.AddRange(GetFiles(groupBundle.Assets.Where(asset => asset.IsEmbeddedResource || asset.RemotePath == null).ToList()));
+
                     DependentFiles.AddRange(files);
 
                     if (renderTo.Contains("#"))
