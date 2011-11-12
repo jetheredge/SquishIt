@@ -22,12 +22,15 @@ namespace SquishIt.Framework
 
             if (HttpContext.Current == null)
             {
-                if (!(Unix))
+                if (!(Unix)) 
                 {
-                    file = file.Replace("/", "\\").TrimStart('~').TrimStart('\\');
-                    return @"C:\" + file.Replace("/", "\\");
+                    file = file.Replace ("/", "\\").TrimStart ('~').TrimStart ('\\');
+                    //return @"C:\" + file.Replace("/", "\\");
                 }
-                file = file.TrimStart('~', '/');
+                else
+                {
+                    file = file.TrimStart('~', '/');
+                }
                 return Path.Combine(Environment.CurrentDirectory, file);
             }
             return HttpContext.Current.Server.MapPath(file);

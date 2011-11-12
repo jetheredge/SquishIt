@@ -141,10 +141,16 @@ namespace SquishIt.Framework.Css
                 var fileResolver = new FileSystemResolver();
                 fileHasher = new CssAssetsFileHasher(HashKeyName, fileResolver, hasher);
             }
-
-            css = CSSPathRewriter.RewriteCssPaths(outputFile, file, css, fileHasher);
+            //could use asset here to tell if its remote? using cheap hack for now
+            if (!urlRegex.IsMatch (file))
+            {
+                css = CSSPathRewriter.RewriteCssPaths(outputFile, file, css, fileHasher);
+            }
             return css;
         }
+
+        //regex taken from here: http://daringfireball.net/2010/07/improved_regex_for_matching_urls
+        static Regex urlRegex = new Regex(@"(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'"".,<>?«»“”‘’]))", RegexOptions.Compiled);
 
         internal override Dictionary<string, GroupBundle> BeforeRenderDebug()
         {

@@ -21,17 +21,10 @@ namespace SquishIt.Tests.Helpers
             return path;
         }
 
-        //On Linux, only resolving paths relative to file system if HttpContext is null
-        //This is lazy, but I don't have a need for command line tool at present
-        public static string PreparePathRelativeToWorkingDirectory(string windowsPath)
+        public static string PrepareRelativePath(string path)
         {
-            var path = windowsPath;
-            if (FileSystem.Unix)
-            {
-                var extendedPath = PreparePath(path);
-                path = Environment.CurrentDirectory + extendedPath; //combine won't work here for some reason?
-            }
-            return path;
+            var directorySeparator = Path.DirectorySeparatorChar.ToString();
+            return Environment.CurrentDirectory + (path.StartsWith(directorySeparator) ? "" : directorySeparator) + PreparePath(path);
         }
 
         public static string NormalizeLineEndings(string contents)

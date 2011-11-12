@@ -6,4 +6,5 @@ _ReSharper*
 *.pidb
 test-results/
 *.userprefs
-SquishItAspNetTest/css
+SquishItAspNetTest/css/combined*
+SquishItAspNetTest/js/combined*
