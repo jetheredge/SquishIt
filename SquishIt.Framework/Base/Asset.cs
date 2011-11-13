@@ -1,3 +1,5 @@
+using System;
+
 namespace SquishIt.Framework.Base
 {
     internal class Asset
@@ -6,6 +8,27 @@ namespace SquishIt.Framework.Base
         internal string RemotePath { get; set; }
         internal int Order { get; set; }
         internal bool IsEmbeddedResource { get; set; }
+        internal bool DownloadRemote { get; set; }
+
+        internal bool IsLocal
+        {
+            get
+            {
+                return String.IsNullOrEmpty(RemotePath);
+            }
+        }
+
+        internal bool IsRemote
+        {
+            get
+            {
+                return !String.IsNullOrEmpty(RemotePath) && !IsEmbeddedResource && !DownloadRemote;
+            }
+        }
+
+        internal bool IsRemoteDownload { 
+            get { return !String.IsNullOrEmpty(RemotePath) && DownloadRemote; }
+        }
 
         internal Asset()
         {

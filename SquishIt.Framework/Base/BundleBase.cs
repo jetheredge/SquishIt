@@ -83,7 +83,15 @@ namespace SquishIt.Framework.Base
                 {
                     return GetFileSystemPath(asset.LocalPath);
                 }
-                return String.IsNullOrEmpty(asset.RemotePath) ? GetFileSystemPath(asset.LocalPath) : GetHttpPath(asset.RemotePath);
+
+                if (asset.IsRemoteDownload)
+                {
+                    return GetHttpPath(asset.RemotePath);
+                }
+                else
+                {
+                    return GetFileSystemPath(asset.LocalPath);
+                }
             }
             else
             {
@@ -223,7 +231,14 @@ namespace SquishIt.Framework.Base
 
         public T AddRemote(string localPath, string remotePath)
         {
-            AddAsset(new Asset(localPath, remotePath));
+            return AddRemote(localPath, remotePath, false);
+        }
+
+        public T AddRemote(string localPath, string remotePath, bool downloadRemote)
+        {
+            var asset = new Asset(localPath, remotePath);
+            asset.DownloadRemote = downloadRemote;
+            AddAsset(asset);
             return (T)this;
         }
 
@@ -417,26 +432,19 @@ namespace SquishIt.Framework.Base
                         renderToPath = String.Concat(BaseOutputHref.TrimEnd('/'), "/", renderToPath.TrimStart('/'));
                     }
 
-                    var localAssetPaths = new List<string>();
                     var remoteAssetPaths = new List<string>();
-                    var embeddedAssetPaths = new List<string>();
                     foreach (var asset in groupBundle.Assets)
                     {
-                        if (asset.RemotePath == null)
-                        {
-                            localAssetPaths.Add(asset.LocalPath);
-                        }
-                        else if (!asset.IsEmbeddedResource)
+                        if (asset.IsRemote)
                         {
                             remoteAssetPaths.Add(asset.RemotePath);
                         }
-                        else if (asset.IsEmbeddedResource)
-                        {
-                            embeddedAssetPaths.Add(asset.RemotePath);
-                        }
                     }
 
-                    files.AddRange(GetFiles(groupBundle.Assets.Where(asset => asset.IsEmbeddedResource || asset.RemotePath == null).ToList()));
+                    files.AddRange(GetFiles(groupBundle.Assets.Where(asset => 
+                        asset.IsEmbeddedResource || 
+                        asset.IsLocal ||
+                        asset.IsRemoteDownload).ToList()));
 
                     DependentFiles.AddRange(files);
 
