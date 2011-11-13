@@ -42,7 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MvcExtensions.cs" />
+    <Compile Include="CSSBundleExtensions.cs" />
+    <Compile Include="HtmlHelperExtensions.cs" />
+    <Compile Include="JavaScriptBundleExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SquishItController.cs" />
   </ItemGroup>
