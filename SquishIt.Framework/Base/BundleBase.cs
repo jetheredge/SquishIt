@@ -356,13 +356,13 @@ namespace SquishIt.Framework.Base
                                 }
                                 else
                                 {
-                                    if (HttpContext.Current.Request.ApplicationPath.EndsWith("/"))
+                                    if (HttpRuntime.AppDomainAppVirtualPath.EndsWith("/"))
                                     {
-                                        path = HttpContext.Current.Request.ApplicationPath + relativePath;    
+                                        path = HttpRuntime.AppDomainAppVirtualPath + relativePath;    
                                     }
                                     else
                                     {
-                                        path = HttpContext.Current.Request.ApplicationPath + "/" + relativePath;
+                                        path = HttpRuntime.AppDomainAppVirtualPath + "/" + relativePath;
                                     }
                                 }
                                 sb.AppendLine(FillTemplate(groupBundle, path));
