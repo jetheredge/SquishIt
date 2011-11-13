@@ -937,5 +937,29 @@ namespace SquishIt.Tests
             var minifiedScript = "li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}hr{color:#a0522d}p{margin-left:20px}";
             Assert.AreEqual (minifiedScript, writerFactory.Files[TestUtilities.PrepareRelativePath("output.css")]);
         }
+
+        [Test]
+        public void PathRewritingDoesNotAffectClassesNamedUrl()
+        {
+            string css =
+                    @"
+                        a.url {
+                            color: #4D926F;
+                        }
+                    ";
+
+            CSSBundle cssBundle = cssBundleFactory
+                .WithDebuggingEnabled(false)
+                .WithContents(css)
+                .Create();
+
+            string tag = cssBundle
+                .Add("~/css/something/test.css")
+                .Render("~/css/output_rewriting_url.css");
+
+            string contents = cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_rewriting_url.css")];
+
+            Assert.AreEqual("a.url{color:#4d926f}", contents);
+        }
     }
 }
