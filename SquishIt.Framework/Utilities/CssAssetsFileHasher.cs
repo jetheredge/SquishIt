@@ -34,9 +34,11 @@ namespace SquishIt.Framework.Utilities
                 return url;
             }
 
-            var hash = Hasher.GetHash(fileInfo);
-
-            url = AppendQueryStringPairValue(url, HashQueryStringKeyName, hash);
+            if (!string.IsNullOrEmpty(HashQueryStringKeyName))
+            {
+                var hash = Hasher.GetHash(fileInfo);
+                url = AppendQueryStringPairValue(url, HashQueryStringKeyName, hash);
+            }
 
             return url;
         }

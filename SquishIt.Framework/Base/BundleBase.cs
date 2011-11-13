@@ -467,7 +467,7 @@ namespace SquishIt.Framework.Base
                         renderer.Render(minifiedContent, outputFile);
                     }
 
-                    if (hash == null)
+                    if (hash == null && !string.IsNullOrEmpty(HashKeyName))
                     {
                         hash = hasher.GetHash(minifiedContent);
                     }
@@ -479,7 +479,11 @@ namespace SquishIt.Framework.Base
                     }
                     else
                     {
-                        if (renderToPath.Contains("?"))
+                        if (string.IsNullOrEmpty(HashKeyName))
+                        {
+                            renderedTag = FillTemplate(groupBundle, renderToPath);
+                        }
+                        else if (renderToPath.Contains("?"))
                         {
                             renderedTag = FillTemplate(groupBundle, renderToPath + "&" + HashKeyName + "=" + hash);
                         }
