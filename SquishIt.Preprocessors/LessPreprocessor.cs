@@ -2,12 +2,11 @@
 using SquishIt.Framework;
 using dotless.Core;
 
-namespace SquishIt.Less
+namespace SquishIt.Preprocessors
 {
     public class LessPreprocessor : IPreprocessor
     {
         static Regex lessFiles = new Regex(@"(\.less)|(\.less.css)$", RegexOptions.Compiled);
-
 
         public bool ValidFor(string filePath)
         {

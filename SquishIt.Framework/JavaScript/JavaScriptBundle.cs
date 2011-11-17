@@ -69,10 +69,11 @@ namespace SquishIt.Framework.JavaScript
                 foreach (var asset in groupBundle.Assets)
                 {
                     var localPath = asset.LocalPath;
-                    if (localPath.ToLower().EndsWith(".coffee"))
+                    var preprocessor = FindPreprocessor(localPath);
+                    if (preprocessor != null)
                     {
                         string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
-                        string javascript = ProcessCoffee(outputFile);
+                        string javascript = PreprocessJavascriptFile(outputFile, preprocessor);
                         outputFile += ".debug.js";
                         using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
                         {
@@ -91,26 +92,32 @@ namespace SquishIt.Framework.JavaScript
         {
             var sb = new StringBuilder();
 
-            files.Select(file => file.EndsWith(".coffee") ? ProcessCoffee(file) : ReadFile(file))
+            files.Select(ProcessJavascriptFile)
                 .Concat(arbitraryContent)
                 .Aggregate(sb, (builder, val) => builder.Append(val + "\n"));
 
             return sb.ToString();
         }
 
-        private string ProcessCoffee(string file)
-        {
-            lock (typeof(JavaScriptBundle))
-            {
-                try
-                {
+        private string ProcessJavascriptFile(string file) {
+            var preprocessor = FindPreprocessor(file);
+            if (preprocessor != null) {
+                return PreprocessJavascriptFile(file, preprocessor);
+            }
+            return ReadFile(file);
+        }
+
+        private string PreprocessJavascriptFile(string file, IPreprocessor preprocessor) {
+            lock (typeof(JavaScriptBundle)) {
+                try {
                     currentDirectoryWrapper.SetCurrentDirectory(Path.GetDirectoryName(file));
                     var content = ReadFile(file);
-                    var compiler = new Coffee.CoffeescriptCompiler();
-                    return compiler.Compile(content);
+                    if (preprocessor == null) {
+                        return content;
+                    }
+                    return preprocessor.Process(file, content);
                 }
-                finally
-                {
+                finally {
                     currentDirectoryWrapper.Revert();
                 }
             }

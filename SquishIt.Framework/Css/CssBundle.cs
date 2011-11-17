@@ -117,7 +117,7 @@ namespace SquishIt.Framework.Css
         string ProcessCssFile(string file, string outputFile) {
             string css = null;
 
-            var preProcessor = FindPreProcessor(file);
+            var preProcessor = FindPreprocessor(file);
 
             if(preProcessor != null)
             {
@@ -144,11 +144,6 @@ namespace SquishIt.Framework.Css
             return CSSPathRewriter.RewriteCssPaths(outputFile, file, css, fileHasher);
         }
 
-        private static IPreprocessor FindPreProcessor(string file)
-        {
-            return Bundle.CssPreprocessors.FirstOrDefault(p => p.ValidFor(file));
-        }
-
         internal override Dictionary<string, GroupBundle> BeforeRenderDebug()
         {
             var modifiedGroupBundles = new Dictionary<string, GroupBundle>(GroupBundles);
@@ -161,7 +156,7 @@ namespace SquishIt.Framework.Css
                 foreach (var asset in groupBundle.Assets)
                 {
                     var localPath = asset.LocalPath;
-                    var preProcessor = FindPreProcessor(localPath);
+                    var preProcessor = FindPreprocessor(localPath);
                     if(preProcessor != null)
                     {
                         string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);

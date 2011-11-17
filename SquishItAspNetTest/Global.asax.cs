@@ -11,7 +11,7 @@ namespace SquishItAspNetTest
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            SquishIt.Framework.Bundle.RegisterCssPreprocessor<SquishIt.Less.LessPreprocessor>();
+            SquishIt.Framework.Bundle.RegisterPreprocessor<SquishIt.Preprocessors.LessPreprocessor>();
         }
     }
 }

@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishItAspNetTest", "Squis
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.Mvc", "SquishIt.Mvc\SquishIt.Mvc.csproj", "{A9F9331C-C3AA-4844-AB33-7714761F725D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.Less", "SquishIt.Less\SquishIt.Less.csproj", "{A8E60378-569B-4BAA-B344-75A065796E20}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.Preprocessors", "SquishIt.Preprocessors\SquishIt.Preprocessors.csproj", "{A8E60378-569B-4BAA-B344-75A065796E20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

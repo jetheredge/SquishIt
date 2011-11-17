@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using SquishIt.Framework.Coffee;
+using SquishIt.Preprocessors.Coffee;
 
 namespace SquishIt.Tests.Coffee
 {

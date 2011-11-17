@@ -125,6 +125,10 @@ namespace SquishIt.Framework.Base
             return new Input(resourcePath, ResolverFactory.Get<EmbeddedResourceResolver>());
         }
 
+        protected static IPreprocessor FindPreprocessor(string file) {
+            return Bundle.Preprocessors.FirstOrDefault(p => p.ValidFor(file));
+        }
+
         private string ExpandAppRelativePath(string file)
         {
             if (file.StartsWith("~/"))

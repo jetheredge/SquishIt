@@ -83,7 +83,6 @@
     <Compile Include="Base\BundleBase.cs" />
     <Compile Include="Base\GroupBundle.cs" />
     <Compile Include="Base\IBundle.cs" />
-    <Compile Include="Coffee\CoffeescriptCompiler.cs" />
     <Compile Include="IBundleCache.cs" />
     <Compile Include="IPreprocessor.cs" />
     <Compile Include="Minifiers\IMinifier.cs" />
@@ -143,7 +142,6 @@
     <Content Include="closure-compiler\compiler.jar">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Coffee\coffee-script.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="closure-compiler\COPYING">

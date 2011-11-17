@@ -7,17 +7,11 @@ namespace SquishIt.Framework
 {
     public class Bundle
     {
-        internal static readonly List<IPreprocessor> JsPreprocessors = new List<IPreprocessor>();
-        internal static readonly List<IPreprocessor> CssPreprocessors = new List<IPreprocessor>();
+        internal static readonly List<IPreprocessor> Preprocessors = new List<IPreprocessor>();
 
-        public static void RegisterCssPreprocessor<T>() where T : IPreprocessor
+        public static void RegisterPreprocessor<T>() where T : IPreprocessor
         {
-            CssPreprocessors.Add(Activator.CreateInstance<T>());
-        }
-        
-        public static void RegisterJsPreprocessor<T>() where T : IPreprocessor
-        {
-            JsPreprocessors.Add(Activator.CreateInstance<T>());
+            Preprocessors.Add(Activator.CreateInstance<T>());
         }
 
         public static JavaScriptBundle JavaScript()
