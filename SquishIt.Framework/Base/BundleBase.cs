@@ -503,17 +503,22 @@ namespace SquishIt.Framework.Base
         }
 
         /// <summary>
-        /// If Debug, returns a <see cref="IList{string}"/> of file names.
-        /// If Release, squishes bundle, writes squished file, returns resulting filename as only member of a <see cref="IList{string}"/>.
+        /// Renders the bundle and returns a list of the url(s) as appropriate. 
+        /// Useful when loading files on-demand (ex. jQuery.ajax, dojo.require, YUI.Get.script, etc).  
+        /// 
+        /// Example:
+        ///   Bundle()
+        ///     .Javascript()
+        ///     .Add("~/js/test1.js")
+        ///     .Add("~/js/test2.js")
+        ///     .SquishAndGetUrls("~/js/test_#.js")
         ///
-        /// Useful when loading files on-demand (via ajax).  
-        /// Eg. 
-        ///    Bundle().Javascript().Add("~/js/test1.js").Add("~/js/test2.js").SquishAndGetUrls("~/js/test_#.js")
-        ///      If Debug, returns ["/js/test1.js","/js/test2.js"]
-        ///      If Release, returns ["/js/test_43958ADEC93DAC8037D2471A95382DE9.js"]
+        /// Output:
+        ///      If Debug, returns [ "/js/test1.js", "/js/test2.js" ]
+        ///      If Release, returns [ "/js/test_43958ADEC93DAC8037D2471A95382DE9.js" ]
         /// </summary>
         /// <param name="renderTo"></param>
-        /// <returns>List of names</returns>
+        /// <returns>A <see cref="IList{string}"/> of urls</returns>
         public IList<string> SquishAndGetUrls(string renderTo)
         {
             var result = Render(renderTo);
