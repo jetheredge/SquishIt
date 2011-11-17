@@ -580,34 +580,34 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanGetOutputNameForSingleFileInDebugMode()
+        public void CanGetOutputUrlForSingleFileInDebugMode()
         {
             var names = debugJavaScriptBundle
                     .Add("~/js/test1.js")
-                    .SquishAndGetNames("~/js/output_#.js");
+                    .SquishAndGetUrls("~/js/output_#.js");
 
             var str = string.Join(",", names.ToArray());
             Assert.AreEqual("js/test1.js", str);
         }
 
         [Test]
-        public void CanGetOutputNamesForMultipleFilesInDebugMode()
+        public void CanGetOutputUrlsForMultipleFilesInDebugMode()
         {
             var names = debugJavaScriptBundle
                     .Add("~/js/test1.js")
                     .Add("~/js/test2.js")
-                    .SquishAndGetNames("~/js/output_#.js");
+                    .SquishAndGetUrls("~/js/output_#.js");
 
             var str = string.Join(",", names.ToArray());
             Assert.AreEqual("js/test1.js,js/test2.js", str);
         }
 
         [Test]
-        public void CanGetOutputNameForSingleFileInReleaseMode()
+        public void CanGetOutputUrlForSingleFileInReleaseMode()
         {
             var names = javaScriptBundle
                     .Add("~/js/test1.js")
-                    .SquishAndGetNames("~/js/output_#.js");
+                    .SquishAndGetUrls("~/js/output_#.js");
 
             var str = string.Join(",", names.ToArray());
             Assert.AreEqual("js/output_36286D0CEA57C5ED24B868EB0D2898E9.js", str);
@@ -617,7 +617,7 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanGetOutputNameForMultipleFilesInReleaseMode()
+        public void CanGetOutputUrlForMultipleFilesInReleaseMode()
         {
             var file1 = TestUtilities.PrepareRelativePath("\\js\\test1.js");
             var file2 = TestUtilities.PrepareRelativePath("\\js\\test2.js");
@@ -642,7 +642,7 @@ namespace SquishIt.Tests
             var names = javaScriptBundle
                     .Add("~/js/test1.js")
                     .Add("~/js/test2.js")
-                    .SquishAndGetNames("~/js/output_#.js");
+                    .SquishAndGetUrls("~/js/output_#.js");
 
             var str = string.Join(",", names.ToArray());
             Assert.AreEqual("js/output_9D7D22AD1BA5843A6E174D152332A1CC.js", str);

@@ -508,13 +508,13 @@ namespace SquishIt.Framework.Base
         ///
         /// Useful when loading files on-demand (via ajax).  
         /// Eg. 
-        ///    Bundle().Javascript().Add("~/js/test1.js").Add("~/js/test2.js").SquishAndGetNames("~/js/test_#.js")
-        ///      If Debug, returns "/js/test1.js,/js/test2.js"
-        ///      If Release, returns "/js/test_43958ADEC93DAC8037D2471A95382DE9.js"
+        ///    Bundle().Javascript().Add("~/js/test1.js").Add("~/js/test2.js").SquishAndGetUrls("~/js/test_#.js")
+        ///      If Debug, returns ["/js/test1.js","/js/test2.js"]
+        ///      If Release, returns ["/js/test_43958ADEC93DAC8037D2471A95382DE9.js"]
         /// </summary>
         /// <param name="renderTo"></param>
         /// <returns>List of names</returns>
-        public IList<string> SquishAndGetNames(string renderTo)
+        public IList<string> SquishAndGetUrls(string renderTo)
         {
             var result = Render(renderTo);
             var scripts = new List<string>();

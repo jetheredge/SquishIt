@@ -965,7 +965,7 @@ namespace SquishIt.Tests
 
 
         [Test]
-        public void CanGetOutputNameForSingleFileInDebugMode()
+        public void CanGetOutputUrlForSingleFileInDebugMode()
         {
             CSSBundle cssBundle = cssBundleFactory
                 .WithDebuggingEnabled(true)
@@ -974,14 +974,14 @@ namespace SquishIt.Tests
 
             var names = cssBundle
                             .Add("~/css/first.css")
-                            .SquishAndGetNames("/css/output.css");
+                            .SquishAndGetUrls("/css/output.css");
 
             var str = string.Join(",", names.ToArray());
             Assert.AreEqual("css/first.css", str);
         }
 
         [Test]
-        public void CanGetOutputNamesForMultipleFilesInDebugMode()
+        public void CanGetOutputUrlsForMultipleFilesInDebugMode()
         {
             CSSBundle cssBundle = cssBundleFactory
                 .WithDebuggingEnabled(true)
@@ -991,14 +991,14 @@ namespace SquishIt.Tests
             var names = cssBundle
                             .Add("~/css/first.css")
                             .Add("~/css/second.css")
-                            .SquishAndGetNames("/css/output.css");
+                            .SquishAndGetUrls("/css/output.css");
 
             var str = string.Join(",", names.ToArray());
             Assert.AreEqual("css/first.css,css/second.css", str);
         }
 
         [Test]
-        public void CanGetOutputNameForSingleFileInReleaseMode()
+        public void CanGetOutputUrlForSingleFileInReleaseMode()
         {
             CSSBundle cssBundle = cssBundleFactory
                 .WithHasher(hasher)
@@ -1011,7 +1011,7 @@ namespace SquishIt.Tests
 
             var names = cssBundle
                             .Add("~/css/test1.css")
-                            .SquishAndGetNames("~/css/output_#.css");
+                            .SquishAndGetUrls("~/css/output_#.css");
 
             var str = string.Join(",", names.ToArray());
             Assert.AreEqual("css/output_67F81278D746D60E6F711B5A29747388.css", str);
@@ -1023,7 +1023,7 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanGetOutputNameForMultipleFilesInReleaseMode()
+        public void CanGetOutputUrlForMultipleFilesInReleaseMode()
         {
             CSSBundle cssBundle = cssBundleFactory
                 .WithHasher(hasher)
@@ -1047,7 +1047,7 @@ namespace SquishIt.Tests
             var names = cssBundle
                             .Add("~/css/test1.css")
                             .Add("~/css/test2.css")
-                            .SquishAndGetNames("~/css/output_#.css");
+                            .SquishAndGetUrls("~/css/output_#.css");
 
             var str = string.Join(",", names.ToArray());
             Assert.AreEqual("css/output_7C5F5473FDC374A1FDA7601DDB127D9A.css", str);
