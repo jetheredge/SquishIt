@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using dotless.Core;
 using SquishIt.Framework.Base;
 using SquishIt.Framework.Minifiers;
 using SquishIt.Framework.Minifiers.CSS;
@@ -64,25 +62,6 @@ namespace SquishIt.Framework.Css
         {
         }
 
-        private string ProcessLess(string file)
-        {
-            lock (typeof(CSSBundle))
-            {
-                try
-                {
-                    currentDirectoryWrapper.SetCurrentDirectory(Path.GetDirectoryName(file));
-                    var content = ReadFile(file);
-                    var engineFactory = new EngineFactory();
-                    var engine = engineFactory.GetEngine();
-                    return engine.TransformToCss(content, file);
-                }
-                finally
-                {
-                    currentDirectoryWrapper.Revert();
-                }
-            }
-        }
-
         private string ProcessImport(string css)
         {
             return IMPORT_PATTERN.Replace(css, new MatchEvaluator(ApplyFileContentsToMatchedImport));
@@ -118,11 +97,31 @@ namespace SquishIt.Framework.Css
             return outputCss.ToString();
         }
 
+        private string PreProcessCssFile(string file, IPreprocessor preProcessor)
+        {
+            lock (typeof(CSSBundle))
+            {
+                try
+                {
+                    currentDirectoryWrapper.SetCurrentDirectory(Path.GetDirectoryName(file));
+                    var content = ReadFile(file);
+                    return preProcessor.Process(file, content);
+                }
+                finally
+                {
+                    currentDirectoryWrapper.Revert();
+                }
+            }
+        }
+
         string ProcessCssFile(string file, string outputFile) {
             string css = null;
-            if (file.ToLower().EndsWith(".less") || file.ToLower().EndsWith(".less.css"))
+
+            var preProcessor = FindPreProcessor(file);
+
+            if(preProcessor != null)
             {
-                css = ProcessLess(file);
+                css = PreProcessCssFile(file, preProcessor);
             }
             else
             {
@@ -145,6 +144,12 @@ namespace SquishIt.Framework.Css
             return CSSPathRewriter.RewriteCssPaths(outputFile, file, css, fileHasher);
         }
 
+        private static IPreprocessor FindPreProcessor(string file)
+        {
+            return Bundle.CssPreprocessors.FirstOrDefault(
+                p => Regex.IsMatch(file, p.FileMatchRegex, RegexOptions.IgnoreCase));
+        }
+
         internal override Dictionary<string, GroupBundle> BeforeRenderDebug()
         {
             var modifiedGroupBundles = new Dictionary<string, GroupBundle>(GroupBundles);
@@ -157,10 +162,12 @@ namespace SquishIt.Framework.Css
                 foreach (var asset in groupBundle.Assets)
                 {
                     var localPath = asset.LocalPath;
-                    if (localPath.ToLower().EndsWith(".less") || localPath.ToLower().EndsWith(".less.css"))
+                    var preProcessor = FindPreProcessor(localPath);
+                    if(preProcessor != null)
                     {
                         string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
-                        string css = ProcessLess(outputFile);
+
+                        string css = PreProcessCssFile(outputFile, preProcessor);
                         outputFile += ".debug.css";
                         using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
                         {

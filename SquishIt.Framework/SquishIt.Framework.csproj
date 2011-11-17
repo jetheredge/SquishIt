@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -67,10 +67,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AjaxMin.4.30.4295.16112\lib\AjaxMin.dll</HintPath>
     </Reference>
-    <Reference Include="dotless.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\dotless.1.2.1.0\lib\dotless.Core.dll</HintPath>
-    </Reference>
     <Reference Include="EcmaScript.NET.modified, Version=0.1.1.0, Culture=neutral, PublicKeyToken=7d53ba4f537753a5">
       <HintPath>..\packages\YUICompressor.NET.1.6.0.2\lib\net35\EcmaScript.NET.modified.dll</HintPath>
     </Reference>
@@ -89,6 +85,7 @@
     <Compile Include="Base\IBundle.cs" />
     <Compile Include="Coffee\CoffeescriptCompiler.cs" />
     <Compile Include="IBundleCache.cs" />
+    <Compile Include="IPreprocessor.cs" />
     <Compile Include="Minifiers\IMinifier.cs" />
     <Compile Include="Bundle.cs" />
     <Compile Include="BundleCache.cs" />
