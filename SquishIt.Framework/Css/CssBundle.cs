@@ -146,8 +146,7 @@ namespace SquishIt.Framework.Css
 
         private static IPreprocessor FindPreProcessor(string file)
         {
-            return Bundle.CssPreprocessors.FirstOrDefault(
-                p => Regex.IsMatch(file, p.FileMatchRegex, RegexOptions.IgnoreCase));
+            return Bundle.CssPreprocessors.FirstOrDefault(p => p.ValidFor(file));
         }
 
         internal override Dictionary<string, GroupBundle> BeforeRenderDebug()

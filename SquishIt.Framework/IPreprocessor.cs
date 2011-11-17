@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SquishIt.Framework
+﻿namespace SquishIt.Framework
 {
     public interface IPreprocessor
     {
-        string FileMatchRegex { get; }
+        bool ValidFor(string filePath);
         string Process(string filePath, string content);
     }
 }

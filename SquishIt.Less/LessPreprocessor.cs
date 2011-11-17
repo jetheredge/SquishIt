@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.Text.RegularExpressions;
 using SquishIt.Framework;
-using SquishIt.Framework.Css;
-using SquishIt.Framework.Files;
 using dotless.Core;
 
 namespace SquishIt.Less
 {
     public class LessPreprocessor : IPreprocessor
     {
-        public string FileMatchRegex
+        static Regex lessFiles = new Regex(@"(\.less)|(\.less.css)$", RegexOptions.Compiled);
+
+
+        public bool ValidFor(string filePath)
         {
-            get { return @"(\.less)|(\.less.css)$"; }
+            return lessFiles.IsMatch(filePath);
         }
 
         public string Process(string filePath, string content)
