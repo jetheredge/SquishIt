@@ -502,6 +502,42 @@ namespace SquishIt.Framework.Base
             return content;
         }
 
+        /// <summary>
+        /// If Debug, returns a <see cref="IList{string}"/> of file names.
+        /// If Release, squishes bundle, writes squished file, returns resulting filename as only member of a <see cref="IList{string}"/>.
+        ///
+        /// Useful when loading files on-demand (via ajax).  
+        /// Eg. 
+        ///    Bundle().Javascript().Add("~/js/test1.js").Add("~/js/test2.js").SquishAndGetNames("~/js/test_#.js")
+        ///      If Debug, returns "/js/test1.js,/js/test2.js"
+        ///      If Release, returns "/js/test_43958ADEC93DAC8037D2471A95382DE9.js"
+        /// </summary>
+        /// <param name="renderTo"></param>
+        /// <returns>List of names</returns>
+        public IList<string> SquishAndGetNames(string renderTo)
+        {
+            var result = Render(renderTo);
+            var scripts = new List<string>();
+
+            var startToken = FileNameAttribute() + "=\"";
+            var endToken = "\"";
+            var start = result.IndexOf(startToken);
+            while (start != -1)
+            {
+                var nameStartIndex = start + startToken.Length;
+                var length = result.IndexOf(endToken, nameStartIndex) - nameStartIndex;
+                scripts.Add(result.Substring(nameStartIndex, length));
+                start = result.IndexOf(startToken, nameStartIndex + length);
+            }
+
+            return scripts;
+        }
+        private string FileNameAttribute()
+        {
+            // source attribute will either be "src" or "href"
+            return this.Template.Contains("src=\"") ? "src" : "href";
+        }
+
         public void ClearCache()
         {
             bundleCache.ClearTestingCache();
