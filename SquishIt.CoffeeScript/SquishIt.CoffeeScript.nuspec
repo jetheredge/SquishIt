@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>SquishIt</id>
+    <id>SquishIt.CoffeeScript</id>
     <version>0.9</version>
     <authors>Justin Etheredge</authors>
     <owners>Justin Etheredge</owners>
     <projectUrl>https://github.com/jetheredge/SquishIt</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>SquishIt lets you easily compress and combine JavaScript and CSS.</description>
+    <description>Adds CoffeeScript processing capability to SquishIt.</description>
+    <summary />
     <dependencies>
-      <dependency id="YUICompressor.NET" version="1.6.0.2" />
-      <dependency id="AjaxMin" version="4.30.4295.16112" />
+      <dependency id="Jurassic" version="2.1.1" />
+      <dependency id="SquishIt" version="0.9" />
     </dependencies>
   </metadata>
   <files>
-    <file src="lib\SquishIt.Framework.dll" target="lib\SquishIt.Framework.dll" />
-    <file src="optional\SquishIt.Mvc.dll" target="optional\SquishIt.Mvc.dll" />
+    <file src="lib\SquishIt.Less.dll" target="lib\SquishIt.Less.dll" />
   </files>
 </package>

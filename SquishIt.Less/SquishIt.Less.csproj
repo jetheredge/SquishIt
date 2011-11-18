@@ -8,8 +8,8 @@
     <ProjectGuid>{A8E60378-569B-4BAA-B344-75A065796E20}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SquishIt.Preprocessors</RootNamespace>
-    <AssemblyName>SquishIt.Preprocessors</AssemblyName>
+    <RootNamespace>SquishIt.Less</RootNamespace>
+    <AssemblyName>SquishIt.Less</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
