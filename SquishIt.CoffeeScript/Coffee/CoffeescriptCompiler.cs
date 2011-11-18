@@ -1,25 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using Jurassic;
 using SquishIt.Framework;
 
-namespace SquishIt.Preprocessors.Coffee
+namespace SquishIt.CoffeeScript.Coffee
 {
-    public class CoffeescriptCompiler
+    public class CoffeeScriptCompiler
     {
         private static string _coffeescript;
         private static ScriptEngine _engine;
 
         public string Compile(string input)
         {
-			if(FileSystem.Unix)
-			{
-				throw new NotSupportedException ("Coffeescript not yet supported for mono.");
-			}
+            if(FileSystem.Unix)
+            {
+                throw new NotSupportedException ("Coffeescript not yet supported for mono.");
+            }
 
             CoffeeScriptEngine.SetGlobalValue("Source", input);
 
@@ -59,7 +56,7 @@ namespace SquishIt.Preprocessors.Coffee
 
         private static string LoadCoffeescript()
         {
-            using(var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SquishIt.Preprocessors.Coffee.coffee-script.js"))
+            using(var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SquishIt.CoffeeScript.Coffee.coffee-script.js"))
             {
                 using(var reader = new StreamReader(stream))
                 {

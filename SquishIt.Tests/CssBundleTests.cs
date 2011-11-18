@@ -5,6 +5,7 @@ using SquishIt.Framework.Css;
 using SquishIt.Framework.Minifiers.CSS;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Utilities;
+using SquishIt.Preprocessors;
 using SquishIt.Tests.Helpers;
 using SquishIt.Tests.Stubs;
 using SquishIt.Framework.Tests.Mocks;
@@ -261,6 +262,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanBundleCssWithLess()
         {
+            Framework.Bundle.RegisterPreprocessor<LessPreprocessor>();
             CSSBundle cssBundle = cssBundleFactory
                 .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
@@ -280,6 +282,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanBundleCssWithLessAndPathRewrites()
         {
+            Framework.Bundle.RegisterPreprocessor<LessPreprocessor>();
             string css =
                     @"@brand_color: #4D926F;
                         #header {
@@ -305,6 +308,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanBundleCssWithLessWithLessDotCssFileExtension()
         {
+            Framework.Bundle.RegisterPreprocessor<LessPreprocessor>();
             CSSBundle cssBundle = cssBundleFactory
                 .WithHasher(hasher)
                 .WithDebuggingEnabled(false)

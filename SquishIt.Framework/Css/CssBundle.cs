@@ -97,7 +97,7 @@ namespace SquishIt.Framework.Css
             return outputCss.ToString();
         }
 
-        private string PreProcessCssFile(string file, IPreprocessor preProcessor)
+        private string PreprocessCssFile(string file, IPreprocessor preprocessor)
         {
             lock (typeof(CSSBundle))
             {
@@ -105,7 +105,7 @@ namespace SquishIt.Framework.Css
                 {
                     currentDirectoryWrapper.SetCurrentDirectory(Path.GetDirectoryName(file));
                     var content = ReadFile(file);
-                    return preProcessor.Process(file, content);
+                    return preprocessor.Process(file, content);
                 }
                 finally
                 {
@@ -117,11 +117,11 @@ namespace SquishIt.Framework.Css
         string ProcessCssFile(string file, string outputFile) {
             string css = null;
 
-            var preProcessor = FindPreprocessor(file);
+            var preprocessor = FindPreprocessor(file);
 
-            if(preProcessor != null)
+            if(preprocessor != null)
             {
-                css = PreProcessCssFile(file, preProcessor);
+                css = PreprocessCssFile(file, preprocessor);
             }
             else
             {
@@ -156,12 +156,12 @@ namespace SquishIt.Framework.Css
                 foreach (var asset in groupBundle.Assets)
                 {
                     var localPath = asset.LocalPath;
-                    var preProcessor = FindPreprocessor(localPath);
-                    if(preProcessor != null)
+                    var preprocessor = FindPreprocessor(localPath);
+                    if(preprocessor != null)
                     {
                         string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
 
-                        string css = PreProcessCssFile(outputFile, preProcessor);
+                        string css = PreprocessCssFile(outputFile, preprocessor);
                         outputFile += ".debug.css";
                         using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
                         {

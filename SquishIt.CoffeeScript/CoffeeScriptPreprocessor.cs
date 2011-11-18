@@ -1,20 +1,21 @@
 ﻿using System.Text.RegularExpressions;
+using SquishIt.CoffeeScript.Coffee;
 using SquishIt.Framework;
 
-namespace SquishIt.Preprocessors 
+namespace SquishIt.CoffeeScript 
 {
     public class CoffeeScriptPreprocessor : IPreprocessor 
     {
-        static Regex lessFiles = new Regex(@"(\.coffee)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        static Regex coffeeFiles = new Regex(@"(\.coffee)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public bool ValidFor(string filePath) 
         {
-            return lessFiles.IsMatch(filePath);
+            return coffeeFiles.IsMatch(filePath);
         }
 
         public string Process(string filePath, string content) 
         {
-            var compiler = new Coffee.CoffeescriptCompiler();
+            var compiler = new CoffeeScriptCompiler();
             return compiler.Compile(content);
         }
     }

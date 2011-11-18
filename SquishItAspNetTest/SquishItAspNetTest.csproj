@@ -121,9 +121,9 @@
       <Project>{50C3BC24-E534-4B78-8E8E-CB2C4053321D}</Project>
       <Name>SquishIt.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SquishIt.Preprocessors\SquishIt.Preprocessors.csproj">
+    <ProjectReference Include="..\SquishIt.Less\SquishIt.Less.csproj">
       <Project>{A8E60378-569B-4BAA-B344-75A065796E20}</Project>
-      <Name>SquishIt.Preprocessors</Name>
+      <Name>SquishIt.Less</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using SquishIt.Preprocessors.Coffee;
+using SquishIt.CoffeeScript.Coffee;
 
 namespace SquishIt.Tests.Coffee
 {
@@ -10,7 +10,7 @@ namespace SquishIt.Tests.Coffee
 		[Test, Platform (Exclude = "Unix, Linux, Mono")]
 		public void CompileWithSimpleAlertSucceeds ()
 		{
-			var compiler = new CoffeescriptCompiler ();
+			var compiler = new CoffeeScriptCompiler ();
 
 			string result = compiler.Compile ("alert 'test' ");
 
@@ -46,14 +46,14 @@ race = (winner, runners...) ->
 # Existence:
 alert 'I knew it!' if elvis?";
 
-			var compiler = new CoffeescriptCompiler ();
+			var compiler = new CoffeeScriptCompiler ();
 			string result = compiler.Compile (source);
 		}
 
 		[Test, Platform (Include = "Unix, Linux, Mono")]
 		public void CompileFailsGracefullyOnMono ()
 		{
-			var compiler = new CoffeescriptCompiler();
+			var compiler = new CoffeeScriptCompiler();
 			var exception = Assert.Throws(typeof (NotSupportedException), () => compiler.Compile(""));
 			Assert.AreEqual("Coffeescript not yet supported for mono.", exception.Message);
 		}

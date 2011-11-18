@@ -11,7 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishItAspNetTest", "Squis
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.Mvc", "SquishIt.Mvc\SquishIt.Mvc.csproj", "{A9F9331C-C3AA-4844-AB33-7714761F725D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.Preprocessors", "SquishIt.Preprocessors\SquishIt.Preprocessors.csproj", "{A8E60378-569B-4BAA-B344-75A065796E20}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.Less", "SquishIt.Less\SquishIt.Less.csproj", "{A8E60378-569B-4BAA-B344-75A065796E20}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Preprocessors", "Preprocessors", "{FD2AA282-971B-4E20-B5F7-E244A05627DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.CoffeeScript", "SquishIt.CoffeeScript\SquishIt.CoffeeScript.csproj", "{7746F80A-A9C4-4823-9A17-B375793A72FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,9 +47,17 @@ Global
 		{A8E60378-569B-4BAA-B344-75A065796E20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8E60378-569B-4BAA-B344-75A065796E20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8E60378-569B-4BAA-B344-75A065796E20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7746F80A-A9C4-4823-9A17-B375793A72FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7746F80A-A9C4-4823-9A17-B375793A72FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7746F80A-A9C4-4823-9A17-B375793A72FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7746F80A-A9C4-4823-9A17-B375793A72FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A8E60378-569B-4BAA-B344-75A065796E20} = {FD2AA282-971B-4E20-B5F7-E244A05627DC}
+		{7746F80A-A9C4-4823-9A17-B375793A72FD} = {FD2AA282-971B-4E20-B5F7-E244A05627DC}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = SquishIt\SquishIt.csproj
