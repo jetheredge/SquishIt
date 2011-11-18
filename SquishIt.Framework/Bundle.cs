@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using SquishIt.Framework.Css;
 using SquishIt.Framework.JavaScript;
 
@@ -11,7 +12,16 @@ namespace SquishIt.Framework
 
         public static void RegisterPreprocessor<T>() where T : IPreprocessor
         {
+            if(Preprocessors.Any(p => p.GetType() == typeof(T)))
+            {
+                throw new InvalidOperationException(string.Format("Can't add multiple preprocessors of type {0}", typeof(T).FullName));
+            }
             Preprocessors.Add(Activator.CreateInstance<T>());
+        }
+
+        public static void ClearPreprocessors()
+        {
+            Preprocessors.Clear();
         }
 
         public static JavaScriptBundle JavaScript()
