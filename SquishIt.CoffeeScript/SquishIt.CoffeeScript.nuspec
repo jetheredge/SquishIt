@@ -8,13 +8,14 @@
     <projectUrl>https://github.com/jetheredge/SquishIt</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Adds CoffeeScript processing capability to SquishIt.</description>
-    <summary />
     <dependencies>
       <dependency id="Jurassic" version="2.1.1" />
       <dependency id="SquishIt" version="0.9" />
+	  <dependency id="WebActivator" version="1.4" />
     </dependencies>
   </metadata>
   <files>
-    <file src="lib\SquishIt.Less.dll" target="lib\SquishIt.Less.dll" />
+    <file src="bin\Release\SquishIt.CoffeeScript.dll" target="lib\SquishIt.CoffeeScript.dll" />
+    <file src="Content\App_Start\SquishItCoffeeScript.cs.pp" target="Content\App_Start\SquishItCoffeeScript.cs.pp" />
   </files>
 </package>
