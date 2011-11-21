@@ -83,16 +83,16 @@ namespace SquishIt.Framework.Css
             }
         }
 
-        private string ProcessImport(string css)
+        private string ProcessImport(string file, string outputFile, string css)
         {
-            return IMPORT_PATTERN.Replace(css, new MatchEvaluator(ApplyFileContentsToMatchedImport));
-        }
+            var sourcePath = FileSystem.ResolveFileSystemPathToAppRelative(Path.GetDirectoryName(file)) + "/";
 
-        private string ApplyFileContentsToMatchedImport(Match match)
-        {
-            var file = FileSystem.ResolveAppRelativePathToFileSystem(match.Groups[2].Value);
-            DependentFiles.Add(file);
-            return ReadFile(file);
+            return IMPORT_PATTERN.Replace(css, match =>
+            {
+                var import = FileSystem.ResolveAppRelativePathToFileSystem(sourcePath + match.Groups[2].Value);
+                DependentFiles.Add(import);
+                return ProcessCssFile(import, outputFile, true);
+            });
         }
 
         public CSSBundle ProcessImports()
@@ -118,7 +118,8 @@ namespace SquishIt.Framework.Css
             return outputCss.ToString();
         }
 
-        string ProcessCssFile(string file, string outputFile) {
+        string ProcessCssFile(string file, string outputFile, bool asImport = false) 
+        {
             string css = null;
             if (file.ToLower().EndsWith(".less") || file.ToLower().EndsWith(".less.css"))
             {
@@ -131,7 +132,7 @@ namespace SquishIt.Framework.Css
 
             if (ShouldImport)
             {
-                css = ProcessImport(css);
+                css = ProcessImport(file, outputFile, css);
             }
 
             ICssAssetsFileHasher fileHasher = null;
@@ -142,7 +143,7 @@ namespace SquishIt.Framework.Css
                 fileHasher = new CssAssetsFileHasher(HashKeyName, fileResolver, hasher);
             }
 
-            return CSSPathRewriter.RewriteCssPaths(outputFile, file, css, fileHasher);
+            return CSSPathRewriter.RewriteCssPaths(outputFile, file, css, fileHasher, asImport);
         }
 
         internal override Dictionary<string, GroupBundle> BeforeRenderDebug()
