@@ -89,7 +89,16 @@ namespace SquishIt.Framework.Css
 
             return IMPORT_PATTERN.Replace(css, match =>
             {
-                var import = FileSystem.ResolveAppRelativePathToFileSystem(sourcePath + match.Groups[2].Value);
+                var importPath = match.Groups[2].Value;
+                string import;
+                if (importPath.StartsWith("/"))
+                {
+                    import = FileSystem.ResolveAppRelativePathToFileSystem(importPath);
+                }
+                else
+                {
+                    import = FileSystem.ResolveAppRelativePathToFileSystem(sourcePath + importPath);
+                }
                 DependentFiles.Add(import);
                 return ProcessCssFile(import, outputFile, true);
             });

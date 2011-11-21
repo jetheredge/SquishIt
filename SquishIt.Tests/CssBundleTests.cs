@@ -634,6 +634,33 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanRenderCssFileWithRelativeImportStatement()
+        {
+            string importCss =
+                                    @"
+                                    @import url(""other.css"");
+                                    #header {
+                                        color: #4D926F;
+                                    }";
+
+
+            CSSBundle cssBundle = cssBundleFactory
+                .WithDebuggingEnabled(false)
+                .WithContents(importCss)
+                .Create();
+
+            cssBundleFactory.FileReaderFactory.SetContents(importCss);
+            cssBundleFactory.FileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(@"css\other.css"), "#footer{color:#ffffff}");
+
+            string tag = cssBundle
+                            .Add("/css/first.css")
+                            .ProcessImports()
+                            .Render("/css/processed_import.css");
+
+            Assert.AreEqual("#footer{color:#fff}#header{color:#4d926f}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\processed_import.css")]);
+        }
+
+        [Test]
         public void CanRenderCssFileWithImportStatementNoQuotes()
         {
             string importCss =
