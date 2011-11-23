@@ -9,5 +9,6 @@ namespace SquishIt.Framework
 		bool ContainsKey(string key);
 		bool TryGetValue(string key, out string content);
 		void Add(string key, string content, List<string> files);
+	    void Remove(string key);
 	}
 }

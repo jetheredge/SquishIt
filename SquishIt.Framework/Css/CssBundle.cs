@@ -162,8 +162,6 @@ namespace SquishIt.Framework.Css
             foreach (var groupBundleKVP in modifiedGroupBundles)
             {
                 var groupBundle = groupBundleKVP.Value;
-                var assets = groupBundle.Assets;
-
                 foreach (var asset in groupBundle.Assets)
                 {
                     var localPath = asset.LocalPath;
@@ -176,7 +174,6 @@ namespace SquishIt.Framework.Css
                         {
                             fileWriter.Write(css);
                         }
-
                         asset.LocalPath = localPath + ".debug.css";
                     }
                 }

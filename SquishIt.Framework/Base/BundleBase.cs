@@ -323,77 +323,80 @@ namespace SquishIt.Framework.Base
         protected string RenderDebug(string name = null)
         {
             string content = null;
-            if (!bundleCache.TryGetValue(name, out content))
+            
+            DependentFiles.Clear();
+
+            var modifiedGroupBundles = BeforeRenderDebug();
+            var sb = new StringBuilder();
+            foreach (var groupBundleKVP in modifiedGroupBundles)
             {
-                DependentFiles.Clear();
+                var groupBundle = groupBundleKVP.Value;
+                var attributes = GetAdditionalAttributes(groupBundle);
+                var assets = groupBundle.Assets;
 
-                var modifiedGroupBundles = BeforeRenderDebug();
-                var sb = new StringBuilder();
-                foreach (var groupBundleKVP in modifiedGroupBundles)
+                DependentFiles.AddRange(GetFiles(assets));
+                foreach (var asset in assets)
                 {
-                    var groupBundle = groupBundleKVP.Value;
-                    var attributes = GetAdditionalAttributes(groupBundle);
-                    var assets = groupBundle.Assets;
+                    var inputFile = GetInputFile(asset);
+                    var files = inputFile.TryResolve(allowedExtensions);
 
-                    DependentFiles.AddRange(GetFiles(assets));
-                    foreach (var asset in assets)
+                    if (asset.IsEmbeddedResource)
                     {
-                        var inputFile = GetInputFile(asset);
-                        var files = inputFile.TryResolve(allowedExtensions);
+                        var tsb = new StringBuilder();
 
-                        if (asset.IsEmbeddedResource)
+                        foreach (var fn in files)
                         {
-                            var tsb = new StringBuilder();
+                            tsb.Append(ReadFile(fn) + "\n\n\n");
+                        }
 
-                            foreach (var fn in files)
+                        var renderer = new FileRenderer(fileWriterFactory);
+                        var processedFile = ExpandAppRelativePath(asset.LocalPath);
+                        renderer.Render(tsb.ToString(), FileSystem.ResolveAppRelativePathToFileSystem(processedFile));
+                        sb.AppendLine(FillTemplate(groupBundle, processedFile));
+                    }
+                    else if (asset.RemotePath != null)
+                    {
+                        sb.AppendLine(FillTemplate(groupBundle, ExpandAppRelativePath(asset.LocalPath)));
+                    }
+                    else
+                    {
+                        foreach (var file in files)
+                        {
+                            var relativePath = FileSystem.ResolveFileSystemPathToAppRelative(file);
+                            string path;
+                            if (HttpContext.Current == null)
                             {
-                                tsb.Append(ReadFile(fn) + "\n\n\n");
+                                path = (asset.LocalPath.StartsWith("~") ? "" : "/") + relativePath;
                             }
-
-                            var renderer = new FileRenderer(fileWriterFactory);
-                            var processedFile = ExpandAppRelativePath(asset.LocalPath);
-                            renderer.Render(tsb.ToString(), FileSystem.ResolveAppRelativePathToFileSystem(processedFile));
-                            sb.AppendLine(FillTemplate(groupBundle, processedFile));
-                        }
-                        else if (asset.RemotePath != null)
-                        {
-                            sb.AppendLine(FillTemplate(groupBundle, ExpandAppRelativePath(asset.LocalPath)));
-                        }
-                        else
-                        {
-                            foreach (var file in files)
+                            else
                             {
-                                var relativePath = FileSystem.ResolveFileSystemPathToAppRelative(file);
-                            	string path;
-                                if (HttpContext.Current == null)
+                                if (HttpRuntime.AppDomainAppVirtualPath.EndsWith("/"))
                                 {
-                                    path = (asset.LocalPath.StartsWith("~") ? "" : "/") + relativePath;
+                                    path = HttpRuntime.AppDomainAppVirtualPath + relativePath;
                                 }
                                 else
                                 {
-                                    if (HttpRuntime.AppDomainAppVirtualPath.EndsWith("/"))
-                                    {
-                                        path = HttpRuntime.AppDomainAppVirtualPath + relativePath;    
-                                    }
-                                    else
-                                    {
-                                        path = HttpRuntime.AppDomainAppVirtualPath + "/" + relativePath;
-                                    }
+                                    path = HttpRuntime.AppDomainAppVirtualPath + "/" + relativePath;
                                 }
-                                sb.AppendLine(FillTemplate(groupBundle, path));
                             }
+                            sb.AppendLine(FillTemplate(groupBundle, path));
                         }
                     }
                 }
-
-                foreach(var cntnt in arbitrary)
-                {
-                    sb.AppendLine(string.Format(tagFormat, cntnt));
-                }
-
-                content = sb.ToString();
-                bundleCache.Add(name, content, DependentFiles);
             }
+
+            foreach (var cntnt in arbitrary)
+            {
+                sb.AppendLine(string.Format(tagFormat, cntnt));
+            }
+
+            content = sb.ToString();
+
+            if (bundleCache.ContainsKey(name))
+            {
+                bundleCache.Remove(name);
+            }
+            bundleCache.Add(name, content, DependentFiles);
 
             return content;
         }
@@ -495,7 +498,6 @@ namespace SquishIt.Framework.Base
 
                     content += String.Concat(GetFilesForRemote(remoteAssetPaths, groupBundle), renderedTag);
                 }
-
                 bundleCache.Add(key, content, DependentFiles);
             }
 

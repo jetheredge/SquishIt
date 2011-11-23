@@ -36,5 +36,10 @@ namespace SquishIt.Tests.Stubs
 			if (key != null)
 				cache.Add(key, content);
 		}
+
+	    public void Remove(string key)
+	    {
+	        cache.Remove(key);
+	    }
 	}
 }
