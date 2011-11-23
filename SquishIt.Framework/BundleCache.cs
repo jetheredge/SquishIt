@@ -44,5 +44,10 @@ namespace SquishIt.Framework
                                             CacheItemPriority.NotRemovable,
                                             null);
         }
+
+        public void Remove(string key)
+        {
+            HttpRuntime.Cache.Remove(key);
+        }
     }
 }
