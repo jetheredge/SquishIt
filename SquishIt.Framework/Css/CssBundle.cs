@@ -123,7 +123,7 @@ namespace SquishIt.Framework.Css
             }
         }
 
-        string ProcessCssFile(string file, string outputFile) {
+        string ProcessCssFile(string file, string outputFile, bool asImport = false) {
             string css = null;
 
             var preprocessor = FindPreprocessor(file);
