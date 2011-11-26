@@ -926,6 +926,26 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanRenderArbitraryStringsInDebugWithoutType () 
+        {
+            var css2Format = "{0}{1}";
+
+            var hrColor = "hr {color:sienna;}";
+            var p = "p {margin-left:20px;}";
+
+            var tag = new CssBundleFactory ()
+                .WithDebuggingEnabled (true)
+                .Create ()
+                .AddString (css)
+                .AddString (css2Format, hrColor, p)
+                .WithoutTypeAttribute ()
+                .Render ("doesn't matter where...");
+
+            var expectedTag = string.Format ("<style>{0}</style>\n<style>{1}</style>\n", css, string.Format (css2Format, hrColor, p));
+            Assert.AreEqual (expectedTag, TestUtilities.NormalizeLineEndings (tag));
+        }
+
+        [Test]
         public void DoesNotRenderDuplicateArbitraryStringsInDebug () 
         {
             var tag = new CssBundleFactory ()

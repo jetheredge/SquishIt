@@ -20,10 +20,12 @@ namespace SquishIt.Framework.Css
         private static Regex IMPORT_PATTERN = new Regex(@"@import +url\(([""']){0,1}(.*?)\1{0,1}\);", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private const string CSS_TEMPLATE = "<link rel=\"stylesheet\" type=\"text/css\" {0}href=\"{1}\" />";
         private const string CACHE_PREFIX = "css";
+        const string TAG_FORMAT = "<style type=\"text/css\">{0}</style>";
 
         private bool ShouldImport { get; set; }
         private bool ShouldAppendHashForAssets { get; set; }
 
+        
         protected override string Template
         {
             get { return CSS_TEMPLATE; }
@@ -46,7 +48,7 @@ namespace SquishIt.Framework.Css
 
         protected override string tagFormat
         {
-            get { return "<style type=\"text/css\">{0}</style>"; }
+            get { return typeless ? TAG_FORMAT.Replace(" type=\"text/css\"", "") : TAG_FORMAT; }
         }
 
         public CSSBundle()

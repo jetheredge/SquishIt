@@ -27,6 +27,7 @@ namespace SquishIt.Framework.Base
         protected abstract string[] allowedExtensions { get; }
         protected abstract string tagFormat { get; }
         protected HashSet<string> arbitrary = new HashSet<string>();
+        protected bool typeless;
 
         private IMinifier<T> minifier;
         protected IMinifier<T> Minifier
@@ -187,6 +188,11 @@ namespace SquishIt.Framework.Base
                 groupBundle.Assets.Add(asset);
                 GroupBundles[group] = groupBundle;
             }
+        }
+
+        public T WithoutTypeAttribute () {
+            this.typeless = true;
+            return (T)this;
         }
 
         public T Add(params string[] filesPath)

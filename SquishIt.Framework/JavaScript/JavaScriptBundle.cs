@@ -14,7 +14,7 @@ namespace SquishIt.Framework.JavaScript
     public class JavaScriptBundle : BundleBase<JavaScriptBundle>
     {
         private const string JS_TEMPLATE = "<script type=\"text/javascript\" {0}src=\"{1}\"></script>";
-        bool typeless;
+        private const string TAG_FORMAT = "<script type=\"text/javascript\">{0}</script>";
 
         private const string CACHE_PREFIX = "js";
 
@@ -30,7 +30,7 @@ namespace SquishIt.Framework.JavaScript
 
         protected override string tagFormat
         {
-            get { return "<script type=\"text/javascript\">{0}</script>"; }
+            get { return typeless ? TAG_FORMAT.Replace(" type=\"text/javascript\"", "") : TAG_FORMAT; }
         }
 
         public JavaScriptBundle()
@@ -41,12 +41,6 @@ namespace SquishIt.Framework.JavaScript
 
         public JavaScriptBundle(IDebugStatusReader debugStatusReader, IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, ICurrentDirectoryWrapper currentDirectoryWrapper, IHasher hasher, IBundleCache bundleCache) :
             base(fileWriterFactory, fileReaderFactory, debugStatusReader, currentDirectoryWrapper, hasher, bundleCache) { }
-
-        public JavaScriptBundle WithoutTypeAttribute()
-        {
-            this.typeless = true;
-            return this;
-        }
 
         protected override string Template
         {

@@ -527,6 +527,26 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanRenderArbitraryStringsInDebugWithoutType () 
+        {
+            var js2Format = "{0}{1}";
+
+            var subtract = "function sub(a,b){return a-b}";
+            var divide = "function div(a,b){return a/b}";
+
+            var tag = new JavaScriptBundleFactory ()
+                .WithDebuggingEnabled (true)
+                .Create ()
+                .AddString (javaScript)
+                .AddString (js2Format, subtract, divide)
+                .WithoutTypeAttribute ()
+                .Render ("doesn't matter where...");
+
+            var expectedTag = string.Format ("<script>{0}</script>\n<script>{1}</script>\n", javaScript, string.Format (js2Format, subtract, divide));
+            Assert.AreEqual (expectedTag, TestUtilities.NormalizeLineEndings (tag));
+        }
+
+        [Test]
         public void DoesNotRenderDuplicateArbitraryStringsInDebug()
         {
             var tag = new JavaScriptBundleFactory()
