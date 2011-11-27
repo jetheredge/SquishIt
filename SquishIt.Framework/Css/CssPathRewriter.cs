@@ -23,7 +23,9 @@ namespace SquishIt.Framework.Css
 
             foreach (string relativePath in relativePaths)
             {
-                var resolvedSourcePath = new Uri(Path.Combine(sourceDirectory, relativePath));
+                //TODO: test!
+                //var resolvedSourcePath = new Uri(Path.Combine(sourceDirectory, relativePath));
+                var resolvedSourcePath = new Uri(new Uri(sourceDirectory) + relativePath);
                 var resolvedOutput = outputUri.MakeRelativeUri(resolvedSourcePath);
                 var newRelativePath = asImport ? "squishit://" + resolvedOutput.OriginalString : resolvedOutput.OriginalString;
 
