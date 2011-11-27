@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Web;
 using SquishIt.Framework.Minifiers;
 using SquishIt.Framework.Resolvers;
@@ -14,7 +13,7 @@ namespace SquishIt.Framework.Base
 {
     public abstract class BundleBase<T> where T : BundleBase<T>
     {
-        private static Dictionary<string, string> renderPathCache = new Dictionary<string, string>();
+        private static readonly Dictionary<string, string> renderPathCache = new Dictionary<string, string>();
 
         private const string DEFAULT_GROUP = "default";
         protected string BaseOutputHref = String.Empty;
