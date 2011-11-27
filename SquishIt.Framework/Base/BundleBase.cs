@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Web;
 using SquishIt.Framework.Minifiers;
 using SquishIt.Framework.Resolvers;
@@ -14,7 +13,7 @@ namespace SquishIt.Framework.Base
 {
     public abstract class BundleBase<T> where T : BundleBase<T>
     {
-        private static Dictionary<string, string> renderPathCache = new Dictionary<string, string>();
+        private static readonly Dictionary<string, string> renderPathCache = new Dictionary<string, string>();
 
         private const string DEFAULT_GROUP = "default";
         protected string BaseOutputHref = String.Empty;
@@ -27,6 +26,7 @@ namespace SquishIt.Framework.Base
         protected abstract string[] allowedExtensions { get; }
         protected abstract string tagFormat { get; }
         protected HashSet<string> arbitrary = new HashSet<string>();
+        protected bool typeless;
 
         private IMinifier<T> minifier;
         protected IMinifier<T> Minifier
@@ -191,6 +191,11 @@ namespace SquishIt.Framework.Base
                 groupBundle.Assets.Add(asset);
                 GroupBundles[group] = groupBundle;
             }
+        }
+
+        public T WithoutTypeAttribute () {
+            this.typeless = true;
+            return (T)this;
         }
 
         public T Add(params string[] filesPath)
