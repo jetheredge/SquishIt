@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Web;
 using SquishIt.Framework.Minifiers;
 using SquishIt.Framework.Resolvers;
@@ -406,102 +407,115 @@ namespace SquishIt.Framework.Base
             return content;
         }
 
+        private static string renderMutexId = "C9CA8ED9-9354-4047-8601-5CC0602FC505";
+        private static Mutex renderMutex = new Mutex(false, renderMutexId);
         private string RenderRelease(string key, string renderTo, IRenderer renderer)
         {
             string content;
             if (!bundleCache.TryGetValue(key, out content))
             {
-                var files = new List<string>();
-                foreach (var groupBundleKVP in GroupBundles)
+                renderMutex.WaitOne();
+                try
                 {
-                    var group = groupBundleKVP.Key;
-                    var groupBundle = groupBundleKVP.Value;
-
-                    string minifiedContent = null;
-                    string hash = null;
-                    bool hashInFileName = false;
-
-                    DependentFiles.Clear();
-
-                    if (renderTo == null)
+                    if (!bundleCache.TryGetValue(key, out content))
                     {
-                        renderTo = renderPathCache[CachePrefix + "." + group + "." + key];
-                    }
-                    else
-                    {
-                        renderPathCache[CachePrefix + "." + group + "." + key] = renderTo;
-                    }
-
-                    string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(renderTo);
-                    var renderToPath = ExpandAppRelativePath(renderTo);
-
-                    if (!String.IsNullOrEmpty(BaseOutputHref))
-                    {
-                        renderToPath = String.Concat(BaseOutputHref.TrimEnd('/'), "/", renderToPath.TrimStart('/'));
-                    }
-
-                    var remoteAssetPaths = new List<string>();
-                    foreach (var asset in groupBundle.Assets)
-                    {
-                        if (asset.IsRemote)
+                        var files = new List<string>();
+                        foreach (var groupBundleKVP in GroupBundles)
                         {
-                            remoteAssetPaths.Add(asset.RemotePath);
-                        }
-                    }
+                            var group = groupBundleKVP.Key;
+                            var groupBundle = groupBundleKVP.Value;
 
-                    files.AddRange(GetFiles(groupBundle.Assets.Where(asset => 
-                        asset.IsEmbeddedResource || 
-                        asset.IsLocal ||
-                        asset.IsRemoteDownload).ToList()));
+                            string minifiedContent = null;
+                            string hash = null;
+                            bool hashInFileName = false;
 
-                    DependentFiles.AddRange(files);
+                            DependentFiles.Clear();
 
-                    if (renderTo.Contains("#"))
-                    {
-                        hashInFileName = true;
-                        minifiedContent = Minifier.Minify(BeforeMinify(outputFile, files, arbitrary));
-                        hash = hasher.GetHash(minifiedContent);
-                        renderToPath = renderToPath.Replace("#", hash);
-                        outputFile = outputFile.Replace("#", hash);
-                    }
+                            if (renderTo == null)
+                            {
+                                renderTo = renderPathCache[CachePrefix + "." + group + "." + key];
+                            }
+                            else
+                            {
+                                renderPathCache[CachePrefix + "." + group + "." + key] = renderTo;
+                            }
 
-                    if (ShouldRenderOnlyIfOutputFileIsMissing && FileExists(outputFile))
-                    {
-                        minifiedContent = ReadFile(outputFile);
-                    }
-                    else
-                    {
-                        minifiedContent = minifiedContent ?? Minifier.Minify(BeforeMinify(outputFile, files, arbitrary));
-                        renderer.Render(minifiedContent, outputFile);
-                    }
+                            string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(renderTo);
+                            var renderToPath = ExpandAppRelativePath(renderTo);
 
-                    if (hash == null && !string.IsNullOrEmpty(HashKeyName))
-                    {
-                        hash = hasher.GetHash(minifiedContent);
-                    }
+                            if (!String.IsNullOrEmpty(BaseOutputHref))
+                            {
+                                renderToPath = String.Concat(BaseOutputHref.TrimEnd('/'), "/", renderToPath.TrimStart('/'));
+                            }
 
-                    string renderedTag;
-                    if (hashInFileName)
-                    {
-                        renderedTag = FillTemplate(groupBundle, renderToPath);
-                    }
-                    else
-                    {
-                        if (string.IsNullOrEmpty(HashKeyName))
-                        {
-                            renderedTag = FillTemplate(groupBundle, renderToPath);
-                        }
-                        else if (renderToPath.Contains("?"))
-                        {
-                            renderedTag = FillTemplate(groupBundle, renderToPath + "&" + HashKeyName + "=" + hash);
-                        }
-                        else
-                        {
-                            renderedTag = FillTemplate(groupBundle, renderToPath + "?" + HashKeyName + "=" + hash);
-                        }
-                    }
+                            var remoteAssetPaths = new List<string>();
+                            foreach (var asset in groupBundle.Assets)
+                            {
+                                if (asset.IsRemote)
+                                {
+                                    remoteAssetPaths.Add(asset.RemotePath);
+                                }
+                            }
 
-                    content += String.Concat(GetFilesForRemote(remoteAssetPaths, groupBundle), renderedTag);
+                            files.AddRange(GetFiles(groupBundle.Assets.Where(asset =>
+                                asset.IsEmbeddedResource ||
+                                asset.IsLocal ||
+                                asset.IsRemoteDownload).ToList()));
+
+                            DependentFiles.AddRange(files);
+
+                            if (renderTo.Contains("#"))
+                            {
+                                hashInFileName = true;
+                                minifiedContent = Minifier.Minify(BeforeMinify(outputFile, files, arbitrary));
+                                hash = hasher.GetHash(minifiedContent);
+                                renderToPath = renderToPath.Replace("#", hash);
+                                outputFile = outputFile.Replace("#", hash);
+                            }
+
+                            if (ShouldRenderOnlyIfOutputFileIsMissing && FileExists(outputFile))
+                            {
+                                minifiedContent = ReadFile(outputFile);
+                            }
+                            else
+                            {
+                                minifiedContent = minifiedContent ?? Minifier.Minify(BeforeMinify(outputFile, files, arbitrary));
+                                renderer.Render(minifiedContent, outputFile);
+                            }
+
+                            if (hash == null && !string.IsNullOrEmpty(HashKeyName))
+                            {
+                                hash = hasher.GetHash(minifiedContent);
+                            }
+
+                            string renderedTag;
+                            if (hashInFileName)
+                            {
+                                renderedTag = FillTemplate(groupBundle, renderToPath);
+                            }
+                            else
+                            {
+                                if (string.IsNullOrEmpty(HashKeyName))
+                                {
+                                    renderedTag = FillTemplate(groupBundle, renderToPath);
+                                }
+                                else if (renderToPath.Contains("?"))
+                                {
+                                    renderedTag = FillTemplate(groupBundle, renderToPath + "&" + HashKeyName + "=" + hash);
+                                }
+                                else
+                                {
+                                    renderedTag = FillTemplate(groupBundle, renderToPath + "?" + HashKeyName + "=" + hash);
+                                }
+                            }
+
+                            content += String.Concat(GetFilesForRemote(remoteAssetPaths, groupBundle), renderedTag);
+                        }    
+                    }
+                }
+                finally
+                {
+                    renderMutex.ReleaseMutex();
                 }
                 bundleCache.Add(key, content, DependentFiles);
             }

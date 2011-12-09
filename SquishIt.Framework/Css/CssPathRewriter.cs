@@ -56,7 +56,7 @@ namespace SquishIt.Framework.Css
 
         private static string ReplaceRelativePathsIn(string css, string oldPath, string newPath)
         {
-            var regex = new Regex(@"url\([""']{0,1}" + oldPath + @"[""']{0,1}\)", RegexOptions.IgnoreCase);
+            var regex = new Regex(@"url\([""']{0,1}" + Regex.Escape(oldPath) + @"[""']{0,1}\)", RegexOptions.IgnoreCase);
 
             return regex.Replace(css, match =>
             {
