@@ -40,7 +40,7 @@ namespace SquishIt.Framework
         {
             if (HttpContext.Current != null)
             {
-                var root = new Uri(HttpContext.Current.Server.MapPath("/"));
+                var root = new Uri(HttpContext.Current.Server.MapPath("~/"));
                 return root.MakeRelativeUri (new Uri (file, UriKind.RelativeOrAbsolute)).ToString ();
             }
             else
