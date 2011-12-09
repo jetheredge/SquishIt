@@ -23,7 +23,9 @@ namespace SquishIt.Framework.Css
 
             foreach (string relativePath in relativePaths)
             {
-                var resolvedSourcePath = new Uri(Path.Combine(sourceDirectory, relativePath));
+                //TODO: test!
+                //var resolvedSourcePath = new Uri(Path.Combine(sourceDirectory, relativePath));
+                var resolvedSourcePath = new Uri(new Uri(sourceDirectory) + relativePath);
                 var resolvedOutput = outputUri.MakeRelativeUri(resolvedSourcePath);
                 var newRelativePath = asImport ? "squishit://" + resolvedOutput.OriginalString : resolvedOutput.OriginalString;
 
@@ -54,7 +56,7 @@ namespace SquishIt.Framework.Css
 
         private static string ReplaceRelativePathsIn(string css, string oldPath, string newPath)
         {
-            var regex = new Regex(@"url\([""']{0,1}" + oldPath + @"[""']{0,1}\)", RegexOptions.IgnoreCase);
+            var regex = new Regex(@"url\([""']{0,1}" + Regex.Escape(oldPath) + @"[""']{0,1}\)", RegexOptions.IgnoreCase);
 
             return regex.Replace(css, match =>
             {
