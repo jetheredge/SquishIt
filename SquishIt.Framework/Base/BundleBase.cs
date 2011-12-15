@@ -215,21 +215,7 @@ namespace SquishIt.Framework.Base
             var content = string.Format(format, values);
             return AddString(content);
         }
-
-        public T AddToGroup(string group, params string[] filesPath)
-        {
-            foreach (var filePath in filesPath)
-                AddToGroup(group, filePath);
-
-            return (T)this;
-        }
-
-        public T AddToGroup(string group, string filePath)
-        {
-            AddAsset(new Asset(filePath), group);
-            return (T)this;
-        }
-
+        
         public T AddRemote(string localPath, string remotePath)
         {
             return AddRemote(localPath, remotePath, false);
@@ -555,18 +541,6 @@ namespace SquishIt.Framework.Base
         public T WithAttributes(Dictionary<string, string> attributes, bool merge = true)
         {
             AddAttributes(attributes, merge: merge);
-            return (T)this;
-        }
-
-        public T WithGroupAttribute(string name, string value, string group)
-        {
-            AddAttributes(new Dictionary<string, string> { { name, value } }, group);
-            return (T)this;
-        }
-
-        public T WithGroupAttributes(Dictionary<string, string> attributes, string group, bool merge = true)
-        {
-            AddAttributes(attributes, group, merge);
             return (T)this;
         }
 
