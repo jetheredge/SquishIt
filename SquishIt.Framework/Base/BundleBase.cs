@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.AccessControl;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Web;
 using SquishIt.Framework.Minifiers;
 using SquishIt.Framework.Resolvers;
@@ -38,6 +35,13 @@ namespace SquishIt.Framework.Base
                 return minifier ?? DefaultMinifier;
             }
             set { minifier = value; }
+        }
+
+        private IFilePathMutexProvider mutexProvider;
+        protected IFilePathMutexProvider MutexProvider
+        {
+            get { return mutexProvider ?? (mutexProvider = FilePathMutexProvider.Instance); }
+            set { mutexProvider = value; }
         }
 
         protected string HashKeyName { get; set; }
@@ -389,39 +393,12 @@ namespace SquishIt.Framework.Base
             return content;
         }
 
-        private const string renderMutexId = @"Global\C9CA8ED9-9354-4047-8601-5CC0602FC505";
-        private static Mutex renderMutex = CreateSharableRenderReleaseMutex();
-
-        private static Mutex CreateSharableRenderReleaseMutex()
-        {
-            // Creates a mutex sharable by more than one process
-            Mutex mutex;
-            try
-            {
-                // Try opening an existing mutex
-                mutex = Mutex.OpenExisting(renderMutexId, MutexRights.FullControl);
-            }
-            catch (WaitHandleCannotBeOpenedException)
-            {
-                mutex = null; // An expected case, the mutex needs to be created
-            }
-
-            if (mutex == null)
-            {
-                bool createdNew; // Uninteresting in this case, but required by the constructor
-                var mutexSecurity = new MutexSecurity();
-                mutexSecurity.AddAccessRule(new MutexAccessRule("Everyone", MutexRights.FullControl, AccessControlType.Allow));
-                mutex = new Mutex(false, renderMutexId, out createdNew, mutexSecurity);
-            }
-            
-            return mutex;
-        }
-
         private string RenderRelease(string key, string renderTo, IRenderer renderer)
         {
             string content;
             if (!bundleCache.TryGetValue(key, out content))
             {
+                var renderMutex = MutexProvider.GetMutexForPath(renderTo);
                 renderMutex.WaitOne();
                 try
                 {
