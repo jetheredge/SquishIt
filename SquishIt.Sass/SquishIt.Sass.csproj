@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EC304F39-5916-45ED-A289-ABEFF1EDD070}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SquishIt.Sass</RootNamespace>
+    <AssemblyName>SquishIt.Sass</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="IronRuby">
+      <HintPath>..\packages\IronRuby.1.1.3\Lib\IronRuby.dll</HintPath>
+    </Reference>
+    <Reference Include="IronRuby.Libraries">
+      <HintPath>..\packages\IronRuby.1.1.3\Lib\IronRuby.Libraries.dll</HintPath>
+    </Reference>
+    <Reference Include="IronRuby.Libraries.Yaml">
+      <HintPath>..\packages\IronRuby.1.1.3\Lib\IronRuby.Libraries.Yaml.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Dynamic">
+      <HintPath>..\packages\IronRuby.1.1.3\Lib\Microsoft.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting">
+      <HintPath>..\packages\IronRuby.1.1.3\Lib\Microsoft.Scripting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting.Metadata">
+      <HintPath>..\packages\IronRuby.1.1.3\Lib\Microsoft.Scripting.Metadata.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SassPreprocessor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SassCompiler.cs" />
+    <Compile Include="Utility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="lib\ironruby\digest.rb" />
+    <EmbeddedResource Include="lib\ironruby\digest\md5.rb" />
+    <EmbeddedResource Include="lib\ironruby\digest\sha1.rb" />
+    <EmbeddedResource Include="lib\ironruby\enumerator.rb" />
+    <EmbeddedResource Include="lib\ironruby\etc.rb" />
+    <EmbeddedResource Include="lib\ironruby\rbconfig.rb" />
+    <EmbeddedResource Include="lib\ironruby\stringio.rb" />
+    <EmbeddedResource Include="lib\ironruby\strscan.rb" />
+    <EmbeddedResource Include="lib\ironruby\zlib.rb" />
+    <EmbeddedResource Include="lib\ruby\1.9.1\fileutils.rb" />
+    <EmbeddedResource Include="lib\ruby\1.9.1\pathname.rb" />
+    <EmbeddedResource Include="lib\ruby\1.9.1\set.rb" />
+    <EmbeddedResource Include="lib\ruby\1.9.1\uri.rb" />
+    <EmbeddedResource Include="lib\ruby\1.9.1\uri\common.rb" />
+    <EmbeddedResource Include="lib\ruby\1.9.1\uri\ftp.rb" />
+    <EmbeddedResource Include="lib\ruby\1.9.1\uri\generic.rb" />
+    <EmbeddedResource Include="lib\ruby\1.9.1\uri\http.rb" />
+    <EmbeddedResource Include="lib\ruby\1.9.1\uri\https.rb" />
+    <EmbeddedResource Include="lib\ruby\1.9.1\uri\ldap.rb" />
+    <EmbeddedResource Include="lib\ruby\1.9.1\uri\ldaps.rb" />
+    <EmbeddedResource Include="lib\ruby\1.9.1\uri\mailto.rb" />
+    <EmbeddedResource Include="lib\sass_in_one.rb" />
+    <None Include="Content\App_Start\SquishItSass.cs.pp" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SquishIt.Framework\SquishIt.Framework.csproj">
+      <Project>{50C3BC24-E534-4B78-8E8E-CB2C4053321D}</Project>
+      <Name>SquishIt.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -11,9 +11,11 @@
     <dependencies>
       <dependency id="dotless" version="1.2.1.0" />
       <dependency id="SquishIt" version="0.9" />
+	  <dependency id="WebActivator" version="1.4" />
     </dependencies>
   </metadata>
   <files>
-    <file src="lib\SquishIt.Less.dll" target="lib\SquishIt.Less.dll" />
+    <file src="bin\Release\SquishIt.Less.dll" target="lib\SquishIt.Less.dll" />
+    <file src="Content\App_Start\SquishItLess.cs.pp" target="Content\App_Start\SquishItLess.cs.pp" />
   </files>
 </package>

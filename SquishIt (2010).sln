@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Preprocessors", "Preprocess
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.CoffeeScript", "SquishIt.CoffeeScript\SquishIt.CoffeeScript.csproj", "{7746F80A-A9C4-4823-9A17-B375793A72FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.Sass", "SquishIt.Sass\SquishIt.Sass.csproj", "{EC304F39-5916-45ED-A289-ABEFF1EDD070}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{7746F80A-A9C4-4823-9A17-B375793A72FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7746F80A-A9C4-4823-9A17-B375793A72FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7746F80A-A9C4-4823-9A17-B375793A72FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC304F39-5916-45ED-A289-ABEFF1EDD070}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC304F39-5916-45ED-A289-ABEFF1EDD070}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC304F39-5916-45ED-A289-ABEFF1EDD070}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC304F39-5916-45ED-A289-ABEFF1EDD070}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +64,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A8E60378-569B-4BAA-B344-75A065796E20} = {FD2AA282-971B-4E20-B5F7-E244A05627DC}
 		{7746F80A-A9C4-4823-9A17-B375793A72FD} = {FD2AA282-971B-4E20-B5F7-E244A05627DC}
+		{EC304F39-5916-45ED-A289-ABEFF1EDD070} = {FD2AA282-971B-4E20-B5F7-E244A05627DC}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = SquishIt\SquishIt.csproj
