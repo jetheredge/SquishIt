@@ -2,7 +2,7 @@
 using SquishIt.Framework;
 using dotless.Core;
 
-namespace SquishIt.Preprocessors
+namespace SquishIt.Less
 {
     public class LessPreprocessor : IPreprocessor
     {

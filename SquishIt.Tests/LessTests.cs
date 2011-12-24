@@ -2,7 +2,7 @@
 using SquishIt.Framework.Css;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Utilities;
-using SquishIt.Preprocessors;
+using SquishIt.Less;
 using SquishIt.Tests.Helpers;
 using SquishIt.Tests.Stubs;
 
