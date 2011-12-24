@@ -14,14 +14,15 @@ namespace SquishIt.Framework.Css
 {
     public class CSSBundle : BundleBase<CSSBundle>
     {
-        private const string MEDIA_ALL = "all";
-        private static Regex IMPORT_PATTERN = new Regex(@"@import +url\(([""']){0,1}(.*?)\1{0,1}\);", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private readonly static Regex IMPORT_PATTERN = new Regex(@"@import +url\(([""']){0,1}(.*?)\1{0,1}\);", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private const string CSS_TEMPLATE = "<link rel=\"stylesheet\" type=\"text/css\" {0}href=\"{1}\" />";
         private const string CACHE_PREFIX = "css";
+        private const string TAG_FORMAT = "<style type=\"text/css\">{0}</style>";
 
         private bool ShouldImport { get; set; }
         private bool ShouldAppendHashForAssets { get; set; }
 
+        
         protected override string Template
         {
             get { return CSS_TEMPLATE; }
@@ -44,7 +45,7 @@ namespace SquishIt.Framework.Css
 
         protected override string tagFormat
         {
-            get { return "<style type=\"text/css\">{0}</style>"; }
+            get { return typeless ? TAG_FORMAT.Replace(" type=\"text/css\"", "") : TAG_FORMAT; }
         }
 
         public CSSBundle()
@@ -62,16 +63,25 @@ namespace SquishIt.Framework.Css
         {
         }
 
-        private string ProcessImport(string css)
+        private string ProcessImport(string file, string outputFile, string css)
         {
-            return IMPORT_PATTERN.Replace(css, new MatchEvaluator(ApplyFileContentsToMatchedImport));
-        }
+            var sourcePath = FileSystem.ResolveFileSystemPathToAppRelative(Path.GetDirectoryName(file)) + "/";
 
-        private string ApplyFileContentsToMatchedImport(Match match)
-        {
-            var file = FileSystem.ResolveAppRelativePathToFileSystem(match.Groups[2].Value);
-            DependentFiles.Add(file);
-            return ReadFile(file);
+            return IMPORT_PATTERN.Replace(css, match =>
+            {
+                var importPath = match.Groups[2].Value;
+                string import;
+                if (importPath.StartsWith("/"))
+                {
+                    import = FileSystem.ResolveAppRelativePathToFileSystem(importPath);
+                }
+                else
+                {
+                    import = FileSystem.ResolveAppRelativePathToFileSystem(sourcePath + importPath);
+                }
+                DependentFiles.Add(import);
+                return ProcessCssFile(import, outputFile, true);
+            });
         }
 
         public CSSBundle ProcessImports()
@@ -114,7 +124,7 @@ namespace SquishIt.Framework.Css
             }
         }
 
-        string ProcessCssFile(string file, string outputFile) {
+        string ProcessCssFile(string file, string outputFile, bool asImport = false) {
             string css = null;
 
             var preprocessor = FindPreprocessor(file);
@@ -130,7 +140,7 @@ namespace SquishIt.Framework.Css
 
             if (ShouldImport)
             {
-                css = ProcessImport(css);
+                css = ProcessImport(file, outputFile, css);
             }
 
             ICssAssetsFileHasher fileHasher = null;
@@ -141,7 +151,7 @@ namespace SquishIt.Framework.Css
                 fileHasher = new CssAssetsFileHasher(HashKeyName, fileResolver, hasher);
             }
 
-            return CSSPathRewriter.RewriteCssPaths(outputFile, file, css, fileHasher);
+            return CSSPathRewriter.RewriteCssPaths(outputFile, file, css, fileHasher, asImport);
         }
 
         internal override Dictionary<string, GroupBundle> BeforeRenderDebug()
@@ -151,8 +161,6 @@ namespace SquishIt.Framework.Css
             foreach (var groupBundleKVP in modifiedGroupBundles)
             {
                 var groupBundle = groupBundleKVP.Value;
-                var assets = groupBundle.Assets;
-
                 foreach (var asset in groupBundle.Assets)
                 {
                     var localPath = asset.LocalPath;
@@ -167,7 +175,6 @@ namespace SquishIt.Framework.Css
                         {
                             fileWriter.Write(css);
                         }
-
                         asset.LocalPath = localPath + ".debug.css";
                     }
                 }

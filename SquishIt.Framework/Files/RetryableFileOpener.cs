@@ -48,10 +48,10 @@ namespace SquishIt.Framework.Files
                     var stream = new FileStream(filePath, fileMode, fileAccess, fileShare);
                     return stream;
                 }
-    		catch(DirectoryNotFoundException)
-		{
-		    throw;
-		}
+    		    catch(DirectoryNotFoundException)
+		        {
+		            throw;
+		        }
                 catch (FileNotFoundException)
                 {
                     throw;
@@ -61,7 +61,6 @@ namespace SquishIt.Framework.Files
                     delay += 100;
                     if (i == retry) throw;
                 }
-
                 Thread.Sleep(delay);
             }
 

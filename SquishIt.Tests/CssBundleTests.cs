@@ -564,6 +564,33 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanRenderCssFileWithRelativeImportStatement()
+        {
+            string importCss =
+                                    @"
+                                    @import url(""other.css"");
+                                    #header {
+                                        color: #4D926F;
+                                    }";
+
+
+            CSSBundle cssBundle = cssBundleFactory
+                .WithDebuggingEnabled(false)
+                .WithContents(importCss)
+                .Create();
+
+            cssBundleFactory.FileReaderFactory.SetContents(importCss);
+            cssBundleFactory.FileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(@"css\other.css"), "#footer{color:#ffffff}");
+
+            string tag = cssBundle
+                            .Add("/css/first.css")
+                            .ProcessImports()
+                            .Render("/css/processed_import.css");
+
+            Assert.AreEqual("#footer{color:#fff}#header{color:#4d926f}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\processed_import.css")]);
+        }
+
+        [Test]
         public void CanRenderCssFileWithImportStatementNoQuotes()
         {
             string importCss =
@@ -825,6 +852,26 @@ namespace SquishIt.Tests
                 .Render ("doesn't matter where...");
 
             var expectedTag = string.Format ("<style type=\"text/css\">{0}</style>\n<style type=\"text/css\">{1}</style>\n", css, string.Format (css2Format, hrColor, p));
+            Assert.AreEqual (expectedTag, TestUtilities.NormalizeLineEndings (tag));
+        }
+
+        [Test]
+        public void CanRenderArbitraryStringsInDebugWithoutType () 
+        {
+            var css2Format = "{0}{1}";
+
+            var hrColor = "hr {color:sienna;}";
+            var p = "p {margin-left:20px;}";
+
+            var tag = new CssBundleFactory ()
+                .WithDebuggingEnabled (true)
+                .Create ()
+                .AddString (css)
+                .AddString (css2Format, hrColor, p)
+                .WithoutTypeAttribute ()
+                .Render ("doesn't matter where...");
+
+            var expectedTag = string.Format ("<style>{0}</style>\n<style>{1}</style>\n", css, string.Format (css2Format, hrColor, p));
             Assert.AreEqual (expectedTag, TestUtilities.NormalizeLineEndings (tag));
         }
 

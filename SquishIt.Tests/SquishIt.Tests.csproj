@@ -77,6 +77,7 @@
     <Compile Include="Helpers\ResolverFactoryScope.cs" />
     <Compile Include="JavaScriptBundleTests.cs" />
     <Compile Include="JavaScriptMinifierTests.cs" />
+    <Compile Include="MultipleWorkerProcessesTests.cs" />
     <Compile Include="LessTests.cs" />
     <Compile Include="Stubs\PreprocessorScope.cs" />
     <Compile Include="Stubs\StubBundleCache.cs" />
