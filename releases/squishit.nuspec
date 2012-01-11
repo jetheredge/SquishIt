@@ -16,6 +16,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="SquishIt.Framework\bin\Release\SquishIt.Framework.dll" target="lib" />
+    <file src="..\SquishIt.Framework\bin\Release\SquishIt.Framework.dll" target="lib" />
   </files>
 </package>
