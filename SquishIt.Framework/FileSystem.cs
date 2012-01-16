@@ -22,10 +22,9 @@ namespace SquishIt.Framework
 
             if (HttpContext.Current == null)
             {
-                if (!(Unix)) 
+                if (!(Unix))
                 {
-                    file = file.Replace ("/", "\\").TrimStart ('~').TrimStart ('\\');
-                    //return @"C:\" + file.Replace("/", "\\");
+                    file = file.Replace("/", "\\").TrimStart('~').TrimStart('\\');
                 }
                 else
                 {
@@ -40,8 +39,8 @@ namespace SquishIt.Framework
         {
             if (HttpContext.Current != null)
             {
-                var root = new Uri(HttpContext.Current.Server.MapPath("~/"));
-                return root.MakeRelativeUri (new Uri (file, UriKind.RelativeOrAbsolute)).ToString ();
+                var root = new Uri(HttpRuntime.AppDomainAppPath);
+                return root.MakeRelativeUri(new Uri(file, UriKind.RelativeOrAbsolute)).ToString();
             }
             else
             {

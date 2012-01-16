@@ -435,6 +435,23 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanCreateCachedBundleWithForceRelease()
+        {
+            var tag1 = debugJavaScriptBundle
+                    .Add("~/js/test.js")
+                    .ForceRelease()
+                    .AsCached("Test", "~/assets/js/main");
+
+            var content = debugJavaScriptBundle.RenderCached("Test");
+            javaScriptBundle.ClearCache();
+            var tag2 = debugJavaScriptBundle.RenderCachedAssetTag("Test");
+
+            Assert.AreEqual(tag1, tag2);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"assets/js/main?r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag1);
+            Assert.AreEqual("function product(n,t){return n*t}function sum(n,t){return n+t}", content);
+        }
+
+        [Test]
         public void WithoutTypeAttribute()
         {
             var tag = javaScriptBundle
