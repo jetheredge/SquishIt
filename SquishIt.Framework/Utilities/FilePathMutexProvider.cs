@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Threading;
 using SquishIt.Framework.Files;
 
@@ -83,7 +84,8 @@ namespace SquishIt.Framework.Utilities
 		{
 			// Creates a mutex sharable by more than one process
 			var mutexSecurity = new MutexSecurity();
-			mutexSecurity.AddAccessRule(new MutexAccessRule("Everyone", MutexRights.FullControl, AccessControlType.Allow));
+			var everyoneSid = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
+			mutexSecurity.AddAccessRule(new MutexAccessRule(everyoneSid, MutexRights.FullControl, AccessControlType.Allow));
 
 			// The constructor will either create new mutex or open
 			// an existing one, in a thread-safe manner
