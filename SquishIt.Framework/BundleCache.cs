@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Caching;
 
@@ -37,8 +39,14 @@ namespace SquishIt.Framework
 
         public void Add(string key, string content, List<string> files)
         {
-            CacheKeys.Add(KEY_PREFIX + key);
-            HttpRuntime.Cache.Add(KEY_PREFIX + key, content, new CacheDependency(files.ToArray()),
+            var cacheKey = KEY_PREFIX + key;
+            CacheKeys.Add(cacheKey);
+
+            var physicalFiles = files.Where(File.Exists).ToArray();
+            var cacheDependency = physicalFiles.Length > 0
+                ? new CacheDependency(physicalFiles)
+                : null;
+            HttpRuntime.Cache.Add(cacheKey, content, cacheDependency,
                                             Cache.NoAbsoluteExpiration, 
                                             new TimeSpan(365, 0, 0, 0),
                                             CacheItemPriority.NotRemovable,
