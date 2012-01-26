@@ -39,6 +39,13 @@ namespace SquishIt.Framework.Base
             set { minifier = value; }
         }
 
+        private IFilePathMutexProvider mutexProvider;
+        protected IFilePathMutexProvider MutexProvider
+        {
+            get { return mutexProvider ?? (mutexProvider = FilePathMutexProvider.Instance); }
+            set { mutexProvider = value; }
+        }
+
         protected string HashKeyName { get; set; }
         private bool ShouldRenderOnlyIfOutputFileIsMissing { get; set; }
         protected List<string> DependentFiles = new List<string>();
@@ -224,21 +231,7 @@ namespace SquishIt.Framework.Base
             var content = string.Format(format, values);
             return AddString(content);
         }
-
-        public T AddToGroup(string group, params string[] filesPath)
-        {
-            foreach (var filePath in filesPath)
-                AddToGroup(group, filePath);
-
-            return (T)this;
-        }
-
-        public T AddToGroup(string group, string filePath)
-        {
-            AddAsset(new Asset(filePath), group);
-            return (T)this;
-        }
-
+        
         public T AddRemote(string localPath, string remotePath)
         {
             return AddRemote(localPath, remotePath, false);
@@ -336,6 +329,8 @@ namespace SquishIt.Framework.Base
             
             DependentFiles.Clear();
 
+            var renderedFiles = new HashSet<string>();
+
             var modifiedGroupBundles = BeforeRenderDebug();
             var sb = new StringBuilder();
             foreach (var groupBundleKVP in modifiedGroupBundles)
@@ -372,24 +367,28 @@ namespace SquishIt.Framework.Base
                     {
                         foreach (var file in files)
                         {
-                            var relativePath = FileSystem.ResolveFileSystemPathToAppRelative(file);
-                            string path;
-                            if (HttpContext.Current == null)
+                            if (!renderedFiles.Contains(file))
                             {
-                                path = (asset.LocalPath.StartsWith("~") ? "" : "/") + relativePath;
-                            }
-                            else
-                            {
-                                if (HttpRuntime.AppDomainAppVirtualPath.EndsWith("/"))
+                                var relativePath = FileSystem.ResolveFileSystemPathToAppRelative(file);
+                                string path;
+                                if (HttpContext.Current == null)
                                 {
-                                    path = HttpRuntime.AppDomainAppVirtualPath + relativePath;
+                                    path = (asset.LocalPath.StartsWith("~") ? "" : "/") + relativePath;
                                 }
                                 else
                                 {
-                                    path = HttpRuntime.AppDomainAppVirtualPath + "/" + relativePath;
+                                    if (HttpRuntime.AppDomainAppVirtualPath.EndsWith("/"))
+                                    {
+                                        path = HttpRuntime.AppDomainAppVirtualPath + relativePath;
+                                    }
+                                    else
+                                    {
+                                        path = HttpRuntime.AppDomainAppVirtualPath + "/" + relativePath;
+                                    }
                                 }
+                                sb.AppendLine(FillTemplate(groupBundle, path));
+                                renderedFiles.Add(file);
                             }
-                            sb.AppendLine(FillTemplate(groupBundle, path));
                         }
                     }
                 }
@@ -411,19 +410,18 @@ namespace SquishIt.Framework.Base
             return content;
         }
 
-        private static string renderMutexId = "C9CA8ED9-9354-4047-8601-5CC0602FC505";
-        private static Mutex renderMutex = new Mutex(false, renderMutexId);
         private string RenderRelease(string key, string renderTo, IRenderer renderer)
         {
             string content;
             if (!bundleCache.TryGetValue(key, out content))
             {
+                var renderMutex = MutexProvider.GetMutexForPath(renderTo);
                 renderMutex.WaitOne();
                 try
                 {
                     if (!bundleCache.TryGetValue(key, out content))
                     {
-                        var files = new List<string>();
+                        var uniqueFiles = new List<string>();
                         foreach (var groupBundleKVP in GroupBundles)
                         {
                             var group = groupBundleKVP.Key;
@@ -461,17 +459,17 @@ namespace SquishIt.Framework.Base
                                 }
                             }
 
-                            files.AddRange(GetFiles(groupBundle.Assets.Where(asset =>
+                            uniqueFiles.AddRange(GetFiles(groupBundle.Assets.Where(asset =>
                                 asset.IsEmbeddedResource ||
                                 asset.IsLocal ||
-                                asset.IsRemoteDownload).ToList()));
+                                asset.IsRemoteDownload).ToList()).Distinct());
 
-                            DependentFiles.AddRange(files);
+                            DependentFiles.AddRange(uniqueFiles);
 
                             if (renderTo.Contains("#"))
                             {
                                 hashInFileName = true;
-                                minifiedContent = Minifier.Minify(BeforeMinify(outputFile, files, arbitrary));
+                                minifiedContent = Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, arbitrary));
                                 hash = hasher.GetHash(minifiedContent);
                                 renderToPath = renderToPath.Replace("#", hash);
                                 outputFile = outputFile.Replace("#", hash);
@@ -483,7 +481,7 @@ namespace SquishIt.Framework.Base
                             }
                             else
                             {
-                                minifiedContent = minifiedContent ?? Minifier.Minify(BeforeMinify(outputFile, files, arbitrary));
+                                minifiedContent = minifiedContent ?? Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, arbitrary));
                                 renderer.Render(minifiedContent, outputFile);
                             }
 
@@ -564,18 +562,6 @@ namespace SquishIt.Framework.Base
         public T WithAttributes(Dictionary<string, string> attributes, bool merge = true)
         {
             AddAttributes(attributes, merge: merge);
-            return (T)this;
-        }
-
-        public T WithGroupAttribute(string name, string value, string group)
-        {
-            AddAttributes(new Dictionary<string, string> { { name, value } }, group);
-            return (T)this;
-        }
-
-        public T WithGroupAttributes(Dictionary<string, string> attributes, string group, bool merge = true)
-        {
-            AddAttributes(attributes, group, merge);
             return (T)this;
         }
 
