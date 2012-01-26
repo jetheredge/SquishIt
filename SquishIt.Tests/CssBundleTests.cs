@@ -820,20 +820,18 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleDirectoryContentsInDebug()
-        {
+        public void CanBundleDirectoryContentsInDebug() {
             var path = Guid.NewGuid().ToString();
             var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.css");
             var file2 = TestUtilities.PrepareRelativePath(path + "\\file2.css");
-            
-            using(new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
-            {
+
+            using (new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 }))) {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, css2);
                 frf.SetContentsForFile(file2, css);
-            
+
                 var writerFactory = new StubFileWriterFactory();
-            
+
                 var tag = cssBundleFactory.WithDebuggingEnabled(true)
                         .WithFileReaderFactory(frf)
                         .WithFileWriterFactory(writerFactory)
@@ -841,27 +839,51 @@ namespace SquishIt.Tests
                         .Create()
                         .Add(path)
                         .Render("~/output.css");
-            
+
                 var expectedTag = string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"/{0}/file1.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"/{0}/file2.css\" />\n", path);
                 Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
             }
         }
-                        
+
         [Test]
-        public void CanBundleDirectoryContentsInRelease()
-        {
+        public void CanBundleDirectoryContentsInDebug_Ignores_Duplicates() {
             var path = Guid.NewGuid().ToString();
             var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.css");
             var file2 = TestUtilities.PrepareRelativePath(path + "\\file2.css");
-            
-            using(new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
-            {
+
+            using (new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 }))) {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, css2);
                 frf.SetContentsForFile(file2, css);
-            
+
                 var writerFactory = new StubFileWriterFactory();
-            
+
+                var tag = cssBundleFactory.WithDebuggingEnabled(true)
+                        .WithFileReaderFactory(frf)
+                        .WithFileWriterFactory(writerFactory)
+                        .WithHasher(new StubHasher("hashy"))
+                        .Create()
+                        .Add(path)
+                        .Render("~/output.css");
+
+                var expectedTag = string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"/{0}/file1.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"/{0}/file2.css\" />\n", path);
+                Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+            }
+        }
+
+        [Test]
+        public void CanBundleDirectoryContentsInRelease() {
+            var path = Guid.NewGuid().ToString();
+            var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.css");
+            var file2 = TestUtilities.PrepareRelativePath(path + "\\file2.css");
+
+            using (new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 }))) {
+                var frf = new StubFileReaderFactory();
+                frf.SetContentsForFile(file1, css2);
+                frf.SetContentsForFile(file2, css);
+
+                var writerFactory = new StubFileWriterFactory();
+
                 var tag = cssBundleFactory.WithDebuggingEnabled(false)
                         .WithFileReaderFactory(frf)
                         .WithFileWriterFactory(writerFactory)
@@ -869,7 +891,37 @@ namespace SquishIt.Tests
                         .Create()
                         .Add(path)
                         .Render("~/output.css");
-            
+
+                var expectedTag = "<link rel=\"stylesheet\" type=\"text/css\" href=\"output.css?r=hashy\" />";
+                Assert.AreEqual(expectedTag, tag);
+
+                var combined = "li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}";
+                Assert.AreEqual(combined, writerFactory.Files[TestUtilities.PrepareRelativePath(@"output.css")]);
+            }
+        }
+
+        [Test]
+        public void CanBundleDirectoryContentsInRelease_Ignores_Duplicates() {
+            var path = Guid.NewGuid().ToString();
+            var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.css");
+            var file2 = TestUtilities.PrepareRelativePath(path + "\\file2.css");
+
+            using (new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 }))) {
+                var frf = new StubFileReaderFactory();
+                frf.SetContentsForFile(file1, css2);
+                frf.SetContentsForFile(file2, css);
+
+                var writerFactory = new StubFileWriterFactory();
+
+                var tag = cssBundleFactory.WithDebuggingEnabled(false)
+                        .WithFileReaderFactory(frf)
+                        .WithFileWriterFactory(writerFactory)
+                        .WithHasher(new StubHasher("hashy"))
+                        .Create()
+                        .Add(path)
+                        .Add(file1)
+                        .Render("~/output.css");
+
                 var expectedTag = "<link rel=\"stylesheet\" type=\"text/css\" href=\"output.css?r=hashy\" />";
                 Assert.AreEqual(expectedTag, tag);
 

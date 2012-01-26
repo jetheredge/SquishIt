@@ -493,14 +493,40 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleDirectoryContentsInRelease()
-        {
+        public void CanBundleDirectoryContentsInDebug_Ignores_Duplicates() {
+            var path = Guid.NewGuid().ToString();
+            var file1 = TestUtilities.PreparePath(Environment.CurrentDirectory + "\\" + path + "\\file1.js");
+            var file2 = TestUtilities.PreparePath(Environment.CurrentDirectory + "\\" + path + "\\file2.js");
+
+            using (new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 }))) {
+                var frf = new StubFileReaderFactory();
+                frf.SetContentsForFile(file1, javaScript2.Replace("sum", "replace"));
+                frf.SetContentsForFile(file2, javaScript);
+
+                var writerFactory = new StubFileWriterFactory();
+
+                var tag = new JavaScriptBundleFactory()
+                        .WithDebuggingEnabled(true)
+                        .WithFileReaderFactory(frf)
+                        .WithFileWriterFactory(writerFactory)
+                        .WithHasher(new StubHasher("hashy"))
+                        .Create()
+                        .Add(path)
+                        .Add(file1)
+                        .Render("~/output.js");
+
+                var expectedTag = string.Format("<script type=\"text/javascript\" src=\"/{0}/file1.js\"></script>\n<script type=\"text/javascript\" src=\"/{0}/file2.js\"></script>\n", path);
+                Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+            }
+        }
+
+        [Test]
+        public void CanBundleDirectoryContentsInRelease() {
             var path = Guid.NewGuid().ToString();
             var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.js");
             var file2 = TestUtilities.PrepareRelativePath(path + "\\file2.js");
 
-            using (new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
-            {
+            using (new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 }))) {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, javaScript2.Replace("sum", "replace"));
                 frf.SetContentsForFile(file2, javaScript);
@@ -514,6 +540,37 @@ namespace SquishIt.Tests
                         .WithHasher(new StubHasher("hashy"))
                         .Create()
                         .Add(path)
+                        .Render("~/output.js");
+
+                var expectedTag = "<script type=\"text/javascript\" src=\"output.js?r=hashy\"></script>";
+                Assert.AreEqual(expectedTag, tag);
+
+                var combined = "function replace(n,t){return n+t}function product(n,t){return n*t}function sum(n,t){return n+t}";
+                Assert.AreEqual(combined, writerFactory.Files[TestUtilities.PrepareRelativePath(@"output.js")]);
+            }
+        }
+
+        [Test]
+        public void CanBundleDirectoryContentsInRelease_Ignores_Duplicates() {
+            var path = Guid.NewGuid().ToString();
+            var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.js");
+            var file2 = TestUtilities.PrepareRelativePath(path + "\\file2.js");
+
+            using (new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 }))) {
+                var frf = new StubFileReaderFactory();
+                frf.SetContentsForFile(file1, javaScript2.Replace("sum", "replace"));
+                frf.SetContentsForFile(file2, javaScript);
+
+                var writerFactory = new StubFileWriterFactory();
+
+                var tag = new JavaScriptBundleFactory()
+                        .WithDebuggingEnabled(false)
+                        .WithFileReaderFactory(frf)
+                        .WithFileWriterFactory(writerFactory)
+                        .WithHasher(new StubHasher("hashy"))
+                        .Create()
+                        .Add(path)
+                        .Add(file1)
                         .Render("~/output.js");
 
                 var expectedTag = "<script type=\"text/javascript\" src=\"output.js?r=hashy\"></script>";

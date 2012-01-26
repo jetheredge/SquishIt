@@ -325,6 +325,8 @@ namespace SquishIt.Framework.Base
             
             DependentFiles.Clear();
 
+            var renderedFiles = new HashSet<string>();
+
             var modifiedGroupBundles = BeforeRenderDebug();
             var sb = new StringBuilder();
             foreach (var groupBundleKVP in modifiedGroupBundles)
@@ -361,24 +363,28 @@ namespace SquishIt.Framework.Base
                     {
                         foreach (var file in files)
                         {
-                            var relativePath = FileSystem.ResolveFileSystemPathToAppRelative(file);
-                            string path;
-                            if (HttpContext.Current == null)
+                            if (!renderedFiles.Contains(file))
                             {
-                                path = (asset.LocalPath.StartsWith("~") ? "" : "/") + relativePath;
-                            }
-                            else
-                            {
-                                if (HttpRuntime.AppDomainAppVirtualPath.EndsWith("/"))
+                                var relativePath = FileSystem.ResolveFileSystemPathToAppRelative(file);
+                                string path;
+                                if (HttpContext.Current == null)
                                 {
-                                    path = HttpRuntime.AppDomainAppVirtualPath + relativePath;
+                                    path = (asset.LocalPath.StartsWith("~") ? "" : "/") + relativePath;
                                 }
                                 else
                                 {
-                                    path = HttpRuntime.AppDomainAppVirtualPath + "/" + relativePath;
+                                    if (HttpRuntime.AppDomainAppVirtualPath.EndsWith("/"))
+                                    {
+                                        path = HttpRuntime.AppDomainAppVirtualPath + relativePath;
+                                    }
+                                    else
+                                    {
+                                        path = HttpRuntime.AppDomainAppVirtualPath + "/" + relativePath;
+                                    }
                                 }
+                                sb.AppendLine(FillTemplate(groupBundle, path));
+                                renderedFiles.Add(file);
                             }
-                            sb.AppendLine(FillTemplate(groupBundle, path));
                         }
                     }
                 }
@@ -411,7 +417,7 @@ namespace SquishIt.Framework.Base
                 {
                     if (!bundleCache.TryGetValue(key, out content))
                     {
-                        var files = new List<string>();
+                        var uniqueFiles = new List<string>();
                         foreach (var groupBundleKVP in GroupBundles)
                         {
                             var group = groupBundleKVP.Key;
@@ -449,17 +455,17 @@ namespace SquishIt.Framework.Base
                                 }
                             }
 
-                            files.AddRange(GetFiles(groupBundle.Assets.Where(asset =>
+                            uniqueFiles.AddRange(GetFiles(groupBundle.Assets.Where(asset =>
                                 asset.IsEmbeddedResource ||
                                 asset.IsLocal ||
-                                asset.IsRemoteDownload).ToList()));
+                                asset.IsRemoteDownload).ToList()).Distinct());
 
-                            DependentFiles.AddRange(files);
+                            DependentFiles.AddRange(uniqueFiles);
 
                             if (renderTo.Contains("#"))
                             {
                                 hashInFileName = true;
-                                minifiedContent = Minifier.Minify(BeforeMinify(outputFile, files, arbitrary));
+                                minifiedContent = Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, arbitrary));
                                 hash = hasher.GetHash(minifiedContent);
                                 renderToPath = renderToPath.Replace("#", hash);
                                 outputFile = outputFile.Replace("#", hash);
@@ -471,7 +477,7 @@ namespace SquishIt.Framework.Base
                             }
                             else
                             {
-                                minifiedContent = minifiedContent ?? Minifier.Minify(BeforeMinify(outputFile, files, arbitrary));
+                                minifiedContent = minifiedContent ?? Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, arbitrary));
                                 renderer.Render(minifiedContent, outputFile);
                             }
 
