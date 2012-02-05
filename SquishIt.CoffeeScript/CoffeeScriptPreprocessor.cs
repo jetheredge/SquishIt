@@ -1,12 +1,14 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using SquishIt.CoffeeScript.Coffee;
 using SquishIt.Framework;
 
 namespace SquishIt.CoffeeScript 
 {
-    public class CoffeeScriptPreprocessor : IPreprocessor 
+    public class CoffeeScriptPreprocessor : IPreprocessor
     {
-        static Regex coffeeFiles = new Regex(@"(\.coffee)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        static string extension = ".coffee";
+        static Regex coffeeFiles = new Regex(@"(\." + extension + ")$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public bool ValidFor(string filePath) 
         {
@@ -17,6 +19,11 @@ namespace SquishIt.CoffeeScript
         {
             var compiler = new CoffeeScriptCompiler();
             return compiler.Compile(content);
+        }
+
+        public string[] Extensions
+        {
+            get { return new [] { extension.ToUpper() }; }
         }
     }
 }

@@ -9,19 +9,20 @@ namespace SquishIt.Framework
     public class Bundle
     {
         internal static readonly List<IPreprocessor> Preprocessors = new List<IPreprocessor>();
-
-        public static void RegisterPreprocessor<T>() where T : IPreprocessor
+        
+        internal static void RegisterPreprocessor<T>(T instance) where T : IPreprocessor
         {
             if(Preprocessors.Any(p => p.GetType() == typeof(T)))
             {
                 throw new InvalidOperationException(string.Format("Can't add multiple preprocessors of type {0}", typeof(T).FullName));
             }
-            Preprocessors.Add(Activator.CreateInstance<T>());
+            Preprocessors.Add(instance);
         }
 
-        public static void ClearPreprocessors()
+        public static void RemovePreprocessors(params string[] extensions)
         {
-            Preprocessors.Clear();
+            var remove = Preprocessors.Where(pp => pp.Extensions.All(ext => extensions.Contains(ext))).ToList();
+            foreach (var r in remove) Preprocessors.Remove(r);
         }
 
         public static JavaScriptBundle JavaScript()

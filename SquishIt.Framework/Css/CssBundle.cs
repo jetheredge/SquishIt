@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -38,7 +39,22 @@ namespace SquishIt.Framework.Css
             get { return new MsCompressor(); }
         }
 
-        private HashSet<string> _allowedExtensions = new HashSet<string> { ".CSS" };
+        public static void RegisterPreprocessor<T>() where T : IPreprocessor 
+        {
+            var instance = Activator.CreateInstance<T>();
+            foreach (var ext in instance.Extensions) _allowedExtensions.Add(ext);
+            Bundle.RegisterPreprocessor<T>(instance);
+        }
+
+        public static void ClearPreprocessors()
+        {
+            var remove = _allowedExtensions.Where(ax => ax != _defaultExtension).ToArray();
+            _allowedExtensions.RemoveWhere(remove.Contains);
+            Bundle.RemovePreprocessors(remove);
+        }
+
+        static string _defaultExtension = ".CSS";
+        static HashSet<string> _allowedExtensions = new HashSet<string> { _defaultExtension };
 
         protected override HashSet<string> allowedExtensions
         {

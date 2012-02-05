@@ -9,6 +9,7 @@ namespace SquishIt.Sass
 {
     public class SassPreprocessor : IPreprocessor
     {
+        private static string[] extensions = new string[] { ".sass", ".scss" };
         private static Regex sassFiles = new Regex(@"(\.sass)|(\.scss)$", RegexOptions.Compiled);
 
         private static Regex isSass = new Regex(@"\.sass$", RegexOptions.Compiled);
@@ -24,6 +25,11 @@ namespace SquishIt.Sass
             var compiler = new SassCompiler("");
             var sassMode = isSass.IsMatch(filePath) ? SassCompiler.SassMode.Sass : SassCompiler.SassMode.Scss;
             return compiler.CompileSass(content, sassMode);
+        }
+
+        public string[] Extensions
+        {
+            get { return extensions.Select(ext => ext.ToUpper()).ToArray(); }
         }
     }
 }
