@@ -23,9 +23,11 @@ namespace SquishIt.Framework.JavaScript
             get { return new MsMinifier(); }
         }
 
-        protected override string[] allowedExtensions
+        private HashSet<string> _allowedExtensions = new HashSet<string> { ".JS", ".COFFEE" };
+
+        protected override HashSet<string> allowedExtensions
         {
-            get { return new[] { ".JS", ".COFFEE" }; }
+            get { return _allowedExtensions; }
         }
 
         protected override string tagFormat
