@@ -25,7 +25,7 @@ namespace SquishIt.Framework.JavaScript
 
         protected override string[] allowedExtensions
         {
-            get { return new[] { ".JS" }; }
+            get { return new[] { ".JS", ".COFFEE" }; }
         }
 
         protected override string tagFormat
