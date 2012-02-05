@@ -12,8 +12,7 @@ namespace SquishIt.Framework.Resolvers
             return Path.GetFullPath(path);
         }
 
-        //for partial mocking
-        public virtual bool IsDirectory(string path) 
+        public bool IsDirectory(string path) 
         {
             return Directory.Exists(path);
         }
@@ -22,7 +21,7 @@ namespace SquishIt.Framework.Resolvers
         {
             if (IsDirectory(path)) 
             {
-                var files = Directory.GetFiles(path)
+                var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories)
                     .Where(
                         f => allowedFileExtensions == null || allowedFileExtensions.Any(x => f.EndsWith(x, StringComparison.InvariantCultureIgnoreCase)))
                     .ToArray();

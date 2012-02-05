@@ -42,7 +42,7 @@ namespace SquishIt.Framework.Css
 
         protected override string[] allowedExtensions
         {
-            get { return new [] {".CSS"}; }
+            get { return new [] { ".CSS", ".LESS" }; }
         }
 
         protected override string tagFormat
