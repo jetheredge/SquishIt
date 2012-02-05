@@ -24,7 +24,7 @@ namespace SquishIt.Framework.Base
         protected ICurrentDirectoryWrapper currentDirectoryWrapper;
         protected IHasher hasher;
         protected abstract IMinifier<T> DefaultMinifier { get; }
-        protected abstract string[] allowedExtensions { get; }
+        protected abstract HashSet<string> allowedExtensions { get; }
         protected abstract string tagFormat { get; }
         protected HashSet<string> arbitrary = new HashSet<string>();
         protected bool typeless;
