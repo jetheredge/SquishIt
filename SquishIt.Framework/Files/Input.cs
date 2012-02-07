@@ -17,7 +17,7 @@ namespace SquishIt.Framework.Files
             get { return Resolver.IsDirectory(Path); }
         }
 
-        public IEnumerable<string> TryResolve(string[] allowedExtensions) 
+        public IEnumerable<string> TryResolve(IEnumerable<string> allowedExtensions) 
         {
             if (IsDirectory) 
             {
