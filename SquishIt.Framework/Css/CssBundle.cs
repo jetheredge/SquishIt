@@ -40,9 +40,11 @@ namespace SquishIt.Framework.Css
             get { return new MsCompressor(); }
         }
 
-        protected override string[] allowedExtensions
+        private HashSet<string> _allowedExtensions = new HashSet<string> { ".CSS", ".LESS" };
+
+        protected override HashSet<string> allowedExtensions
         {
-            get { return new [] {".CSS"}; }
+            get { return _allowedExtensions; }
         }
 
         protected override string tagFormat

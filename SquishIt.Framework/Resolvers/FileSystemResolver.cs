@@ -12,17 +12,16 @@ namespace SquishIt.Framework.Resolvers
             return Path.GetFullPath(path);
         }
 
-        //for partial mocking
-        public virtual bool IsDirectory(string path) 
+        public bool IsDirectory(string path) 
         {
             return Directory.Exists(path);
         }
 
-        public IEnumerable<string> TryResolveFolder(string path, string[] allowedFileExtensions)
+        public IEnumerable<string> TryResolveFolder(string path, IEnumerable<string> allowedFileExtensions)
         {
             if (IsDirectory(path)) 
             {
-                var files = Directory.GetFiles(path)
+                var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories)
                     .Where(
                         f => allowedFileExtensions == null || allowedFileExtensions.Any(x => f.EndsWith(x, StringComparison.InvariantCultureIgnoreCase)))
                     .ToArray();
