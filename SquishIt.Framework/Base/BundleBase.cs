@@ -366,23 +366,9 @@ namespace SquishIt.Framework.Base
                         {
                             if (!renderedFiles.Contains(file))
                             {
-                                var relativePath = FileSystem.ResolveFileSystemPathToAppRelative(file);
-                                string path;
-                                if (HttpContext.Current == null)
-                                {
-                                    path = (asset.LocalPath.StartsWith("~") ? "" : "/") + relativePath;
-                                }
-                                else
-                                {
-                                    if (HttpRuntime.AppDomainAppVirtualPath.EndsWith("/"))
-                                    {
-                                        path = HttpRuntime.AppDomainAppVirtualPath + relativePath;
-                                    }
-                                    else
-                                    {
-                                        path = HttpRuntime.AppDomainAppVirtualPath + "/" + relativePath;
-                                    }
-                                }
+                                var fileBase = FileSystem.ResolveAppRelativePathToFileSystem(asset.LocalPath);
+                                var newPath = file.Replace(fileBase, "");
+                                var path = ExpandAppRelativePath(asset.LocalPath + newPath.Replace("\\", "/"));
                                 sb.AppendLine(FillTemplate(groupBundle, path));
                                 renderedFiles.Add(file);
                             }

@@ -840,7 +840,7 @@ namespace SquishIt.Tests
                         .Add(path)
                         .Render("~/output.css");
 
-                var expectedTag = string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"/{0}/file1.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"/{0}/file2.css\" />\n", path);
+                var expectedTag = string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}/file1.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}/file2.css\" />\n", path);
                 Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
             }
         }
@@ -866,7 +866,7 @@ namespace SquishIt.Tests
                         .Add(path)
                         .Render("~/output.css");
 
-                var expectedTag = string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"/{0}/file1.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"/{0}/file2.css\" />\n", path);
+                var expectedTag = string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}/file1.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}/file2.css\" />\n", path);
                 Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
             }
         }

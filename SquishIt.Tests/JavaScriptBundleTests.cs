@@ -487,7 +487,7 @@ namespace SquishIt.Tests
                         .Add(path)
                         .Render("~/output.js");
 
-                var expectedTag = string.Format("<script type=\"text/javascript\" src=\"/{0}/file1.js\"></script>\n<script type=\"text/javascript\" src=\"/{0}/file2.js\"></script>\n", path);
+                var expectedTag = string.Format("<script type=\"text/javascript\" src=\"{0}/file1.js\"></script>\n<script type=\"text/javascript\" src=\"{0}/file2.js\"></script>\n", path);
                 Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
             }
         }
@@ -515,7 +515,7 @@ namespace SquishIt.Tests
                         .Add(file1)
                         .Render("~/output.js");
 
-                var expectedTag = string.Format("<script type=\"text/javascript\" src=\"/{0}/file1.js\"></script>\n<script type=\"text/javascript\" src=\"/{0}/file2.js\"></script>\n", path);
+                var expectedTag = string.Format("<script type=\"text/javascript\" src=\"{0}/file1.js\"></script>\n<script type=\"text/javascript\" src=\"{0}/file2.js\"></script>\n", path);
                 Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
             }
         }
