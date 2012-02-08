@@ -48,7 +48,7 @@ namespace SquishIt.Framework.Base
 
         protected string HashKeyName { get; set; }
         private bool ShouldRenderOnlyIfOutputFileIsMissing { get; set; }
-        protected List<string> DependentFiles = new List<string>();
+        internal List<string> DependentFiles = new List<string>();
         internal Dictionary<string, GroupBundle> GroupBundles = new Dictionary<string, GroupBundle>
         {
             { DEFAULT_GROUP, new GroupBundle() }

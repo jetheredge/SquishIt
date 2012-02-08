@@ -43,6 +43,11 @@ namespace SquishIt.Tests.Helpers
             }
             return path;
         }
+
+        public static void DeleteFile(string path)
+        {
+            File.Delete(path);
+        }
     }
 }
 
