@@ -54,33 +54,24 @@ namespace SquishIt.Framework.JavaScript
             get { return CACHE_PREFIX; }
         }
 
-        internal override Dictionary<string, GroupBundle> BeforeRenderDebug()
+        internal override void BeforeRenderDebug()
         {
-            var modifiedGroupBundles = new Dictionary<string, GroupBundle>(GroupBundles);
-
-            foreach (var groupBundleKVP in modifiedGroupBundles)
+            foreach (var asset in groupBundle.Assets)
             {
-                var groupBundle = groupBundleKVP.Value;
-
-                foreach (var asset in groupBundle.Assets)
+                var localPath = asset.LocalPath;
+                if (localPath.ToLower().EndsWith(".coffee"))
                 {
-                    var localPath = asset.LocalPath;
-                    if (localPath.ToLower().EndsWith(".coffee"))
+                    string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
+                    string javascript = ProcessCoffee(outputFile);
+                    outputFile += ".debug.js";
+                    using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
                     {
-                        string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
-                        string javascript = ProcessCoffee(outputFile);
-                        outputFile += ".debug.js";
-                        using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
-                        {
-                            fileWriter.Write(javascript);
-                        }
-
-                        asset.LocalPath = localPath + ".debug.js";
+                        fileWriter.Write(javascript);
                     }
+
+                    asset.LocalPath = localPath + ".debug.js";
                 }
             }
-
-            return modifiedGroupBundles;
         }
 
         protected override string BeforeMinify(string outputFile, List<string> files, IEnumerable<string> arbitraryContent)
