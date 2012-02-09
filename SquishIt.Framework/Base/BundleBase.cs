@@ -50,7 +50,7 @@ namespace SquishIt.Framework.Base
 
         protected string HashKeyName { get; set; }
         private bool ShouldRenderOnlyIfOutputFileIsMissing { get; set; }
-        protected List<string> DependentFiles = new List<string>();
+        internal List<string> DependentFiles = new List<string>();
         internal BundleState bundleState = new BundleState();
         
         private static Dictionary<string,BundleState> bundleStateCache = new Dictionary<string,BundleState>();

@@ -73,11 +73,22 @@ namespace SquishIt.Framework.Css
             {
                 try
                 {
-                    currentDirectoryWrapper.SetCurrentDirectory(Path.GetDirectoryName(file));
+                    var dir = Path.GetDirectoryName(file);
+                    currentDirectoryWrapper.SetCurrentDirectory(dir);
                     var content = ReadFile(file);
                     var engineFactory = new EngineFactory();
                     var engine = engineFactory.GetEngine();
-                    return engine.TransformToCss(content, file);
+                    var css = engine.TransformToCss(content, file);
+
+                    var appPath = FileSystem.ResolveFileSystemPathToAppRelative(dir);
+                    var importPaths = engine.GetImports();
+                    foreach (var importPath in importPaths)
+                    {
+                        var import = FileSystem.ResolveAppRelativePathToFileSystem(Path.Combine(appPath, importPath));
+                        DependentFiles.Add(import);
+                    }
+
+                    return css;
                 }
                 finally
                 {
