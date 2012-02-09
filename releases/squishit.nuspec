@@ -9,9 +9,9 @@
     </description>
 	<projectUrl>https://github.com/jetheredge/SquishIt</projectUrl>
 	<dependencies>
-      <dependency id="YUICompressor.NET" version="1.6.0.2" />
-	  <dependency id="dotless" version="1.2.1.0" />
-	  <dependency id="AjaxMin" version="4.42.4387.23950" />
+      <dependency id="YUICompressor.NET" version="1.7.0.0" />
+	  <dependency id="dotless" version="1.2.2.0" />
+	  <dependency id="AjaxMin" version="4.45.4416.14249" />
 	  <dependency id="Jurassic" version="2.1.1" />
     </dependencies>
   </metadata>
