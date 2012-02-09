@@ -85,7 +85,7 @@
   <ItemGroup>
     <Compile Include="Base\Asset.cs" />
     <Compile Include="Base\BundleBase.cs" />
-    <Compile Include="Base\GroupBundle.cs" />
+    <Compile Include="Base\BundleState.cs" />
     <Compile Include="Base\IBundle.cs" />
     <Compile Include="Coffee\CoffeescriptCompiler.cs" />
     <Compile Include="IBundleCache.cs" />

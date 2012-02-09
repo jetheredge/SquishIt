@@ -5,7 +5,7 @@
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
- * http://docs.jquery.com/UI
+ * http://docs.jquery.com/UI 
  */
 (function( $, undefined ) {
 

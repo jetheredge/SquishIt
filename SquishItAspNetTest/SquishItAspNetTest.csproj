@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -16,6 +16,7 @@
     </FileUpgradeFlags>
     <OldToolsVersion>4.0</OldToolsVersion>
     <UpgradeBackupLocation />
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -56,6 +57,8 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Global.asax" />
+    <Content Include="js\alert.js" />
     <Content Include="Medals.aspx" />
     <Content Include="css\CodeThinked.css" />
     <Content Include="css\extra\extra.css" />
@@ -88,6 +91,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="Medals.aspx.cs">
       <DependentUpon>Medals.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -134,7 +140,7 @@
   -->
   <ProjectExtensions>
     <VisualStudio>
-      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+      <FlavorProperties GUID="{349C5851-65DF-11DA-9384-00065B846F21}">
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>

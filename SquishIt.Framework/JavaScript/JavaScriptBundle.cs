@@ -56,7 +56,7 @@ namespace SquishIt.Framework.JavaScript
 
         internal override void BeforeRenderDebug()
         {
-            foreach (var asset in groupBundle.Assets)
+            foreach (var asset in bundleState.Assets)
             {
                 var localPath = asset.LocalPath;
                 if (localPath.ToLower().EndsWith(".coffee"))
