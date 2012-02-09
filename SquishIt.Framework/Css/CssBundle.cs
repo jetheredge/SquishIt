@@ -23,6 +23,7 @@ namespace SquishIt.Framework.Css
 
         private bool ShouldImport { get; set; }
         private bool ShouldAppendHashForAssets { get; set; }
+        private bool ShouldNotTouchLess { get; set; }
 
         
         protected override string Template
@@ -130,6 +131,13 @@ namespace SquishIt.Framework.Css
             return this;
         }
 
+        public CSSBundle DebugUntouchedLess()
+        {
+            ShouldNotTouchLess = true;
+            return this;
+        }
+
+
         protected override string BeforeMinify(string outputFile, List<string> filePaths, IEnumerable<string> arbitraryContent)
         {
             var outputCss = new StringBuilder();
@@ -176,14 +184,17 @@ namespace SquishIt.Framework.Css
                 var localPath = asset.LocalPath;
                 if (localPath.ToLower().EndsWith(".less") || localPath.ToLower().EndsWith(".less.css"))
                 {
-                    string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
-                    string css = ProcessLess(outputFile);
-                    outputFile += ".debug.css";
-                    using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
+                    if (ShouldNotTouchLess == false)
                     {
-                        fileWriter.Write(css);
+                        string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
+                        string css = ProcessLess(outputFile);
+                        outputFile += ".debug.css";
+                        using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
+                        {
+                            fileWriter.Write(css);
+                        }
+                        asset.LocalPath = localPath + ".debug.css";
                     }
-                    asset.LocalPath = localPath + ".debug.css";
                 }
             }
         }
