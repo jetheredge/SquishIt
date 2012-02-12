@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
+using SquishIt.Framework;
 
 namespace SquishItAspNetTest
 {
@@ -11,7 +12,42 @@ namespace SquishItAspNetTest
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            SquishIt.Framework.Bundle.RegisterPreprocessor<SquishIt.Preprocessors.LessPreprocessor>();
+            SquishIt.Framework.Css.CSSBundle.RegisterPreprocessor<SquishIt.Less.LessPreprocessor>();
+
+            Bundle.JavaScript()
+                .ForceRelease()
+                .Add("~/js/alert.js")
+                .AsNamed("test", "~/js/output_#.js");
+        }
+
+        protected void Session_Start(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void Application_BeginRequest(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void Application_AuthenticateRequest(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void Session_End(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void Application_End(object sender, EventArgs e)
+        {
+
         }
     }
 }

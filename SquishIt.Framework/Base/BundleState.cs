@@ -3,17 +3,20 @@ using SquishIt.Framework.Minifiers;
 
 namespace SquishIt.Framework.Base
 {
-    internal class GroupBundle
+    internal class BundleState
     {
         internal List<Asset> Assets = new List<Asset>();
         internal Dictionary<string, string> Attributes = new Dictionary<string, string>();
         internal int Order { get; set; }
+        public bool ForceDebug { get; set; }
+        public bool ForceRelease { get; set; }
+        public string Path { get; set; }
 
-        internal GroupBundle()
+        internal BundleState()
         { 
         }
 
-        internal GroupBundle(Dictionary<string, string> attributes)
+        internal BundleState(Dictionary<string, string> attributes)
         {
             Attributes = attributes;
         }

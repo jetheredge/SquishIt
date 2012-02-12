@@ -172,33 +172,25 @@ namespace SquishIt.Framework.Css
             return CSSPathRewriter.RewriteCssPaths(outputFile, file, css, fileHasher, asImport);
         }
 
-        internal override Dictionary<string, GroupBundle> BeforeRenderDebug()
+        internal override void BeforeRenderDebug()
         {
-            var modifiedGroupBundles = new Dictionary<string, GroupBundle>(GroupBundles);
-
-            foreach (var groupBundleKVP in modifiedGroupBundles)
+            foreach (var asset in bundleState.Assets)
             {
-                var groupBundle = groupBundleKVP.Value;
-                foreach (var asset in groupBundle.Assets)
+                var localPath = asset.LocalPath;
+                var preprocessor = FindPreprocessor(localPath);
+                if (preprocessor != null)
                 {
-                    var localPath = asset.LocalPath;
-                    var preprocessor = FindPreprocessor(localPath);
-                    if(preprocessor != null)
-                    {
-                        string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
+                    string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
 
-                        string css = PreprocessCssFile(outputFile, preprocessor);
-                        outputFile += ".debug.css";
-                        using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
-                        {
-                            fileWriter.Write(css);
-                        }
-                        asset.LocalPath = localPath + ".debug.css";
+                    string css = PreprocessCssFile(outputFile, preprocessor);
+                    outputFile += ".debug.css";
+                    using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
+                    {
+                        fileWriter.Write(css);
                     }
+                    asset.LocalPath = localPath + ".debug.css";
                 }
             }
-
-            return modifiedGroupBundles;
         }
     }
 }

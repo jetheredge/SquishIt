@@ -8,6 +8,7 @@ using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Helpers;
 using SquishIt.Tests.Stubs;
 using SquishIt.Framework.Tests.Mocks;
+using SquishIt.Framework;
 
 namespace SquishIt.Tests
 {
@@ -72,8 +73,8 @@ namespace SquishIt.Tests
             cssBundle1.Add("/css/first.css", "/css/second.css");
             cssBundle2.Add("/css/first.css").Add("/css/second.css");
 
-            var cssBundle1Assets = cssBundle1.GroupBundles["default"].Assets;
-            var cssBundle2Assets = cssBundle1.GroupBundles["default"].Assets;
+            var cssBundle1Assets = cssBundle1.bundleState.Assets;
+            var cssBundle2Assets = cssBundle1.bundleState.Assets;
 
             Assert.AreEqual(cssBundle1Assets.Count, cssBundle2Assets.Count);
             for (var i = 0; i < cssBundle1Assets.Count; i++)
@@ -769,7 +770,7 @@ namespace SquishIt.Tests
                         .Add(path)
                         .Render("~/output.css");
 
-                var expectedTag = string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"/{0}/file1.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"/{0}/file2.css\" />\n", path);
+                var expectedTag = string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}/file1.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}/file2.css\" />\n", path);
                 Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
             }
         }
@@ -795,7 +796,7 @@ namespace SquishIt.Tests
                         .Add(path)
                         .Render("~/output.css");
 
-                var expectedTag = string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"/{0}/file1.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"/{0}/file2.css\" />\n", path);
+                var expectedTag = string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}/file1.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}/file2.css\" />\n", path);
                 Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
             }
         }
