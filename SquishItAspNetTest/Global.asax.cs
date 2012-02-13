@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
 using SquishIt.Framework;
+using SquishIt.Framework.Css;
 
 namespace SquishItAspNetTest
 {
@@ -12,7 +13,7 @@ namespace SquishItAspNetTest
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            SquishIt.Framework.Css.CSSBundle.RegisterPreprocessor<SquishIt.Less.LessPreprocessor>();
+            CSSBundle.RegisterPreprocessor<SquishIt.Less.LessPreprocessor>();
 
             Bundle.JavaScript()
                 .ForceRelease()

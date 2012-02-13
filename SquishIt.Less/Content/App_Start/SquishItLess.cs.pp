@@ -2,14 +2,14 @@
 
 namespace $rootnamespace$.App_Start
 {
-    using SquishIt.Framework;
+    using SquishIt.Framework.Css;
     using SquishIt.Less;
 
     public class SquishItLess
     {
         public static void Start()
         {
-            Bundle.RegisterPreprocessor<LessPreprocessor>();
+            CSSBundle.RegisterPreprocessor<LessPreprocessor>();
         }
     }
 }
