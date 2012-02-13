@@ -10,6 +10,7 @@ namespace SquishIt.Framework
     {
         internal static readonly List<IPreprocessor> Preprocessors = new List<IPreprocessor>();
         
+        //TODO: provide a way to globally register preprocessor, registering extension w/ both JS and CSS allowed extensions?
         internal static void RegisterPreprocessor<T>(T instance) where T : IPreprocessor
         {
             if(Preprocessors.Any(p => p.GetType() == typeof(T)))

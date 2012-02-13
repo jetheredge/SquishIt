@@ -73,11 +73,11 @@ namespace SquishIt.Framework.JavaScript
             foreach (var asset in bundleState.Assets)
             {
                 var localPath = asset.LocalPath;
-                var preprocessor = FindPreprocessor(localPath);
-                if (preprocessor != null)
+                var preprocessors = FindPreprocessors(localPath);
+                if (preprocessors != null && preprocessors.Count() > 0)
                 {
                     string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
-                    string javascript = PreprocessJavascriptFile(outputFile, preprocessor);
+                    string javascript = PreprocessJavascriptFile(outputFile, preprocessors);
                     outputFile += ".debug.js";
                     using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
                     {
@@ -101,26 +101,16 @@ namespace SquishIt.Framework.JavaScript
         }
 
         private string ProcessJavascriptFile(string file) {
-            var preprocessor = FindPreprocessor(file);
-            if (preprocessor != null) {
-                return PreprocessJavascriptFile(file, preprocessor);
+            var preprocessors = FindPreprocessors(file);
+            if (preprocessors != null) {
+                return PreprocessJavascriptFile(file, preprocessors);
             }
             return ReadFile(file);
         }
 
-        private string PreprocessJavascriptFile(string file, IPreprocessor preprocessor) {
+        private string PreprocessJavascriptFile(string file, IEnumerable<IPreprocessor> preprocessors) {
             lock (typeof(JavaScriptBundle)) {
-                try {
-                    currentDirectoryWrapper.SetCurrentDirectory(Path.GetDirectoryName(file));
-                    var content = ReadFile(file);
-                    if (preprocessor == null) {
-                        return content;
-                    }
-                    return preprocessor.Process(file, content);
-                }
-                finally {
-                    currentDirectoryWrapper.Revert();
-                }
+                return PreprocessFile(file, preprocessors);
             }
         }
     }

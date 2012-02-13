@@ -9,6 +9,7 @@ using SquishIt.Framework.Resolvers;
 using SquishIt.Framework.Renderers;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Utilities;
+using System.IO;
 
 namespace SquishIt.Framework.Base
 {
@@ -132,8 +133,37 @@ namespace SquishIt.Framework.Base
             return new Input(resourcePath, ResolverFactory.Get<EmbeddedResourceResolver>());
         }
 
-        protected static IPreprocessor FindPreprocessor(string file) {
-            return Bundle.Preprocessors.FirstOrDefault(p => p.ValidFor(file));
+        protected static IEnumerable<IPreprocessor> FindPreprocessors(string file) 
+        {
+            //using rails convention of applying preprocessing based on file extension components in reverse order
+            return file.Split('.')
+                .Skip(1)
+                .Reverse()
+                .Select(FindPreprocessor)
+                .Where(p => p != null);
+        }
+
+        protected string PreprocessFile(string file, IEnumerable<IPreprocessor> preprocessors) 
+        {
+            try 
+            {
+                currentDirectoryWrapper.SetCurrentDirectory(Path.GetDirectoryName(file));
+                var content = ReadFile(file);
+                if (preprocessors == null) 
+                {
+                    return content;
+                }
+                return preprocessors.Aggregate<IPreprocessor, string>(content, (cntnt, pp) => pp.Process(file, cntnt));
+            }
+            finally 
+            {
+                currentDirectoryWrapper.Revert();
+            }
+        }
+
+        static IPreprocessor FindPreprocessor(string extension) 
+        {
+            return Bundle.Preprocessors.FirstOrDefault(p => p.ValidFor(extension));
         }
 
         private string ExpandAppRelativePath(string file)

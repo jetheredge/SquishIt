@@ -125,31 +125,22 @@ namespace SquishIt.Framework.Css
             return outputCss.ToString();
         }
 
-        private string PreprocessCssFile(string file, IPreprocessor preprocessor)
+        private string PreprocessCssFile(string file, IEnumerable<IPreprocessor> preprocessors)
         {
             lock (typeof(CSSBundle))
             {
-                try
-                {
-                    currentDirectoryWrapper.SetCurrentDirectory(Path.GetDirectoryName(file));
-                    var content = ReadFile(file);
-                    return preprocessor.Process(file, content);
-                }
-                finally
-                {
-                    currentDirectoryWrapper.Revert();
-                }
+                return PreprocessFile(file, preprocessors);
             }
         }
 
         string ProcessCssFile(string file, string outputFile, bool asImport = false) {
             string css = null;
 
-            var preprocessor = FindPreprocessor(file);
+            var preprocessors = FindPreprocessors(file);
 
-            if(preprocessor != null)
+            if(preprocessors != null)
             {
-                css = PreprocessCssFile(file, preprocessor);
+                css = PreprocessCssFile(file, preprocessors);
             }
             else
             {
@@ -177,12 +168,12 @@ namespace SquishIt.Framework.Css
             foreach (var asset in bundleState.Assets)
             {
                 var localPath = asset.LocalPath;
-                var preprocessor = FindPreprocessor(localPath);
-                if (preprocessor != null)
+                var preprocessors = FindPreprocessors(localPath);
+                if (preprocessors != null && preprocessors.Count() > 0)
                 {
                     string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
 
-                    string css = PreprocessCssFile(outputFile, preprocessor);
+                    string css = PreprocessCssFile(outputFile, preprocessors);
                     outputFile += ".debug.css";
                     using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
                     {

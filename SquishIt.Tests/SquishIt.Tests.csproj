@@ -98,6 +98,7 @@
     <Compile Include="JavaScriptMinifierTests.cs" />
     <Compile Include="MultipleWorkerProcessesTests.cs" />
     <Compile Include="LessTests.cs" />
+    <Compile Include="PreprocessorPipelineTests.cs" />
     <Compile Include="SassTests.cs" />
     <Compile Include="Stubs\PreprocessorScope.cs" />
     <Compile Include="Stubs\StubBundleCache.cs" />

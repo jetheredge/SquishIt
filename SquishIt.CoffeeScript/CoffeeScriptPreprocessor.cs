@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using SquishIt.CoffeeScript.Coffee;
 using SquishIt.Framework;
@@ -7,12 +8,13 @@ namespace SquishIt.CoffeeScript
 {
     public class CoffeeScriptPreprocessor : IPreprocessor
     {
-        static string extension = ".coffee";
-        static Regex coffeeFiles = new Regex(@"(\." + extension + ")$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        static string validExtension = ".coffee";
+        //static Regex coffeeFiles = new Regex(@"(\." + extension + ")$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        public bool ValidFor(string filePath) 
+        public bool ValidFor(string extension) 
         {
-            return coffeeFiles.IsMatch(filePath);
+            var upperExtension = extension.ToUpper();
+            return Extensions.Contains(upperExtension.StartsWith(".") ? upperExtension : ("." + upperExtension));
         }
 
         public string Process(string filePath, string content) 
@@ -23,7 +25,7 @@ namespace SquishIt.CoffeeScript
 
         public string[] Extensions
         {
-            get { return new [] { extension.ToUpper() }; }
+            get { return new [] { validExtension.ToUpper() }; }
         }
     }
 }

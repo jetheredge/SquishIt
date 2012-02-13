@@ -10,14 +10,15 @@ namespace SquishIt.Sass
     public class SassPreprocessor : IPreprocessor
     {
         private static string[] extensions = new string[] { ".sass", ".scss" };
-        private static Regex sassFiles = new Regex(@"(\.sass)|(\.scss)$", RegexOptions.Compiled);
+        //private static Regex sassFiles = new Regex(@"(\.sass)|(\.scss)$", RegexOptions.Compiled);
 
         private static Regex isSass = new Regex(@"\.sass$", RegexOptions.Compiled);
         private static Regex isScss = new Regex(@"\.scss$", RegexOptions.Compiled);
 
-        public bool ValidFor(string filePath)
+        public bool ValidFor(string extension) 
         {
-            return sassFiles.IsMatch(filePath);
+            var upperExtension = extension.ToUpper();
+            return Extensions.Contains(upperExtension.StartsWith(".") ? upperExtension : ("." + upperExtension));
         }
 
         public string Process(string filePath, string content)

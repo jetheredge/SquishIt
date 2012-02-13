@@ -2,7 +2,7 @@
 {
     public interface IPreprocessor
     {
-        bool ValidFor(string filePath);
+        bool ValidFor(string extension);
         string Process(string filePath, string content);
         string[] Extensions { get; }
     }

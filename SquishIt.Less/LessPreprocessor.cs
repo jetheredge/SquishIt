@@ -9,11 +9,12 @@ namespace SquishIt.Less
     public class LessPreprocessor : IPreprocessor
     {
         private static string[] extensions = new string[] { ".less", ".less.css" };
-        static Regex lessFiles = new Regex(string.Format(@"(\{0})|(\{1})$", extensions), RegexOptions.Compiled);
+        //static Regex lessFiles = new Regex(string.Format(@"(\{0})|(\{1})$", extensions), RegexOptions.Compiled);
 
-        public bool ValidFor(string filePath)
+        public bool ValidFor(string extension)
         {
-            return lessFiles.IsMatch(filePath);
+            var upperExtension = extension.ToUpper();
+            return Extensions.Contains(upperExtension.StartsWith(".") ? upperExtension : ("." + upperExtension));
         }
 
         public string Process(string filePath, string content)
