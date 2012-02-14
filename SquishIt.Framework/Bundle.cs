@@ -15,7 +15,6 @@ namespace SquishIt.Framework
         internal static readonly HashSet<String> AllowedScriptExtensions = new HashSet<string> { ".JS" };
         internal static readonly HashSet<String> AllowedStyleExtensions = new HashSet<string> { ".CSS" };
 
-        //TODO: provide a way to globally register preprocessor, registering extension w/ both JS and CSS allowed extensions?
         public static void RegisterGlobalPreprocessor<T>(T instance) where T : IPreprocessor
         {
             ValidatePreprocessor<T>(instance);
