@@ -33,7 +33,7 @@ namespace SquishIt.Tests
 
         [Test]
         public void CanBundleCssWithLess () {
-            using (new PreprocessorScope<LessPreprocessor> ()) {
+            using (new StylePreprocessorScope<LessPreprocessor> ()) {
                 CSSBundle cssBundle = cssBundleFactory
                     .WithHasher (hasher)
                     .WithDebuggingEnabled (false)
@@ -56,7 +56,7 @@ namespace SquishIt.Tests
 
         [Test]
         public void CanBundleCssWithLessAndPathRewrites () {
-            using (new PreprocessorScope<LessPreprocessor> ()) {
+            using (new StylePreprocessorScope<LessPreprocessor> ()) {
                 string css =
                     @"@brand_color: #4D926F;
                         #header {
@@ -84,7 +84,7 @@ namespace SquishIt.Tests
 
         [Test]
         public void CanBundleCssWithLessWithLessDotCssFileExtension () {
-            using (new PreprocessorScope<LessPreprocessor> ()) {
+            using (new StylePreprocessorScope<LessPreprocessor> ()) {
                 CSSBundle cssBundle = cssBundleFactory
                     .WithHasher (hasher)
                     .WithDebuggingEnabled (false)

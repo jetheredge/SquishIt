@@ -9,7 +9,7 @@ namespace $rootnamespace$.App_Start
     {
         public static void Start()
         {
-            JavaScriptBundle.RegisterPreprocessor<CoffeeScriptPreprocessor>();
+            Bundle.RegisterScriptPreprocessor(new CoffeeScriptPreprocessor());
         }
     }
 }

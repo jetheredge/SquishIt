@@ -28,7 +28,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanBundleCssWithScss()
         {
-            using (new PreprocessorScope<SassPreprocessor>())
+            using (new StylePreprocessorScope<SassPreprocessor>())
             {
                 var original =
                     @"$blue: #3bbfce;
@@ -72,7 +72,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanBundleCssWithSass()
         {
-            using (new PreprocessorScope<SassPreprocessor>())
+            using (new StylePreprocessorScope<SassPreprocessor>())
             {
                 var original =
 @"$blue: #3bbfce
@@ -113,7 +113,7 @@ $margin: 16px
         [Test]
         public void CanUseNesting()
         {
-            using (new PreprocessorScope<SassPreprocessor>())
+            using (new StylePreprocessorScope<SassPreprocessor>())
             {
                 var original =
                     @"table.hl {
@@ -153,7 +153,7 @@ $margin: 16px
         [Test]
         public void CanUseMixins()
         {
-            using (new PreprocessorScope<SassPreprocessor>())
+            using (new StylePreprocessorScope<SassPreprocessor>())
             {
                 var original =
                     @"@mixin table-base {
@@ -196,7 +196,7 @@ $margin: 16px
         [Test]
         public void CanUseSelectorInheritance()
         {
-            using (new PreprocessorScope<SassPreprocessor>())
+            using (new StylePreprocessorScope<SassPreprocessor>())
             {
                 var original =
                     @".error {

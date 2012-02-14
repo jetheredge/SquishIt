@@ -9,7 +9,7 @@ namespace $rootnamespace$.App_Start
     {
         public static void Start()
         {
-            CSSBundle.RegisterPreprocessor<LessPreprocessor>();
+            Bundle.RegisterStylePreprocessor(new LessPreprocessor());
         }
     }
 }

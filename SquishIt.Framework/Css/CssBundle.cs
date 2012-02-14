@@ -39,26 +39,14 @@ namespace SquishIt.Framework.Css
             get { return new MsCompressor(); }
         }
 
-        public static void RegisterPreprocessor<T>() where T : IPreprocessor 
+        protected override IEnumerable<string> allowedExtensions 
         {
-            var instance = Activator.CreateInstance<T>();
-            foreach (var ext in instance.Extensions) _allowedExtensions.Add(ext);
-            Bundle.RegisterPreprocessor<T>(instance);
+            get { return Bundle.AllowedGlobalExtensions.Union(Bundle.AllowedStyleExtensions); }
         }
 
-        public static void ClearPreprocessors()
+        protected override IEnumerable<string> disallowedExtensions 
         {
-            var remove = _allowedExtensions.Where(ax => ax != _defaultExtension).ToArray();
-            _allowedExtensions.RemoveWhere(remove.Contains);
-            Bundle.RemovePreprocessors(remove);
-        }
-
-        static string _defaultExtension = ".CSS";
-        static HashSet<string> _allowedExtensions = new HashSet<string> { _defaultExtension };
-
-        protected override HashSet<string> allowedExtensions
-        {
-            get { return _allowedExtensions; }
+            get { return Bundle.AllowedScriptExtensions; }
         }
 
         protected override string tagFormat

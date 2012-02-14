@@ -4,14 +4,27 @@ using SquishIt.Framework;
 
 namespace SquishIt.Tests.Stubs 
 {
-    public class PreprocessorScope<T> : IDisposable where T : IPreprocessor {
-        public PreprocessorScope()
+    public class ScriptPreprocessorScope<T> : IDisposable where T : IPreprocessor 
+    {
+        public ScriptPreprocessorScope() 
         {
-            Bundle.RegisterPreprocessor<T>(Activator.CreateInstance<T>());
+            Bundle.RegisterScriptPreprocessor<T>(Activator.CreateInstance<T>());
         }
-        public void Dispose()
+        public void Dispose() 
         {
-            Bundle.RemovePreprocessors(Bundle.Preprocessors.SelectMany(pp => pp.Extensions).ToArray());
+            Bundle.ClearPreprocessors();
+        }
+    }
+
+    public class StylePreprocessorScope<T> : IDisposable where T : IPreprocessor 
+    {
+        public StylePreprocessorScope() 
+        {
+            Bundle.RegisterStylePreprocessor<T>(Activator.CreateInstance<T>());
+        }
+        public void Dispose() 
+        {
+            Bundle.ClearPreprocessors();
         }
     }
 }

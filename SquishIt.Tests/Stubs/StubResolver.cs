@@ -20,16 +20,31 @@ namespace SquishIt.Tests.Stubs
             return _pathToResolveTo;
         }
 
-        public IEnumerable<string> TryResolveFolder(string path, IEnumerable<string> allowedExtensions) {
+        public IEnumerable<string> TryResolveFolder(string path, IEnumerable<string> allowedFileExtensions, IEnumerable<string> disallowedFileExtensions) 
+        {
             return _directoryContents
-                .Where(dc => allowedExtensions.Any(ext => dc.EndsWith(ext, System.StringComparison.InvariantCultureIgnoreCase)))
+                .Where(
+                        f => (allowedFileExtensions == null
+                            || allowedFileExtensions.Select(s => s.ToUpper()).Any(x => Extensions(f).Contains(x))
+                            &&
+                            (disallowedFileExtensions == null
+                            || !disallowedFileExtensions.Select(s => s.ToUpper()).Any(x => Extensions(f).Contains(x)))
+                            ))
                 .ToArray();
         }
 
-        public virtual bool IsDirectory(string path) {
+        public virtual bool IsDirectory(string path) 
+        {
             return _directoryContents != null;
         }
-    
+
+        static IEnumerable<string> Extensions(string path) 
+        {
+            return path.Split('.')
+                .Skip(1)
+                .Select(s => "." + s.ToUpper());
+        }
+
         public static IResolver ForDirectory(string[] files)
         {
             return new StubResolver(null, files);   

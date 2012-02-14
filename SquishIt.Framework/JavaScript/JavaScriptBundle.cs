@@ -23,25 +23,14 @@ namespace SquishIt.Framework.JavaScript
             get { return new MsMinifier(); }
         }
 
-        public static void RegisterPreprocessor<T>() where T : IPreprocessor
+        protected override IEnumerable<string> allowedExtensions
         {
-            var instance = Activator.CreateInstance<T>();
-            foreach (var ext in instance.Extensions) _allowedExtensions.Add(ext);
-            Bundle.RegisterPreprocessor<T>(instance);
+            get { return Bundle.AllowedGlobalExtensions.Union(Bundle.AllowedScriptExtensions); }
         }
 
-        public static void ClearPreprocessors() {
-            var remove = _allowedExtensions.Where(ax => ax != _defaultExtension).ToArray();
-            _allowedExtensions.RemoveWhere(remove.Contains);
-            Bundle.RemovePreprocessors(remove);
-        }
-
-        static string _defaultExtension = ".JS";
-        static HashSet<string> _allowedExtensions = new HashSet<string> { _defaultExtension };
-
-        protected override HashSet<string> allowedExtensions
+        protected override IEnumerable<string> disallowedExtensions 
         {
-            get { return _allowedExtensions; }
+            get { return Bundle.AllowedStyleExtensions; }
         }
 
         protected override string tagFormat

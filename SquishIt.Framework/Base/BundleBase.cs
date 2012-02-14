@@ -25,7 +25,8 @@ namespace SquishIt.Framework.Base
         protected ICurrentDirectoryWrapper currentDirectoryWrapper;
         protected IHasher hasher;
         protected abstract IMinifier<T> DefaultMinifier { get; }
-        protected abstract HashSet<string> allowedExtensions { get; }
+        protected abstract IEnumerable<string> allowedExtensions { get; }
+        protected abstract IEnumerable<string> disallowedExtensions { get; }
         protected abstract string tagFormat { get; }
         protected HashSet<string> arbitrary = new HashSet<string>();
         protected bool typeless;
@@ -77,7 +78,7 @@ namespace SquishIt.Framework.Base
 
             foreach (Input input in inputFiles)
             {
-                resolvedFilePaths.AddRange(input.TryResolve(allowedExtensions));
+                resolvedFilePaths.AddRange(input.TryResolve(allowedExtensions, disallowedExtensions));
             }
 
             return resolvedFilePaths;
@@ -377,7 +378,7 @@ namespace SquishIt.Framework.Base
             foreach (var asset in assets)
             {
                 var inputFile = GetInputFile(asset);
-                var files = inputFile.TryResolve(allowedExtensions);
+                var files = inputFile.TryResolve(allowedExtensions, disallowedExtensions);
 
                 if (asset.IsEmbeddedResource)
                 {
