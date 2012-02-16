@@ -46,38 +46,66 @@ namespace SquishIt.Tests
                 Assert.AreEqual ("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output.css?r=6816A2FDB0EE7941EE20E53D23779FC7\" />", tag);
                 Assert.AreEqual ("globey", contents);
 
-                Assert.IsTrue (stylePreprocessor.WasCalled);
-                Assert.IsTrue (globalPreprocessor.WasCalled);
+                Assert.AreEqual ("start", stylePreprocessor.CalledWith);
+                Assert.AreEqual ("styley", globalPreprocessor.CalledWith);
             }
         }
 
         [Test]
-        public void Css_Global_Then_Style () 
+        public void Css_Global_Then_Style() 
         {
-            var stylePreprocessor = new StubStylePreprocessor ();
-            var globalPreprocessor = new StubGlobalPreprocessor ();
+            var stylePreprocessor = new StubStylePreprocessor();
+            var globalPreprocessor = new StubGlobalPreprocessor();
 
-            using (new StylePreprocessorScope<StubStylePreprocessor> (stylePreprocessor))
-            using (new GlobalPreprocessorScope<StubGlobalPreprocessor> (globalPreprocessor)) 
-            {
+            using (new StylePreprocessorScope<StubStylePreprocessor>(stylePreprocessor))
+            using (new GlobalPreprocessorScope<StubGlobalPreprocessor>(globalPreprocessor)) {
                 CSSBundle cssBundle = cssBundleFactory
-                    .WithHasher (hasher)
-                    .WithDebuggingEnabled (false)
-                    .WithContents ("start")
-                    .Create ();
+                    .WithHasher(hasher)
+                    .WithDebuggingEnabled(false)
+                    .WithContents("start")
+                    .Create();
 
                 string tag = cssBundle
-                    .Add ("~/css/test.style.global")
-                    .Render ("~/css/output.css");
+                    .Add("~/css/test.style.global")
+                    .Render("~/css/output.css");
 
                 string contents =
-                    cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath (@"css\output.css")];
+                    cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")];
 
-                Assert.AreEqual ("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output.css?r=0B5C0EC6F2D8CEA452236626242443B7\" />", tag);
-                Assert.AreEqual ("styley", contents);
+                Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output.css?r=0B5C0EC6F2D8CEA452236626242443B7\" />", tag);
+                Assert.AreEqual("styley", contents);
 
-                Assert.IsTrue (stylePreprocessor.WasCalled);
-                Assert.IsTrue (globalPreprocessor.WasCalled);
+                Assert.AreEqual("globey", stylePreprocessor.CalledWith);
+                Assert.AreEqual("start", globalPreprocessor.CalledWith);
+            }
+        }
+
+        [Test]
+        public void Css_Skips_Extensions_With_No_Preprocessors() 
+        {
+            var stylePreprocessor = new StubStylePreprocessor();
+            var globalPreprocessor = new StubGlobalPreprocessor();
+
+            using (new StylePreprocessorScope<StubStylePreprocessor>(stylePreprocessor))
+            using (new GlobalPreprocessorScope<StubGlobalPreprocessor>(globalPreprocessor)) {
+                CSSBundle cssBundle = cssBundleFactory
+                    .WithHasher(hasher)
+                    .WithDebuggingEnabled(false)
+                    .WithContents("start")
+                    .Create();
+
+                string tag = cssBundle
+                    .Add("~/css/test.style.fake.global.bogus")
+                    .Render("~/css/output.css");
+
+                string contents =
+                    cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")];
+
+                Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output.css?r=0B5C0EC6F2D8CEA452236626242443B7\" />", tag);
+                Assert.AreEqual("styley", contents);
+
+                Assert.AreEqual("globey", stylePreprocessor.CalledWith);
+                Assert.AreEqual("start", globalPreprocessor.CalledWith);
             }
         }
     }

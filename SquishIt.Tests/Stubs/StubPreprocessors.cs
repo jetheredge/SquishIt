@@ -7,12 +7,12 @@ using SquishIt.Framework;
 namespace SquishIt.Tests.Stubs {
     public interface IStubPreprocessor : IPreprocessor 
     {
-        bool WasCalled { get; }
+        string CalledWith { get; }
     }
 
     public class StubGlobalPreprocessor : IStubPreprocessor
     {
-        bool wasCalled;
+        string calledWith;
 
         public bool ValidFor (string extension) 
         {
@@ -21,7 +21,7 @@ namespace SquishIt.Tests.Stubs {
 
         public string Process (string filePath, string content)
         {
-            wasCalled = true;
+            calledWith = content;
             return "globey";
         }
 
@@ -30,15 +30,15 @@ namespace SquishIt.Tests.Stubs {
             get { return new[] { "global" }; }
         }
 
-        public bool WasCalled
+        public string CalledWith
         {
-            get { return wasCalled; }
+            get { return calledWith; }
         }
     }
 
     public class StubScriptPreprocessor : IStubPreprocessor
     {
-        bool wasCalled;
+        string calledWith;
 
         public bool ValidFor (string extension) 
         {
@@ -47,7 +47,7 @@ namespace SquishIt.Tests.Stubs {
 
         public string Process (string filePath, string content)
         {
-            wasCalled = true;
+            calledWith = content;
             return "scripty";
         }
 
@@ -56,15 +56,15 @@ namespace SquishIt.Tests.Stubs {
             get { return new[] { "script" }; }
         }
 
-        public bool WasCalled
+        public string CalledWith
         {
-            get { return wasCalled; }
+            get { return calledWith; }
         }
     }
 
     public class StubStylePreprocessor : IStubPreprocessor
     {
-        bool wasCalled;
+        string calledWith;
 
         public bool ValidFor (string extension) 
         {
@@ -73,7 +73,7 @@ namespace SquishIt.Tests.Stubs {
 
         public string Process (string filePath, string content)
         {
-            wasCalled = true;
+            calledWith = content;
             return "styley";
         }
 
@@ -82,9 +82,9 @@ namespace SquishIt.Tests.Stubs {
             get { return new[] { "style" }; }
         }
 
-        public bool WasCalled
+        public string CalledWith
         {
-            get { return wasCalled; }
+            get { return calledWith; }
         }
     }
 }
