@@ -4,11 +4,11 @@ using System.IO;
 using System.Text.RegularExpressions;
 using SquishIt.Framework.Utilities;
 
-namespace SquishIt.Framework.Css
-{
-    public class CSSPathRewriter
+namespace SquishIt.Framework.Css {
+    public class CSSPathRewriter 
     {
-        public static string RewriteCssPaths (string outputPath, string sourcePath, string css, ICssAssetsFileHasher cssAssetsFileHasher, bool asImport = false) {
+        public static string RewriteCssPaths (string outputPath, string sourcePath, string css, ICssAssetsFileHasher cssAssetsFileHasher, bool asImport = false) 
+        {
             //see http://stackoverflow.com/questions/3692818/uri-makerelativeuri-behavior-on-mono
             if (FileSystem.Unix) 
             {
@@ -26,7 +26,7 @@ namespace SquishIt.Framework.Css
 
                 var resolvedSourcePath = new Uri (resolvedSourcePathString);
 
-                var resolvedOutput = ApplyUnixFix (outputUri.MakeRelativeUri (resolvedSourcePath).OriginalString);
+                var resolvedOutput = outputUri.MakeRelativePathTo(resolvedSourcePath);
 
                 var newRelativePath = asImport ? "squishit://" + resolvedOutput : resolvedOutput;
 
@@ -38,8 +38,7 @@ namespace SquishIt.Framework.Css
                 css = css.Replace ("squishit://", "");
             }
 
-            if (cssAssetsFileHasher != null) 
-            {
+            if (cssAssetsFileHasher != null) {
                 var localRelativePathsThatExist = FindDistinctLocalRelativePathsThatExist (css);
 
                 foreach (string localRelativePathThatExist in localRelativePathsThatExist) 
@@ -55,61 +54,26 @@ namespace SquishIt.Framework.Css
             return css;
         }
 
-        static string ApplyUnixFix (string newRelativePath) 
+        private static string ReplaceRelativePathsIn (string css, string oldPath, string newPath) 
         {
-            if (FileSystem.Unix) 
-            {
-                var pathWithoutLeadingUps = newRelativePath.TrimStart ('.', '/');
-                var leadingUps = (newRelativePath.Length - pathWithoutLeadingUps.Length) / 3;
-                var directoriesUp = (pathWithoutLeadingUps.Length - pathWithoutLeadingUps.Replace ("../", "").Length) / 3;
+            var regex = new Regex (@"url\([""']{0,1}" + Regex.Escape (oldPath) + @"[""']{0,1}\)", RegexOptions.IgnoreCase);
 
-                var finalPath = "";
-                for (var i = 0; i < leadingUps; i++) 
-                {
-                    finalPath += "../";
-                }
-
-                if (pathWithoutLeadingUps.Contains ("../")) 
-                {
-                    var pieces = pathWithoutLeadingUps.Split (new[] { "../" }, StringSplitOptions.RemoveEmptyEntries);
-                    var startPieces = pieces[0].Split ('/');
-
-                    for (var i = 0; i < (startPieces.Length - 1 - directoriesUp); i++) 
-                    {
-                        finalPath += startPieces[i];
-                    }
-                    finalPath = Path.Combine (finalPath, pieces[1]);
-                }
-                else 
-                {
-                    finalPath += pathWithoutLeadingUps;
-                }
-                newRelativePath = finalPath;
-            }
-            return newRelativePath;
-        }
-
-        private static string ReplaceRelativePathsIn(string css, string oldPath, string newPath)
-        {
-            var regex = new Regex(@"url\([""']{0,1}" + Regex.Escape(oldPath) + @"[""']{0,1}\)", RegexOptions.IgnoreCase);
-
-            return regex.Replace(css, match =>
-            {
-                var path = match.Value.Replace(oldPath, newPath);
+            return regex.Replace (css, match => {
+                var path = match.Value.Replace (oldPath, newPath);
                 return path;
             });
         }
 
-        private static IEnumerable<string> FindDistinctRelativePathsIn(string css)
+        private static IEnumerable<string> FindDistinctRelativePathsIn (string css) 
         {
-            var matches = Regex.Matches(css, @"url\([""']{0,1}(.+?)[""']{0,1}\)", RegexOptions.IgnoreCase);
-            var matchesHash = new HashSet<string>();
-            foreach (Match match in matches)
+            var matches = Regex.Matches (css, @"url\([""']{0,1}(.+?)[""']{0,1}\)", RegexOptions.IgnoreCase);
+            var matchesHash = new HashSet<string> ();
+            foreach (Match match in matches) 
             {
                 var path = match.Groups[1].Captures[0].Value;
-                if (!path.StartsWith("/") && !path.StartsWith("http://") && !path.StartsWith("https://") && !path.StartsWith("data:") && !path.StartsWith("squishit://"))
+                if (!path.StartsWith ("/") && !path.StartsWith ("http://") && !path.StartsWith ("https://") && !path.StartsWith ("data:") && !path.StartsWith ("squishit://")) 
                 {
-                    if (matchesHash.Add(path))
+                    if (matchesHash.Add (path)) 
                     {
                         yield return path;
                     }
@@ -117,16 +81,16 @@ namespace SquishIt.Framework.Css
             }
         }
 
-        private static IEnumerable<string> FindDistinctLocalRelativePathsThatExist(string css)
+        private static IEnumerable<string> FindDistinctLocalRelativePathsThatExist (string css) 
         {
-            var matches = Regex.Matches(css, @"url\([""']{0,1}(.+?)[""']{0,1}\)", RegexOptions.IgnoreCase);
-            var matchesHash = new HashSet<string>();
-            foreach (Match match in matches)
+            var matches = Regex.Matches (css, @"url\([""']{0,1}(.+?)[""']{0,1}\)", RegexOptions.IgnoreCase);
+            var matchesHash = new HashSet<string> ();
+            foreach (Match match in matches) 
             {
                 var path = match.Groups[1].Captures[0].Value;
-                if (!path.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
+                if (!path.StartsWith ("http", StringComparison.InvariantCultureIgnoreCase)) 
                 {
-                    if (matchesHash.Add(path))
+                    if (matchesHash.Add (path)) 
                     {
                         yield return path;
                     }

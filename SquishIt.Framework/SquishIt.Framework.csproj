@@ -88,6 +88,7 @@
     <Compile Include="Base\BundleState.cs" />
     <Compile Include="Base\IBundle.cs" />
     <Compile Include="Coffee\CoffeescriptCompiler.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="IBundleCache.cs" />
     <Compile Include="Minifiers\IMinifier.cs" />
     <Compile Include="Bundle.cs" />
