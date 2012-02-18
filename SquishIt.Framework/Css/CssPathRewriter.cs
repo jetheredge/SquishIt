@@ -8,48 +8,85 @@ namespace SquishIt.Framework.Css
 {
     public class CSSPathRewriter
     {
-        public static string RewriteCssPaths(string outputPath, string sourcePath, string css, ICssAssetsFileHasher cssAssetsFileHasher, bool asImport = false)
-        {
+        public static string RewriteCssPaths (string outputPath, string sourcePath, string css, ICssAssetsFileHasher cssAssetsFileHasher, bool asImport = false) {
             //see http://stackoverflow.com/questions/3692818/uri-makerelativeuri-behavior-on-mono
-            if (FileSystem.Unix)
+            if (FileSystem.Unix) 
             {
                 outputPath += "/";
             }
 
-            var sourceDirectory = Path.GetDirectoryName(sourcePath) + "/";
-            var outputUri = new Uri(Path.GetDirectoryName(outputPath) + "/", UriKind.Absolute);
+            var sourceDirectory = Path.GetDirectoryName (sourcePath) + "/";
+            var outputUri = new Uri (Path.GetDirectoryName (outputPath) + "/", UriKind.Absolute);
 
-            var relativePaths = FindDistinctRelativePathsIn(css);
+            var relativePaths = FindDistinctRelativePathsIn (css);
 
-            foreach (string relativePath in relativePaths)
+            foreach (string relativePath in relativePaths) 
             {
-                var resolvedSourcePath = new Uri(Path.Combine(sourceDirectory, relativePath));
-                var resolvedOutput = outputUri.MakeRelativeUri(resolvedSourcePath);
-                var newRelativePath = asImport ? "squishit://" + resolvedOutput.OriginalString : resolvedOutput.OriginalString;
+                var resolvedSourcePathString = Path.Combine (sourceDirectory, relativePath);
 
-                css = ReplaceRelativePathsIn(css, relativePath, newRelativePath);
+                var resolvedSourcePath = new Uri (resolvedSourcePathString);
+
+                var resolvedOutput = ApplyUnixFix (outputUri.MakeRelativeUri (resolvedSourcePath).OriginalString);
+
+                var newRelativePath = asImport ? "squishit://" + resolvedOutput : resolvedOutput;
+
+                css = ReplaceRelativePathsIn (css, relativePath, newRelativePath);
             }
 
-            if (!asImport)
+            if (!asImport) 
             {
-                css = css.Replace("squishit://", "");
+                css = css.Replace ("squishit://", "");
             }
 
-            if (cssAssetsFileHasher != null)
+            if (cssAssetsFileHasher != null) 
             {
-                var localRelativePathsThatExist = FindDistinctLocalRelativePathsThatExist(css);
+                var localRelativePathsThatExist = FindDistinctLocalRelativePathsThatExist (css);
 
-                foreach (string localRelativePathThatExist in localRelativePathsThatExist)
+                foreach (string localRelativePathThatExist in localRelativePathsThatExist) 
                 {
-                    var localRelativePathThatExistWithFileHash = cssAssetsFileHasher.AppendFileHash(outputPath, localRelativePathThatExist);
+                    var localRelativePathThatExistWithFileHash = cssAssetsFileHasher.AppendFileHash (outputPath, localRelativePathThatExist);
 
-                    if (localRelativePathThatExist != localRelativePathThatExistWithFileHash)
+                    if (localRelativePathThatExist != localRelativePathThatExistWithFileHash) 
                     {
-                        css = css.Replace(localRelativePathThatExist, localRelativePathThatExistWithFileHash);
+                        css = css.Replace (localRelativePathThatExist, localRelativePathThatExistWithFileHash);
                     }
                 }
             }
             return css;
+        }
+
+        static string ApplyUnixFix (string newRelativePath) 
+        {
+            if (FileSystem.Unix) 
+            {
+                var pathWithoutLeadingUps = newRelativePath.TrimStart ('.', '/');
+                var leadingUps = (newRelativePath.Length - pathWithoutLeadingUps.Length) / 3;
+                var directoriesUp = (pathWithoutLeadingUps.Length - pathWithoutLeadingUps.Replace ("../", "").Length) / 3;
+
+                var finalPath = "";
+                for (var i = 0; i < leadingUps; i++) 
+                {
+                    finalPath += "../";
+                }
+
+                if (pathWithoutLeadingUps.Contains ("../")) 
+                {
+                    var pieces = pathWithoutLeadingUps.Split (new[] { "../" }, StringSplitOptions.RemoveEmptyEntries);
+                    var startPieces = pieces[0].Split ('/');
+
+                    for (var i = 0; i < (startPieces.Length - 1 - directoriesUp); i++) 
+                    {
+                        finalPath += startPieces[i];
+                    }
+                    finalPath = Path.Combine (finalPath, pieces[1]);
+                }
+                else 
+                {
+                    finalPath += pathWithoutLeadingUps;
+                }
+                newRelativePath = finalPath;
+            }
+            return newRelativePath;
         }
 
         private static string ReplaceRelativePathsIn(string css, string oldPath, string newPath)
