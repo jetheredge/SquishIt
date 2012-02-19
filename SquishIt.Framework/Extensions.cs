@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace SquishIt.Framework
 {
@@ -16,34 +18,33 @@ namespace SquishIt.Framework
 
         internal static string MakeRelativePathTo (this Uri from, Uri to) 
         {
-            var combined = from.MakeRelativeUri (to);
-            if (FileSystem.Unix) 
+            var relativePath = from.MakeRelativeUri (to).OriginalString;
+            if (FileSystem.Unix)
             {
-                var newRelativePath = combined.OriginalString;
-                var pathWithoutLeadingUps = newRelativePath.TrimStart ('.', '/');
-                var leadingUps = (newRelativePath.Length - pathWithoutLeadingUps.Length) / 3;
-                var directoriesUp = (pathWithoutLeadingUps.Length - pathWithoutLeadingUps.Replace ("../", "").Length) / 3;
+                const string parentInPath = "../";
+                var relativePathWithoutLeadingParents = relativePath.TrimStart (parentInPath);
 
-                var finalPath = "";
-                for (var i = 0; i < leadingUps; i++) 
+                //this means URI's weren't properly combined - need to split and go up appropriate # of directories)
+                if (relativePathWithoutLeadingParents.Contains (parentInPath))
                 {
-                    finalPath += "../";
-                }
+                    //first build the correct root path
+                    var finalRoot = new StringBuilder ();
 
-                if (pathWithoutLeadingUps.Contains ("../")) {
-                    var pieces = pathWithoutLeadingUps.Split (new[] { "../" }, StringSplitOptions.RemoveEmptyEntries);
-                    var startPieces = pieces[0].Split ('/');
+                    var parentsTrimmedFromStart = (relativePath.Length - relativePathWithoutLeadingParents.Length) / parentInPath.Length;
+                    Enumerable.Range(0, parentsTrimmedFromStart)
+                        .Aggregate(finalRoot, (sb, i) => sb.Append(parentInPath));
 
-                    for (var i = 0; i < (startPieces.Length - 1 - directoriesUp); i++) 
-                    {
-                        finalPath += startPieces[i];
-                    }
-                    finalPath = Path.Combine (finalPath, pieces[1]);
-                    return finalPath;
+                    var piecesSeparatedByInvalidParent = relativePathWithoutLeadingParents.Split (new[] { parentInPath }, StringSplitOptions.RemoveEmptyEntries);
+                    var parentsToAscend = (relativePathWithoutLeadingParents.Length - relativePathWithoutLeadingParents.Replace (parentInPath, "").Length) / 3;
+                    var startPieces = piecesSeparatedByInvalidParent[0].Split (Path.DirectorySeparatorChar);
+
+                    startPieces.Take(startPieces.Length - 1 - parentsToAscend)
+                        .Aggregate(finalRoot, (sb, s) => sb.Append(s));
+
+                    return Path.Combine (finalRoot.ToString(), piecesSeparatedByInvalidParent[1]);
                 }
-                return finalPath + pathWithoutLeadingUps;
             }
-            return combined.OriginalString;
+            return relativePath;
         }
     }
 }
