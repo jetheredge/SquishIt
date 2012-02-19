@@ -331,22 +331,10 @@ namespace SquishIt.Tests
                                                     ";
             string sourceFile = TestUtilities.PreparePath(@"C:\somepath\somesubpath\myfile.css");
             string targetFile = TestUtilities.PreparePath(@"C:\somepath\output.css");
-            string result = CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
 
             //concrete result doesn't matter here (since input isn't valid)
             //the only important thing is that it shouldn't throw exceptions
-            string expected =
-                @"
-                                                        .header {
-                                                                background-image: URL(""somesubpath/*/img/something.jpg"");
-                                                                background-image: url(../documents/usr8/local/temp/1/d1b73b93-5ff0-11de-9339-0017317c60aa); 
-                                                        }
-
-                                                        .footer {
-                                                                background-image: uRL(""somesubpath/..c:/1/2/somethingelse.jpg"");
-                                                        }
-                                                    ";
-            Assert.AreEqual(expected, result);
+            Assert.DoesNotThrow(() => CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher));
         }
 
         [Test]
