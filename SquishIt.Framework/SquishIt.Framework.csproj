@@ -87,6 +87,7 @@
     <Compile Include="Base\BundleBase.cs" />
     <Compile Include="Base\BundleState.cs" />
     <Compile Include="Base\IBundle.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="IBundleCache.cs" />
     <Compile Include="IPreprocessor.cs" />
     <Compile Include="Minifiers\IMinifier.cs" />
