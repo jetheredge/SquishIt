@@ -88,6 +88,7 @@
   <ItemGroup>
     <Compile Include="AssetsFileHasherTests.cs" />
     <Compile Include="Coffee\CoffeescriptCompilerTests.cs" />
+    <Compile Include="ScriptPreprocessorPipelineTests.cs" />
     <Compile Include="CssBundleTests.cs" />
     <Compile Include="CssCompressorsTests.cs" />
     <Compile Include="CssPathRewriterTests.cs" />
@@ -98,7 +99,7 @@
     <Compile Include="JavaScriptMinifierTests.cs" />
     <Compile Include="MultipleWorkerProcessesTests.cs" />
     <Compile Include="LessTests.cs" />
-    <Compile Include="PreprocessorPipelineTests.cs" />
+    <Compile Include="StylePreprocessorPipelineTests.cs" />
     <Compile Include="SassTests.cs" />
     <Compile Include="Stubs\PreprocessorScope.cs" />
     <Compile Include="Stubs\StubBundleCache.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="FileSystemResolverTests.cs" />
     <Compile Include="Stubs\StubHasher.cs" />
     <Compile Include="Helpers\TestUtilities.cs" />
+    <Compile Include="Stubs\StubPreprocessors.cs" />
     <Compile Include="Stubs\StubResolver.cs" />
   </ItemGroup>
   <ItemGroup>
