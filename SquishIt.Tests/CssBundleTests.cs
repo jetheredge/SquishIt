@@ -137,6 +137,42 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanBundleCssVaryingOutputBaseHrefRendersIndependantUrl()
+        {
+            //Verify that depending on basehref, we get independantly cached and returned URLs
+            CSSBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
+                .WithDebuggingEnabled(false)
+                .Create();
+
+            cssBundleFactory.FileReaderFactory.SetContents(css);
+
+            string tag = cssBundle
+                            .Add("/css/first.css")
+                            .Add("/css/second.css")
+                            .WithOutputBaseHref("http//subdomain.domain.com")
+                            .Render("/css/output.css");
+
+            CSSBundle cssBundleNoBaseHref = cssBundleFactory
+                .WithHasher(hasher)
+                .WithDebuggingEnabled(false)
+                .Create();
+
+            cssBundleFactory.FileReaderFactory.SetContents(css);
+
+            string tagNoBaseHref = cssBundleNoBaseHref
+                            .Add("/css/first.css")
+                            .Add("/css/second.css")
+                            .Render("/css/output.css");
+
+           Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"http//subdomain.domain.com/css/output.css?r=C33D1225DED9D889876CEE87754EE305\" />", tag);
+           Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output.css?r=C33D1225DED9D889876CEE87754EE305\" />", tagNoBaseHref);
+           Console.WriteLine("WithBaseHref:" + tag);
+           Console.WriteLine("NoBaseHref:" + tagNoBaseHref);
+        }
+
+
+        [Test]
         public void CanBundleCssWithQueryStringParameter()
         {
             CSSBundle cssBundle = cssBundleFactory
