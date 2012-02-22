@@ -80,17 +80,24 @@ namespace SquishIt.Framework.Utilities
 			return CreateSharableMutex(mutexName);
 		}
 
-		private static Mutex CreateSharableMutex(string name)
-		{
-			// Creates a mutex sharable by more than one process
-			var mutexSecurity = new MutexSecurity();
-			var everyoneSid = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
-			mutexSecurity.AddAccessRule(new MutexAccessRule(everyoneSid, MutexRights.FullControl, AccessControlType.Allow));
+        private static Mutex CreateSharableMutex (string name) 
+        {
+            // Creates a mutex sharable by more than one process
 
-			// The constructor will either create new mutex or open
-			// an existing one, in a thread-safe manner
-			bool createdNew;
-			return new Mutex(false, name, out createdNew, mutexSecurity);
-		}
+            // The constructor will either create new mutex or open
+            // an existing one, in a thread-safe manner
+            bool createdNew;
+
+            var everyoneSid = new SecurityIdentifier (WellKnownSidType.WorldSid, null);
+
+            if (FileSystem.Unix) 
+            {
+                //MutexAccessRules don't seem to work on mono yet: http://lists.ximian.com/pipermail/mono-list/2008-August/039294.html
+                return new Mutex (false, name, out createdNew);
+            }
+            var mutexSecurity = new MutexSecurity ();
+            mutexSecurity.AddAccessRule (new MutexAccessRule (everyoneSid, MutexRights.FullControl, AccessControlType.Allow));
+            return new Mutex (false, name, out createdNew, mutexSecurity);
+        }
 	}
 }
