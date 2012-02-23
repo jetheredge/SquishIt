@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Web;
 using SquishIt.Framework.Minifiers;
 using SquishIt.Framework.Resolvers;
@@ -41,13 +40,6 @@ namespace SquishIt.Framework.Base
                 return minifier ?? DefaultMinifier;
             }
             set { minifier = value; }
-        }
-
-        private IFilePathMutexProvider mutexProvider;
-        protected IFilePathMutexProvider MutexProvider
-        {
-            get { return mutexProvider ?? (mutexProvider = FilePathMutexProvider.Instance); }
-            set { mutexProvider = value; }
         }
 
         protected string HashKeyName { get; set; }
@@ -435,9 +427,7 @@ namespace SquishIt.Framework.Base
             string content;
             if (!bundleCache.TryGetValue(key, out content))
             {
-                var renderMutex = MutexProvider.GetMutexForPath(renderTo);
-                renderMutex.WaitOne();
-                try
+                using(new CriticalRenderingSection(renderTo))
                 {
                     if (!bundleCache.TryGetValue(key, out content))
                     {
@@ -528,10 +518,6 @@ namespace SquishIt.Framework.Base
 
                         content += String.Concat(GetFilesForRemote(remoteAssetPaths, bundleState), renderedTag);
                     }
-                }
-                finally
-                {
-                    renderMutex.ReleaseMutex();
                 }
                 bundleCache.Add(key, content, DependentFiles);
             }
