@@ -299,6 +299,10 @@ namespace SquishIt.Framework.Base
         private string Render(string renderTo, string key, IRenderer renderer)
         {
             key = CachePrefix + key;
+            if (!String.IsNullOrEmpty(BaseOutputHref))
+            {
+                key = BaseOutputHref + key;
+            }
 
             if (debugStatusReader.IsDebuggingEnabled())
             {

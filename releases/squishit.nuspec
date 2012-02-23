@@ -10,7 +10,8 @@
     <description>SquishIt lets you easily compress and combine JavaScript and CSS.</description>
     <dependencies>
       <dependency id="YUICompressor.NET" version="1.7.0.0" />
-      <dependency id="AjaxMin" version="4.42.4387.23950" />
+
+	  <dependency id="AjaxMin" version="4.46.4422.26284" />
     </dependencies>
   </metadata>
   <files>
