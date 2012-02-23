@@ -1,7 +1,7 @@
 <package>
   <metadata>
     <id>SquishIt</id>
-    <version>0.8.5</version>
+    <version>0.8.6</version>
     <authors>Justin Etheredge</authors>
 	<owners>Justin Etheredge</owners>
     <description>
@@ -11,7 +11,7 @@
 	<dependencies>
       <dependency id="YUICompressor.NET" version="1.7.0.0" />
 	  <dependency id="dotless" version="1.2.2.0" />
-	  <dependency id="AjaxMin" version="4.45.4416.14249" />
+	  <dependency id="AjaxMin" version="4.46.4422.26284" />
 	  <dependency id="Jurassic" version="2.1.1" />
     </dependencies>
   </metadata>
