@@ -1,13 +1,13 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt", "SquishIt\SquishIt.csproj", "{A1A13E41-740B-46DF-8E95-8D5D825448B7}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.Framework", "SquishIt.Framework\SquishIt.Framework.csproj", "{50C3BC24-E534-4B78-8E8E-CB2C4053321D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.Tests", "SquishIt.Tests\SquishIt.Tests.csproj", "{9C25B211-82E0-43AC-A68C-4346E642D16C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishItAspNetTest", "SquishItAspNetTest\SquishItAspNetTest.csproj", "{0AACFCB5-E2AF-45FC-BFB1-3F5126C23F45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.Mvc", "SquishIt.Mvc\SquishIt.Mvc.csproj", "{A9F9331C-C3AA-4844-AB33-7714761F725D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A1A13E41-740B-46DF-8E95-8D5D825448B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1A13E41-740B-46DF-8E95-8D5D825448B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1A13E41-740B-46DF-8E95-8D5D825448B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1A13E41-740B-46DF-8E95-8D5D825448B7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{50C3BC24-E534-4B78-8E8E-CB2C4053321D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{50C3BC24-E534-4B78-8E8E-CB2C4053321D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50C3BC24-E534-4B78-8E8E-CB2C4053321D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -31,8 +27,25 @@ Global
 		{0AACFCB5-E2AF-45FC-BFB1-3F5126C23F45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AACFCB5-E2AF-45FC-BFB1-3F5126C23F45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AACFCB5-E2AF-45FC-BFB1-3F5126C23F45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9F9331C-C3AA-4844-AB33-7714761F725D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9F9331C-C3AA-4844-AB33-7714761F725D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9F9331C-C3AA-4844-AB33-7714761F725D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9F9331C-C3AA-4844-AB33-7714761F725D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = SquishIt\SquishIt.csproj
+		Policies = $0
+		$0.TextStylePolicy = $1
+		$1.FileWidth = 120
+		$1.inheritsSet = VisualStudio
+		$1.inheritsScope = text/plain
+		$1.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $2
+		$2.inheritsSet = Mono
+		$2.inheritsScope = text/x-csharp
+		$2.scope = text/x-csharp
 	EndGlobalSection
 EndGlobal
