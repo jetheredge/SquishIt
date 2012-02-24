@@ -9,3 +9,4 @@ test-results/
 SquishItAspNetTest/css/combined*
 SquishItAspNetTest/js/combined*
 SquishItAspNetTest/combined*
+*.dotCover
