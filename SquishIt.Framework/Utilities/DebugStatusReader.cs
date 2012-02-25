@@ -26,7 +26,7 @@ namespace SquishIt.Framework.Utilities
             {                
                 //check retail setting in machine.config
                 //Thanks Dave Ward! http://www.encosia.com
-                Configuration machineConfig = ConfigurationManager.OpenMachineConfiguration();
+                System.Configuration.Configuration machineConfig = ConfigurationManager.OpenMachineConfiguration();
                 var group = machineConfig.GetSectionGroup("system.web");
                 if (group != null)
                 {

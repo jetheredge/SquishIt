@@ -24,5 +24,10 @@ namespace SquishIt.Framework
         {
             return new CSSBundle(debugStatusReader);
         }
+
+        public static Configuration ConfigureDefaults()
+        {
+            return new Configuration();
+        }
     }
 }
