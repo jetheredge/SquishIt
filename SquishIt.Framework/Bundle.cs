@@ -7,8 +7,14 @@ namespace SquishIt.Framework
     {
         public static JavaScriptBundle JavaScript()
         {
-            return new JavaScriptBundle();
+            return JavaScript<JavaScriptBundle>();
         }
+
+        public static JavaScriptBundle JavaScript<TBundle>()
+            where TBundle : JavaScriptBundle, new()
+        {
+            return new TBundle();
+        }        
 
         public static JavaScriptBundle JavaScript(Utilities.IDebugStatusReader debugStatusReader)
         {

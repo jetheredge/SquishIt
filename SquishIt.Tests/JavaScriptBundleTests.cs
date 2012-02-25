@@ -659,5 +659,57 @@ namespace SquishIt.Tests
             var minifiedScript = "function product(n,t){return n*t}function sum(n,t){return n+t}function sub(n,t){return n-t}function div(n,t){return n/t}";
             Assert.AreEqual(minifiedScript, writerFactory.Files[TestUtilities.PrepareRelativePath(@"output.js")]);
         }
+
+        [Test]
+        public void CanBundleJavaScriptWithCustomBundler()
+        {
+            var js2Format = "{0}{1}";
+
+            var subtract = "function sub(a,b){return a-b}";
+            var divide = "function div(a,b){return a/b}";
+
+            var writerFactory = new StubFileWriterFactory();
+
+            var tag = new JavaScriptBundleFactory()
+                    .WithDebuggingEnabled(false)
+                    .WithFileWriterFactory(writerFactory)
+                    .WithHasher(new StubHasher("hashy"))
+                    .Create<StubCustomJavaScriptBundler>(details => new StubCustomJavaScriptBundler(details.DebugStatusReader, details.FileWriterFactory, details.FileReaderFactory, details.CurrentDirectoryWrapper, details.Hasher, details.BundleCache))
+                    .AddString(javaScript)
+                    .AddString(js2Format, subtract, divide)
+                    .Render("~/output.js");
+
+            var expectedTag = "<script type=\"text/javascript\" src=\"output.js?r=hashy\"></script>";
+            Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+
+            var minifiedScript = "function product(n,t){return n*t}function sum(n,t){return n+t}function sub(n,t){return n-t}function div(n,t){return n/t}";
+            Assert.AreEqual(minifiedScript, writerFactory.Files[TestUtilities.PrepareRelativePath(@"output.js")]);
+        }
+
+        [Test]
+        public void CanBundleJavaScriptWithoutHashWithCustomBundler()
+        {
+            var js2Format = "{0}{1}";
+
+            var subtract = "function sub(a,b){return a-b}";
+            var divide = "function div(a,b){return a/b}";
+
+            var writerFactory = new StubFileWriterFactory();
+
+            var tag = new JavaScriptBundleFactory()
+                    .WithDebuggingEnabled(false)
+                    .WithFileWriterFactory(writerFactory)
+                    .WithHasher(new StubHasher("hashy"))
+                    .Create<StubCustomNoHashJavaScriptBundler>(details => new StubCustomNoHashJavaScriptBundler(details.DebugStatusReader, details.FileWriterFactory, details.FileReaderFactory, details.CurrentDirectoryWrapper, details.Hasher, details.BundleCache))
+                    .AddString(javaScript)
+                    .AddString(js2Format, subtract, divide)
+                    .Render("~/output.js");
+
+            var expectedTag = "<script type=\"text/javascript\" src=\"output.js\"></script>";
+            Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+
+            var minifiedScript = "function product(n,t){return n*t}function sum(n,t){return n+t}function sub(n,t){return n-t}function div(n,t){return n/t}";
+            Assert.AreEqual(minifiedScript, writerFactory.Files[TestUtilities.PrepareRelativePath(@"output.js")]);
+        }
     }
 }

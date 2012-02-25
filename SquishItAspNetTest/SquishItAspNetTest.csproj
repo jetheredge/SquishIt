@@ -90,6 +90,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bundlers\NoHashJavaScriptBundler.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

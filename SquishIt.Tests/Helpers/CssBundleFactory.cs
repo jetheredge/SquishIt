@@ -4,9 +4,20 @@ using SquishIt.Framework.Files;
 using SquishIt.Framework.Tests.Mocks;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Stubs;
+using System;
 
 namespace SquishIt.Tests.Helpers
 {
+    internal class BundleFactoryDetails
+    {
+        public IDebugStatusReader DebugStatusReader { get; set; }
+        public IFileWriterFactory FileWriterFactory { get; set; }
+        public IFileReaderFactory FileReaderFactory { get; set; }
+        public ICurrentDirectoryWrapper CurrentDirectoryWrapper { get; set; }
+        public IHasher Hasher { get; set; }
+        public IBundleCache BundleCache { get; set; }
+    }
+
     internal class JavaScriptBundleFactory
     {
         private IDebugStatusReader debugStatusReader = new StubDebugStatusReader();
@@ -51,13 +62,38 @@ namespace SquishIt.Tests.Helpers
 
         public JavaScriptBundle Create()
         {
-            return new JavaScriptBundle(debugStatusReader, fileWriterFactory, fileReaderFactory, currentDirectoryWrapper, hasher, bundleCache);
+            return this.Create<JavaScriptBundle>((details) => new JavaScriptBundle(details.DebugStatusReader, details.FileWriterFactory, details.FileReaderFactory, details.CurrentDirectoryWrapper, details.Hasher, details.BundleCache));
+        }       
+
+        public JavaScriptBundle Create<TBundle>(Func<BundleFactoryDetails, TBundle> bundleCreator)
+            where TBundle : JavaScriptBundle
+        {
+            return bundleCreator(this.GetDetails());
+        }
+
+        public JavaScriptBundle Create<TBundle>(Func<TBundle> bundleCreator)
+            where TBundle : JavaScriptBundle
+        {
+            return bundleCreator();
         }
 
         public JavaScriptBundleFactory WithContents(string css)
         {
             (fileReaderFactory as StubFileReaderFactory).SetContents(css);
             return this;
+        }
+
+        private BundleFactoryDetails GetDetails()
+        {
+            return new BundleFactoryDetails
+            {
+                BundleCache = this.bundleCache,
+                CurrentDirectoryWrapper = this.currentDirectoryWrapper,
+                DebugStatusReader = this.debugStatusReader,
+                FileReaderFactory = this.fileReaderFactory,
+                FileWriterFactory = this.fileWriterFactory,
+                Hasher = this.hasher
+            };
         }
     }
 }

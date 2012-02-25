@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
 using SquishIt.Framework;
+using SquishItAspNetTest.Bundlers;
 
 namespace SquishItAspNetTest
 {
@@ -17,6 +18,13 @@ namespace SquishItAspNetTest
                 .ForceRelease()
                 .Add("~/js/alert.js")
                 .AsNamed("test", "~/js/output_#.js");
+
+            // Example using no hash key.
+            //Bundle.JavaScript<NoHashJavaScriptBundle>()
+            //    .ForceRelease()
+            //    .Add("~/js/alert.js")
+            //    .AsNamed("test", "~/js/output-DontHashMeBro.js");
+            
         }
 
         protected void Session_Start(object sender, EventArgs e)
