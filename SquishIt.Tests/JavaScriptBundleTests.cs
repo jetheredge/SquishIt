@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using NUnit.Framework;
+using SquishIt.Framework.Css;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.Minifiers.JavaScript;
@@ -94,13 +95,45 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleJavaScriptWithQuerystringParameter()
+        public void CanBundleJsVaryingOutputBaseHrefRendersIndependantUrl() 
+        {
+            fileReaderFactory.SetContents(javaScript);
+
+            string tag = javaScriptBundle
+                            .Add("/js/first.js")
+                            .Add("/js/second.js")
+                            .WithOutputBaseHref("http//subdomain.domain.com")
+                            .Render("/js/output.js");
+
+
+            string tagNoBaseHref = javaScriptBundle2
+                            .Add("/js/first.js")
+                            .Add("/js/second.js")
+                            .Render("/js/output.js");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"http//subdomain.domain.com/js/output.js?r=42C40AB6B5ED5B2868E70CB08201F965\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"/js/output.js?r=42C40AB6B5ED5B2868E70CB08201F965\"></script>", tagNoBaseHref);
+        }
+
+        [Test]
+        public void CanBundleJavaScriptWithQuerystringParameter() 
         {
             var tag = javaScriptBundle
                     .Add("~/js/test.js")
                     .Render("~/js/output_querystring.js?v=2");
 
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_querystring.js?v=2&r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
+        }
+
+        [Test]
+        public void CanBundleJavaScriptWithoutRevisionHash() 
+        {
+            var tag = javaScriptBundle
+                    .Add("~/js/test.js")
+                    .WithoutRevisionHash()
+                    .Render("~/js/output_querystring.js?v=2");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_querystring.js?v=2\"></script>", tag);
         }
 
         [Test]

@@ -549,6 +549,11 @@ namespace SquishIt.Framework.Base
             return (T)this;
         }
 
+        public T WithoutRevisionHash()
+        {
+            return HashKeyNamed(string.Empty);
+        }
+
         protected virtual string BeforeMinify(string outputFile, List<string> files, IEnumerable<string> arbitraryContent)
         {
             var sb = new StringBuilder();

@@ -167,8 +167,6 @@ namespace SquishIt.Tests
 
            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"http//subdomain.domain.com/css/output.css?r=C33D1225DED9D889876CEE87754EE305\" />", tag);
            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output.css?r=C33D1225DED9D889876CEE87754EE305\" />", tagNoBaseHref);
-           Console.WriteLine("WithBaseHref:" + tag);
-           Console.WriteLine("NoBaseHref:" + tagNoBaseHref);
         }
 
 
@@ -187,6 +185,24 @@ namespace SquishIt.Tests
                             .Render("/css/output_querystring.css?v=1");
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_querystring.css?v=1&r=C33D1225DED9D889876CEE87754EE305\" />", tag);
+        }
+
+        [Test]
+        public void CanBundleCssWithoutRevisionHash() 
+        {
+            CSSBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
+                .WithContents(css)
+                .WithDebuggingEnabled(false)
+                .Create();
+
+            string tag = cssBundle
+                            .Add("/css/first.css")
+                            .Add("/css/second.css")
+                            .WithoutRevisionHash()
+                            .Render("/css/output_querystring.css?v=1");
+
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_querystring.css?v=1\" />", tag);
         }
 
         [Test]
