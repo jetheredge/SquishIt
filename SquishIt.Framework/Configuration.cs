@@ -9,13 +9,44 @@ namespace SquishIt.Framework
 {
     public class Configuration
     {
+        public Configuration UseMinifierForCss<TMinifier>()
+            where TMinifier : IMinifier<CSSBundle>
+        {
+            return UseMinifierForCss(typeof (TMinifier));
+        }
+
+        public Configuration UseMinifierForCss(Type minifierType)
+        {
+            if (!typeof(IMinifier<CSSBundle>).IsAssignableFrom(minifierType))
+                throw new InvalidCastException(
+                    String.Format("Type '{0}' must implement '{1}' to be used for Css minification.", 
+                        minifierType, typeof (IMinifier<CSSBundle>)));
+            _defaultCssMinifier = minifierType;
+            return this;
+        }
+
+        public Configuration UseMinifierForJs<TMinifier>()
+            where TMinifier : IMinifier<JavaScriptBundle>
+        {
+            return UseMinifierForJs(typeof (TMinifier));
+        }
+
+        public Configuration UseMinifierForJs(Type minifierType)
+        {
+            if (!typeof(IMinifier<JavaScriptBundle>).IsAssignableFrom(minifierType))
+                throw new InvalidCastException(
+                    String.Format("Type '{0}' must implement '{1}' to be used for Javascript minification.",
+                                  minifierType, typeof (IMinifier<JavaScriptBundle>)));
+            _defaultJsMinifier = minifierType;
+            return this;
+        }
+
         /// <summary>
         /// Use Yahoo YUI Compressor for CSS minification by default.
         /// </summary>
         public Configuration UseYuiForCssMinification()
         {
-            _defaultCssMinifier = typeof (YuiCompressor);
-            return this;
+            return UseMinifierForCss<YuiCompressor>();
         }
 
         /// <summary>
@@ -23,8 +54,7 @@ namespace SquishIt.Framework
         /// </summary>
         public Configuration UseMsAjaxForCssMinification()
         {
-            _defaultCssMinifier = typeof (MsCompressor);
-            return this;
+            return UseMinifierForCss<MsCompressor>();
         }
 
         /// <summary>
@@ -32,8 +62,7 @@ namespace SquishIt.Framework
         /// </summary>
         public Configuration UseNoCssMinification()
         {
-            _defaultCssMinifier = typeof (NullCompressor);
-            return this;
+            return UseMinifierForCss<NullCompressor>();
         }
 
         /// <summary>
@@ -41,8 +70,7 @@ namespace SquishIt.Framework
         /// </summary>
         public Configuration UseMsAjaxForJsMinification()
         {
-            _defaultJsMinifier = typeof (MsMinifier);
-            return this;
+            return UseMinifierForJs<MsMinifier>();
         }
 
         /// <summary>
@@ -50,8 +78,7 @@ namespace SquishIt.Framework
         /// </summary>
         public Configuration UseYuiForJsMinification()
         {
-            _defaultJsMinifier = typeof (YuiMinifier);
-            return this;
+            return UseMinifierForJs<YuiMinifier>();
         }
 
         /// <summary>
@@ -59,8 +86,7 @@ namespace SquishIt.Framework
         /// </summary>
         public Configuration UseClosureForMinification()
         {
-            _defaultJsMinifier = typeof (ClosureMinifier);
-            return this;
+            return UseMinifierForJs<ClosureMinifier>();
         }
 
         /// <summary>
@@ -68,8 +94,7 @@ namespace SquishIt.Framework
         /// </summary>
         public Configuration UseNoJsMinification()
         {
-            _defaultJsMinifier = typeof (NullMinifier);
-            return this;
+            return UseMinifierForJs<NullMinifier>();
         }
 
         /// <summary>
@@ -77,8 +102,7 @@ namespace SquishIt.Framework
         /// </summary>
         public Configuration UseJsMinForJsMinification()
         {
-            _defaultJsMinifier = typeof (JsMinMinifier);
-            return this;
+            return UseMinifierForJs<JsMinMinifier>();
         }
 
         static Type _defaultCssMinifier = typeof (MsCompressor);
