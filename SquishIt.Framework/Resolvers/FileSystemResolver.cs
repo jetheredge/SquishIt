@@ -17,11 +17,11 @@ namespace SquishIt.Framework.Resolvers
             return Directory.Exists(path);
         }
 
-        public IEnumerable<string> TryResolveFolder(string path, IEnumerable<string> allowedFileExtensions)
+        public IEnumerable<string> TryResolveFolder(string path, bool recursive, IEnumerable<string> allowedFileExtensions)
         {
             if (IsDirectory(path)) 
             {
-                var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories)
+              var files = Directory.GetFiles(path, "*.*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
                     .Where(
                         f => allowedFileExtensions == null || allowedFileExtensions.Any(x => f.EndsWith(x, StringComparison.InvariantCultureIgnoreCase)))
                     .ToArray();
