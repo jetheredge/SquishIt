@@ -80,7 +80,7 @@ namespace SquishIt.Framework.Base
             {
                 if (debugStatusReader.IsDebuggingEnabled())
                 {
-                    return GetFileSystemPath(asset.LocalPath);
+                    return GetFileSystemPath(asset.LocalPath, asset.IsRecursive);
                 }
 
                 if (asset.IsRemoteDownload)
@@ -89,7 +89,7 @@ namespace SquishIt.Framework.Base
                 }
                 else
                 {
-                    return GetFileSystemPath(asset.LocalPath);
+                    return GetFileSystemPath(asset.LocalPath, asset.IsRecursive);
                 }
             }
             else
@@ -108,20 +108,20 @@ namespace SquishIt.Framework.Base
             return inputFiles;
         }
 
-        private Input GetFileSystemPath(string localPath)
+        private Input GetFileSystemPath(string localPath, bool isRecursive = true)
         {
             string mappedPath = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
-            return new Input(mappedPath, ResolverFactory.Get<FileSystemResolver>());
+            return new Input(mappedPath, isRecursive, ResolverFactory.Get<FileSystemResolver>());
         }
 
         private Input GetHttpPath(string remotePath)
         {
-            return new Input(remotePath, ResolverFactory.Get<HttpResolver>());
+            return new Input(remotePath, false, ResolverFactory.Get<HttpResolver>());
         }
 
         private Input GetEmbeddedResourcePath(string resourcePath)
         {
-            return new Input(resourcePath, ResolverFactory.Get<EmbeddedResourceResolver>());
+            return new Input(resourcePath, false, ResolverFactory.Get<EmbeddedResourceResolver>());
         }
 
         private string ExpandAppRelativePath(string file)
@@ -196,6 +196,12 @@ namespace SquishIt.Framework.Base
         {
             AddAsset(new Asset(fileOrFolderPath));
             return (T)this;
+        }
+
+        public T AddDirectory(string folderPath, bool recursive = true)
+        {
+          AddAsset(new Asset(folderPath, isRecursive: recursive));
+          return (T)this;
         }
 
         public T AddString(string content)
