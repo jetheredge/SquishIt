@@ -55,7 +55,13 @@
                 .Add("~/css/import.css")
                 .WithAttribute("media", "screen")
                 .ForceRelease()
-                .Render("~/combinedimport_#.css") %>     
+                .Render("~/combinedimport_#.css") %>   
+    <!-- NonRecursive Test -->  
+    <%= Bundle.Css()
+                .AddDirectory("~/css/", true)
+                .WithAttribute("media", "screen")
+                .ForceDebug()
+                .Render("~/nonrecursivedirectory_#.css") %>     
     <form id="form1" runat="server">
     <div>
     

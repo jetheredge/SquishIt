@@ -78,7 +78,8 @@ namespace SquishIt.Tests
                 .WithDebuggingEnabled(true)
                 .Create();
 
-            cssBundle1.Add("/css/first.css", "/css/second.css");
+            // Obsolete Test
+            // cssBundle1.Add("/css/first.css", "/css/second.css");
             cssBundle2.Add("/css/first.css").Add("/css/second.css");
 
             var cssBundle1Assets = cssBundle1.bundleState.Assets;
