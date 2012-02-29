@@ -79,11 +79,11 @@ namespace SquishIt.Tests
                 .Create();
 
             // Obsolete Test
-            // cssBundle1.Add("/css/first.css", "/css/second.css");
+            cssBundle1.Add("/css/first.css", "/css/second.css");
             cssBundle2.Add("/css/first.css").Add("/css/second.css");
 
             var cssBundle1Assets = cssBundle1.bundleState.Assets;
-            var cssBundle2Assets = cssBundle1.bundleState.Assets;
+            var cssBundle2Assets = cssBundle2.bundleState.Assets;
 
             Assert.AreEqual(cssBundle1Assets.Count, cssBundle2Assets.Count);
             for (var i = 0; i < cssBundle1Assets.Count; i++)
