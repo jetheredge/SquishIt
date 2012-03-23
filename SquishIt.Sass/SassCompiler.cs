@@ -8,6 +8,7 @@ using Microsoft.Scripting.Hosting;
 
 namespace SquishIt.Sass
 {
+    //much thanks here to Paul Betts' SassAndCoffee project (https://github.com/xpaulbettsx/SassAndCoffee)
     public class SassCompiler
     {
         internal static string RootAppPath;
