@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Text.RegularExpressions;
 using SquishIt.Framework;
 
@@ -9,7 +6,7 @@ namespace SquishIt.Sass
 {
     public class SassPreprocessor : IPreprocessor
     {
-        private static string[] extensions = new string[] { ".sass", ".scss" };
+        private static string[] extensions = new[] { ".sass", ".scss" };
         private static Regex sassFiles = new Regex(@"(\.sass)|(\.scss)$", RegexOptions.Compiled);
 
         private static Regex isSass = new Regex(@"\.sass$", RegexOptions.Compiled);
