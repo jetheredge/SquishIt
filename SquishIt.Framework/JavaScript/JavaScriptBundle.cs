@@ -25,7 +25,7 @@ namespace SquishIt.Framework.JavaScript
 
         protected override IEnumerable<string> allowedExtensions
         {
-            get { return Bundle.AllowedGlobalExtensions.Union(Bundle.AllowedScriptExtensions); }
+            get { return instanceAllowedExtensions.Union(Bundle.AllowedGlobalExtensions.Union(Bundle.AllowedScriptExtensions)); }
         }
 
         protected override IEnumerable<string> disallowedExtensions 

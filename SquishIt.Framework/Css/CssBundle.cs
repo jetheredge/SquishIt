@@ -41,7 +41,7 @@ namespace SquishIt.Framework.Css
 
         protected override IEnumerable<string> allowedExtensions 
         {
-            get { return Bundle.AllowedGlobalExtensions.Union(Bundle.AllowedStyleExtensions); }
+            get { return instanceAllowedExtensions.Union(Bundle.AllowedGlobalExtensions.Union(Bundle.AllowedStyleExtensions)); }
         }
 
         protected override IEnumerable<string> disallowedExtensions 

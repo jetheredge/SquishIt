@@ -24,13 +24,17 @@ namespace SquishIt.Framework.Base
         protected ICurrentDirectoryWrapper currentDirectoryWrapper;
         protected IHasher hasher;
         protected abstract IMinifier<T> DefaultMinifier { get; }
-        protected abstract IEnumerable<string> allowedExtensions { get; }
-        protected abstract IEnumerable<string> disallowedExtensions { get; }
+
         protected abstract string tagFormat { get; }
         protected HashSet<string> arbitrary = new HashSet<string>();
         protected bool typeless;
         protected abstract string Template { get; }
         protected abstract string CachePrefix { get; }
+
+        protected List<string> instanceAllowedExtensions = new List<string>();
+        protected IList<IPreprocessor> instancePreprocessors = new List<IPreprocessor>();
+        protected abstract IEnumerable<string> allowedExtensions { get; }
+        protected abstract IEnumerable<string> disallowedExtensions { get; }
 
         private IMinifier<T> minifier;
         protected IMinifier<T> Minifier
@@ -126,7 +130,7 @@ namespace SquishIt.Framework.Base
             return new Input(resourcePath, ResolverFactory.Get<EmbeddedResourceResolver>());
         }
 
-        protected static IEnumerable<IPreprocessor> FindPreprocessors(string file) 
+        protected IEnumerable<IPreprocessor> FindPreprocessors(string file) 
         {
             //using rails convention of applying preprocessing based on file extension components in reverse order
             return file.Split('.')
@@ -154,9 +158,9 @@ namespace SquishIt.Framework.Base
             }
         }
 
-        static IPreprocessor FindPreprocessor(string extension) 
+        IPreprocessor FindPreprocessor(string extension) 
         {
-            return Bundle.Preprocessors.FirstOrDefault(p => p.ValidFor(extension));
+            return instancePreprocessors.Union(Bundle.Preprocessors).FirstOrDefault(p => p.ValidFor(extension));
         }
 
         private string ExpandAppRelativePath(string file)
@@ -587,6 +591,17 @@ namespace SquishIt.Framework.Base
         public T WithoutRevisionHash()
         {
             return HashKeyNamed(string.Empty);
+        }
+
+        public T WithPreprocessor(IPreprocessor instance)
+        {
+            //if it's already registered statically no need to add
+            if(!Bundle.Preprocessors.Any(pp => pp.GetType() == instance.GetType()))
+            {
+                instanceAllowedExtensions.AddRange(instance.Extensions);
+                instancePreprocessors.Add(instance);
+            }
+            return (T) this;
         }
 
         protected virtual string BeforeMinify(string outputFile, List<string> files, IEnumerable<string> arbitraryContent)
