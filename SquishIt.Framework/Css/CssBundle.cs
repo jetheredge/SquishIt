@@ -36,7 +36,7 @@ namespace SquishIt.Framework.Css
 
         protected override IMinifier<CSSBundle> DefaultMinifier
         {
-            get { return new MsCompressor(); }
+            get { return Configuration.DefaultCssMinifier(); }
         }
 
         public static void RegisterPreprocessor<T>() where T : IPreprocessor 

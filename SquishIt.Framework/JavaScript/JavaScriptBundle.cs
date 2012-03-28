@@ -20,7 +20,7 @@ namespace SquishIt.Framework.JavaScript
 
         protected override IMinifier<JavaScriptBundle> DefaultMinifier
         {
-            get { return new MsMinifier(); }
+            get { return Configuration.DefaultJsMinifier(); }
         }
 
         public static void RegisterPreprocessor<T>() where T : IPreprocessor
