@@ -20,7 +20,7 @@ namespace SquishIt.Framework.JavaScript
 
         protected override IMinifier<JavaScriptBundle> DefaultMinifier
         {
-            get { return new MsMinifier(); }
+            get { return Configuration.DefaultJsMinifier(); }
         }
 
         protected override IEnumerable<string> allowedExtensions

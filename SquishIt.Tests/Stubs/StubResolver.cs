@@ -20,8 +20,7 @@ namespace SquishIt.Tests.Stubs
             return _pathToResolveTo;
         }
 
-        public IEnumerable<string> TryResolveFolder(string path, IEnumerable<string> allowedFileExtensions, IEnumerable<string> disallowedFileExtensions) 
-        {
+        public IEnumerable<string> TryResolveFolder(string path, bool recursive, IEnumerable<string> allowedFileExtensions, IEnumerable<string> disallowedFileExtensions) {
             return _directoryContents
                 .Where(
                         f => (allowedFileExtensions == null
