@@ -206,7 +206,8 @@ namespace SquishIt.Framework.Base
 
         public T AddString(string content)
         {
-            arbitrary.Add(content);
+            if(!arbitrary.Contains(content))
+                arbitrary.Add(content);
             return (T)this;
         }
 
