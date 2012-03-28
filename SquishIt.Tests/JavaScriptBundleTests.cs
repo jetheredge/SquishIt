@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.IO;
 using NUnit.Framework;
 using SquishIt.Framework.Css;
@@ -397,6 +398,18 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanForceReleaseWithHashInFilename()
+        {
+            var tag = debugJavaScriptBundle
+                    .Add("~/js/test.js")
+                    .ForceRelease()
+                    .Render("~/js/output_forcerelease_#.js");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_forcerelease_36286D0CEA57C5ED24B868EB0D2898E9.js\"></script>", tag);
+            Assert.AreEqual ("function product(n,t){return n*t}function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_forcerelease_36286D0CEA57C5ED24B868EB0D2898E9.js")]);
+        }
+
+        [Test]
         public void CanBundleJavaScriptWithSingleAttribute()
         {
             var tag = javaScriptBundle
@@ -692,5 +705,79 @@ namespace SquishIt.Tests
             var minifiedScript = "function product(n,t){return n*t}function sum(n,t){return n+t}function sub(n,t){return n-t}function div(n,t){return n/t}";
             Assert.AreEqual(minifiedScript, writerFactory.Files[TestUtilities.PrepareRelativePath(@"output.js")]);
         }
+
+        [Test]
+        public void CanGetOutputUrlForSingleFileInDebugMode()
+        {
+            var names = debugJavaScriptBundle
+                    .Add("~/js/test1.js")
+                    .SquishAndGetUrls("~/js/output_#.js");
+
+            var str = string.Join(",", names.ToArray());
+            Assert.AreEqual("js/test1.js", str);
+        }
+
+        [Test]
+        public void CanGetOutputUrlsForMultipleFilesInDebugMode()
+        {
+            var names = debugJavaScriptBundle
+                    .Add("~/js/test1.js")
+                    .Add("~/js/test2.js")
+                    .SquishAndGetUrls("~/js/output_#.js");
+
+            var str = string.Join(",", names.ToArray());
+            Assert.AreEqual("js/test1.js,js/test2.js", str);
+        }
+
+        [Test]
+        public void CanGetOutputUrlForSingleFileInReleaseMode()
+        {
+            var names = javaScriptBundle
+                    .Add("~/js/test1.js")
+                    .SquishAndGetUrls("~/js/output_#.js");
+
+            var str = string.Join(",", names.ToArray());
+            Assert.AreEqual("js/output_36286D0CEA57C5ED24B868EB0D2898E9.js", str);
+
+            var minifiedScript = "function product(n,t){return n*t}function sum(n,t){return n+t}";
+            Assert.AreEqual (minifiedScript, fileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_36286D0CEA57C5ED24B868EB0D2898E9.js")]);
+        }
+
+        [Test]
+        public void CanGetOutputUrlForMultipleFilesInReleaseMode()
+        {
+            var file1 = TestUtilities.PrepareRelativePath("\\js\\test1.js");
+            var file2 = TestUtilities.PrepareRelativePath("\\js\\test2.js");
+            var subtract = @"function sub (a, b) {
+                                return a - b
+                             }";
+            var divide = @"function div (a, b) {
+                                return a / b
+                           }";
+            fileReaderFactory.SetContentsForFile(file1, javaScript);
+            fileReaderFactory.SetContentsForFile(file2, subtract + divide);
+
+            var nonDebugStatusReader = new StubDebugStatusReader(false);
+
+            javaScriptBundle = new JavaScriptBundle(nonDebugStatusReader,
+                                                        fileWriterFactory,
+                                                        fileReaderFactory,
+                                                        currentDirectoryWrapper,
+                                                        hasher,
+                                                        stubBundleCache);
+
+            var names = javaScriptBundle
+                    .Add("~/js/test1.js")
+                    .Add("~/js/test2.js")
+                    .SquishAndGetUrls("~/js/output_#.js");
+
+            var str = string.Join(",", names.ToArray());
+            Assert.AreEqual("js/output_9D7D22AD1BA5843A6E174D152332A1CC.js", str);
+
+            var minifiedScript = "function product(n,t){return n*t}function sum(n,t){return n+t}function sub(n,t){return n-t}function div(n,t){return n/t}";
+            var actualScript = fileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_9D7D22AD1BA5843A6E174D152332A1CC.js")];
+            Assert.AreEqual (minifiedScript, actualScript);
+        }
+
     }
 }

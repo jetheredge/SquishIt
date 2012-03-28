@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.IO;
 using NUnit.Framework;
 using SquishIt.Framework.Css;
@@ -1112,6 +1113,102 @@ namespace SquishIt.Tests
             string contents = cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_rewriting_url.css")];
 
             Assert.AreEqual("a.url{color:#4d926f}", contents);
+        }
+
+
+        [Test]
+        public void CanGetOutputUrlForSingleFileInDebugMode()
+        {
+            CSSBundle cssBundle = cssBundleFactory
+                .WithDebuggingEnabled(true)
+                .WithContents(css)
+                .Create();
+
+            var names = cssBundle
+                            .Add("~/css/first.css")
+                            .SquishAndGetUrls("/css/output.css");
+
+            var str = string.Join(",", names.ToArray());
+            Assert.AreEqual("css/first.css", str);
+        }
+
+        [Test]
+        public void CanGetOutputUrlsForMultipleFilesInDebugMode()
+        {
+            CSSBundle cssBundle = cssBundleFactory
+                .WithDebuggingEnabled(true)
+                .WithContents(css)
+                .Create();
+
+            var names = cssBundle
+                            .Add("~/css/first.css")
+                            .Add("~/css/second.css")
+                            .SquishAndGetUrls("/css/output.css");
+
+            var str = string.Join(",", names.ToArray());
+            Assert.AreEqual("css/first.css,css/second.css", str);
+        }
+
+        [Test]
+        public void CanGetOutputUrlForSingleFileInReleaseMode()
+        {
+            CSSBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
+                .WithDebuggingEnabled(false)
+                .Create();
+
+            var file1 = TestUtilities.PrepareRelativePath("\\css\\test1.css");
+
+            cssBundleFactory.FileReaderFactory.SetContentsForFile(file1, css);
+
+            var names = cssBundle
+                            .Add("~/css/test1.css")
+                            .SquishAndGetUrls("~/css/output_#.css");
+
+            var str = string.Join(",", names.ToArray());
+            Assert.AreEqual("css/output_67F81278D746D60E6F711B5A29747388.css", str);
+
+            Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
+            var expectedCss = "li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}";
+            var actualCss = cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_67F81278D746D60E6F711B5A29747388.css")];
+            Assert.AreEqual (expectedCss, actualCss);
+        }
+
+        [Test]
+        public void CanGetOutputUrlForMultipleFilesInReleaseMode()
+        {
+            CSSBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
+                .WithDebuggingEnabled(false)
+                .Create();
+
+            var file1 = TestUtilities.PrepareRelativePath("\\css\\test1.css");
+            var file2 = TestUtilities.PrepareRelativePath("\\css\\test2.css");
+            var title = @"#project-title {
+                                margin : 1em;
+                                font-size : 1.4em;
+                             }";
+            var footer = @"#footer {
+                                text-align : center;
+                                color : #777;
+                           }";
+
+            cssBundleFactory.FileReaderFactory.SetContentsForFile(file1, css);
+            cssBundleFactory.FileReaderFactory.SetContentsForFile(file2, title + footer);
+
+            var names = cssBundle
+                            .Add("~/css/test1.css")
+                            .Add("~/css/test2.css")
+                            .SquishAndGetUrls("~/css/output_#.css");
+
+            var str = string.Join(",", names.ToArray());
+            Assert.AreEqual("css/output_7C5F5473FDC374A1FDA7601DDB127D9A.css", str);
+
+            Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
+            var expectedCss = "li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}#project-title{margin:1em;font-size:1.4em}#footer{text-align:center;color:#777}";
+            var actualCss = cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_7C5F5473FDC374A1FDA7601DDB127D9A.css")];
+            Assert.AreEqual (expectedCss, actualCss);
+
         }
     }
 }

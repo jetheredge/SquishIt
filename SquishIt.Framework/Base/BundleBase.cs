@@ -501,6 +501,47 @@ namespace SquishIt.Framework.Base
             return content;
         }
 
+        /// <summary>
+        /// Renders the bundle and returns a list of the url(s) as appropriate. 
+        /// Useful when loading files on-demand (ex. jQuery.ajax, dojo.require, YUI.Get.script, etc).  
+        /// 
+        /// Example:
+        ///   Bundle()
+        ///     .Javascript()
+        ///     .Add("~/js/test1.js")
+        ///     .Add("~/js/test2.js")
+        ///     .SquishAndGetUrls("~/js/test_#.js")
+        ///
+        /// Output:
+        ///      If Debug, returns [ "/js/test1.js", "/js/test2.js" ]
+        ///      If Release, returns [ "/js/test_43958ADEC93DAC8037D2471A95382DE9.js" ]
+        /// </summary>
+        /// <param name="renderTo"></param>
+        /// <returns>A <see cref="IList{string}"/> of urls</returns>
+        public IList<string> SquishAndGetUrls(string renderTo)
+        {
+            var result = Render(renderTo);
+            var scripts = new List<string>();
+
+            var startToken = FileNameAttribute() + "=\"";
+            var endToken = "\"";
+            var start = result.IndexOf(startToken);
+            while (start != -1)
+            {
+                var nameStartIndex = start + startToken.Length;
+                var length = result.IndexOf(endToken, nameStartIndex) - nameStartIndex;
+                scripts.Add(result.Substring(nameStartIndex, length));
+                start = result.IndexOf(startToken, nameStartIndex + length);
+            }
+
+            return scripts;
+        }
+        private string FileNameAttribute()
+        {
+            // source attribute will either be "src" or "href"
+            return this.Template.Contains("src=\"") ? "src" : "href";
+        }
+
         public void ClearCache()
         {
             bundleCache.ClearTestingCache();
