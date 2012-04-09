@@ -6,6 +6,6 @@ namespace SquishIt.Framework.Resolvers
     {
         bool IsDirectory(string path);
         string TryResolve(string path);
-        IEnumerable<string> TryResolveFolder(string path, IEnumerable<string> allowedFileExtensions, IEnumerable<string> disallowedFileExtensions);
+        IEnumerable<string> TryResolveFolder(string path, bool recursive, IEnumerable<string> allowedExtensions, IEnumerable<string> disallowedExtensions);
     }
 }

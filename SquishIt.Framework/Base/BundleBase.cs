@@ -26,7 +26,7 @@ namespace SquishIt.Framework.Base
         protected abstract IMinifier<T> DefaultMinifier { get; }
 
         protected abstract string tagFormat { get; }
-        protected HashSet<string> arbitrary = new HashSet<string>();
+        protected List<string> arbitrary = new List<string>();
         protected bool typeless;
         protected abstract string Template { get; }
         protected abstract string CachePrefix { get; }
@@ -86,7 +86,7 @@ namespace SquishIt.Framework.Base
             {
                 if (debugStatusReader.IsDebuggingEnabled())
                 {
-                    return GetFileSystemPath(asset.LocalPath);
+                    return GetFileSystemPath(asset.LocalPath, asset.IsRecursive);
                 }
 
                 if (asset.IsRemoteDownload)
@@ -95,7 +95,7 @@ namespace SquishIt.Framework.Base
                 }
                 else
                 {
-                    return GetFileSystemPath(asset.LocalPath);
+                    return GetFileSystemPath(asset.LocalPath, asset.IsRecursive);
                 }
             }
             else
@@ -114,20 +114,20 @@ namespace SquishIt.Framework.Base
             return inputFiles;
         }
 
-        private Input GetFileSystemPath(string localPath)
+        private Input GetFileSystemPath(string localPath, bool isRecursive = true)
         {
             string mappedPath = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
-            return new Input(mappedPath, ResolverFactory.Get<FileSystemResolver>());
+            return new Input(mappedPath, isRecursive, ResolverFactory.Get<FileSystemResolver>());
         }
 
         private Input GetHttpPath(string remotePath)
         {
-            return new Input(remotePath, ResolverFactory.Get<HttpResolver>());
+            return new Input(remotePath, false, ResolverFactory.Get<HttpResolver>());
         }
 
         private Input GetEmbeddedResourcePath(string resourcePath)
         {
-            return new Input(resourcePath, ResolverFactory.Get<EmbeddedResourceResolver>());
+            return new Input(resourcePath, false, ResolverFactory.Get<EmbeddedResourceResolver>());
         }
 
         protected IEnumerable<IPreprocessor> FindPreprocessors(string file) 
@@ -237,9 +237,16 @@ namespace SquishIt.Framework.Base
             return (T)this;
         }
 
+        public T AddDirectory(string folderPath, bool recursive = true)
+        {
+          AddAsset(new Asset(folderPath, isRecursive: recursive));
+          return (T)this;
+        }
+
         public T AddString(string content)
         {
-            arbitrary.Add(content);
+            if(!arbitrary.Contains(content))
+                arbitrary.Add(content);
             return (T)this;
         }
 

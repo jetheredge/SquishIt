@@ -6,10 +6,12 @@ namespace SquishIt.Framework.Files
     {
         public string Path { get; private set; }
         public Resolvers.IResolver Resolver { get; private set; }
+        public bool IsRecursive { get; private set; }
 	
-        public Input(string filePath, Resolvers.IResolver resolver)
+        public Input(string filePath, bool recursive, Resolvers.IResolver resolver)
         {
             Path = filePath;
+            IsRecursive = recursive;
             Resolver = resolver;
         }
 
@@ -21,7 +23,7 @@ namespace SquishIt.Framework.Files
         {
             if (IsDirectory) 
             {
-                return Resolver.TryResolveFolder(Path, allowedExtensions, disallowedExtensions);
+                return Resolver.TryResolveFolder(Path, IsRecursive, allowedExtensions, disallowedExtensions);
             }
             else 
             {

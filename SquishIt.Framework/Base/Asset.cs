@@ -9,6 +9,7 @@ namespace SquishIt.Framework.Base
         internal int Order { get; set; }
         internal bool IsEmbeddedResource { get; set; }
         internal bool DownloadRemote { get; set; }
+        internal bool IsRecursive { get; set; }
 
         internal bool IsLocal
         {
@@ -34,12 +35,13 @@ namespace SquishIt.Framework.Base
         {
         }
 
-        internal Asset(string localPath, string remotePath = null, int order = 0, bool isEmbeddedResource = false)
+        internal Asset(string localPath, string remotePath = null, int order = 0, bool isEmbeddedResource = false, bool isRecursive = true)
         {
             LocalPath = localPath;
             RemotePath = remotePath;
             Order = order;
             IsEmbeddedResource = isEmbeddedResource;
+            IsRecursive = isRecursive;
         }
     }
 }
