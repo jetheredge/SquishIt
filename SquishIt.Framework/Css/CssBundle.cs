@@ -23,7 +23,7 @@ namespace SquishIt.Framework.Css
         private bool ShouldImport { get; set; }
         private bool ShouldAppendHashForAssets { get; set; }
 
-        
+
         protected override string Template
         {
             get { return CSS_TEMPLATE; }
@@ -39,14 +39,19 @@ namespace SquishIt.Framework.Css
             get { return Configuration.DefaultCssMinifier(); }
         }
 
-        protected override IEnumerable<string> allowedExtensions 
+        protected override IEnumerable<string> allowedExtensions
         {
             get { return instanceAllowedExtensions.Union(Bundle.AllowedGlobalExtensions.Union(Bundle.AllowedStyleExtensions)); }
         }
 
-        protected override IEnumerable<string> disallowedExtensions 
+        protected override IEnumerable<string> disallowedExtensions
         {
             get { return Bundle.AllowedScriptExtensions; }
+        }
+
+        protected override string defaultExtension
+        {
+            get { return ".CSS"; }
         }
 
         protected override string tagFormat
@@ -77,7 +82,7 @@ namespace SquishIt.Framework.Css
             {
                 var importPath = match.Groups[2].Value;
                 string import;
-                if (importPath.StartsWith("/"))
+                if(importPath.StartsWith("/"))
                 {
                     import = FileSystem.ResolveAppRelativePathToFileSystem(importPath);
                 }
@@ -102,12 +107,13 @@ namespace SquishIt.Framework.Css
             return this;
         }
 
-        protected override string BeforeMinify(string outputFile, List<string> filePaths, IEnumerable<string> arbitraryContent)
+        protected override string BeforeMinify(string outputFile, List<string> filePaths, IEnumerable<ArbitraryContent> arbitraryContent)
         {
             var outputCss = new StringBuilder();
 
-            filePaths.Select(file => ProcessCssFile (file, outputFile))
-                .Concat(arbitraryContent)
+            //TODO: deal w/ arbitrary extensions
+            filePaths.Select(file => ProcessCssFile(file, outputFile))
+                .Concat(arbitraryContent.Select(ac => ac.Content))
                 .Aggregate(outputCss, (builder, val) => builder.Append(val + "\n"));
 
             return outputCss.ToString();
@@ -115,13 +121,14 @@ namespace SquishIt.Framework.Css
 
         private string PreprocessCssFile(string file, IEnumerable<IPreprocessor> preprocessors)
         {
-            lock (typeof(CSSBundle))
+            lock(typeof(CSSBundle))
             {
                 return PreprocessFile(file, preprocessors);
             }
         }
 
-        string ProcessCssFile(string file, string outputFile, bool asImport = false) {
+        string ProcessCssFile(string file, string outputFile, bool asImport = false)
+        {
             string css = null;
 
             var preprocessors = FindPreprocessors(file);
@@ -135,14 +142,14 @@ namespace SquishIt.Framework.Css
                 css = ReadFile(file);
             }
 
-            if (ShouldImport)
+            if(ShouldImport)
             {
                 css = ProcessImport(file, outputFile, css);
             }
 
             ICssAssetsFileHasher fileHasher = null;
 
-            if (ShouldAppendHashForAssets)
+            if(ShouldAppendHashForAssets)
             {
                 var fileResolver = new FileSystemResolver();
                 fileHasher = new CssAssetsFileHasher(HashKeyName, fileResolver, hasher);
@@ -153,17 +160,17 @@ namespace SquishIt.Framework.Css
 
         internal override void BeforeRenderDebug()
         {
-            foreach (var asset in bundleState.Assets)
+            foreach(var asset in bundleState.Assets)
             {
                 var localPath = asset.LocalPath;
                 var preprocessors = FindPreprocessors(localPath);
-                if (preprocessors != null && preprocessors.Count() > 0)
+                if(preprocessors != null && preprocessors.Count() > 0)
                 {
                     string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
 
                     string css = PreprocessCssFile(outputFile, preprocessors);
                     outputFile += ".debug.css";
-                    using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
+                    using(var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
                     {
                         fileWriter.Write(css);
                     }

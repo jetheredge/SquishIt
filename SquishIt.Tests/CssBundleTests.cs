@@ -46,7 +46,7 @@ namespace SquishIt.Tests
                                 }");
 
 
-       
+
 
         private CssBundleFactory cssBundleFactory;
         private IHasher hasher;
@@ -78,7 +78,7 @@ namespace SquishIt.Tests
             var cssBundle2Assets = cssBundle2.bundleState.Assets;
 
             Assert.AreEqual(cssBundle1Assets.Count, cssBundle2Assets.Count);
-            for (var i = 0; i < cssBundle1Assets.Count; i++)
+            for(var i = 0; i < cssBundle1Assets.Count; i++)
             {
                 var assetBundle1 = cssBundle1Assets[i];
                 var assetBundle2 = cssBundle2Assets[i];
@@ -86,7 +86,7 @@ namespace SquishIt.Tests
                 Assert.AreEqual(assetBundle1.Order, assetBundle2.Order);
             }
         }
-        
+
         [Test]
         public void CanBundleCss()
         {
@@ -105,7 +105,7 @@ namespace SquishIt.Tests
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output.css?r=C33D1225DED9D889876CEE87754EE305\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
-            Assert.AreEqual ("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")]);
+            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")]);
         }
 
         [Test]
@@ -126,7 +126,7 @@ namespace SquishIt.Tests
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"http//subdomain.domain.com/css/output.css?r=C33D1225DED9D889876CEE87754EE305\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
-            Assert.AreEqual ("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath (@"css\output.css")]);
+            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")]);
         }
 
         [Test]
@@ -158,8 +158,8 @@ namespace SquishIt.Tests
                             .Add("/css/second.css")
                             .Render("/css/output.css");
 
-           Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"http//subdomain.domain.com/css/output.css?r=C33D1225DED9D889876CEE87754EE305\" />", tag);
-           Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output.css?r=C33D1225DED9D889876CEE87754EE305\" />", tagNoBaseHref);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"http//subdomain.domain.com/css/output.css?r=C33D1225DED9D889876CEE87754EE305\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output.css?r=C33D1225DED9D889876CEE87754EE305\" />", tagNoBaseHref);
         }
 
 
@@ -181,7 +181,7 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleCssWithoutRevisionHash() 
+        public void CanBundleCssWithoutRevisionHash()
         {
             CSSBundle cssBundle = cssBundleFactory
                 .WithHasher(hasher)
@@ -223,7 +223,7 @@ namespace SquishIt.Tests
         public void CanBundleCssWithRemote()
         {
             //this is rendering tag correctly but incorrectly(?) merging both files
-            using (new ResolverFactoryScope (typeof(Framework.Resolvers.HttpResolver).FullName, StubResolver.ForFile("http://www.someurl.com/css/first.css")))
+            using(new ResolverFactoryScope(typeof(Framework.Resolvers.HttpResolver).FullName, StubResolver.ForFile("http://www.someurl.com/css/first.css")))
             {
                 CSSBundle cssBundle = cssBundleFactory
                     .WithHasher(hasher)
@@ -235,9 +235,9 @@ namespace SquishIt.Tests
                     .AddRemote("/css/first.css", "http://www.someurl.com/css/first.css")
                     .Add("/css/second.css")
                     .Render("/css/output_remote.css");
-                Assert.AreEqual ("<link rel=\"stylesheet\" type=\"text/css\" href=\"http://www.someurl.com/css/first.css\" /><link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_remote.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
-                Assert.AreEqual (1, cssBundleFactory.FileWriterFactory.Files.Count);
-                Assert.AreEqual ("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath (@"css\output_remote.css")]);
+                Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"http://www.someurl.com/css/first.css\" /><link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_remote.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
+                Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
+                Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_remote.css")]);
             }
         }
 
@@ -254,10 +254,10 @@ namespace SquishIt.Tests
                             .AddEmbeddedResource("/css/first.css", "SquishIt.Tests://EmbeddedResource.Embedded.css")
                             .Render("/css/output_embedded.css");
 
-            Assert.AreEqual ("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_embedded.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_embedded.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
             Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}"
-                            , cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath (@"css\output_embedded.css")]);
+                            , cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_embedded.css")]);
         }
 
         [Test]
@@ -291,7 +291,7 @@ namespace SquishIt.Tests
 
             string tag = cssBundle.RenderNamed("Test");
 
-            Assert.AreEqual ("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath (@"css\output.css")]);
+            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")]);
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
         }
 
@@ -329,7 +329,7 @@ namespace SquishIt.Tests
 
             string tag = cssBundle.RenderNamed("TestWithMedia");
 
-            Assert.AreEqual ("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath (@"css\output.css")]);
+            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")]);
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"css/output.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
         }
 
@@ -411,7 +411,7 @@ namespace SquishIt.Tests
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/css_with_compressor_output.css?r=1D0C7C68EDD1B4BD490CCE557E427268\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
             Assert.AreEqual(" li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:400;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:400;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}"
-                            , cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath (@"css\css_with_compressor_output.css")]);
+                            , cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\css_with_compressor_output.css")]);
         }
 
         [Test]
@@ -429,9 +429,9 @@ namespace SquishIt.Tests
                             .WithMinifier<NullCompressor>()
                             .Render("/css/css_with_null_compressor_output.css");
 
-            Assert.AreEqual ("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/css_with_null_compressor_output.css?r=54F52AC95333FEFD5243AC373F573A07\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/css_with_null_compressor_output.css?r=54F52AC95333FEFD5243AC373F573A07\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
-            Assert.AreEqual (css + "\n" + css + "\n", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath (@"css\css_with_null_compressor_output.css")]);
+            Assert.AreEqual(css + "\n" + css + "\n", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\css_with_null_compressor_output.css")]);
         }
 
         [Test]
@@ -803,12 +803,14 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleDirectoryContentsInDebug() {
+        public void CanBundleDirectoryContentsInDebug()
+        {
             var path = Guid.NewGuid().ToString();
             var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.css");
             var file2 = TestUtilities.PrepareRelativePath(path + "\\file2.css");
 
-            using (new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 }))) {
+            using(new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, css2);
                 frf.SetContentsForFile(file2, css);
@@ -829,12 +831,14 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleDirectoryContentsInDebug_Ignores_Duplicates() {
+        public void CanBundleDirectoryContentsInDebug_Ignores_Duplicates()
+        {
             var path = Guid.NewGuid().ToString();
             var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.css");
             var file2 = TestUtilities.PrepareRelativePath(path + "\\file2.css");
 
-            using (new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 }))) {
+            using(new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, css2);
                 frf.SetContentsForFile(file2, css);
@@ -855,12 +859,14 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleDirectoryContentsInRelease() {
+        public void CanBundleDirectoryContentsInRelease()
+        {
             var path = Guid.NewGuid().ToString();
             var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.css");
             var file2 = TestUtilities.PrepareRelativePath(path + "\\file2.css");
 
-            using (new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 }))) {
+            using(new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, css2);
                 frf.SetContentsForFile(file2, css);
@@ -884,12 +890,14 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleDirectoryContentsInRelease_Ignores_Duplicates() {
+        public void CanBundleDirectoryContentsInRelease_Ignores_Duplicates()
+        {
             var path = Guid.NewGuid().ToString();
             var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.css");
             var file2 = TestUtilities.PrepareRelativePath(path + "\\file2.css");
 
-            using (new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 }))) {
+            using(new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, css2);
                 frf.SetContentsForFile(file2, css);
@@ -914,82 +922,82 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanRenderArbitraryStringsInDebug () 
+        public void CanRenderArbitraryStringsInDebug()
         {
             var css2Format = "{0}{1}";
 
             var hrColor = "hr {color:sienna;}";
             var p = "p {margin-left:20px;}";
 
-            var tag = new CssBundleFactory ()
-                .WithDebuggingEnabled (true)
-                .Create ()
-                .AddString (css)
-                .AddString (css2Format, hrColor, p)
-                .Render ("doesn't matter where...");
+            var tag = new CssBundleFactory()
+                .WithDebuggingEnabled(true)
+                .Create()
+                .AddString(css)
+                .AddString(css2Format, new[] { hrColor, p })
+                .Render("doesn't matter where...");
 
-            var expectedTag = string.Format ("<style type=\"text/css\">{0}</style>\n<style type=\"text/css\">{1}</style>\n", css, string.Format (css2Format, hrColor, p));
-            Assert.AreEqual (expectedTag, TestUtilities.NormalizeLineEndings (tag));
+            var expectedTag = string.Format("<style type=\"text/css\">{0}</style>\n<style type=\"text/css\">{1}</style>\n", css, string.Format(css2Format, hrColor, p));
+            Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
         }
 
         [Test]
-        public void CanRenderArbitraryStringsInDebugWithoutType () 
+        public void CanRenderArbitraryStringsInDebugWithoutType()
         {
             var css2Format = "{0}{1}";
 
             var hrColor = "hr {color:sienna;}";
             var p = "p {margin-left:20px;}";
 
-            var tag = new CssBundleFactory ()
-                .WithDebuggingEnabled (true)
-                .Create ()
-                .AddString (css)
-                .AddString (css2Format, hrColor, p)
-                .WithoutTypeAttribute ()
-                .Render ("doesn't matter where...");
+            var tag = new CssBundleFactory()
+                .WithDebuggingEnabled(true)
+                .Create()
+                .AddString(css)
+                .AddString(css2Format, new[] { hrColor, p })
+                .WithoutTypeAttribute()
+                .Render("doesn't matter where...");
 
-            var expectedTag = string.Format ("<style>{0}</style>\n<style>{1}</style>\n", css, string.Format (css2Format, hrColor, p));
-            Assert.AreEqual (expectedTag, TestUtilities.NormalizeLineEndings (tag));
+            var expectedTag = string.Format("<style>{0}</style>\n<style>{1}</style>\n", css, string.Format(css2Format, hrColor, p));
+            Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
         }
 
         [Test]
-        public void DoesNotRenderDuplicateArbitraryStringsInDebug () 
+        public void DoesNotRenderDuplicateArbitraryStringsInDebug()
         {
-            var tag = new CssBundleFactory ()
-                .WithDebuggingEnabled (true)
-                .Create ()
-                .AddString (css)
-                .AddString (css)
-                .Render ("doesn't matter where...");
+            var tag = new CssBundleFactory()
+                .WithDebuggingEnabled(true)
+                .Create()
+                .AddString(css)
+                .AddString(css)
+                .Render("doesn't matter where...");
 
-            var expectedTag = string.Format ("<style type=\"text/css\">{0}</style>\n", css);
-            Assert.AreEqual (expectedTag, TestUtilities.NormalizeLineEndings (tag));
+            var expectedTag = string.Format("<style type=\"text/css\">{0}</style>\n", css);
+            Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
         }
 
         [Test]
-        public void CanBundleArbitraryContentsInRelease () 
+        public void CanBundleArbitraryContentsInRelease()
         {
             var css2Format = "{0}{1}";
 
             var hrColor = "hr {color:sienna;}";
             var p = "p {margin-left:20px;}";
 
-            var writerFactory = new StubFileWriterFactory ();
+            var writerFactory = new StubFileWriterFactory();
 
-            var tag = new CssBundleFactory ()
-                    .WithDebuggingEnabled (false)
-                    .WithFileWriterFactory (writerFactory)
-                    .WithHasher (new StubHasher ("hashy"))
-                    .Create ()
-                    .AddString (css)
-                    .AddString (css2Format, hrColor, p)
-                    .Render ("~/output.css");
+            var tag = new CssBundleFactory()
+                    .WithDebuggingEnabled(false)
+                    .WithFileWriterFactory(writerFactory)
+                    .WithHasher(new StubHasher("hashy"))
+                    .Create()
+                    .AddString(css)
+                    .AddString(css2Format, new[] { hrColor, p })
+                    .Render("~/output.css");
 
             var expectedTag = "<link rel=\"stylesheet\" type=\"text/css\" href=\"output.css?r=hashy\" />";
-            Assert.AreEqual (expectedTag, TestUtilities.NormalizeLineEndings (tag));
+            Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
 
             var minifiedScript = "li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}hr{color:#a0522d}p{margin-left:20px}";
-            Assert.AreEqual (minifiedScript, writerFactory.Files[TestUtilities.PrepareRelativePath("output.css")]);
+            Assert.AreEqual(minifiedScript, writerFactory.Files[TestUtilities.PrepareRelativePath("output.css")]);
         }
 
         [Test]

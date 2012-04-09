@@ -83,6 +83,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\ArbitraryContent.cs" />
     <Compile Include="Base\Asset.cs" />
     <Compile Include="Base\BundleBase.cs" />
     <Compile Include="Base\BundleState.cs" />

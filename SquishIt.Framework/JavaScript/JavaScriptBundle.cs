@@ -33,6 +33,11 @@ namespace SquishIt.Framework.JavaScript
             get { return Bundle.AllowedStyleExtensions; }
         }
 
+        protected override string defaultExtension
+        {
+            get { return ".JS"; }
+        }
+
         protected override string tagFormat
         {
             get { return typeless ? TAG_FORMAT.Replace(" type=\"text/javascript\"", "") : TAG_FORMAT; }
@@ -78,12 +83,12 @@ namespace SquishIt.Framework.JavaScript
             }
         }
 
-        protected override string BeforeMinify(string outputFile, List<string> files, IEnumerable<string> arbitraryContent)
+        protected override string BeforeMinify(string outputFile, List<string> files, IEnumerable<ArbitraryContent> arbitraryContent)
         {
             var sb = new StringBuilder();
-
+            //TODO: deal w/ arbitrary extensions
             files.Select(ProcessJavascriptFile)
-                .Concat(arbitraryContent)
+                .Concat(arbitraryContent.Select(ac => ac.Content))
                 .Aggregate(sb, (builder, val) => builder.Append(val + "\n"));
 
             return sb.ToString();
