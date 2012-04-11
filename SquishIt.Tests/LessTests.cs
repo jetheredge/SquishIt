@@ -55,6 +55,26 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanBundleArbitraryLessContent ()
+        {
+            var tag = cssBundleFactory
+                .WithHasher(hasher)
+                .WithDebuggingEnabled(false)
+                .Create()
+                .WithPreprocessor(new LessPreprocessor())
+                .AddString(cssLess, ".less")
+                .Render("~/css/output.css");
+
+            var contents =
+                cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")];
+
+
+            Assert.AreEqual("#header{color:#4d926f}h2{color:#4d926f}", contents);
+
+            Assert.AreEqual ("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output.css?r=15D3D9555DEFACE69D6AB9E7FD972638\" />", tag);
+        }
+
+        [Test]
         public void CanBundleCssWithLessAndPathRewrites () {
             using (new StylePreprocessorScope<LessPreprocessor> ()) {
                 string css =

@@ -28,7 +28,7 @@ namespace SquishIt.Framework.JavaScript
             get { return instanceAllowedExtensions.Union(Bundle.AllowedGlobalExtensions.Union(Bundle.AllowedScriptExtensions)); }
         }
 
-        protected override IEnumerable<string> disallowedExtensions 
+        protected override IEnumerable<string> disallowedExtensions
         {
             get { return Bundle.AllowedStyleExtensions; }
         }
@@ -64,16 +64,16 @@ namespace SquishIt.Framework.JavaScript
 
         internal override void BeforeRenderDebug()
         {
-            foreach (var asset in bundleState.Assets)
+            foreach(var asset in bundleState.Assets)
             {
                 var localPath = asset.LocalPath;
                 var preprocessors = FindPreprocessors(localPath);
-                if (preprocessors != null && preprocessors.Count() > 0)
+                if(preprocessors != null && preprocessors.Count() > 0)
                 {
                     string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
                     string javascript = PreprocessJavascriptFile(outputFile, preprocessors);
                     outputFile += ".debug.js";
-                    using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
+                    using(var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
                     {
                         fileWriter.Write(javascript);
                     }
@@ -85,25 +85,34 @@ namespace SquishIt.Framework.JavaScript
 
         protected override string BeforeMinify(string outputFile, List<string> files, IEnumerable<ArbitraryContent> arbitraryContent)
         {
+            //TODO: refactor so that this is common code and ProcessCSSFile/ProcessJavascriptFile are a single abstract method called here
             var sb = new StringBuilder();
-            //TODO: deal w/ arbitrary extensions
+
             files.Select(ProcessJavascriptFile)
-                .Concat(arbitraryContent.Select(ac => ac.Content))
+                .Concat(arbitraryContent.Select(ac => {
+                    var filename = "dummy." + ac.Extension;
+                    var preprocessors = FindPreprocessors(filename);
+                    return PreprocessContent(filename, preprocessors, ac.Content);
+                }))
                 .Aggregate(sb, (builder, val) => builder.Append(val + "\n"));
 
             return sb.ToString();
         }
 
-        private string ProcessJavascriptFile(string file) {
+        private string ProcessJavascriptFile(string file)
+        {
             var preprocessors = FindPreprocessors(file);
-            if (preprocessors != null) {
+            if(preprocessors != null)
+            {
                 return PreprocessJavascriptFile(file, preprocessors);
             }
             return ReadFile(file);
         }
 
-        private string PreprocessJavascriptFile(string file, IEnumerable<IPreprocessor> preprocessors) {
-            lock (typeof(JavaScriptBundle)) {
+        private string PreprocessJavascriptFile(string file, IEnumerable<IPreprocessor> preprocessors)
+        {
+            lock(typeof(JavaScriptBundle))
+            {
                 return PreprocessFile(file, preprocessors);
             }
         }

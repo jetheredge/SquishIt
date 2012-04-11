@@ -87,7 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssetsFileHasherTests.cs" />
-    <Compile Include="Coffee\CoffeescriptCompilerTests.cs" />
+    <Compile Include="CoffeeScriptTests.cs" />
     <Compile Include="ScriptPreprocessorPipelineTests.cs" />
     <Compile Include="CssBundleTests.cs" />
     <Compile Include="CssCompressorsTests.cs" />

@@ -155,7 +155,7 @@ namespace SquishIt.Framework.Base
             }
         }
 
-        string PreprocessContent(string file, IEnumerable<IPreprocessor> preprocessors, string content)
+        protected string PreprocessContent(string file, IEnumerable<IPreprocessor> preprocessors, string content)
         {
             if(preprocessors == null)
             {

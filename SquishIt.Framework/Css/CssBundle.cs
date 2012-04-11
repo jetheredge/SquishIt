@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,7 +5,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using SquishIt.Framework.Base;
 using SquishIt.Framework.Minifiers;
-using SquishIt.Framework.Minifiers.CSS;
 using SquishIt.Framework.Resolvers;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Utilities;
@@ -109,11 +107,15 @@ namespace SquishIt.Framework.Css
 
         protected override string BeforeMinify(string outputFile, List<string> filePaths, IEnumerable<ArbitraryContent> arbitraryContent)
         {
+            //TODO: refactor so that this is common code and ProcessCSSFile/ProcessJavascriptFile are a single abstract method called here
             var outputCss = new StringBuilder();
 
-            //TODO: deal w/ arbitrary extensions
             filePaths.Select(file => ProcessCssFile(file, outputFile))
-                .Concat(arbitraryContent.Select(ac => ac.Content))
+                .Concat(arbitraryContent.Select(ac => {
+                    var filename = "dummy." + ac.Extension;
+                    var preprocessors = FindPreprocessors(filename);
+                    return PreprocessContent(filename, preprocessors, ac.Content);
+                }))
                 .Aggregate(outputCss, (builder, val) => builder.Append(val + "\n"));
 
             return outputCss.ToString();
