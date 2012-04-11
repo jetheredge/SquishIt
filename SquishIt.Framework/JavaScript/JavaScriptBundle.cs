@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,17 +5,18 @@ using System.Text;
 using SquishIt.Framework.Base;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Minifiers;
-using SquishIt.Framework.Minifiers.JavaScript;
 using SquishIt.Framework.Utilities;
 
 namespace SquishIt.Framework.JavaScript
 {
     public class JavaScriptBundle : BundleBase<JavaScriptBundle>
     {
-        private const string JS_TEMPLATE = "<script type=\"text/javascript\" {0}src=\"{1}\"></script>";
+        private const string JS_TEMPLATE = "<script type=\"text/javascript\" {0}src=\"{1}\" defer></script>";
         private const string TAG_FORMAT = "<script type=\"text/javascript\">{0}</script>";
 
         private const string CACHE_PREFIX = "js";
+
+        private bool deferred;
 
         protected override IMinifier<JavaScriptBundle> DefaultMinifier
         {
@@ -54,7 +54,11 @@ namespace SquishIt.Framework.JavaScript
 
         protected override string Template
         {
-            get { return typeless ? JS_TEMPLATE.Replace("type=\"text/javascript\" ", "") : JS_TEMPLATE; }
+            get
+            {
+                var val = typeless ? JS_TEMPLATE.Replace("type=\"text/javascript\" ", "") : JS_TEMPLATE;
+                return deferred ? val : val.Replace(" defer", "");
+            }
         }
 
         protected override string CachePrefix
@@ -115,6 +119,12 @@ namespace SquishIt.Framework.JavaScript
             {
                 return PreprocessFile(file, preprocessors);
             }
+        }
+
+        public JavaScriptBundle WithDeferredLoad()
+        {
+            deferred = true;
+            return this;
         }
     }
 }

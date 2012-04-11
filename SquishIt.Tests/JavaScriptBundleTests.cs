@@ -1,7 +1,5 @@
 using System;
-using System.IO;
 using NUnit.Framework;
-using SquishIt.Framework.Css;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.Minifiers.JavaScript;
@@ -697,6 +695,18 @@ namespace SquishIt.Tests
 
             var minifiedScript = "function product(n,t){return n*t}function sum(n,t){return n+t}function sub(n,t){return n-t}function div(n,t){return n/t}";
             Assert.AreEqual(minifiedScript, writerFactory.Files[TestUtilities.PrepareRelativePath(@"output.js")]);
+        }
+
+        [Test]
+        public void CanBundleJavaScriptWithDeferredLoad()
+        {
+            var tag = javaScriptBundle
+                    .WithDeferredLoad()
+                    .Add("~/js/test.js")
+                    .Render("~/js/output_1.js");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_1.js?r=36286D0CEA57C5ED24B868EB0D2898E9\" defer></script>", tag);
+            Assert.AreEqual("function product(n,t){return n*t}function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_1.js")]);
         }
     }
 }
