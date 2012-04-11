@@ -440,8 +440,10 @@ namespace SquishIt.Framework.Base
 
             foreach(var cntnt in arbitrary)
             {
-                //TODO: deal w/ arbitrary extensions
-                sb.AppendLine(string.Format(tagFormat, cntnt.Content));
+                var filename = "dummy" + cntnt.Extension;
+                var preprocessors = FindPreprocessors(filename);
+                var processedContent = PreprocessContent(filename, preprocessors, cntnt.Content);
+                sb.AppendLine(string.Format(tagFormat, processedContent));
             }
 
             content = sb.ToString();

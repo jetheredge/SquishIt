@@ -16,6 +16,42 @@ namespace SquishIt.Tests
     {
         private CssBundleFactory cssBundleFactory;
         private IHasher hasher;
+        private string scss = @"$blue: #3bbfce;
+                    $margin: 16px;
+
+                    .content-navigation {
+                      border-color: $blue;
+                      color:
+                        darken($blue, 9%);
+                    }
+
+                    .border {
+                      padding: $margin / 2;
+                      margin: $margin / 2;
+                      border-color: $blue;
+                    }";
+        private string sass = @"$blue: #3bbfce
+$margin: 16px
+
+.content-navigation
+    border-color: $blue
+    color: darken($blue, 9%)
+
+.border
+    padding: $margin / 2
+    margin: $margin / 2
+    border-color: $blue";
+        private string renderedCss = @".content-navigation{border-color:#3bbfce;color:#2ca2af}.border{padding:8px;margin:8px;border-color:#3bbfce}";
+        private string debugRenderedCss = TestUtilities.NormalizeLineEndings(
+                    @"<style type=""text/css"">.content-navigation {
+  border-color: #3bbfce;
+  color: #2ca2af; }
+
+.border {
+  padding: 8px;
+  margin: 8px;
+  border-color: #3bbfce; }
+</style>") + Environment.NewLine;//account for stringbuilder
 
         [SetUp]
         public void Setup()
@@ -30,29 +66,10 @@ namespace SquishIt.Tests
         {
             using (new StylePreprocessorScope<SassPreprocessor>())
             {
-                var original =
-                    @"$blue: #3bbfce;
-                    $margin: 16px;
-
-                    .content-navigation {
-                      border-color: $blue;
-                      color:
-                        darken($blue, 9%);
-                    }
-
-                    .border {
-                      padding: $margin / 2;
-                      margin: $margin / 2;
-                      border-color: $blue;
-                    }";
-
-                var expected =
-                    @".content-navigation{border-color:#3bbfce;color:#2ca2af}.border{padding:8px;margin:8px;border-color:#3bbfce}";
-
                 var cssBundle = cssBundleFactory
                     .WithHasher(hasher)
                     .WithDebuggingEnabled(false)
-                    .WithContents(original)
+                    .WithContents(scss)
                     .Create();
 
                 string tag = cssBundle
@@ -65,7 +82,7 @@ namespace SquishIt.Tests
                 Assert.AreEqual(
                     @"<link rel=""stylesheet"" type=""text/css"" href=""css/output.css?r=5C851B7837C923C399A44B1F5BF9F14A"" />",
                     tag);
-                Assert.AreEqual(expected, contents);
+                Assert.AreEqual(renderedCss, contents);
             }
         }
 
@@ -75,38 +92,37 @@ namespace SquishIt.Tests
         {
             using(new StylePreprocessorScope<SassPreprocessor>())
             {
-                var original =
-                    @"$blue: #3bbfce;
-                    $margin: 16px;
-
-                    .content-navigation {
-                      border-color: $blue;
-                      color:
-                        darken($blue, 9%);
-                    }
-
-                    .border {
-                      padding: $margin / 2;
-                      margin: $margin / 2;
-                      border-color: $blue;
-                    }";
-
-                var expected =
-                    @".content-navigation{border-color:#3bbfce;color:#2ca2af}.border{padding:8px;margin:8px;border-color:#3bbfce}";
-
                 var cssBundle = cssBundleFactory
                     .WithHasher(hasher)
                     .WithDebuggingEnabled(false)
                     .Create();
 
                 string tag = cssBundle
-                    .AddString(original, ".scss")
+                    .AddString(scss, ".scss")
                     .Render("~/css/output.css");
 
                 string contents = cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")];
 
                 Assert.AreEqual(@"<link rel=""stylesheet"" type=""text/css"" href=""css/output.css?r=5C851B7837C923C399A44B1F5BF9F14A"" />", tag);
-                Assert.AreEqual(expected, contents);
+                Assert.AreEqual(renderedCss, contents);
+            }
+        }
+
+        [Test]
+        public void CanBundleCssInDebugWithArbitraryScss()
+        {
+            using(new StylePreprocessorScope<SassPreprocessor>())
+            {
+                var cssBundle = cssBundleFactory
+                    .WithHasher(hasher)
+                    .WithDebuggingEnabled(true)
+                    .Create();
+
+                var tag = cssBundle
+                    .AddString(scss, ".scss")
+                    .Render("~/css/output.css");
+
+                Assert.AreEqual(debugRenderedCss, tag);
             }
         }
 
@@ -115,26 +131,10 @@ namespace SquishIt.Tests
         {
             using (new StylePreprocessorScope<SassPreprocessor>())
             {
-                var original =
-@"$blue: #3bbfce
-$margin: 16px
-
-.content-navigation
-    border-color: $blue
-    color: darken($blue, 9%)
-
-.border
-    padding: $margin / 2
-    margin: $margin / 2
-    border-color: $blue";
-
-                var expected =
-                    @".content-navigation{border-color:#3bbfce;color:#2ca2af}.border{padding:8px;margin:8px;border-color:#3bbfce}";
-
                 var cssBundle = cssBundleFactory
                     .WithHasher(hasher)
                     .WithDebuggingEnabled(false)
-                    .WithContents(original)
+                    .WithContents(sass)
                     .Create();
 
                 string tag = cssBundle
@@ -144,10 +144,8 @@ $margin: 16px
                 string contents =
                     cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")];
 
-                Assert.AreEqual(
-                    @"<link rel=""stylesheet"" type=""text/css"" href=""css/output.css?r=5C851B7837C923C399A44B1F5BF9F14A"" />",
-                    tag);
-                Assert.AreEqual(expected, contents);
+                Assert.AreEqual(@"<link rel=""stylesheet"" type=""text/css"" href=""css/output.css?r=5C851B7837C923C399A44B1F5BF9F14A"" />", tag);
+                Assert.AreEqual(renderedCss, contents);
             }
         }
 
@@ -156,36 +154,38 @@ $margin: 16px
         {
             using(new StylePreprocessorScope<SassPreprocessor>())
             {
-                var original =
-@"$blue: #3bbfce
-$margin: 16px
-
-.content-navigation
-    border-color: $blue
-    color: darken($blue, 9%)
-
-.border
-    padding: $margin / 2
-    margin: $margin / 2
-    border-color: $blue";
-
-                var expected =
-                    @".content-navigation{border-color:#3bbfce;color:#2ca2af}.border{padding:8px;margin:8px;border-color:#3bbfce}";
-
                 var cssBundle = cssBundleFactory
                     .WithHasher(hasher)
                     .WithDebuggingEnabled(false)
                     .Create();
 
                 string tag = cssBundle
-                    .AddString(original, ".sass")
+                    .AddString(sass, ".sass")
                     .Render("~/css/output.css");
 
                 string contents =
                     cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")];
 
                 Assert.AreEqual(@"<link rel=""stylesheet"" type=""text/css"" href=""css/output.css?r=5C851B7837C923C399A44B1F5BF9F14A"" />", tag);
-                Assert.AreEqual(expected, contents);
+                Assert.AreEqual(renderedCss, contents);
+            }
+        }
+
+        [Test]
+        public void CanBundleCssInDebugWithArbitrarySass()
+        {
+            using(new StylePreprocessorScope<SassPreprocessor>())
+            {
+                var cssBundle = cssBundleFactory
+                    .WithHasher(hasher)
+                    .WithDebuggingEnabled(true)
+                    .Create();
+
+                string tag = cssBundle
+                    .AddString(sass, ".sass")
+                    .Render("~/css/output.css");
+
+                Assert.AreEqual(debugRenderedCss, tag);
             }
         }
 

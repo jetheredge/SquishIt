@@ -41,6 +41,21 @@ namespace SquishIt.Tests
             Assert.AreEqual(@"(function(){alert(""test"")}).call(this)", compiled);
             Assert.AreEqual(@"<script type=""text/javascript"" src=""brewed.js?r=hash""></script>", tag);
         }
+
+        [Test]
+        public void CanBundleJavascriptInDebugWithArbitraryCoffeeScript()
+        {
+            var coffee = "alert 'test' ";
+
+            var tag = javaScriptBundleFactory
+                .WithDebuggingEnabled(true)
+                .Create()
+                .WithPreprocessor(new CoffeeScriptPreprocessor())
+                .AddString(coffee, ".coffee")
+                .Render("~/brewed.js");
+
+            Assert.AreEqual("<script type=\"text/javascript\">(function() {\n  alert('test');\n}).call(this);\n</script>\r\n", tag);
+        }
     }
 
     [TestFixture]

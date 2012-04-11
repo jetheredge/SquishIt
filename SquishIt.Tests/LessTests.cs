@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using SquishIt.Framework.Css;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Utilities;
@@ -55,7 +56,7 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleArbitraryLessContent ()
+        public void CanBundleCssWithArbitraryLess ()
         {
             var tag = cssBundleFactory
                 .WithHasher(hasher)
@@ -68,10 +69,31 @@ namespace SquishIt.Tests
             var contents =
                 cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")];
 
-
             Assert.AreEqual("#header{color:#4d926f}h2{color:#4d926f}", contents);
 
             Assert.AreEqual ("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output.css?r=15D3D9555DEFACE69D6AB9E7FD972638\" />", tag);
+        }
+
+        [Test]
+        public void CanBundleCssInDebugWithArbitraryLess()
+        {
+            var tag = cssBundleFactory
+                .WithHasher(hasher)
+                .WithDebuggingEnabled(true)
+                .Create()
+                .WithPreprocessor(new LessPreprocessor())
+                .AddString(cssLess, ".less")
+                .Render("~/css/output.css");
+
+            var expected = TestUtilities.NormalizeLineEndings(@"<style type=""text/css"">#header {
+  color: #4d926f;
+}
+h2 {
+  color: #4d926f;
+}
+</style>") + Environment.NewLine; //account for stringbuilder
+
+            Assert.AreEqual(expected, tag);
         }
 
         [Test]
