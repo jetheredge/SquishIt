@@ -6,11 +6,11 @@ _ReSharper*
 *.pidb
 test-results/
 *.userprefs
-*.dotCover
-
-#combined files from AspNetTest
 SquishItAspNetTest/css/combined*
 SquishItAspNetTest/js/combined*
-SquishItAspNetTest/js/output*
+<<<<<<< HEAD
 SquishItAspNetTest/combined*
-SquishItAspNetTest/css/testdotless.css.less.debug.css
+=======
+SquishItAspNetTest/js/output*
+>>>>>>> origin/master
+*.dotCover
