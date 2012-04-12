@@ -11,6 +11,12 @@
     <title></title>
 </head>
 <body>
+    <%= 
+        //this should be loaded by the browser last
+        Bundle.JavaScript()
+            .AddDirectory("~/js/deferred")
+            .WithDeferredLoad()
+            .Render("~/js/combined_deferred_#.js")%>
     <%= Bundle.JavaScript()
                 //CDN order will NOT be maintained in release mode.
                 //Any files added with AddCdn will be placed above the
