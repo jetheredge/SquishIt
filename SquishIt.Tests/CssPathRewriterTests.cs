@@ -392,5 +392,51 @@ namespace SquishIt.Tests
                                                     ";
             Assert.AreEqual(expected, result);
         }
+
+        [Test]
+        public void WontRewriteUrlsStartWithHash()
+        {
+
+
+            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            const string css = @"
+                                                        .header {
+                                                                background: url('#something') no-repeat 0 0;
+                                                        }
+                                                    ";
+            string sourceFile = TestUtilities.PreparePath(@"C:\somepath\somesubpath\myfile.css");
+            string targetFile = TestUtilities.PreparePath(@"C:\somepath\someothersubpath\evendeeper\output.css");
+            string result = CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
+
+            const string expected = @"
+                                                        .header {
+                                                                background: url('#something') no-repeat 0 0;
+                                                        }
+                                                    ";
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void WontRewriteHashUrls()
+        {
+
+
+            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            const string css = @"
+                                                        .header {
+                                                                background: url('#') no-repeat 0 0;
+                                                        }
+                                                    ";
+            string sourceFile = TestUtilities.PreparePath(@"C:\somepath\somesubpath\myfile.css");
+            string targetFile = TestUtilities.PreparePath(@"C:\somepath\someothersubpath\evendeeper\output.css");
+            string result = CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
+
+            const string expected = @"
+                                                        .header {
+                                                                background: url('#') no-repeat 0 0;
+                                                        }
+                                                    ";
+            Assert.AreEqual(expected, result);
+        }
     }
 }
