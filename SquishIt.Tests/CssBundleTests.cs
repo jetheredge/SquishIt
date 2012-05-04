@@ -1,9 +1,11 @@
 using System;
 using System.IO;
+using Moq;
 using NUnit.Framework;
 using SquishIt.Framework.Css;
 using SquishIt.Framework.Minifiers.CSS;
 using SquishIt.Framework.Files;
+using SquishIt.Framework.Renderers;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Helpers;
 using SquishIt.Tests.Stubs;
@@ -1094,7 +1096,7 @@ namespace SquishIt.Tests
         public void PathRewritingDoesNotAffectClassesNamedUrl()
         {
             string css =
-                    @"
+                @"
                         a.url {
                             color: #4D926F;
                         }
@@ -1109,9 +1111,45 @@ namespace SquishIt.Tests
                 .Add("~/css/something/test.css")
                 .Render("~/css/output_rewriting_url.css");
 
-            string contents = cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_rewriting_url.css")];
+            string contents =
+                cssBundleFactory.FileWriterFactory.Files[
+                    TestUtilities.PrepareRelativePath(@"css\output_rewriting_url.css")];
 
             Assert.AreEqual("a.url{color:#4d926f}", contents);
+        }
+
+        [Test]
+        public void CanUseArbitraryReleaseRenderer()
+        {
+            var renderer = new Mock<IRenderer>();
+
+            var content = "content";
+
+            var tag = cssBundleFactory
+                .WithDebuggingEnabled(false)
+                .Create()
+                .WithReleaseRenderer(renderer.Object)
+                .AddString(content)
+                .Render("test.css");
+
+            renderer.Verify(r => r.Render(content, TestUtilities.PrepareRelativePath("test.css")));
+        }
+
+        [Test]
+        public void CanIgnoreArbitraryReleaseRendererInDebug()
+        {
+            var renderer = new Mock<IRenderer>();
+
+            var content = "content";
+
+            var tag = cssBundleFactory
+                .WithDebuggingEnabled(true)
+                .Create()
+                .WithReleaseRenderer(renderer.Object)
+                .AddString(content)
+                .Render("test.css");
+
+            renderer.VerifyAll();
         }
     }
 }

@@ -48,6 +48,7 @@ namespace SquishIt.Framework.Base
         private static Dictionary<string,BundleState> bundleStateCache = new Dictionary<string,BundleState>();
 
         private IBundleCache bundleCache;
+        private IRenderer releaseRenderer;
 
         protected BundleBase(IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, IDebugStatusReader debugStatusReader, ICurrentDirectoryWrapper currentDirectoryWrapper, IHasher hasher, IBundleCache bundleCache)
         {
@@ -59,6 +60,11 @@ namespace SquishIt.Framework.Base
             ShouldRenderOnlyIfOutputFileIsMissing = false;
             HashKeyName = "r";
             this.bundleCache = bundleCache;
+        }
+
+        protected IRenderer GetReleaseFileRenderer()
+        {
+            return releaseRenderer ?? new FileRenderer(fileWriterFactory);
         }
 
         private List<string> GetFiles(List<Asset> assets)
@@ -262,10 +268,16 @@ namespace SquishIt.Framework.Base
             return (T)this;
         }
 
+        public T WithReleaseRenderer(IRenderer renderer)
+        {
+            this.releaseRenderer = renderer;
+            return (T) this;
+        }
+
         public string Render(string renderTo)
         {
             string key = renderTo;
-            return Render(renderTo, key, new FileRenderer(fileWriterFactory));
+            return Render(renderTo, key, GetReleaseFileRenderer());
         }
 
         private string Render(string renderTo, string key, IRenderer renderer)
@@ -315,7 +327,7 @@ namespace SquishIt.Framework.Base
 
         public void AsNamed(string name, string renderTo)
         {
-            Render(renderTo, name, new FileRenderer(fileWriterFactory));
+            Render(renderTo, name, GetReleaseFileRenderer());
             bundleState.Path = renderTo;
             bundleStateCache[CachePrefix + name] = bundleState;
         }
