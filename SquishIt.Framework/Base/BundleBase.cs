@@ -64,7 +64,7 @@ namespace SquishIt.Framework.Base
 
         protected IRenderer GetReleaseFileRenderer()
         {
-            return releaseRenderer ?? new FileRenderer(fileWriterFactory);
+            return releaseRenderer ?? Configuration.DefaultReleaseRenderer() ?? new FileRenderer(fileWriterFactory);
         }
 
         private List<string> GetFiles(List<Asset> assets)

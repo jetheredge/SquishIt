@@ -4,6 +4,7 @@ using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.Minifiers;
 using SquishIt.Framework.Minifiers.CSS;
 using SquishIt.Framework.Minifiers.JavaScript;
+using SquishIt.Framework.Renderers;
 
 namespace SquishIt.Framework
 {
@@ -113,9 +114,21 @@ namespace SquishIt.Framework
             return (IMinifier<CSSBundle>)Activator.CreateInstance(_defaultCssMinifier);
         }
 
-        public static IMinifier<JavaScriptBundle> DefaultJsMinifier()
+        internal static IMinifier<JavaScriptBundle> DefaultJsMinifier()
         {
             return (IMinifier<JavaScriptBundle>)Activator.CreateInstance(_defaultJsMinifier);
+        }
+
+        static IRenderer _defaultReleaseRenderer;
+        public Configuration UseReleaseRenderer(IRenderer instance)
+        {
+            _defaultReleaseRenderer = instance;
+            return this;
+        }
+
+        internal static IRenderer DefaultReleaseRenderer()
+        {
+            return _defaultReleaseRenderer;
         }
     }
 }
