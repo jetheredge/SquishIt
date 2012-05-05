@@ -37,7 +37,7 @@ namespace SquishIt.Framework.Css
 
         protected override IMinifier<CSSBundle> DefaultMinifier
         {
-            get { return Configuration.DefaultCssMinifier(); }
+            get { return Configuration.Instance.DefaultCssMinifier(); }
         }
 
         private HashSet<string> _allowedExtensions = new HashSet<string> { ".CSS", ".LESS" };

@@ -16,7 +16,7 @@ namespace SquishIt.Framework.Base
         private static readonly Dictionary<string, string> renderPathCache = new Dictionary<string, string>();
 
         private const string DEFAULT_GROUP = "default";
-        protected string BaseOutputHref = Configuration.DefaultOutputBaseHref() ?? String.Empty;
+        protected string BaseOutputHref = Configuration.Instance.DefaultOutputBaseHref() ?? String.Empty;
         protected IFileWriterFactory fileWriterFactory;
         protected IFileReaderFactory fileReaderFactory;
         protected IDebugStatusReader debugStatusReader;
@@ -64,7 +64,7 @@ namespace SquishIt.Framework.Base
 
         protected IRenderer GetReleaseFileRenderer()
         {
-            return releaseRenderer ?? Configuration.DefaultReleaseRenderer() ?? new FileRenderer(fileWriterFactory);
+            return releaseRenderer ?? Configuration.Instance.DefaultReleaseRenderer() ?? new FileRenderer(fileWriterFactory);
         }
 
         private List<string> GetFiles(List<Asset> assets)

@@ -27,7 +27,7 @@ namespace SquishIt.Framework
 
         public static Configuration ConfigureDefaults()
         {
-            return new Configuration();
+            return Configuration.Instance;
         }
     }
 }

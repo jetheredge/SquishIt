@@ -10,6 +10,17 @@ namespace SquishIt.Framework
 {
     public class Configuration
     {
+        static Configuration instance;
+        Type _defaultCssMinifier = typeof (MsCompressor);
+        Type _defaultJsMinifier = typeof (MsMinifier);
+        string _defaultOutputBaseHref;
+        IRenderer _defaultReleaseRenderer;
+
+        public static Configuration Instance
+        {
+            get { return instance; }
+        }
+
         public Configuration UseMinifierForCss<TMinifier>()
             where TMinifier : IMinifier<CSSBundle>
         {
@@ -18,10 +29,10 @@ namespace SquishIt.Framework
 
         public Configuration UseMinifierForCss(Type minifierType)
         {
-            if (!typeof(IMinifier<CSSBundle>).IsAssignableFrom(minifierType))
+            if (!typeof (IMinifier<CSSBundle>).IsAssignableFrom(minifierType))
                 throw new InvalidCastException(
-                    String.Format("Type '{0}' must implement '{1}' to be used for Css minification.", 
-                        minifierType, typeof (IMinifier<CSSBundle>)));
+                    String.Format("Type '{0}' must implement '{1}' to be used for Css minification.",
+                                  minifierType, typeof (IMinifier<CSSBundle>)));
             _defaultCssMinifier = minifierType;
             return this;
         }
@@ -34,7 +45,7 @@ namespace SquishIt.Framework
 
         public Configuration UseMinifierForJs(Type minifierType)
         {
-            if (!typeof(IMinifier<JavaScriptBundle>).IsAssignableFrom(minifierType))
+            if (!typeof (IMinifier<JavaScriptBundle>).IsAssignableFrom(minifierType))
                 throw new InvalidCastException(
                     String.Format("Type '{0}' must implement '{1}' to be used for Javascript minification.",
                                   minifierType, typeof (IMinifier<JavaScriptBundle>)));
@@ -106,39 +117,34 @@ namespace SquishIt.Framework
             return UseMinifierForJs<JsMinMinifier>();
         }
 
-        static Type _defaultCssMinifier = typeof (MsCompressor);
-        static Type _defaultJsMinifier = typeof (MsMinifier);
-
-        internal static IMinifier<CSSBundle> DefaultCssMinifier()
+        internal IMinifier<CSSBundle> DefaultCssMinifier()
         {
-            return (IMinifier<CSSBundle>)Activator.CreateInstance(_defaultCssMinifier);
+            return (IMinifier<CSSBundle>) Activator.CreateInstance(_defaultCssMinifier);
         }
 
-        internal static IMinifier<JavaScriptBundle> DefaultJsMinifier()
+        internal IMinifier<JavaScriptBundle> DefaultJsMinifier()
         {
-            return (IMinifier<JavaScriptBundle>)Activator.CreateInstance(_defaultJsMinifier);
+            return (IMinifier<JavaScriptBundle>) Activator.CreateInstance(_defaultJsMinifier);
         }
 
-        static IRenderer _defaultReleaseRenderer;
         public Configuration UseReleaseRenderer(IRenderer instance)
         {
             _defaultReleaseRenderer = instance;
             return this;
         }
 
-        internal static IRenderer DefaultReleaseRenderer()
+        internal IRenderer DefaultReleaseRenderer()
         {
             return _defaultReleaseRenderer;
         }
 
-        static string _defaultOutputBaseHref;
         public Configuration UseOutputBaseHref(string url)
         {
             _defaultOutputBaseHref = url;
             return this;
         }
 
-        internal static string DefaultOutputBaseHref()
+        internal string DefaultOutputBaseHref()
         {
             return _defaultOutputBaseHref;
         }
