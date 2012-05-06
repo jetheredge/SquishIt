@@ -18,7 +18,7 @@ namespace SquishIt.Framework
 
         public static Configuration Instance
         {
-            get { return instance; }
+            get { return (instance = instance ?? new Configuration()); }
         }
 
         public Configuration UseMinifierForCss<TMinifier>()
@@ -127,9 +127,9 @@ namespace SquishIt.Framework
             return (IMinifier<JavaScriptBundle>) Activator.CreateInstance(_defaultJsMinifier);
         }
 
-        public Configuration UseReleaseRenderer(IRenderer instance)
+        public Configuration UseReleaseRenderer(IRenderer releaseRenderer)
         {
-            _defaultReleaseRenderer = instance;
+            _defaultReleaseRenderer = releaseRenderer;
             return this;
         }
 
