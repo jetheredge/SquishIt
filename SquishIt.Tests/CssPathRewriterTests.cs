@@ -350,6 +350,7 @@ namespace SquishIt.Tests
 
                                                         .footer {
                                                                 background-image: uRL("""");
+                                                                background-image: UrL('');
                                                         }
                                                     ";
             string sourceFile = TestUtilities.PreparePath(@"C:\somepath\somesubpath\myfile.css");

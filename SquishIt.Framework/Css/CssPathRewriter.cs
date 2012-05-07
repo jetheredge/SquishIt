@@ -77,6 +77,7 @@ namespace SquishIt.Framework.Css {
                     && !path.StartsWith ("data:") 
                     && !path.StartsWith ("squishit://")
                     && path != "\"\""
+                    && path != "''"
                     && !string.IsNullOrEmpty(path)).Distinct();
         }
 
