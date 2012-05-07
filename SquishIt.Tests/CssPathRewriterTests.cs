@@ -338,6 +338,29 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void DontThrowIfPathIsEmpty()
+        {
+            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            string css =
+                @"
+                                                        .header {
+                                                                background-image: URL("""");
+                                                                background-image: url(); 
+                                                        }
+
+                                                        .footer {
+                                                                background-image: uRL("""");
+                                                        }
+                                                    ";
+            string sourceFile = TestUtilities.PreparePath(@"C:\somepath\somesubpath\myfile.css");
+            string targetFile = TestUtilities.PreparePath(@"C:\somepath\output.css");
+
+            //concrete result doesn't matter here (since input isn't valid)
+            //the only important thing is that it shouldn't throw exceptions
+            Assert.DoesNotThrow(() => CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher));
+        }
+
+        [Test]
         public void WontRewriteAbsolutePaths()
         {
             ICssAssetsFileHasher cssAssetsFileHasher = null;
