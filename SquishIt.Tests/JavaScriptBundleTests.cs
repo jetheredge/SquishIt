@@ -1,8 +1,10 @@
 using System;
+using Moq;
 using NUnit.Framework;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.Minifiers.JavaScript;
+using SquishIt.Framework.Renderers;
 using SquishIt.Framework.Tests.Mocks;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Stubs;
@@ -707,6 +709,37 @@ namespace SquishIt.Tests
 
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_1.js?r=36286D0CEA57C5ED24B868EB0D2898E9\" defer></script>", tag);
             Assert.AreEqual("function product(n,t){return n*t}function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_1.js")]);
+        }
+
+        [Test]
+        public void CanUseArbitraryReleaseRenderer()
+        {
+            var renderer = new Mock<IRenderer>();
+
+            var content = "content";
+
+            var tag = javaScriptBundle
+                .WithReleaseRenderer(renderer.Object)
+                .AddString(content)
+                .ForceRelease()
+                .Render("test.js");
+
+            renderer.Verify(r => r.Render(content, TestUtilities.PrepareRelativePath("test.js")));
+        }
+
+        [Test]
+        public void CanIgnoreArbitraryReleaseRendererInDebug()
+        {
+            var renderer = new Mock<IRenderer>();
+
+            var content = "content";
+
+            var tag = javaScriptBundle
+                .WithReleaseRenderer(renderer.Object)
+                .AddString(content)
+                .Render("test.js");
+
+            renderer.VerifyAll();
         }
     }
 }

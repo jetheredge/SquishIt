@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using SquishIt.Framework.Utilities;
 
@@ -64,26 +65,25 @@ namespace SquishIt.Framework.Css {
             });
         }
 
-        private static IEnumerable<string> FindDistinctRelativePathsIn (string css) 
+        static readonly Regex pathsRegex = new Regex(@"(?<!.*behavior\s*:\s*)url\([""']?(.*?)[""']?\)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static IEnumerable<string> FindDistinctRelativePathsIn (string css)
         {
-            var matches = Regex.Matches (css, @"url\([""']{0,1}(.+?)[""']{0,1}\)", RegexOptions.IgnoreCase);
-            var matchesHash = new HashSet<string> ();
-            foreach (Match match in matches) 
-            {
-                var path = match.Groups[1].Captures[0].Value;
-                if (!path.StartsWith ("/") && !path.StartsWith ("http://") && !path.StartsWith ("https://") && !path.StartsWith ("data:") && !path.StartsWith ("squishit://")) 
-                {
-                    if (matchesHash.Add (path)) 
-                    {
-                        yield return path;
-                    }
-                }
-            }
+            var matches = pathsRegex.Matches(css);
+            return matches.Cast<Match>()
+                .Select(match => match.Groups[1].Captures[0].Value)
+                .Where(path => !path.StartsWith ("/") 
+                    && !path.StartsWith ("http://") 
+                    && !path.StartsWith ("https://") 
+                    && !path.StartsWith ("data:") 
+                    && !path.StartsWith ("squishit://")
+                    && path != "\"\""
+                    && path != "''"
+                    && !string.IsNullOrEmpty(path)).Distinct();
         }
 
         private static IEnumerable<string> FindDistinctLocalRelativePathsThatExist (string css) 
         {
-            var matches = Regex.Matches (css, @"url\([""']{0,1}(.+?)[""']{0,1}\)", RegexOptions.IgnoreCase);
+            var matches = pathsRegex.Matches(css);
             var matchesHash = new HashSet<string> ();
             foreach (Match match in matches) 
             {
