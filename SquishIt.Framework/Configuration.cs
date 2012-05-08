@@ -119,12 +119,12 @@ namespace SquishIt.Framework
 
         internal IMinifier<CSSBundle> DefaultCssMinifier()
         {
-            return (IMinifier<CSSBundle>) Activator.CreateInstance(_defaultCssMinifier);
+            return (IMinifier<CSSBundle>) Activator.CreateInstance(_defaultCssMinifier, true);
         }
 
         internal IMinifier<JavaScriptBundle> DefaultJsMinifier()
         {
-            return (IMinifier<JavaScriptBundle>) Activator.CreateInstance(_defaultJsMinifier);
+            return (IMinifier<JavaScriptBundle>) Activator.CreateInstance(_defaultJsMinifier, true);
         }
 
         public Configuration UseReleaseRenderer(IRenderer releaseRenderer)
