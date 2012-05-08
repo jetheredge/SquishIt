@@ -634,6 +634,24 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanRenderArbitraryStringsInDebugAsCached()
+        {
+            var content = debugJavaScriptBundle
+                .AddString(javaScript)
+                .Add("~/js/test.js")
+                .AsCached("Test3", "~/js/output_2.js");
+
+            var cachedContent = debugJavaScriptBundle.RenderCached("Test3");
+
+            debugJavaScriptBundle.ClearCache();
+
+            var generatedContent = debugJavaScriptBundle.RenderCached("Test3");
+
+            Assert.AreEqual(cachedContent, content);
+            Assert.AreEqual(cachedContent, generatedContent);
+        }
+
+        [Test]
         public void CanRenderArbitraryStringsInDebugWithoutType () 
         {
             var js2Format = "{0}{1}";

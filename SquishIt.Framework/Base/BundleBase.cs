@@ -25,7 +25,6 @@ namespace SquishIt.Framework.Base
         protected abstract IMinifier<T> DefaultMinifier { get; }
         protected abstract HashSet<string> allowedExtensions { get; }
         protected abstract string tagFormat { get; }
-        protected HashSet<string> arbitrary = new HashSet<string>();
         protected bool typeless;
         protected abstract string Template { get; }
         protected abstract string CachePrefix { get; }
@@ -44,8 +43,8 @@ namespace SquishIt.Framework.Base
         private bool ShouldRenderOnlyIfOutputFileIsMissing { get; set; }
         internal List<string> DependentFiles = new List<string>();
         internal BundleState bundleState = new BundleState();
-        
-        private static Dictionary<string,BundleState> bundleStateCache = new Dictionary<string,BundleState>();
+
+        private static Dictionary<string, BundleState> bundleStateCache = new Dictionary<string, BundleState>();
 
         private IBundleCache bundleCache;
         private IRenderer releaseRenderer;
@@ -184,7 +183,8 @@ namespace SquishIt.Framework.Base
             bundleState.Assets.Add(asset);
         }
 
-        public T WithoutTypeAttribute () {
+        public T WithoutTypeAttribute()
+        {
             this.typeless = true;
             return (T)this;
         }
@@ -206,14 +206,14 @@ namespace SquishIt.Framework.Base
 
         public T AddDirectory(string folderPath, bool recursive = true)
         {
-          AddAsset(new Asset(folderPath, isRecursive: recursive));
-          return (T)this;
+            AddAsset(new Asset(folderPath, isRecursive: recursive));
+            return (T)this;
         }
 
         public T AddString(string content)
         {
-            if(!arbitrary.Contains(content))
-                arbitrary.Add(content);
+            if (!bundleState.Arbitrary.Contains(content))
+                bundleState.Arbitrary.Add(content);
             return (T)this;
         }
 
@@ -222,7 +222,7 @@ namespace SquishIt.Framework.Base
             var content = string.Format(format, values);
             return AddString(content);
         }
-        
+
         public T AddRemote(string localPath, string remotePath)
         {
             return AddRemote(localPath, remotePath, false);
@@ -290,7 +290,10 @@ namespace SquishIt.Framework.Base
 
             if (debugStatusReader.IsDebuggingEnabled())
             {
-                return RenderDebug(key);
+                string content = RenderDebug(key);
+                renderer.Render(content,renderTo);
+
+                return content;
             }
             return RenderRelease(key, renderTo, renderer);
         }
@@ -343,7 +346,7 @@ namespace SquishIt.Framework.Base
         protected string RenderDebug(string name = null)
         {
             string content = null;
-            
+
             DependentFiles.Clear();
 
             var renderedFiles = new HashSet<string>();
@@ -370,6 +373,7 @@ namespace SquishIt.Framework.Base
                     }
 
                     var renderer = new FileRenderer(fileWriterFactory);
+
                     var processedFile = ExpandAppRelativePath(asset.LocalPath);
                     renderer.Render(tsb.ToString(), FileSystem.ResolveAppRelativePathToFileSystem(processedFile));
                     sb.AppendLine(FillTemplate(bundleState, processedFile));
@@ -394,7 +398,7 @@ namespace SquishIt.Framework.Base
                 }
             }
 
-            foreach (var cntnt in arbitrary)
+            foreach (var cntnt in bundleState.Arbitrary)
             {
                 sb.AppendLine(string.Format(tagFormat, cntnt));
             }
@@ -415,7 +419,7 @@ namespace SquishIt.Framework.Base
             string content;
             if (!bundleCache.TryGetValue(key, out content))
             {
-                using(new CriticalRenderingSection(renderTo))
+                using (new CriticalRenderingSection(renderTo))
                 {
                     if (!bundleCache.TryGetValue(key, out content))
                     {
@@ -462,7 +466,7 @@ namespace SquishIt.Framework.Base
                         if (renderTo.Contains("#"))
                         {
                             hashInFileName = true;
-                            minifiedContent = Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, arbitrary));
+                            minifiedContent = Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, bundleState.Arbitrary));
                             hash = hasher.GetHash(minifiedContent);
                             renderToPath = renderToPath.Replace("#", hash);
                             outputFile = outputFile.Replace("#", hash);
@@ -474,7 +478,7 @@ namespace SquishIt.Framework.Base
                         }
                         else
                         {
-                            minifiedContent = minifiedContent ?? Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, arbitrary));
+                            minifiedContent = minifiedContent ?? Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, bundleState.Arbitrary));
                             renderer.Render(minifiedContent, outputFile);
                         }
 
@@ -587,7 +591,7 @@ namespace SquishIt.Framework.Base
 
         internal virtual void BeforeRenderDebug()
         {
-            
+
         }
 
         private BundleState GetCachedGroupBundle(string name)
