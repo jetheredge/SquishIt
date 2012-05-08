@@ -65,7 +65,7 @@ namespace SquishIt.Framework.Css {
             });
         }
 
-        static readonly Regex pathsRegex = new Regex(@"url\([""']?(.*?)[""']?\)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        static readonly Regex pathsRegex = new Regex(@"(?<!.*behavior\s*:\s*)url\([""']?(.*?)[""']?\)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static IEnumerable<string> FindDistinctRelativePathsIn (string css)
         {
             var matches = pathsRegex.Matches(css);

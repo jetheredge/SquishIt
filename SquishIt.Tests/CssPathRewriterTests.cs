@@ -416,5 +416,28 @@ namespace SquishIt.Tests
                                                     ";
             Assert.AreEqual(expected, result);
         }
+
+        [Test]
+        public void WontRewriteBehaviorUrls()
+        {
+            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            string css =
+                @"
+                                                        .header {
+                                                                behavior: url('somethingorother') no-repeat 0 0;
+                                                        }
+                                                    ";
+            string sourceFile = TestUtilities.PreparePath(@"C:\somepath\somesubpath\myfile.css");
+            string targetFile = TestUtilities.PreparePath(@"C:\somepath\someothersubpath\evendeeper\output.css");
+            string result = CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
+
+            string expected =
+                @"
+                                                        .header {
+                                                                behavior: url('somethingorother') no-repeat 0 0;
+                                                        }
+                                                    ";
+            Assert.AreEqual(expected, result);
+        }
     }
 }
