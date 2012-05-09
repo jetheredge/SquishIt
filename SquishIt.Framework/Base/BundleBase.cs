@@ -26,7 +26,6 @@ namespace SquishIt.Framework.Base
         protected abstract IMinifier<T> DefaultMinifier { get; }
 
         protected abstract string tagFormat { get; }
-        protected List<ArbitraryContent> arbitrary = new List<ArbitraryContent>();
         protected bool typeless;
         protected abstract string Template { get; }
         protected abstract string CachePrefix { get; }
@@ -263,8 +262,8 @@ namespace SquishIt.Framework.Base
 
         public T AddString(string content, string extension)
         {
-            if(!arbitrary.Any(ac => ac.Content == content))
-                arbitrary.Add(new ArbitraryContent { Content = content, Extension = extension });
+            if(!bundleState.Arbitrary.Any(ac => ac.Content == content))
+                bundleState.Arbitrary.Add(new ArbitraryContent { Content = content, Extension = extension });
             return (T)this;
         }
 
@@ -346,7 +345,10 @@ namespace SquishIt.Framework.Base
 
             if(debugStatusReader.IsDebuggingEnabled())
             {
-                return RenderDebug(key);
+                var content = DebugContent(key);
+                renderer.Render(content, renderTo);
+
+                return content;
             }
             return RenderRelease(key, renderTo, renderer);
         }
@@ -396,7 +398,7 @@ namespace SquishIt.Framework.Base
             return result;
         }
 
-        protected string RenderDebug(string name = null)
+        protected string DebugContent(string name = null)
         {
             string content = null;
 
@@ -425,9 +427,7 @@ namespace SquishIt.Framework.Base
                         tsb.Append(ReadFile(fn) + "\n\n\n");
                     }
 
-                    var renderer = new FileRenderer(fileWriterFactory);
                     var processedFile = ExpandAppRelativePath(asset.LocalPath);
-                    renderer.Render(tsb.ToString(), FileSystem.ResolveAppRelativePathToFileSystem(processedFile));
                     sb.AppendLine(FillTemplate(bundleState, processedFile));
                 }
                 else if(asset.RemotePath != null)
@@ -450,7 +450,7 @@ namespace SquishIt.Framework.Base
                 }
             }
 
-            foreach(var cntnt in arbitrary)
+            foreach(var cntnt in bundleState.Arbitrary)
             {
                 var filename = "dummy" + cntnt.Extension;
                 var preprocessors = FindPreprocessors(filename);
@@ -521,7 +521,7 @@ namespace SquishIt.Framework.Base
                         if(renderTo.Contains("#"))
                         {
                             hashInFileName = true;
-                            minifiedContent = Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, arbitrary));
+                            minifiedContent = Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, bundleState.Arbitrary));
                             hash = hasher.GetHash(minifiedContent);
                             renderToPath = renderToPath.Replace("#", hash);
                             outputFile = outputFile.Replace("#", hash);
@@ -533,7 +533,7 @@ namespace SquishIt.Framework.Base
                         }
                         else
                         {
-                            minifiedContent = minifiedContent ?? Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, arbitrary));
+                            minifiedContent = minifiedContent ?? Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, bundleState.Arbitrary));
                             renderer.Render(minifiedContent, outputFile);
                         }
 
