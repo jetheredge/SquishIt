@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using SquishIt.Framework.Minifiers;
 
 namespace SquishIt.Framework.Base
 {
@@ -7,7 +6,7 @@ namespace SquishIt.Framework.Base
     {
         internal List<Asset> Assets = new List<Asset>();
         internal Dictionary<string, string> Attributes = new Dictionary<string, string>();
-        internal HashSet<string> Arbitrary = new HashSet<string>();
+        internal IList<string> Arbitrary = new List<string>();
         
         internal int Order { get; set; }
         public bool ForceDebug { get; set; }

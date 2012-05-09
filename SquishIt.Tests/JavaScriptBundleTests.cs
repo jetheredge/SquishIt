@@ -195,6 +195,7 @@ namespace SquishIt.Tests
 
             Assert.AreEqual ("<script type=\"text/javascript\" src=\"js/output_Embedded.js?r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
             Assert.AreEqual ("function product(n,t){return n*t}function sum(n,t){return n+t}", fileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_Embedded.js")]);
+            Assert.AreEqual(1, fileWriterFactory.Files.Count);
         }
 
         [Test]
@@ -205,6 +206,7 @@ namespace SquishIt.Tests
                     .Render("~/js/output_Embedded.js");
 
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test.js\"></script>\n", TestUtilities.NormalizeLineEndings(tag));
+            Assert.AreEqual(1, fileWriterFactory.Files.Count);
         }
 
         [Test]

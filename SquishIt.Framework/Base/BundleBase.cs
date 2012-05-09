@@ -71,7 +71,7 @@ namespace SquishIt.Framework.Base
             var inputFiles = GetInputFiles(assets);
             var resolvedFilePaths = new List<string>();
 
-            foreach (Input input in inputFiles)
+            foreach(Input input in inputFiles)
             {
                 resolvedFilePaths.AddRange(input.TryResolve(allowedExtensions));
             }
@@ -81,14 +81,14 @@ namespace SquishIt.Framework.Base
 
         private Input GetInputFile(Asset asset)
         {
-            if (!asset.IsEmbeddedResource)
+            if(!asset.IsEmbeddedResource)
             {
-                if (debugStatusReader.IsDebuggingEnabled())
+                if(debugStatusReader.IsDebuggingEnabled())
                 {
                     return GetFileSystemPath(asset.LocalPath, asset.IsRecursive);
                 }
 
-                if (asset.IsRemoteDownload)
+                if(asset.IsRemoteDownload)
                 {
                     return GetHttpPath(asset.RemotePath);
                 }
@@ -106,7 +106,7 @@ namespace SquishIt.Framework.Base
         private List<Input> GetInputFiles(List<Asset> assets)
         {
             var inputFiles = new List<Input>();
-            foreach (var asset in assets)
+            foreach(var asset in assets)
             {
                 inputFiles.Add(GetInputFile(asset));
             }
@@ -131,10 +131,10 @@ namespace SquishIt.Framework.Base
 
         private string ExpandAppRelativePath(string file)
         {
-            if (file.StartsWith("~/"))
+            if(file.StartsWith("~/"))
             {
                 string appRelativePath = HttpRuntime.AppDomainAppVirtualPath;
-                if (appRelativePath != null && !appRelativePath.EndsWith("/"))
+                if(appRelativePath != null && !appRelativePath.EndsWith("/"))
                     appRelativePath += "/";
                 return file.Replace("~/", appRelativePath);
             }
@@ -143,7 +143,7 @@ namespace SquishIt.Framework.Base
 
         protected string ReadFile(string file)
         {
-            using (var sr = fileReaderFactory.GetFileReader(file))
+            using(var sr = fileReaderFactory.GetFileReader(file))
             {
                 return sr.ReadToEnd();
             }
@@ -157,7 +157,7 @@ namespace SquishIt.Framework.Base
         private string GetAdditionalAttributes(BundleState bundleState)
         {
             var result = new StringBuilder();
-            foreach (var attribute in bundleState.Attributes)
+            foreach(var attribute in bundleState.Attributes)
             {
                 result.Append(attribute.Key);
                 result.Append("=\"");
@@ -170,7 +170,7 @@ namespace SquishIt.Framework.Base
         private string GetFilesForRemote(List<string> remoteAssetPaths, BundleState bundleState)
         {
             var sb = new StringBuilder();
-            foreach (var uri in remoteAssetPaths)
+            foreach(var uri in remoteAssetPaths)
             {
                 sb.Append(FillTemplate(bundleState, uri));
             }
@@ -192,7 +192,7 @@ namespace SquishIt.Framework.Base
         [Obsolete]
         public T Add(params string[] filesPath)
         {
-            foreach (var filePath in filesPath)
+            foreach(var filePath in filesPath)
                 Add(filePath);
 
             return (T)this;
@@ -212,7 +212,7 @@ namespace SquishIt.Framework.Base
 
         public T AddString(string content)
         {
-            if (!bundleState.Arbitrary.Contains(content))
+            if(!bundleState.Arbitrary.Contains(content))
                 bundleState.Arbitrary.Add(content);
             return (T)this;
         }
@@ -271,7 +271,7 @@ namespace SquishIt.Framework.Base
         public T WithReleaseRenderer(IRenderer renderer)
         {
             this.releaseRenderer = renderer;
-            return (T) this;
+            return (T)this;
         }
 
         public string Render(string renderTo)
@@ -283,15 +283,15 @@ namespace SquishIt.Framework.Base
         private string Render(string renderTo, string key, IRenderer renderer)
         {
             key = CachePrefix + key;
-            if (!String.IsNullOrEmpty(BaseOutputHref))
+            if(!String.IsNullOrEmpty(BaseOutputHref))
             {
                 key = BaseOutputHref + key;
             }
 
-            if (debugStatusReader.IsDebuggingEnabled())
+            if(debugStatusReader.IsDebuggingEnabled())
             {
-                string content = RenderDebug(key);
-                renderer.Render(content,renderTo);
+                var content = DebugContent(key);
+                renderer.Render(content, renderTo);
 
                 return content;
             }
@@ -302,7 +302,7 @@ namespace SquishIt.Framework.Base
         {
             bundleState = GetCachedGroupBundle(name);
             var content = bundleCache.GetContent(CachePrefix + name);
-            if (content == null)
+            if(content == null)
             {
                 AsNamed(name, bundleState.Path);
                 return bundleCache.GetContent(CachePrefix + name);
@@ -314,7 +314,7 @@ namespace SquishIt.Framework.Base
         {
             bundleState = GetCachedGroupBundle(name);
             var content = CacheRenderer.Get(CachePrefix, name);
-            if (content == null)
+            if(content == null)
             {
                 AsCached(name, bundleState.Path);
                 return CacheRenderer.Get(CachePrefix, name);
@@ -343,7 +343,7 @@ namespace SquishIt.Framework.Base
             return result;
         }
 
-        protected string RenderDebug(string name = null)
+        string DebugContent(string name = null)
         {
             string content = null;
 
@@ -358,35 +358,32 @@ namespace SquishIt.Framework.Base
             var assets = bundleState.Assets;
 
             DependentFiles.AddRange(GetFiles(assets));
-            foreach (var asset in assets)
+            foreach(var asset in assets)
             {
                 var inputFile = GetInputFile(asset);
                 var files = inputFile.TryResolve(allowedExtensions);
 
-                if (asset.IsEmbeddedResource)
+                if(asset.IsEmbeddedResource)
                 {
                     var tsb = new StringBuilder();
 
-                    foreach (var fn in files)
+                    foreach(var fn in files)
                     {
                         tsb.Append(ReadFile(fn) + "\n\n\n");
                     }
 
-                    var renderer = new FileRenderer(fileWriterFactory);
-
                     var processedFile = ExpandAppRelativePath(asset.LocalPath);
-                    renderer.Render(tsb.ToString(), FileSystem.ResolveAppRelativePathToFileSystem(processedFile));
                     sb.AppendLine(FillTemplate(bundleState, processedFile));
                 }
-                else if (asset.RemotePath != null)
+                else if(asset.RemotePath != null)
                 {
                     sb.AppendLine(FillTemplate(bundleState, ExpandAppRelativePath(asset.LocalPath)));
                 }
                 else
                 {
-                    foreach (var file in files)
+                    foreach(var file in files)
                     {
-                        if (!renderedFiles.Contains(file))
+                        if(!renderedFiles.Contains(file))
                         {
                             var fileBase = FileSystem.ResolveAppRelativePathToFileSystem(asset.LocalPath);
                             var newPath = file.Replace(fileBase, "");
@@ -398,14 +395,14 @@ namespace SquishIt.Framework.Base
                 }
             }
 
-            foreach (var cntnt in bundleState.Arbitrary)
+            foreach(var cntnt in bundleState.Arbitrary)
             {
                 sb.AppendLine(string.Format(tagFormat, cntnt));
             }
 
             content = sb.ToString();
 
-            if (bundleCache.ContainsKey(name))
+            if(bundleCache.ContainsKey(name))
             {
                 bundleCache.Remove(name);
             }
@@ -417,11 +414,11 @@ namespace SquishIt.Framework.Base
         private string RenderRelease(string key, string renderTo, IRenderer renderer)
         {
             string content;
-            if (!bundleCache.TryGetValue(key, out content))
+            if(!bundleCache.TryGetValue(key, out content))
             {
-                using (new CriticalRenderingSection(renderTo))
+                using(new CriticalRenderingSection(renderTo))
                 {
-                    if (!bundleCache.TryGetValue(key, out content))
+                    if(!bundleCache.TryGetValue(key, out content))
                     {
                         var uniqueFiles = new List<string>();
                         string minifiedContent = null;
@@ -430,7 +427,7 @@ namespace SquishIt.Framework.Base
 
                         DependentFiles.Clear();
 
-                        if (renderTo == null)
+                        if(renderTo == null)
                         {
                             renderTo = renderPathCache[CachePrefix + "." + key];
                         }
@@ -442,15 +439,15 @@ namespace SquishIt.Framework.Base
                         string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(renderTo);
                         var renderToPath = ExpandAppRelativePath(renderTo);
 
-                        if (!String.IsNullOrEmpty(BaseOutputHref))
+                        if(!String.IsNullOrEmpty(BaseOutputHref))
                         {
                             renderToPath = String.Concat(BaseOutputHref.TrimEnd('/'), "/", renderToPath.TrimStart('/'));
                         }
 
                         var remoteAssetPaths = new List<string>();
-                        foreach (var asset in bundleState.Assets)
+                        foreach(var asset in bundleState.Assets)
                         {
-                            if (asset.IsRemote)
+                            if(asset.IsRemote)
                             {
                                 remoteAssetPaths.Add(asset.RemotePath);
                             }
@@ -463,7 +460,7 @@ namespace SquishIt.Framework.Base
 
                         DependentFiles.AddRange(uniqueFiles);
 
-                        if (renderTo.Contains("#"))
+                        if(renderTo.Contains("#"))
                         {
                             hashInFileName = true;
                             minifiedContent = Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, bundleState.Arbitrary));
@@ -472,7 +469,7 @@ namespace SquishIt.Framework.Base
                             outputFile = outputFile.Replace("#", hash);
                         }
 
-                        if (ShouldRenderOnlyIfOutputFileIsMissing && FileExists(outputFile))
+                        if(ShouldRenderOnlyIfOutputFileIsMissing && FileExists(outputFile))
                         {
                             minifiedContent = ReadFile(outputFile);
                         }
@@ -482,23 +479,23 @@ namespace SquishIt.Framework.Base
                             renderer.Render(minifiedContent, outputFile);
                         }
 
-                        if (hash == null && !string.IsNullOrEmpty(HashKeyName))
+                        if(hash == null && !string.IsNullOrEmpty(HashKeyName))
                         {
                             hash = hasher.GetHash(minifiedContent);
                         }
 
                         string renderedTag;
-                        if (hashInFileName)
+                        if(hashInFileName)
                         {
                             renderedTag = FillTemplate(bundleState, renderToPath);
                         }
                         else
                         {
-                            if (string.IsNullOrEmpty(HashKeyName))
+                            if(string.IsNullOrEmpty(HashKeyName))
                             {
                                 renderedTag = FillTemplate(bundleState, renderToPath);
                             }
-                            else if (renderToPath.Contains("?"))
+                            else if(renderToPath.Contains("?"))
                             {
                                 renderedTag = FillTemplate(bundleState, renderToPath + "&" + HashKeyName + "=" + hash);
                             }
@@ -524,9 +521,9 @@ namespace SquishIt.Framework.Base
 
         private void AddAttributes(Dictionary<string, string> attributes, bool merge = true)
         {
-            if (merge)
+            if(merge)
             {
-                foreach (var attribute in attributes)
+                foreach(var attribute in attributes)
                 {
                     bundleState.Attributes[attribute.Key] = attribute.Value;
                 }
@@ -581,7 +578,7 @@ namespace SquishIt.Framework.Base
         {
             var sb = new StringBuilder();
             var allContent = files.Select(ReadFile).Union(arbitraryContent);
-            foreach (var content in allContent)
+            foreach(var content in allContent)
             {
                 sb.Append(ReadFile(content) + "\n");
             }
@@ -597,11 +594,11 @@ namespace SquishIt.Framework.Base
         private BundleState GetCachedGroupBundle(string name)
         {
             var bundle = bundleStateCache[CachePrefix + name];
-            if (bundle.ForceDebug)
+            if(bundle.ForceDebug)
             {
                 debugStatusReader.ForceDebug();
             }
-            if (bundle.ForceRelease)
+            if(bundle.ForceRelease)
             {
                 debugStatusReader.ForceRelease();
             }
