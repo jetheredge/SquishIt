@@ -95,14 +95,14 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleJsVaryingOutputBaseHrefRendersIndependantUrl() 
+        public void CanBundleJsVaryingOutputBaseHrefRendersIndependentUrl() 
         {
             fileReaderFactory.SetContents(javaScript);
 
             string tag = javaScriptBundle
                             .Add("/js/first.js")
                             .Add("/js/second.js")
-                            .WithOutputBaseHref("http//subdomain.domain.com")
+                            .WithOutputBaseHref("http://subdomain.domain.com")
                             .Render("/js/output.js");
 
 
@@ -111,8 +111,26 @@ namespace SquishIt.Tests
                             .Add("/js/second.js")
                             .Render("/js/output.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"http//subdomain.domain.com/js/output.js?r=42C40AB6B5ED5B2868E70CB08201F965\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://subdomain.domain.com/js/output.js?r=42C40AB6B5ED5B2868E70CB08201F965\"></script>", tag);
             Assert.AreEqual("<script type=\"text/javascript\" src=\"/js/output.js?r=42C40AB6B5ED5B2868E70CB08201F965\"></script>", tagNoBaseHref);
+        }
+
+        [Test]
+        public void RenderNamedUsesOutputBaseHref()
+        {
+            fileReaderFactory.SetContents(javaScript);
+
+            javaScriptBundle
+                .Add("/js/first.js")
+                .Add("/js/second.js")
+                .WithOutputBaseHref("http://subdomain.domain.com")
+                .AsNamed("leBundle", "/js/output.js");
+
+            var tag = javaScriptBundle2
+                .WithOutputBaseHref("http://subdomain.domain.com")
+                .RenderNamed("leBundle");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://subdomain.domain.com/js/output.js?r=42C40AB6B5ED5B2868E70CB08201F965\"></script>", tag);
         }
 
         [Test]

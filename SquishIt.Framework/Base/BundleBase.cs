@@ -283,6 +283,7 @@ namespace SquishIt.Framework.Base
         private string Render(string renderTo, string key, IRenderer renderer)
         {
             key = CachePrefix + key;
+
             if(!String.IsNullOrEmpty(BaseOutputHref))
             {
                 key = BaseOutputHref + key;
@@ -301,7 +302,11 @@ namespace SquishIt.Framework.Base
         public string RenderNamed(string name)
         {
             bundleState = GetCachedGroupBundle(name);
-            var content = bundleCache.GetContent(CachePrefix + name);
+            //TODO: this sucks
+            // Revisit https://github.com/jetheredge/SquishIt/pull/155 and https://github.com/jetheredge/SquishIt/issues/183
+            //hopefully we can find a better way to satisfy both of these requirements
+            var fullName = (BaseOutputHref ?? "") + CachePrefix + name;
+            var content = bundleCache.GetContent(fullName);
             if(content == null)
             {
                 AsNamed(name, bundleState.Path);
