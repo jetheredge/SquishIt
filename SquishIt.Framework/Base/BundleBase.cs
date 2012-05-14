@@ -236,6 +236,19 @@ namespace SquishIt.Framework.Base
             return (T)this;
         }
 
+        public T AddDynamic(string siteRelativePath)
+        {
+            if(HttpContext.Current == null)
+                throw new InvalidOperationException("This isn't going to work...");
+            if(!siteRelativePath.StartsWith("/"))
+                throw new InvalidOperationException("This helper method only works with site relative paths.");
+
+            var url = HttpContext.Current.Request.Url;
+            var port = url.Port != 80 ? (":" + url.Port) : String.Empty;
+            var absolutePath = string.Format("{0}://{1}{2}{3}", url.Scheme, url.Host, port, VirtualPathUtility.ToAbsolute(siteRelativePath));
+            return AddRemote(siteRelativePath, absolutePath, true);
+        }
+
         public T AddEmbeddedResource(string localPath, string embeddedResourcePath)
         {
             AddAsset(new Asset(localPath, embeddedResourcePath, 0, true));
@@ -293,7 +306,6 @@ namespace SquishIt.Framework.Base
             {
                 var content = DebugContent(key);
                 renderer.Render(content, renderTo);
-
                 return content;
             }
             return RenderRelease(key, renderTo, renderer);
