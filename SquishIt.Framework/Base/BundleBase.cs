@@ -304,8 +304,7 @@ namespace SquishIt.Framework.Base
 
             if(debugStatusReader.IsDebuggingEnabled())
             {
-                var content = DebugContent(key);
-                renderer.Render(content, renderTo);
+                var content = RenderDebug(renderTo, key, renderer);
                 return content;
             }
             return RenderRelease(key, renderTo, renderer);
@@ -360,7 +359,7 @@ namespace SquishIt.Framework.Base
             return result;
         }
 
-        string DebugContent(string name = null)
+        string RenderDebug(string renderTo, string name, IRenderer renderer)
         {
             string content = null;
 
@@ -390,6 +389,8 @@ namespace SquishIt.Framework.Base
                     }
 
                     var processedFile = ExpandAppRelativePath(asset.LocalPath);
+                    //embedded resources need to be rendered regardless to be usable
+                    renderer.Render(tsb.ToString(), FileSystem.ResolveAppRelativePathToFileSystem(processedFile));
                     sb.AppendLine(FillTemplate(bundleState, processedFile));
                 }
                 else if(asset.RemotePath != null)
@@ -424,6 +425,10 @@ namespace SquishIt.Framework.Base
                 bundleCache.Remove(name);
             }
             bundleCache.Add(name, content, DependentFiles);
+
+            //need to render the bundle to caches, otherwise leave it
+            if(renderer is CacheRenderer)
+                renderer.Render(content, renderTo);
 
             return content;
         }
