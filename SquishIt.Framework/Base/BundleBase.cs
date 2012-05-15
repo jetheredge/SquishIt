@@ -238,15 +238,20 @@ namespace SquishIt.Framework.Base
 
         public T AddDynamic(string siteRelativePath)
         {
+            var absolutePath = BuildAbsolutePath(siteRelativePath);
+            return AddRemote(siteRelativePath, absolutePath, true);
+        }
+
+        string BuildAbsolutePath(string siteRelativePath)
+        {
             if(HttpContext.Current == null)
-                throw new InvalidOperationException("This isn't going to work...");
+                throw new InvalidOperationException("Absolute path can only be constructed in the presence of an HttpContext.");
             if(!siteRelativePath.StartsWith("/"))
                 throw new InvalidOperationException("This helper method only works with site relative paths.");
 
             var url = HttpContext.Current.Request.Url;
             var port = url.Port != 80 ? (":" + url.Port) : String.Empty;
-            var absolutePath = string.Format("{0}://{1}{2}{3}", url.Scheme, url.Host, port, VirtualPathUtility.ToAbsolute(siteRelativePath));
-            return AddRemote(siteRelativePath, absolutePath, true);
+            return string.Format("{0}://{1}{2}{3}", url.Scheme, url.Host, port, VirtualPathUtility.ToAbsolute(siteRelativePath));
         }
 
         public T AddEmbeddedResource(string localPath, string embeddedResourcePath)
