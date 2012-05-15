@@ -1201,7 +1201,7 @@ namespace SquishIt.Tests
             var tag = bundle.Render("~/combined_#.css");
 
             Assert.AreEqual(0, cssBundleFactory.FileWriterFactory.Files.Count);
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/some/dynamic/css\" />\r\n", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/some/dynamic/css\" />\n", TestUtilities.NormalizeLineEndings(tag));
         }
 
         [Test]

@@ -801,7 +801,7 @@ namespace SquishIt.Tests
                 .Render("~/combined_#.js");
 
             Assert.AreEqual(0, fileWriterFactory.Files.Count);
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"/some/dynamic/js\"></script>\r\n", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"/some/dynamic/js\"></script>\n", TestUtilities.NormalizeLineEndings(tag));
         }
 
         [Test]
