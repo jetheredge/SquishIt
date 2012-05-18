@@ -92,7 +92,6 @@
     <Compile Include="BundleCache.cs" />
     <Compile Include="Css\CssBundle.cs" />
     <Compile Include="Css\CssPathRewriter.cs" />
-    <Compile Include="FileGZipper.cs" />
     <Compile Include="Resolvers\EmbeddedResourceResolver.cs" />
     <Compile Include="Resolvers\FileSystemResolver.cs" />
     <Compile Include="Resolvers\HttpResolver.cs" />
@@ -116,7 +115,6 @@
     <Compile Include="Minifiers\CSS\NullCompressor.cs" />
     <Compile Include="Minifiers\CSS\YuiCompressor.cs" />
     <Compile Include="Minifiers\MinifierFactory.cs" />
-    <Compile Include="JavaScript\RenderedScriptBundle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderers\CacheRenderer.cs" />
     <Compile Include="Renderers\FileRenderer.cs" />

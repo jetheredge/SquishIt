@@ -8,7 +8,6 @@ namespace SquishIt.Framework.Base
         internal Dictionary<string, string> Attributes = new Dictionary<string, string>();
         internal IList<ArbitraryContent> Arbitrary = new List<ArbitraryContent>();
         
-        internal int Order { get; set; }
         public bool ForceDebug { get; set; }
         public bool ForceRelease { get; set; }
         public string Path { get; set; }
