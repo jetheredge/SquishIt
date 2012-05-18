@@ -8,79 +8,79 @@ using SquishIt.Framework.Files;
 
 namespace SquishIt.Framework.Utilities
 {
-	public class FilePathMutexProvider : IFilePathMutexProvider
-	{
-		private const string NullPathSurrogate = "<NULL>";
+    public class FilePathMutexProvider : IFilePathMutexProvider
+    {
+        private const string NullPathSurrogate = "<NULL>";
 
-		private static readonly IFilePathMutexProvider instance = new FilePathMutexProvider();
-		private static readonly object createMutexLock = new object();
+        internal static IFilePathMutexProvider instance;
+        private static readonly object createMutexLock = new object();
 
-		private readonly Dictionary<string, Mutex> pathMutexes =
-			new Dictionary<string, Mutex>(StringComparer.Ordinal);
-		private readonly IHasher hasher;
+        private readonly Dictionary<string, Mutex> pathMutexes =
+            new Dictionary<string, Mutex>(StringComparer.Ordinal);
+        private readonly IHasher hasher;
 
-		public static IFilePathMutexProvider Instance
-		{
-			get { return instance; }
-		}
+        public static IFilePathMutexProvider Instance
+        {
+            get { return instance ?? (instance = new FilePathMutexProvider()); }
+        }
 
-		public FilePathMutexProvider()
-			: this(new Hasher(new RetryableFileOpener()))
-		{
-		}
+        public FilePathMutexProvider()
+            : this(new Hasher(new RetryableFileOpener()))
+        {
+        }
 
-		public FilePathMutexProvider(IHasher hasher)
-		{
-			this.hasher = hasher;
-		}
+        public FilePathMutexProvider(IHasher hasher)
+        {
+            this.hasher = hasher;
+        }
 
-		public Mutex GetMutexForPath(string path)
-		{
-			Mutex result;
+        public Mutex GetMutexForPath(string path)
+        {
+            Mutex result;
 
-			string normalizedPath = GetNormalizedPath(path);
-			if (pathMutexes.TryGetValue(normalizedPath, out result))
-			{
-				return result;
-			}
+            string normalizedPath = GetNormalizedPath(path);
+            if(pathMutexes.TryGetValue(normalizedPath, out result))
+            {
+                return result;
+            }
 
-			lock (createMutexLock)
-			{
-				if (pathMutexes.TryGetValue(normalizedPath, out result))
-				{
-					return result;
-				}
+            lock(createMutexLock)
+            {
+                if(pathMutexes.TryGetValue(normalizedPath, out result))
+                {
+                    return result;
+                }
 
-				result = CreateSharableMutexForPath(normalizedPath);
-				pathMutexes[normalizedPath] = result;
-			}
+                result = CreateSharableMutexForPath(normalizedPath);
+                pathMutexes[normalizedPath] = result;
+            }
 
-			return result;
-		}
+            return result;
+        }
 
-		private static string GetNormalizedPath(string path)
-		{
-			if (String.IsNullOrEmpty(path))
-			{
-				return NullPathSurrogate;
-			}
+        private static string GetNormalizedPath(string path)
+        {
+            if(String.IsNullOrEmpty(path))
+            {
+                return NullPathSurrogate;
+            }
 
-			// Normalize the path
-			var fileSystemPath = FileSystem.ResolveAppRelativePathToFileSystem(path);
-			// The path is lower cased to avoid different hashes. Even on a case sensitive
-			// file system this probably is okay, since it's a web application
-			return Path.GetFullPath(fileSystemPath)
-				.ToLowerInvariant();
-		}
+            // Normalize the path
+            var fileSystemPath = FileSystem.ResolveAppRelativePathToFileSystem(path);
+            // The path is lower cased to avoid different hashes. Even on a case sensitive
+            // file system this probably is okay, since it's a web application
+            return Path.GetFullPath(fileSystemPath)
+                .ToLowerInvariant();
+        }
 
-		private Mutex CreateSharableMutexForPath(string normalizedPath)
-		{
-			// The path is transformed to a hash value to avoid getting an invalid Mutex name.
-			var mutexName = @"Global\SquishitPath" + hasher.GetHash(normalizedPath);
-			return CreateSharableMutex(mutexName);
-		}
+        private Mutex CreateSharableMutexForPath(string normalizedPath)
+        {
+            // The path is transformed to a hash value to avoid getting an invalid Mutex name.
+            var mutexName = @"Global\SquishitPath" + hasher.GetHash(normalizedPath);
+            return CreateSharableMutex(mutexName);
+        }
 
-        private static Mutex CreateSharableMutex (string name) 
+        private static Mutex CreateSharableMutex(string name)
         {
             // Creates a mutex sharable by more than one process
 
@@ -88,16 +88,16 @@ namespace SquishIt.Framework.Utilities
             // an existing one, in a thread-safe manner
             bool createdNew;
 
-            var everyoneSid = new SecurityIdentifier (WellKnownSidType.WorldSid, null);
+            var everyoneSid = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
 
-            if (FileSystem.Unix) 
+            if(FileSystem.Unix)
             {
                 //MutexAccessRules don't seem to work on mono yet: http://lists.ximian.com/pipermail/mono-list/2008-August/039294.html
-                return new Mutex (false, name, out createdNew);
+                return new Mutex(false, name, out createdNew);
             }
-            var mutexSecurity = new MutexSecurity ();
-            mutexSecurity.AddAccessRule (new MutexAccessRule (everyoneSid, MutexRights.FullControl, AccessControlType.Allow));
-            return new Mutex (false, name, out createdNew, mutexSecurity);
+            var mutexSecurity = new MutexSecurity();
+            mutexSecurity.AddAccessRule(new MutexAccessRule(everyoneSid, MutexRights.FullControl, AccessControlType.Allow));
+            return new Mutex(false, name, out createdNew, mutexSecurity);
         }
-	}
+    }
 }

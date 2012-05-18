@@ -1,64 +1,35 @@
 ﻿using System;
 using System.Threading;
-using System.Web;
-namespace SquishIt.Framework.Utilities 
+
+namespace SquishIt.Framework.Utilities
 {
-    public class CriticalRenderingSection : IDisposable {
+    public class CriticalRenderingSection : IDisposable
+    {
         // this feels a bit like IDisposable abuse but allows us to code BundleBase in a more mutex-agnostic fashion
         // probably acceptable alternative for try .. finally though
         private IFilePathMutexProvider mutexProvider;
-        protected IFilePathMutexProvider MutexProvider 
+        protected IFilePathMutexProvider MutexProvider
         {
             get { return mutexProvider ?? (mutexProvider = FilePathMutexProvider.Instance); }
             set { mutexProvider = value; }
         }
 
         Mutex mutex;
-        public CriticalRenderingSection(string path) 
+        public CriticalRenderingSection(string path)
         {
-            if (IsHighOrUnrestrictedTrust) 
+            if(TrustLevel.IsHighOrUnrestrictedTrust)
             {
                 mutex = MutexProvider.GetMutexForPath(path);
                 mutex.WaitOne();
             }
         }
 
-        public void Dispose() 
+        public void Dispose()
         {
-            if (IsHighOrUnrestrictedTrust) 
+            if(TrustLevel.IsHighOrUnrestrictedTrust)
             {
                 mutex.ReleaseMutex();
             }
-        }
-
-        bool IsHighOrUnrestrictedTrust 
-        {
-            get { return trustLevel == AspNetHostingPermissionLevel.High || trustLevel == AspNetHostingPermissionLevel.Unrestricted; }
-        }
-
-        AspNetHostingPermissionLevel trustLevel = GetCurrentTrustLevel();
-
-        static AspNetHostingPermissionLevel GetCurrentTrustLevel() 
-        {
-            var lastTrustedLevel = AspNetHostingPermissionLevel.None;
-
-            foreach (AspNetHostingPermissionLevel level in new[] {
-                AspNetHostingPermissionLevel.Minimal,
-                AspNetHostingPermissionLevel.Low,
-                AspNetHostingPermissionLevel.Medium,
-                AspNetHostingPermissionLevel.High,
-                AspNetHostingPermissionLevel.Unrestricted }) 
-            {
-                try {
-                    new AspNetHostingPermission(level).Demand();
-                    lastTrustedLevel = level;
-                }
-                catch (System.Security.SecurityException) {
-                    break;
-                }
-            }
-
-            return lastTrustedLevel;
         }
     }
 }

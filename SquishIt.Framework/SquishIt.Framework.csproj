@@ -147,6 +147,7 @@
     <Compile Include="Utilities\NamedState.cs" />
     <Compile Include="FileSystem.cs" />
     <Compile Include="Utilities\FilePathMutexProvider.cs" />
+    <Compile Include="Utilities\TrustLevel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="closure-compiler\compiler.jar">
