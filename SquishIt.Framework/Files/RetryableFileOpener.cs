@@ -41,25 +41,25 @@ namespace SquishIt.Framework.Files
         {
             var delay = 0;
 
-            for (var i = 0; i < retry; i++)
+            for(var i = 0; i < retry; i++)
             {
                 try
                 {
                     var stream = new FileStream(filePath, fileMode, fileAccess, fileShare);
                     return stream;
                 }
-    		    catch(DirectoryNotFoundException)
-		        {
-		            throw;
-		        }
-                catch (FileNotFoundException)
+                catch(DirectoryNotFoundException)
                 {
                     throw;
                 }
-                catch (IOException)
+                catch(FileNotFoundException)
+                {
+                    throw;
+                }
+                catch(IOException)
                 {
                     delay += 100;
-                    if (i == retry) throw;
+                    if(i == retry) throw;
                 }
                 Thread.Sleep(delay);
             }
@@ -97,25 +97,25 @@ namespace SquishIt.Framework.Files
         {
             var delay = 0;
 
-            for (var i = 0; i < retry; i++)
+            for(var i = 0; i < retry; i++)
             {
                 try
                 {
                     var stream = new StreamReader(filePath, Encoding.UTF8);
                     return stream;
                 }
-        	catch(DirectoryNotFoundException)
-		{
-		    throw;
-		}
+                catch(DirectoryNotFoundException)
+                {
+                    throw;
+                }
                 catch(FileNotFoundException)
                 {
                     throw;
                 }
-                catch (IOException)
+                catch(IOException)
                 {
                     delay += 100;
-                    if (i == retry) throw;
+                    if(i == retry) throw;
                 }
 
                 Thread.Sleep(delay);
@@ -148,28 +148,28 @@ namespace SquishIt.Framework.Files
         {
             var delay = 0;
 
-            for (var i = 0; i < retry; i++)
+            for(var i = 0; i < retry; i++)
             {
                 try
                 {
                     var stream = new StreamWriter(filePath, append, Encoding.UTF8);
                     return stream;
                 }
-                catch (FileNotFoundException)
+                catch(FileNotFoundException)
                 {
                     throw;
                 }
-                catch (IOException)
+                catch(IOException)
                 {
                     delay += 100;
-                    if (i == retry) throw;
+                    if(i == retry) throw;
                 }
 
                 Thread.Sleep(delay);
             }
 
             //We will never get here
-            throw new IOException("Unable to open file");            
+            throw new IOException("Unable to open file");
         }
     }
 }

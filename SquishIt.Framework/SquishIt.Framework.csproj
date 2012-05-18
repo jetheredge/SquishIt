@@ -60,6 +60,7 @@
     <Reference Include="System.Core">
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Xml.Linq">
     </Reference>
     <Reference Include="System.Data.DataSetExtensions">
@@ -81,6 +82,7 @@
     <Compile Include="Base\BundleBase.cs" />
     <Compile Include="Base\BundleState.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="HttpContext.cs" />
     <Compile Include="Utilities\CriticalRenderingSection.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="IBundleCache.cs" />
@@ -136,9 +138,11 @@
     <Compile Include="Files\IFileWriterFactory.cs" />
     <Compile Include="Utilities\IFilePathMutexProvider.cs" />
     <Compile Include="Utilities\IHasher.cs" />
+    <Compile Include="Utilities\MachineConfigReader.cs" />
     <Compile Include="Utilities\NamedState.cs" />
     <Compile Include="FileSystem.cs" />
     <Compile Include="Utilities\FilePathMutexProvider.cs" />
+    <Compile Include="Utilities\TrustLevel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="closure-compiler\compiler.jar">

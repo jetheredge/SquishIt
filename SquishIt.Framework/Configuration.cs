@@ -138,7 +138,7 @@ namespace SquishIt.Framework
             return _defaultReleaseRenderer;
         }
 
-        public Configuration UseOutputBaseHref(string url)
+        public Configuration UseDefaultOutputBaseHref(string url)
         {
             _defaultOutputBaseHref = url;
             return this;

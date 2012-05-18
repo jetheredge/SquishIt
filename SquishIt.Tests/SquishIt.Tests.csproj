@@ -77,6 +77,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core">
     </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Xml.Linq">
     </Reference>
     <Reference Include="System.Data.DataSetExtensions">
@@ -92,12 +94,17 @@
     <Compile Include="AssetsFileHasherTests.cs" />
     <Compile Include="CoffeeScriptTests.cs" />
     <Compile Include="ScriptPreprocessorPipelineTests.cs" />
+    <Compile Include="CriticalRenderingSectionTest.cs" />
     <Compile Include="CssBundleTests.cs" />
     <Compile Include="CssCompressorsTests.cs" />
     <Compile Include="CssPathRewriterTests.cs" />
+    <Compile Include="DebugStatusReaderTest.cs" />
+    <Compile Include="Helpers\FilePathMutexProviderScope.cs" />
     <Compile Include="Helpers\JavaScriptBundleFactory.cs" />
     <Compile Include="Helpers\CssBundleFactory.cs" />
     <Compile Include="Helpers\ResolverFactoryScope.cs" />
+    <Compile Include="Helpers\TrustLevelScope.cs" />
+    <Compile Include="HttpContextScope.cs" />
     <Compile Include="JavaScriptBundleTests.cs" />
     <Compile Include="JavaScriptMinifierTests.cs" />
     <Compile Include="MultipleWorkerProcessesTests.cs" />

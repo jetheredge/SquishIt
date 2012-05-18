@@ -291,6 +291,24 @@ namespace SquishIt.Framework.Base
             return (T)this;
         }
 
+        public T AddDynamic(string siteRelativePath)
+        {
+            var absolutePath = BuildAbsolutePath(siteRelativePath);
+            return AddRemote(siteRelativePath, absolutePath, true);
+        }
+
+        string BuildAbsolutePath(string siteRelativePath)
+        {
+            if(HttpContext.Current == null)
+                throw new InvalidOperationException("Absolute path can only be constructed in the presence of an HttpContext.");
+            if(!siteRelativePath.StartsWith("/"))
+                throw new InvalidOperationException("This helper method only works with site relative paths.");
+
+            var url = HttpContext.Current.Request.Url;
+            var port = url.Port != 80 ? (":" + url.Port) : String.Empty;
+            return string.Format("{0}://{1}{2}{3}", url.Scheme, url.Host, port, VirtualPathUtility.ToAbsolute(siteRelativePath));
+        }
+
         public T AddEmbeddedResource(string localPath, string embeddedResourcePath)
         {
             AddAsset(new Asset(localPath, embeddedResourcePath, 0, true));
@@ -338,6 +356,7 @@ namespace SquishIt.Framework.Base
         private string Render(string renderTo, string key, IRenderer renderer)
         {
             key = CachePrefix + key;
+
             if(!String.IsNullOrEmpty(BaseOutputHref))
             {
                 key = BaseOutputHref + key;
@@ -345,9 +364,7 @@ namespace SquishIt.Framework.Base
 
             if(debugStatusReader.IsDebuggingEnabled())
             {
-                var content = DebugContent(key);
-                renderer.Render(content, renderTo);
-
+                var content = RenderDebug(renderTo, key, renderer);
                 return content;
             }
             return RenderRelease(key, renderTo, renderer);
@@ -356,7 +373,11 @@ namespace SquishIt.Framework.Base
         public string RenderNamed(string name)
         {
             bundleState = GetCachedGroupBundle(name);
-            var content = bundleCache.GetContent(CachePrefix + name);
+            //TODO: this sucks
+            // Revisit https://github.com/jetheredge/SquishIt/pull/155 and https://github.com/jetheredge/SquishIt/issues/183
+            //hopefully we can find a better way to satisfy both of these requirements
+            var fullName = (BaseOutputHref ?? "") + CachePrefix + name;
+            var content = bundleCache.GetContent(fullName);
             if(content == null)
             {
                 AsNamed(name, bundleState.Path);
@@ -398,7 +419,7 @@ namespace SquishIt.Framework.Base
             return result;
         }
 
-        protected string DebugContent(string name = null)
+        string RenderDebug(string renderTo, string name, IRenderer renderer)
         {
             string content = null;
 
@@ -428,6 +449,8 @@ namespace SquishIt.Framework.Base
                     }
 
                     var processedFile = ExpandAppRelativePath(asset.LocalPath);
+                    //embedded resources need to be rendered regardless to be usable
+                    renderer.Render(tsb.ToString(), FileSystem.ResolveAppRelativePathToFileSystem(processedFile));
                     sb.AppendLine(FillTemplate(bundleState, processedFile));
                 }
                 else if(asset.RemotePath != null)
@@ -465,6 +488,10 @@ namespace SquishIt.Framework.Base
                 bundleCache.Remove(name);
             }
             bundleCache.Add(name, content, DependentFiles);
+
+            //need to render the bundle to caches, otherwise leave it
+            if(renderer is CacheRenderer)
+                renderer.Render(content, renderTo);
 
             return content;
         }

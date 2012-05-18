@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Web;
 using Moq;
 using NUnit.Framework;
 using SquishIt.Framework.Css;
@@ -35,6 +36,7 @@ namespace SquishIt.Tests
                                 .FloatLeft {
                                     float:left;
                                 }");
+        string minifiedCss = "li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}";
 
         private string css2 = TestUtilities.NormalizeLineEndings(@" li {
                                     margin-bottom:0.1em;
@@ -132,7 +134,7 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleCssVaryingOutputBaseHrefRendersIndependantUrl()
+        public void CanBundleCssVaryingOutputBaseHrefRendersIndependentUrl()
         {
             //Verify that depending on basehref, we get independantly cached and returned URLs
             CSSBundle cssBundle = cssBundleFactory
@@ -145,7 +147,7 @@ namespace SquishIt.Tests
             string tag = cssBundle
                             .Add("/css/first.css")
                             .Add("/css/second.css")
-                            .WithOutputBaseHref("http//subdomain.domain.com")
+                            .WithOutputBaseHref("http://subdomain.domain.com")
                             .Render("/css/output.css");
 
             CSSBundle cssBundleNoBaseHref = cssBundleFactory
@@ -160,10 +162,36 @@ namespace SquishIt.Tests
                             .Add("/css/second.css")
                             .Render("/css/output.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"http//subdomain.domain.com/css/output.css?r=C33D1225DED9D889876CEE87754EE305\" />", tag);
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output.css?r=C33D1225DED9D889876CEE87754EE305\" />", tagNoBaseHref);
+           Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"http://subdomain.domain.com/css/output.css?r=C33D1225DED9D889876CEE87754EE305\" />", tag);
+           Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output.css?r=C33D1225DED9D889876CEE87754EE305\" />", tagNoBaseHref);
         }
 
+        [Test]
+        public void RenderNamedUsesOutputBaseHref()
+        {
+            //Verify that depending on basehref, we get independantly cached and returned URLs
+            CSSBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
+                .WithDebuggingEnabled(false)
+                .Create();
+
+            cssBundleFactory.FileReaderFactory.SetContents(css);
+
+            cssBundle
+                .Add("/css/first.css")
+                .Add("/css/second.css")
+                .WithOutputBaseHref("http://subdomain.domain.com")
+                .AsNamed("leBundle", "/css/output.css");
+
+            var tag = cssBundleFactory
+                .WithHasher(hasher)
+                .WithDebuggingEnabled(false)
+                .Create()
+                .WithOutputBaseHref("http://subdomain.domain.com")
+                .RenderNamed("leBundle");
+
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"http://subdomain.domain.com/css/output.css?r=C33D1225DED9D889876CEE87754EE305\" />", tag);
+        }
 
         [Test]
         public void CanBundleCssWithQueryStringParameter()
@@ -237,9 +265,9 @@ namespace SquishIt.Tests
                     .AddRemote("/css/first.css", "http://www.someurl.com/css/first.css")
                     .Add("/css/second.css")
                     .Render("/css/output_remote.css");
-                Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"http://www.someurl.com/css/first.css\" /><link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_remote.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
-                Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
-                Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_remote.css")]);
+                Assert.AreEqual ("<link rel=\"stylesheet\" type=\"text/css\" href=\"http://www.someurl.com/css/first.css\" /><link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_remote.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
+                Assert.AreEqual (1, cssBundleFactory.FileWriterFactory.Files.Count);
+                Assert.AreEqual (minifiedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath (@"css\output_remote.css")]);
             }
         }
 
@@ -258,7 +286,7 @@ namespace SquishIt.Tests
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_embedded.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
-            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}"
+            Assert.AreEqual(minifiedCss
                             , cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_embedded.css")]);
         }
 
@@ -293,7 +321,7 @@ namespace SquishIt.Tests
 
             string tag = cssBundle.RenderNamed("Test");
 
-            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")]);
+            Assert.AreEqual (minifiedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath (@"css\output.css")]);
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
         }
 
@@ -331,7 +359,7 @@ namespace SquishIt.Tests
 
             string tag = cssBundle.RenderNamed("TestWithMedia");
 
-            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")]);
+            Assert.AreEqual (minifiedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath (@"css\output.css")]);
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"css/output.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
         }
 
@@ -472,7 +500,7 @@ namespace SquishIt.Tests
                 .Add("/css/first.css")
                 .Render("~/css/can_render_only_if_file_missing.css");
 
-            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\can_render_only_if_file_missing.css")]);
+            Assert.AreEqual(minifiedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\can_render_only_if_file_missing.css")]);
 
             cssBundleFactory.FileReaderFactory.SetContents(css2);
             cssBundleFactory.FileReaderFactory.SetFileExists(true);
@@ -483,7 +511,7 @@ namespace SquishIt.Tests
                 .RenderOnlyIfOutputFileMissing()
                 .Render("~/css/can_render_only_if_file_missing.css");
 
-            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\can_render_only_if_file_missing.css")]);
+            Assert.AreEqual(minifiedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\can_render_only_if_file_missing.css")]);
         }
 
         [Test]
@@ -501,7 +529,7 @@ namespace SquishIt.Tests
                 .Add("/css/first.css")
                 .Render("~/css/can_rerender_files.css");
 
-            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\can_rerender_files.css")]);
+            Assert.AreEqual(minifiedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\can_rerender_files.css")]);
 
             CSSBundle cssBundle2 = cssBundleFactory
                 .WithDebuggingEnabled(false)
@@ -708,7 +736,7 @@ namespace SquishIt.Tests
 
             string tag = cssBundle.RenderNamed("TestForce");
 
-            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\named_withforce.css")]);
+            Assert.AreEqual(minifiedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\named_withforce.css")]);
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/named_withforce.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
         }
 
@@ -764,7 +792,7 @@ namespace SquishIt.Tests
 
             string contents = cssBundle.RenderCached("TestCached");
 
-            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", contents);
+            Assert.AreEqual(minifiedCss, contents);
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"static/css/TestCached.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
         }
 
@@ -785,7 +813,7 @@ namespace SquishIt.Tests
             cssBundle.ClearCache();
             string tag = cssBundle.RenderCachedAssetTag("TestCached");
 
-            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", contents);
+            Assert.AreEqual(minifiedCss, contents);
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"static/css/TestCached.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
         }
 
@@ -1060,6 +1088,56 @@ namespace SquishIt.Tests
                 .Render("test.css");
 
             renderer.VerifyAll();
+        }
+
+
+        [Test]
+        public void CanIncludeDynamicContentInDebug()
+        {
+            var context = new Mock<HttpContextBase>();
+            var request = new Mock<HttpRequestBase>();
+            request.SetupGet(r => r.Url).Returns(new Uri("http://example.com"));
+            context.SetupGet(c => c.Request).Returns(request.Object);
+
+            var bundle = cssBundleFactory
+                .WithDebuggingEnabled(true)
+                .Create();
+
+            using(new HttpContextScope(context.Object))
+            {
+                bundle.AddDynamic("/some/dynamic/css");
+            }
+
+            var tag = bundle.Render("~/combined_#.css");
+
+            Assert.AreEqual(0, cssBundleFactory.FileWriterFactory.Files.Count);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/some/dynamic/css\" />\n", TestUtilities.NormalizeLineEndings(tag));
+        }
+
+        [Test]
+        public void CanIncludeDynamicContentInRelease()
+        {
+            //this doesn't really test the nitty-gritty details (http resolver, download etc...) but its a start
+            var context = new Mock<HttpContextBase>();
+            var request = new Mock<HttpRequestBase>();
+            request.SetupGet(r => r.Url).Returns(new Uri("http://example.com"));
+            context.SetupGet(c => c.Request).Returns(request.Object);
+
+            var bundle = cssBundleFactory
+                .WithContents(css)
+                .WithDebuggingEnabled(false)
+                .Create();
+
+            using(new HttpContextScope(context.Object))
+            {
+                bundle.AddDynamic("/some/dynamic/css");
+            }
+
+            var tag = bundle.Render("~/combined.css");
+
+            Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
+            Assert.AreEqual(minifiedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath("combined.css")]);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"combined.css?r=hash\" />", tag);
         }
     }
 }
