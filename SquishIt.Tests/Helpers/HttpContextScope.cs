@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web;
 
-namespace SquishIt.Tests
+namespace SquishIt.Tests.Helpers
 {
     public class HttpContextScope : IDisposable
     {
