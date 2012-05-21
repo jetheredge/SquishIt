@@ -65,7 +65,7 @@ namespace SquishIt.Framework.Files
             }
 
             //We will never get here
-            throw new IOException(System.String.Format("Unable to open file '{0}'", filePath));
+            throw new IOException(string.Format("Unable to open file '{0}'", filePath));
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace SquishIt.Framework.Files
             }
 
             //We will never get here
-            throw new IOException(System.String.Format("Unable to open file '{0}'", filePath));
+            throw new IOException(string.Format("Unable to open file '{0}'", filePath));
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace SquishIt.Framework.Files
             }
 
             //We will never get here
-            throw new IOException("Unable to open file");
+            throw new IOException(string.Format("Unable to open file '{0}'", filePath));
         }
     }
 }
