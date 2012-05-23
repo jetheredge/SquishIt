@@ -827,5 +827,21 @@ namespace SquishIt.Tests
             Assert.AreEqual(minifiedJavaScript, fileWriterFactory.Files[TestUtilities.PrepareRelativePath("combined.js")]);
             Assert.AreEqual("<script type=\"text/javascript\" src=\"combined.js?r=36286D0CEA57C5ED24B868EB0D2898E9\"></script>", tag);
         }
+
+        [Test]
+        public void RenderRelease_OmitsRenderedTag_IfOnlyRemoteAssets()
+        {
+            //this is rendering tag correctly but incorrectly(?) merging both files
+            using(new ResolverFactoryScope(typeof(Framework.Resolvers.HttpResolver).FullName, StubResolver.ForFile("http://www.someurl.com/css/first.css")))
+            {
+                string tag = javaScriptBundle
+                    .ForceRelease()
+                    .AddRemote("/css/first.js", "http://www.someurl.com/js/first.js")
+                    .Render("/css/output_remote.js");
+
+                Assert.AreEqual("<script type=\"text/javascript\" src=\"http://www.someurl.com/js/first.js\"></script>", tag);
+                Assert.AreEqual(0, fileWriterFactory.Files.Count);
+            }
+        }
     }
 }

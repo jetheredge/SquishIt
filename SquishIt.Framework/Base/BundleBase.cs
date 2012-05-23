@@ -373,7 +373,7 @@ namespace SquishIt.Framework.Base
 
         public string RenderNamed(string name)
         {
-            bundleState = GetCachedGroupBundle(name);
+            bundleState = GetCachedBundleState(name);
             //TODO: this sucks
             // Revisit https://github.com/jetheredge/SquishIt/pull/155 and https://github.com/jetheredge/SquishIt/issues/183
             //hopefully we can find a better way to satisfy both of these requirements
@@ -389,7 +389,7 @@ namespace SquishIt.Framework.Base
 
         public string RenderCached(string name)
         {
-            bundleState = GetCachedGroupBundle(name);
+            bundleState = GetCachedBundleState(name);
             var content = CacheRenderer.Get(CachePrefix, name);
             if(content == null)
             {
@@ -401,7 +401,7 @@ namespace SquishIt.Framework.Base
 
         public string RenderCachedAssetTag(string name)
         {
-            bundleState = GetCachedGroupBundle(name);
+            bundleState = GetCachedBundleState(name);
             return Render(null, name, new CacheRenderer(CachePrefix, name));
         }
 
@@ -544,50 +544,55 @@ namespace SquishIt.Framework.Base
                             asset.IsLocal ||
                             asset.IsRemoteDownload).ToList()).Distinct());
 
-                        DependentFiles.AddRange(uniqueFiles);
+                        string renderedTag = string.Empty;
+                        if(uniqueFiles.Count > 0 || bundleState.Arbitrary.Count > 0)
+                        {
+                            DependentFiles.AddRange(uniqueFiles);
 
-                        if(renderTo.Contains("#"))
-                        {
-                            hashInFileName = true;
-                            minifiedContent = Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, bundleState.Arbitrary));
-                            hash = hasher.GetHash(minifiedContent);
-                            renderToPath = renderToPath.Replace("#", hash);
-                            outputFile = outputFile.Replace("#", hash);
-                        }
-
-                        if(ShouldRenderOnlyIfOutputFileIsMissing && FileExists(outputFile))
-                        {
-                            minifiedContent = ReadFile(outputFile);
-                        }
-                        else
-                        {
-                            minifiedContent = minifiedContent ?? Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, bundleState.Arbitrary));
-                            renderer.Render(minifiedContent, outputFile);
-                        }
-
-                        if(hash == null && !string.IsNullOrEmpty(HashKeyName))
-                        {
-                            hash = hasher.GetHash(minifiedContent);
-                        }
-
-                        string renderedTag;
-                        if(hashInFileName)
-                        {
-                            renderedTag = FillTemplate(bundleState, renderToPath);
-                        }
-                        else
-                        {
-                            if(string.IsNullOrEmpty(HashKeyName))
+                            if(renderTo.Contains("#"))
                             {
-                                renderedTag = FillTemplate(bundleState, renderToPath);
+                                hashInFileName = true;
+                                minifiedContent = Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, bundleState.Arbitrary));
+                                hash = hasher.GetHash(minifiedContent);
+                                renderToPath = renderToPath.Replace("#", hash);
+                                outputFile = outputFile.Replace("#", hash);
                             }
-                            else if(renderToPath.Contains("?"))
+
+                            if(ShouldRenderOnlyIfOutputFileIsMissing && FileExists(outputFile))
                             {
-                                renderedTag = FillTemplate(bundleState, renderToPath + "&" + HashKeyName + "=" + hash);
+                                minifiedContent = ReadFile(outputFile);
                             }
                             else
                             {
-                                renderedTag = FillTemplate(bundleState, renderToPath + "?" + HashKeyName + "=" + hash);
+                                minifiedContent = minifiedContent ?? Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, bundleState.Arbitrary));
+                                renderer.Render(minifiedContent, outputFile);
+                            }
+
+                            if(hash == null && !string.IsNullOrEmpty(HashKeyName))
+                            {
+                                hash = hasher.GetHash(minifiedContent);
+                            }
+
+                            if(hashInFileName)
+                            {
+                                renderedTag = FillTemplate(bundleState, renderToPath);
+                            }
+                            else
+                            {
+                                if(string.IsNullOrEmpty(HashKeyName))
+                                {
+                                    renderedTag = FillTemplate(bundleState, renderToPath);
+                                }
+                                else if(renderToPath.Contains("?"))
+                                {
+                                    renderedTag = FillTemplate(bundleState,
+                                                               renderToPath + "&" + HashKeyName + "=" + hash);
+                                }
+                                else
+                                {
+                                    renderedTag = FillTemplate(bundleState,
+                                                               renderToPath + "?" + HashKeyName + "=" + hash);
+                                }
                             }
                         }
 
@@ -689,7 +694,7 @@ namespace SquishIt.Framework.Base
 
         }
 
-        private BundleState GetCachedGroupBundle(string name)
+        private BundleState GetCachedBundleState(string name)
         {
             var bundle = bundleStateCache[CachePrefix + name];
             if(bundle.ForceDebug)
