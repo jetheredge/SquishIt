@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +6,6 @@ using System.Text.RegularExpressions;
 using dotless.Core;
 using SquishIt.Framework.Base;
 using SquishIt.Framework.Minifiers;
-using SquishIt.Framework.Minifiers.CSS;
 using SquishIt.Framework.Resolvers;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Utilities;
@@ -24,7 +22,7 @@ namespace SquishIt.Framework.Css
         private bool ShouldImport { get; set; }
         private bool ShouldAppendHashForAssets { get; set; }
 
-        
+
         protected override string Template
         {
             get { return CSS_TEMPLATE; }
@@ -69,7 +67,7 @@ namespace SquishIt.Framework.Css
 
         private string ProcessLess(string file)
         {
-            lock (typeof(CSSBundle))
+            lock(typeof(CSSBundle))
             {
                 try
                 {
@@ -82,17 +80,18 @@ namespace SquishIt.Framework.Css
 
                     var appPath = FileSystem.ResolveFileSystemPathToAppRelative(dir);
                     var importPaths = engine.GetImports();
-                    foreach (var importPath in importPaths)
+                    foreach(var importPath in importPaths)
                     {
                         var import = FileSystem.ResolveAppRelativePathToFileSystem(Path.Combine(appPath, importPath));
                         DependentFiles.Add(import);
                     }
-
+                    currentDirectoryWrapper.Revert();
                     return css;
                 }
-                finally
+                catch
                 {
                     currentDirectoryWrapper.Revert();
+                    throw;
                 }
             }
         }
@@ -105,7 +104,7 @@ namespace SquishIt.Framework.Css
             {
                 var importPath = match.Groups[2].Value;
                 string import;
-                if (importPath.StartsWith("/"))
+                if(importPath.StartsWith("/"))
                 {
                     import = FileSystem.ResolveAppRelativePathToFileSystem(importPath);
                 }
@@ -134,17 +133,17 @@ namespace SquishIt.Framework.Css
         {
             var outputCss = new StringBuilder();
 
-            filePaths.Select(file => ProcessCssFile (file, outputFile))
+            filePaths.Select(file => ProcessCssFile(file, outputFile))
                 .Concat(arbitraryContent)
                 .Aggregate(outputCss, (builder, val) => builder.Append(val + "\n"));
 
             return outputCss.ToString();
         }
 
-        string ProcessCssFile(string file, string outputFile, bool asImport = false) 
+        string ProcessCssFile(string file, string outputFile, bool asImport = false)
         {
             string css = null;
-            if (file.ToLower().EndsWith(".less") || file.ToLower().EndsWith(".less.css"))
+            if(file.ToLower().EndsWith(".less") || file.ToLower().EndsWith(".less.css"))
             {
                 css = ProcessLess(file);
             }
@@ -153,14 +152,14 @@ namespace SquishIt.Framework.Css
                 css = ReadFile(file);
             }
 
-            if (ShouldImport)
+            if(ShouldImport)
             {
                 css = ProcessImport(file, outputFile, css);
             }
 
             ICssAssetsFileHasher fileHasher = null;
 
-            if (ShouldAppendHashForAssets)
+            if(ShouldAppendHashForAssets)
             {
                 var fileResolver = new FileSystemResolver();
                 fileHasher = new CssAssetsFileHasher(HashKeyName, fileResolver, hasher);
@@ -171,15 +170,15 @@ namespace SquishIt.Framework.Css
 
         internal override void BeforeRenderDebug()
         {
-            foreach (var asset in bundleState.Assets)
+            foreach(var asset in bundleState.Assets)
             {
                 var localPath = asset.LocalPath;
-                if (localPath.ToLower().EndsWith(".less") || localPath.ToLower().EndsWith(".less.css"))
+                if(localPath.ToLower().EndsWith(".less") || localPath.ToLower().EndsWith(".less.css"))
                 {
                     string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
                     string css = ProcessLess(outputFile);
                     outputFile += ".debug.css";
-                    using (var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
+                    using(var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
                     {
                         fileWriter.Write(css);
                     }

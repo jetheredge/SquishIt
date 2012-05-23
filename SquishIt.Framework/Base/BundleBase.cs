@@ -15,7 +15,6 @@ namespace SquishIt.Framework.Base
     {
         private static readonly Dictionary<string, string> renderPathCache = new Dictionary<string, string>();
 
-        private const string DEFAULT_GROUP = "default";
         protected string BaseOutputHref = Configuration.Instance.DefaultOutputBaseHref() ?? String.Empty;
         protected IFileWriterFactory fileWriterFactory;
         protected IFileReaderFactory fileReaderFactory;
