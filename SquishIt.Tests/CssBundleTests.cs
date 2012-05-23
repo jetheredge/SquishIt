@@ -1161,5 +1161,57 @@ namespace SquishIt.Tests
                 Assert.AreEqual(0, cssBundleFactory.FileWriterFactory.Files.Count);
             }
         }
+
+        [Test]
+        public void CanRenderDistinctBundlesIfSameOutputButDifferentFileNames()
+        {
+            CSSBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
+                .WithDebuggingEnabled(false)
+                .Create();
+
+            CSSBundle cssBundle2 = cssBundleFactory
+                .WithHasher(hasher)
+                .WithDebuggingEnabled(false)
+                .Create();
+
+            cssBundleFactory.FileReaderFactory.SetContents(css);
+
+            string tag = cssBundle
+                            .Add("/css/first.css")
+                            .Render("/css/output#.css");
+
+            cssBundleFactory.FileReaderFactory.SetContents(css2);
+
+            string tag2 = cssBundle2
+                            .Add("/css/second.css")
+                            .Render("/css/output#.css");
+
+            Assert.AreNotEqual(tag, tag2);
+        }
+
+        [Test]
+        public void CanRenderDistinctBundlesIfSameOutputButDifferentArbitrary()
+        {
+            CSSBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
+                .WithDebuggingEnabled(false)
+                .Create();
+
+            CSSBundle cssBundle2 = cssBundleFactory
+                .WithHasher(hasher)
+                .WithDebuggingEnabled(false)
+                .Create();
+
+            string tag = cssBundle
+                            .AddString(css)
+                            .Render("/css/output#.css");
+
+            string tag2 = cssBundle2
+                            .AddString(css2)
+                            .Render("/css/output#.css");
+
+            Assert.AreNotEqual(tag, tag2);
+        }
     }
 }

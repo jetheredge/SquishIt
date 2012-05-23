@@ -356,7 +356,13 @@ namespace SquishIt.Framework.Base
 
         private string Render(string renderTo, string key, IRenderer renderer)
         {
-            key = CachePrefix + key;
+            var cacheUniquenessHash = key.Contains("#") ? hasher.GetHash(bundleState.Assets
+                                               .Select(a => a.IsRemote ? a.RemotePath : a.LocalPath)
+                                               .Union(bundleState.Arbitrary.Select(ac => ac.Content))
+                                               .OrderBy(s => s)
+                                               .Aggregate((acc, val) => acc + val)) : string.Empty;
+            
+            key = CachePrefix + key + cacheUniquenessHash;
 
             if(!String.IsNullOrEmpty(BaseOutputHref))
             {
