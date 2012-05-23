@@ -316,7 +316,7 @@ namespace SquishIt.Framework.Base
 
         public string RenderNamed(string name)
         {
-            bundleState = GetCachedGroupBundle(name);
+            bundleState = GetCachedBundleState(name);
             //TODO: this sucks
             // Revisit https://github.com/jetheredge/SquishIt/pull/155 and https://github.com/jetheredge/SquishIt/issues/183
             //hopefully we can find a better way to satisfy both of these requirements
@@ -332,7 +332,7 @@ namespace SquishIt.Framework.Base
 
         public string RenderCached(string name)
         {
-            bundleState = GetCachedGroupBundle(name);
+            bundleState = GetCachedBundleState(name);
             var content = CacheRenderer.Get(CachePrefix, name);
             if(content == null)
             {
@@ -344,7 +344,7 @@ namespace SquishIt.Framework.Base
 
         public string RenderCachedAssetTag(string name)
         {
-            bundleState = GetCachedGroupBundle(name);
+            bundleState = GetCachedBundleState(name);
             return Render(null, name, new CacheRenderer(CachePrefix, name));
         }
 
@@ -617,7 +617,7 @@ namespace SquishIt.Framework.Base
 
         }
 
-        private BundleState GetCachedGroupBundle(string name)
+        private BundleState GetCachedBundleState(string name)
         {
             var bundle = bundleStateCache[CachePrefix + name];
             if(bundle.ForceDebug)
