@@ -261,7 +261,7 @@ namespace SquishIt.Tests
         public void CanBundleCssWithRemote()
         {
             //this is rendering tag correctly but incorrectly(?) merging both files
-            using (new ResolverFactoryScope (typeof(Framework.Resolvers.HttpResolver).FullName, StubResolver.ForFile("http://www.someurl.com/css/first.css")))
+            using(new ResolverFactoryScope(typeof(Framework.Resolvers.HttpResolver).FullName, StubResolver.ForFile("http://www.someurl.com/css/first.css")))
             {
                 CSSBundle cssBundle = cssBundleFactory
                     .WithHasher(hasher)
@@ -273,9 +273,9 @@ namespace SquishIt.Tests
                     .AddRemote("/css/first.css", "http://www.someurl.com/css/first.css")
                     .Add("/css/second.css")
                     .Render("/css/output_remote.css");
-                Assert.AreEqual ("<link rel=\"stylesheet\" type=\"text/css\" href=\"http://www.someurl.com/css/first.css\" /><link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_remote.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
-                Assert.AreEqual (1, cssBundleFactory.FileWriterFactory.Files.Count);
-                Assert.AreEqual (minifiedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath (@"css\output_remote.css")]);
+                Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"http://www.someurl.com/css/first.css\" /><link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_remote.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
+                Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
+                Assert.AreEqual(minifiedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_remote.css")]);
             }
         }
 
@@ -1228,6 +1228,28 @@ namespace SquishIt.Tests
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
             Assert.AreEqual(minifiedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath("combined.css")]);
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"combined.css?r=hash\" />", tag);
+        }
+
+        [Test]
+        public void RenderRelease_OmitsRenderedTag_IfOnlyRemoteAssets()
+        {
+            //this is rendering tag correctly but incorrectly(?) merging both files
+            using(new ResolverFactoryScope(typeof(Framework.Resolvers.HttpResolver).FullName, StubResolver.ForFile("http://www.someurl.com/css/first.css")))
+            {
+                CSSBundle cssBundle = cssBundleFactory
+                    .WithHasher(hasher)
+                    .WithDebuggingEnabled(false)
+                    .WithContents(css)
+                    .Create();
+
+                string tag = cssBundle
+                    .ForceRelease()
+                    .AddRemote("/css/first.css", "http://www.someurl.com/css/first.css")
+                    .Render("/css/output_remote.css");
+
+                Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"http://www.someurl.com/css/first.css\" />", tag);
+                Assert.AreEqual(0, cssBundleFactory.FileWriterFactory.Files.Count);
+            }
         }
     }
 }

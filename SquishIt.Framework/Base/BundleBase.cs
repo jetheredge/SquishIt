@@ -484,50 +484,55 @@ namespace SquishIt.Framework.Base
                             asset.IsLocal ||
                             asset.IsRemoteDownload).ToList()).Distinct());
 
-                        DependentFiles.AddRange(uniqueFiles);
+                        string renderedTag = string.Empty;
+                        if(uniqueFiles.Count > 0 || bundleState.Arbitrary.Count > 0)
+                        {
+                            DependentFiles.AddRange(uniqueFiles);
 
-                        if(renderTo.Contains("#"))
-                        {
-                            hashInFileName = true;
-                            minifiedContent = Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, bundleState.Arbitrary));
-                            hash = hasher.GetHash(minifiedContent);
-                            renderToPath = renderToPath.Replace("#", hash);
-                            outputFile = outputFile.Replace("#", hash);
-                        }
-
-                        if(ShouldRenderOnlyIfOutputFileIsMissing && FileExists(outputFile))
-                        {
-                            minifiedContent = ReadFile(outputFile);
-                        }
-                        else
-                        {
-                            minifiedContent = minifiedContent ?? Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, bundleState.Arbitrary));
-                            renderer.Render(minifiedContent, outputFile);
-                        }
-
-                        if(hash == null && !string.IsNullOrEmpty(HashKeyName))
-                        {
-                            hash = hasher.GetHash(minifiedContent);
-                        }
-
-                        string renderedTag;
-                        if(hashInFileName)
-                        {
-                            renderedTag = FillTemplate(bundleState, renderToPath);
-                        }
-                        else
-                        {
-                            if(string.IsNullOrEmpty(HashKeyName))
+                            if(renderTo.Contains("#"))
                             {
-                                renderedTag = FillTemplate(bundleState, renderToPath);
+                                hashInFileName = true;
+                                minifiedContent = Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, bundleState.Arbitrary));
+                                hash = hasher.GetHash(minifiedContent);
+                                renderToPath = renderToPath.Replace("#", hash);
+                                outputFile = outputFile.Replace("#", hash);
                             }
-                            else if(renderToPath.Contains("?"))
+
+                            if(ShouldRenderOnlyIfOutputFileIsMissing && FileExists(outputFile))
                             {
-                                renderedTag = FillTemplate(bundleState, renderToPath + "&" + HashKeyName + "=" + hash);
+                                minifiedContent = ReadFile(outputFile);
                             }
                             else
                             {
-                                renderedTag = FillTemplate(bundleState, renderToPath + "?" + HashKeyName + "=" + hash);
+                                minifiedContent = minifiedContent ?? Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, bundleState.Arbitrary));
+                                renderer.Render(minifiedContent, outputFile);
+                            }
+
+                            if(hash == null && !string.IsNullOrEmpty(HashKeyName))
+                            {
+                                hash = hasher.GetHash(minifiedContent);
+                            }
+
+                            if(hashInFileName)
+                            {
+                                renderedTag = FillTemplate(bundleState, renderToPath);
+                            }
+                            else
+                            {
+                                if(string.IsNullOrEmpty(HashKeyName))
+                                {
+                                    renderedTag = FillTemplate(bundleState, renderToPath);
+                                }
+                                else if(renderToPath.Contains("?"))
+                                {
+                                    renderedTag = FillTemplate(bundleState,
+                                                               renderToPath + "&" + HashKeyName + "=" + hash);
+                                }
+                                else
+                                {
+                                    renderedTag = FillTemplate(bundleState,
+                                                               renderToPath + "?" + HashKeyName + "=" + hash);
+                                }
                             }
                         }
 
