@@ -843,5 +843,37 @@ namespace SquishIt.Tests
                 Assert.AreEqual(0, fileWriterFactory.Files.Count);
             }
         }
+
+        [Test]
+        public void CanRenderDistinctBundlesIfSameOutputButDifferentFileNames()
+        {
+            fileReaderFactory.SetContents(javaScript);
+
+            var tag = javaScriptBundle
+                    .Add("~/js/test.js")
+                    .Render("~/js/output#.js");
+
+            fileReaderFactory.SetContents(javaScript2);
+
+            var tag2 = javaScriptBundle2
+                .Add("~/js/test2.js")
+                .Render("~/js/output#.js");
+
+            Assert.AreNotEqual(tag, tag2);
+        }
+
+        [Test]
+        public void CanRenderDistinctBundlesIfSameOutputButDifferentArbitrary()
+        {
+            var tag = javaScriptBundle
+                    .AddString(javaScript)
+                    .Render("~/js/output#.js");
+
+            var tag2 = javaScriptBundle2
+                .AddString(javaScript2)
+                .Render("~/js/output#.js");
+
+            Assert.AreNotEqual(tag, tag2);
+        }
     }
 }
