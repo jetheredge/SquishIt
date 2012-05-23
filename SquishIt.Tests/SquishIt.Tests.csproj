@@ -108,6 +108,7 @@
     <Compile Include="JavaScriptBundleTests.cs" />
     <Compile Include="JavaScriptMinifierTests.cs" />
     <Compile Include="MultipleWorkerProcessesTests.cs" />
+    <Compile Include="RetryableFileOpenerTest.cs" />
     <Compile Include="LessTests.cs" />
     <Compile Include="StylePreprocessorPipelineTests.cs" />
     <Compile Include="SassTests.cs" />
