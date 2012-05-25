@@ -4,5 +4,5 @@ for %%s in (..\nuspec\*.nuspec) do (
 )
 for %%p in (*.nupkg) do (
 	nuget push %%p
-	rm %%p
+	del %%p
 )

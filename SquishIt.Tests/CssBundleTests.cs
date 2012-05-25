@@ -1057,8 +1057,7 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanUseArbitraryReleaseRenderer()
-        {
+        public void CanUseArbitraryReleaseFileRenderer() {
             var renderer = new Mock<IRenderer>();
 
             var content = "content";
@@ -1066,11 +1065,27 @@ namespace SquishIt.Tests
             var tag = cssBundleFactory
                 .WithDebuggingEnabled(false)
                 .Create()
-                .WithReleaseRenderer(renderer.Object)
+                .WithReleaseFileRenderer(renderer.Object)
                 .AddString(content)
                 .Render("test.css");
 
             renderer.Verify(r => r.Render(content, TestUtilities.PrepareRelativePath("test.css")));
+        }
+
+        [Test]
+        public void CanIgnoreArbitraryReleaseFileRendererIfDebugging() {
+            var renderer = new Mock<IRenderer>(MockBehavior.Strict);
+
+            var content = "content";
+
+            var tag = cssBundleFactory
+                .WithDebuggingEnabled(true)
+                .Create()
+                .WithReleaseFileRenderer(renderer.Object)
+                .AddString(content)
+                .Render("test.css");
+
+            renderer.VerifyAll();
         }
 
         [Test]
@@ -1083,7 +1098,7 @@ namespace SquishIt.Tests
             var tag = cssBundleFactory
                 .WithDebuggingEnabled(true)
                 .Create()
-                .WithReleaseRenderer(renderer.Object)
+                .WithReleaseFileRenderer(renderer.Object)
                 .AddString(content)
                 .Render("test.css");
 
