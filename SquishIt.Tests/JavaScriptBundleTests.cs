@@ -752,19 +752,35 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanUseArbitraryReleaseRenderer()
+        public void CanUseArbitraryReleaseFileRenderer()
         {
             var renderer = new Mock<IRenderer>();
 
             var content = "content";
 
             var tag = javaScriptBundle
-                .WithReleaseRenderer(renderer.Object)
+                .WithReleaseFileRenderer(renderer.Object)
                 .AddString(content)
                 .ForceRelease()
                 .Render("test.js");
 
             renderer.Verify(r => r.Render(content, TestUtilities.PrepareRelativePath("test.js")));
+        }
+
+        [Test]
+        public void CanIgnoreArbitraryReleaseFileRendererIfDebugging() 
+        {
+            var renderer = new Mock<IRenderer>(MockBehavior.Strict);
+
+            var content = "content";
+
+            var tag = javaScriptBundle
+                .WithReleaseFileRenderer(renderer.Object)
+                .AddString(content)
+                .ForceDebug()
+                .Render("test.js");
+
+            renderer.VerifyAll();
         }
 
         [Test]
@@ -775,7 +791,7 @@ namespace SquishIt.Tests
             var content = "content";
 
             var tag = javaScriptBundle
-                .WithReleaseRenderer(renderer.Object)
+                .WithReleaseFileRenderer(renderer.Object)
                 .AddString(content)
                 .Render("test.js");
 

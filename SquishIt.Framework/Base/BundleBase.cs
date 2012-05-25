@@ -46,7 +46,7 @@ namespace SquishIt.Framework.Base
         private static Dictionary<string, BundleState> bundleStateCache = new Dictionary<string, BundleState>();
 
         private IBundleCache bundleCache;
-        private IRenderer releaseRenderer;
+        private IRenderer releaseFileRenderer;
 
         protected BundleBase(IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, IDebugStatusReader debugStatusReader, ICurrentDirectoryWrapper currentDirectoryWrapper, IHasher hasher, IBundleCache bundleCache)
         {
@@ -60,9 +60,12 @@ namespace SquishIt.Framework.Base
             this.bundleCache = bundleCache;
         }
 
-        protected IRenderer GetReleaseFileRenderer()
+        protected IRenderer GetFileRenderer()
         {
-            return releaseRenderer ?? Configuration.Instance.DefaultReleaseRenderer() ?? new FileRenderer(fileWriterFactory);
+            return debugStatusReader.IsDebuggingEnabled() ? new FileRenderer(fileWriterFactory) :
+                releaseFileRenderer ?? 
+                Configuration.Instance.DefaultReleaseRenderer() ?? 
+                new FileRenderer(fileWriterFactory);
         }
 
         private List<string> GetFiles(List<Asset> assets)
@@ -285,16 +288,16 @@ namespace SquishIt.Framework.Base
             return (T)this;
         }
 
-        public T WithReleaseRenderer(IRenderer renderer)
+        public T WithReleaseFileRenderer(IRenderer renderer)
         {
-            this.releaseRenderer = renderer;
+            this.releaseFileRenderer = renderer;
             return (T)this;
         }
 
         public string Render(string renderTo)
         {
             string key = renderTo;
-            return Render(renderTo, key, GetReleaseFileRenderer());
+            return Render(renderTo, key, GetFileRenderer());
         }
 
         private string Render(string renderTo, string key, IRenderer renderer)
@@ -356,7 +359,7 @@ namespace SquishIt.Framework.Base
 
         public void AsNamed(string name, string renderTo)
         {
-            Render(renderTo, name, GetReleaseFileRenderer());
+            Render(renderTo, name, GetFileRenderer());
             bundleState.Path = renderTo;
             bundleStateCache[CachePrefix + name] = bundleState;
         }
