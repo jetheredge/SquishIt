@@ -29,7 +29,7 @@ namespace SquishIt.Framework.Base
         protected abstract string Template { get; }
         protected abstract string CachePrefix { get; }
 
-        protected List<string> instanceAllowedExtensions = new List<string>();
+        protected HashSet<string> instanceAllowedExtensions = new HashSet<string>();
         protected IList<IPreprocessor> instancePreprocessors = new List<IPreprocessor>();
         protected abstract IEnumerable<string> allowedExtensions { get; }
         protected abstract IEnumerable<string> disallowedExtensions { get; }
@@ -70,8 +70,8 @@ namespace SquishIt.Framework.Base
         protected IRenderer GetFileRenderer()
         {
             return debugStatusReader.IsDebuggingEnabled() ? new FileRenderer(fileWriterFactory) :
-                releaseFileRenderer ?? 
-                Configuration.Instance.DefaultReleaseRenderer() ?? 
+                releaseFileRenderer ??
+                Configuration.Instance.DefaultReleaseRenderer() ??
                 new FileRenderer(fileWriterFactory);
         }
 
@@ -177,7 +177,11 @@ namespace SquishIt.Framework.Base
 
         IPreprocessor FindPreprocessor(string extension)
         {
-            return instancePreprocessors.Union(Bundle.Preprocessors).FirstOrDefault(p => p.ValidFor(extension));
+            var instanceTypes = instancePreprocessors.Select(ipp => ipp.GetType()).ToArray();
+
+            return Bundle.Preprocessors.Where(pp => !instanceTypes.Contains(pp.GetType()))
+                .Union(instancePreprocessors)
+                .FirstOrDefault(p => p.ValidFor(extension));
         }
 
         private string ExpandAppRelativePath(string file)
@@ -350,7 +354,7 @@ namespace SquishIt.Framework.Base
         public T WithReleaseFileRenderer(IRenderer renderer)
         {
             this.releaseFileRenderer = renderer;
-            return (T) this;
+            return (T)this;
         }
 
         public string Render(string renderTo)
@@ -366,7 +370,7 @@ namespace SquishIt.Framework.Base
                                                .Union(bundleState.Arbitrary.Select(ac => ac.Content))
                                                .OrderBy(s => s)
                                                .Aggregate((acc, val) => acc + val)) : string.Empty;
-            
+
             key = CachePrefix + key + cacheUniquenessHash;
 
             if(!String.IsNullOrEmpty(BaseOutputHref))
@@ -678,10 +682,12 @@ namespace SquishIt.Framework.Base
 
         public T WithPreprocessor(IPreprocessor instance)
         {
-            //if it's already registered statically no need to add
-            if(!Bundle.Preprocessors.Any(pp => pp.GetType() == instance.GetType()))
+            if(!instancePreprocessors.Any(ipp => ipp.GetType() == instance.GetType()))
             {
-                instanceAllowedExtensions.AddRange(instance.Extensions);
+                foreach(var extension in instance.Extensions)
+                {
+                    instanceAllowedExtensions.Add(extension);
+                }
                 instancePreprocessors.Add(instance);
             }
             return (T)this;

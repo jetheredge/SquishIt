@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using SquishIt.Framework.Css;
 using SquishIt.Framework.JavaScript;
 
