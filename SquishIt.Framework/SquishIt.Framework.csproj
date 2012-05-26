@@ -79,7 +79,8 @@
   <ItemGroup>
     <Compile Include="Base\ArbitraryContent.cs" />
     <Compile Include="Base\Asset.cs" />
-    <Compile Include="Base\BundleBase.cs" />
+    <Compile Include="Base\BundleBase.Rendering.cs" />
+    <Compile Include="Base\BundleBase.Setup.cs" />
     <Compile Include="Base\BundleState.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="HttpContext.cs" />
@@ -146,6 +147,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\BundleBase.State.cs" />
     <None Include="closure-compiler\COPYING">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

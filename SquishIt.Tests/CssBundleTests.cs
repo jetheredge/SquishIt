@@ -66,29 +66,15 @@ namespace SquishIt.Tests
         [Test]
         public void CanAddMultiplePathFiles()
         {
-            var cssBundle1 = cssBundleFactory
+            var cssBundle = cssBundleFactory
                 .WithDebuggingEnabled(true)
                 .Create();
 
-            var cssBundle2 = cssBundleFactory
-                .WithDebuggingEnabled(true)
-                .Create();
+            cssBundle.Add("/css/first.css").Add("/css/second.css");
 
-            // Obsolete Test
-            cssBundle1.Add("/css/first.css", "/css/second.css");
-            cssBundle2.Add("/css/first.css").Add("/css/second.css");
+            var cssBundleAssets = cssBundle.bundleState.Assets;
 
-            var cssBundle1Assets = cssBundle1.bundleState.Assets;
-            var cssBundle2Assets = cssBundle2.bundleState.Assets;
-
-            Assert.AreEqual(cssBundle1Assets.Count, cssBundle2Assets.Count);
-            for(var i = 0; i < cssBundle1Assets.Count; i++)
-            {
-                var assetBundle1 = cssBundle1Assets[i];
-                var assetBundle2 = cssBundle2Assets[i];
-                Assert.AreEqual(assetBundle1.LocalPath, assetBundle2.LocalPath);
-                Assert.AreEqual(assetBundle1.Order, assetBundle2.Order);
-            }
+            Assert.AreEqual(2, cssBundleAssets.Count);
         }
 
         [Test]

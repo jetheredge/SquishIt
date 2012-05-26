@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using SquishIt.Framework.Base;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Minifiers;
