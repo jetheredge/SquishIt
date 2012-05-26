@@ -98,11 +98,13 @@ namespace SquishIt.Framework.JavaScript
                     currentDirectoryWrapper.SetCurrentDirectory(Path.GetDirectoryName(file));
                     var content = ReadFile(file);
                     var compiler = new Coffee.CoffeescriptCompiler();
+                    currentDirectoryWrapper.Revert();
                     return compiler.Compile(content);
                 }
-                finally
+                catch
                 {
                     currentDirectoryWrapper.Revert();
+                    throw;
                 }
             }
         }
