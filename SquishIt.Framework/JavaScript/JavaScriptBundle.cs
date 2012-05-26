@@ -65,23 +65,7 @@ namespace SquishIt.Framework.JavaScript
             get { return CACHE_PREFIX; }
         }
 
-        protected override string BeforeMinify(string outputFile, List<string> files, IEnumerable<ArbitraryContent> arbitraryContent)
-        {
-            //TODO: refactor so that this is common code and ProcessCSSFile/ProcessJavascriptFile are a single abstract method called here
-            var sb = new StringBuilder();
-
-            files.Select(ProcessJavaScriptFile)
-                .Concat(arbitraryContent.Select(ac => {
-                    var filename = "dummy." + ac.Extension;
-                    var preprocessors = FindPreprocessors(filename);
-                    return PreprocessContent(filename, preprocessors, ac.Content);
-                }))
-                .Aggregate(sb, (builder, val) => builder.Append(val + "\n"));
-
-            return sb.ToString();
-        }
-
-        string ProcessJavaScriptFile(string file) 
+        protected  override string ProcessFile(string file, string outputFile) 
         {
             var preprocessors = FindPreprocessors(file);
             if (preprocessors != null) 

@@ -148,6 +148,8 @@ namespace SquishIt.Framework.Base
                 .Where(p => p != null);
         }
 
+        protected abstract string ProcessFile(string file, string outputFile);
+
         protected string PreprocessFile(string file, IEnumerable<IPreprocessor> preprocessors)
         {
             try
@@ -685,15 +687,18 @@ namespace SquishIt.Framework.Base
             return (T)this;
         }
 
-        protected virtual string BeforeMinify(string outputFile, List<string> files, IEnumerable<ArbitraryContent> arbitraryContent)
+        protected string BeforeMinify(string outputFile, List<string> files, IEnumerable<ArbitraryContent> arbitraryContent)
         {
             var sb = new StringBuilder();
-            //TODO: deal w/ arbitrary extensions
-            var allContent = files.Select(ReadFile).Union(arbitraryContent.Select(ac => ac.Content));
-            foreach(var content in allContent)
-            {
-                sb.Append(ReadFile(content) + "\n");
-            }
+
+            files.Select(f => ProcessFile(f, outputFile))
+                .Concat(arbitraryContent.Select(ac =>
+                {
+                    var filename = "dummy." + ac.Extension;
+                    var preprocessors = FindPreprocessors(filename);
+                    return PreprocessContent(filename, preprocessors, ac.Content);
+                }))
+                .Aggregate(sb, (builder, val) => builder.Append(val + "\n"));
 
             return sb.ToString();
         }

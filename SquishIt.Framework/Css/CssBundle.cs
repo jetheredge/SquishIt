@@ -105,20 +105,9 @@ namespace SquishIt.Framework.Css
             return this;
         }
 
-        protected override string BeforeMinify(string outputFile, List<string> filePaths, IEnumerable<ArbitraryContent> arbitraryContent)
+        protected override string ProcessFile(string file, string outputFile)
         {
-            //TODO: refactor so that this is common code and ProcessCSSFile/ProcessJavascriptFile are a single abstract method called here
-            var outputCss = new StringBuilder();
-
-            filePaths.Select(file => ProcessCssFile(file, outputFile))
-                .Concat(arbitraryContent.Select(ac => {
-                    var filename = "dummy." + ac.Extension;
-                    var preprocessors = FindPreprocessors(filename);
-                    return PreprocessContent(filename, preprocessors, ac.Content);
-                }))
-                .Aggregate(outputCss, (builder, val) => builder.Append(val + "\n"));
-
-            return outputCss.ToString();
+            return ProcessCssFile(file, outputFile);
         }
 
         string ProcessCssFile(string file, string outputFile, bool asImport = false)
