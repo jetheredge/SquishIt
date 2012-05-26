@@ -106,8 +106,6 @@
     <Compile Include="Files\CurrentDirectoryWrapper.cs" />
     <Compile Include="Files\ICurrentDirectoryWrapper.cs" />
     <Compile Include="Files\Input.cs" />
-    <Compile Include="Css\ICssBundle.cs" />
-    <Compile Include="JavaScript\IJavaScriptBundle.cs" />
     <Compile Include="JavaScript\JavaScriptBundle.cs" />
     <Compile Include="Minifiers\JavaScript\jsmin\JavaScriptMinifier.cs" />
     <Compile Include="Minifiers\JavaScript\Minifiers\ClosureMinifier.cs" />
