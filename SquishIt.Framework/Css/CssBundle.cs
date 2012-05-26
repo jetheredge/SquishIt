@@ -121,14 +121,6 @@ namespace SquishIt.Framework.Css
             return outputCss.ToString();
         }
 
-        private string PreprocessCssFile(string file, IEnumerable<IPreprocessor> preprocessors)
-        {
-            lock(typeof(CSSBundle))
-            {
-                return PreprocessFile(file, preprocessors);
-            }
-        }
-
         string ProcessCssFile(string file, string outputFile, bool asImport = false)
         {
             string css = null;
@@ -137,7 +129,7 @@ namespace SquishIt.Framework.Css
 
             if(preprocessors != null)
             {
-                css = PreprocessCssFile(file, preprocessors);
+                css = PreprocessFile(file, preprocessors);
             }
             else
             {
@@ -158,27 +150,6 @@ namespace SquishIt.Framework.Css
             }
 
             return CSSPathRewriter.RewriteCssPaths(outputFile, file, css, fileHasher, asImport);
-        }
-
-        internal override void BeforeRenderDebug()
-        {
-            foreach(var asset in bundleState.Assets)
-            {
-                var localPath = asset.LocalPath;
-                var preprocessors = FindPreprocessors(localPath);
-                if(preprocessors != null && preprocessors.Count() > 0)
-                {
-                    string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
-
-                    string css = PreprocessCssFile(outputFile, preprocessors);
-                    outputFile += ".debug.css";
-                    using(var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
-                    {
-                        fileWriter.Write(css);
-                    }
-                    asset.LocalPath = localPath + ".debug.css";
-                }
-            }
         }
     }
 }

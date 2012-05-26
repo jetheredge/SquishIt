@@ -698,9 +698,29 @@ namespace SquishIt.Framework.Base
             return sb.ToString();
         }
 
-        internal virtual void BeforeRenderDebug()
+        void BeforeRenderDebug()
         {
-
+            foreach(var asset in bundleState.Assets)
+            {
+                var localPath = asset.LocalPath;
+                var preprocessors = FindPreprocessors(localPath);
+                if(preprocessors != null && preprocessors.Count() > 0)
+                {
+                    var outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
+                    var appendExtension = ".debug" + defaultExtension.ToLowerInvariant();
+                    string content;
+                    lock(typeof(T))
+                    {
+                        content = PreprocessFile(outputFile, preprocessors);
+                    }
+                    outputFile += appendExtension;
+                    using(var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
+                    {
+                        fileWriter.Write(content);
+                    }
+                    asset.LocalPath = localPath + appendExtension;
+                }
+            }
         }
 
         private BundleState GetCachedBundleState(string name)

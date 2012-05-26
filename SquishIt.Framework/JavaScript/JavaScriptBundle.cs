@@ -61,30 +61,8 @@ namespace SquishIt.Framework.JavaScript
             }
         }
 
-        protected override string CachePrefix
-        {
+        protected override string CachePrefix {
             get { return CACHE_PREFIX; }
-        }
-
-        internal override void BeforeRenderDebug()
-        {
-            foreach(var asset in bundleState.Assets)
-            {
-                var localPath = asset.LocalPath;
-                var preprocessors = FindPreprocessors(localPath);
-                if(preprocessors != null && preprocessors.Count() > 0)
-                {
-                    string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
-                    string javascript = PreprocessJavascriptFile(outputFile, preprocessors);
-                    outputFile += ".debug.js";
-                    using(var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
-                    {
-                        fileWriter.Write(javascript);
-                    }
-
-                    asset.LocalPath = localPath + ".debug.js";
-                }
-            }
         }
 
         protected override string BeforeMinify(string outputFile, List<string> files, IEnumerable<ArbitraryContent> arbitraryContent)
@@ -92,7 +70,7 @@ namespace SquishIt.Framework.JavaScript
             //TODO: refactor so that this is common code and ProcessCSSFile/ProcessJavascriptFile are a single abstract method called here
             var sb = new StringBuilder();
 
-            files.Select(ProcessJavascriptFile)
+            files.Select(ProcessJavaScriptFile)
                 .Concat(arbitraryContent.Select(ac => {
                     var filename = "dummy." + ac.Extension;
                     var preprocessors = FindPreprocessors(filename);
@@ -103,22 +81,14 @@ namespace SquishIt.Framework.JavaScript
             return sb.ToString();
         }
 
-        private string ProcessJavascriptFile(string file)
+        string ProcessJavaScriptFile(string file) 
         {
             var preprocessors = FindPreprocessors(file);
-            if(preprocessors != null)
-            {
-                return PreprocessJavascriptFile(file, preprocessors);
-            }
-            return ReadFile(file);
-        }
-
-        private string PreprocessJavascriptFile(string file, IEnumerable<IPreprocessor> preprocessors)
-        {
-            lock(typeof(JavaScriptBundle))
+            if (preprocessors != null) 
             {
                 return PreprocessFile(file, preprocessors);
             }
+            return ReadFile(file);
         }
 
         public JavaScriptBundle WithDeferredLoad()
