@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using SquishIt.Framework.Renderers;
 
 namespace SquishIt.Framework.Base
 {
@@ -8,9 +11,22 @@ namespace SquishIt.Framework.Base
         internal Dictionary<string, string> Attributes = new Dictionary<string, string>();
         internal IList<ArbitraryContent> Arbitrary = new List<ArbitraryContent>();
         
-        public bool ForceDebug { get; set; }
-        public bool ForceRelease { get; set; }
-        public string Path { get; set; }
+        internal HashSet<string> AllowedExtensions = new HashSet<string>();
+        internal IList<IPreprocessor> Preprocessors = new List<IPreprocessor>();
+        internal List<string> DependentFiles = new List<string>();
+
+        internal string HashKeyName { get; set; }
+        internal string BaseOutputHref { get; set; }
+
+
+        internal bool Typeless { get; set; }
+        internal bool ShouldRenderOnlyIfOutputFileIsMissing { get; set; }
+
+        internal bool ForceDebug { get; set; }
+        internal bool ForceRelease { get; set; }
+        internal string Path { get; set; }
+
+        internal IRenderer ReleaseFileRenderer { get; set; }
 
         internal BundleState()
         { 
@@ -19,6 +35,18 @@ namespace SquishIt.Framework.Base
         internal BundleState(Dictionary<string, string> attributes)
         {
             Attributes = attributes;
+        }
+
+        internal void AddPreprocessor(IPreprocessor instance)
+        {
+            if(!Preprocessors.Any(ipp => ipp.GetType() == instance.GetType()))
+            {
+                foreach(var extension in instance.Extensions)
+                {
+                    AllowedExtensions.Add(extension);
+                }
+                Preprocessors.Add(instance);
+            }
         }
     }
 }

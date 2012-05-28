@@ -38,7 +38,7 @@ namespace SquishIt.Framework.Css
 
         protected override IEnumerable<string> allowedExtensions
         {
-            get { return instanceAllowedExtensions.Union(Bundle.AllowedGlobalExtensions.Union(Bundle.AllowedStyleExtensions)); }
+            get { return bundleState.AllowedExtensions.Union(Bundle.AllowedGlobalExtensions.Union(Bundle.AllowedStyleExtensions)); }
         }
 
         protected override IEnumerable<string> disallowedExtensions
@@ -53,7 +53,7 @@ namespace SquishIt.Framework.Css
 
         protected override string tagFormat
         {
-            get { return typeless ? TAG_FORMAT.Replace(" type=\"text/css\"", "") : TAG_FORMAT; }
+            get { return bundleState.Typeless ? TAG_FORMAT.Replace(" type=\"text/css\"", "") : TAG_FORMAT; }
         }
 
         public CSSBundle()
@@ -87,7 +87,7 @@ namespace SquishIt.Framework.Css
                 {
                     import = FileSystem.ResolveAppRelativePathToFileSystem(sourcePath + importPath);
                 }
-                DependentFiles.Add(import);
+                bundleState.DependentFiles.Add(import);
                 return ProcessCssFile(import, outputFile, true);
             });
         }
@@ -134,7 +134,7 @@ namespace SquishIt.Framework.Css
             if(ShouldAppendHashForAssets)
             {
                 var fileResolver = new FileSystemResolver();
-                fileHasher = new CssAssetsFileHasher(HashKeyName, fileResolver, hasher);
+                fileHasher = new CssAssetsFileHasher(bundleState.HashKeyName, fileResolver, hasher);
             }
 
             return CSSPathRewriter.RewriteCssPaths(outputFile, file, css, fileHasher, asImport);

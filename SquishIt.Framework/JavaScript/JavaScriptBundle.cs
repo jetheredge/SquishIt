@@ -23,7 +23,7 @@ namespace SquishIt.Framework.JavaScript
 
         protected override IEnumerable<string> allowedExtensions
         {
-            get { return instanceAllowedExtensions.Union(Bundle.AllowedGlobalExtensions.Union(Bundle.AllowedScriptExtensions)); }
+            get { return bundleState.AllowedExtensions.Union(Bundle.AllowedGlobalExtensions.Union(Bundle.AllowedScriptExtensions)); }
         }
 
         protected override IEnumerable<string> disallowedExtensions
@@ -38,7 +38,7 @@ namespace SquishIt.Framework.JavaScript
 
         protected override string tagFormat
         {
-            get { return typeless ? TAG_FORMAT.Replace(" type=\"text/javascript\"", "") : TAG_FORMAT; }
+            get { return bundleState.Typeless ? TAG_FORMAT.Replace(" type=\"text/javascript\"", "") : TAG_FORMAT; }
         }
 
         public JavaScriptBundle()
@@ -54,7 +54,7 @@ namespace SquishIt.Framework.JavaScript
         {
             get
             {
-                var val = typeless ? JS_TEMPLATE.Replace("type=\"text/javascript\" ", "") : JS_TEMPLATE;
+                var val = bundleState.Typeless ? JS_TEMPLATE.Replace("type=\"text/javascript\" ", "") : JS_TEMPLATE;
                 return deferred ? val : val.Replace(" defer", "");
             }
         }
