@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using SquishIt.Framework;
 
 namespace SquishIt.Tests.Stubs 

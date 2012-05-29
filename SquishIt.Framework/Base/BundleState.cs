@@ -18,7 +18,6 @@ namespace SquishIt.Framework.Base
         internal string HashKeyName { get; set; }
         internal string BaseOutputHref { get; set; }
 
-
         internal bool Typeless { get; set; }
         internal bool ShouldRenderOnlyIfOutputFileIsMissing { get; set; }
 

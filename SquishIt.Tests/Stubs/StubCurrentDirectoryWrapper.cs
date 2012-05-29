@@ -1,4 +1,3 @@
-using System;
 using SquishIt.Framework.Files;
 
 namespace SquishIt.Tests.Stubs

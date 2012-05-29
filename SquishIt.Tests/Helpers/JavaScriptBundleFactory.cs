@@ -1,7 +1,6 @@
 using SquishIt.Framework;
 using SquishIt.Framework.Css;
 using SquishIt.Framework.Files;
-using SquishIt.Framework.Tests.Mocks;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Stubs;
 

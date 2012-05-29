@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using SquishIt.Framework.Files;
-using SquishIt.Tests.Stubs;
 
-namespace SquishIt.Framework.Tests.Mocks
+namespace SquishIt.Tests.Stubs
 {
     public class StubFileWriterFactory: IFileWriterFactory
     {

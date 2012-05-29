@@ -1,7 +1,6 @@
 using SquishIt.Framework;
 using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.Files;
-using SquishIt.Framework.Tests.Mocks;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Stubs;
 

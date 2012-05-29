@@ -10,7 +10,6 @@ using SquishIt.Framework.Renderers;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Helpers;
 using SquishIt.Tests.Stubs;
-using SquishIt.Framework.Tests.Mocks;
 using SquishIt.Framework;
 
 namespace SquishIt.Tests
