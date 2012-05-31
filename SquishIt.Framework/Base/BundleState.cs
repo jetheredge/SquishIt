@@ -6,7 +6,6 @@ namespace SquishIt.Framework.Base
     {
         internal List<Asset> Assets = new List<Asset>();
         internal Dictionary<string, string> Attributes = new Dictionary<string, string>();
-        internal IList<string> Arbitrary = new List<string>();
         
         public bool ForceDebug { get; set; }
         public bool ForceRelease { get; set; }

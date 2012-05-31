@@ -60,7 +60,7 @@ namespace SquishIt.Framework.JavaScript
 
         internal override void BeforeRenderDebug()
         {
-            foreach(var asset in bundleState.Assets)
+            foreach(var asset in bundleState.Assets.Where(a => a.IsLocal))
             {
                 var localPath = asset.LocalPath;
                 if(localPath.ToLower().EndsWith(".coffee"))
@@ -78,17 +78,18 @@ namespace SquishIt.Framework.JavaScript
             }
         }
 
-        protected override string BeforeMinify(string outputFile, List<string> files, IEnumerable<string> arbitraryContent)
+        protected override void AggregateContent(List<Asset> assets, StringBuilder sb, string outputFile)
         {
-            var sb = new StringBuilder();
-
-            files.Select(file => file.EndsWith(".coffee") ? ProcessCoffee(file) : ReadFile(file))
-                .Concat(arbitraryContent)
-                .Aggregate(sb, (builder, val) => builder.Append(val + "\n"));
-
-            return sb.ToString();
+            assets.SelectMany(a => a.IsArbitrary ? new[] { a.Content }.AsEnumerable() :
+                    GetFilesForSingleAsset(a).Select(ReadFile))
+                .ToList()
+                .Distinct()
+                .Aggregate(sb, (b, s) =>
+                {
+                    b.Append(s + "\n");
+                    return b;
+                });
         }
-
         private string ProcessCoffee(string file)
         {
             lock(typeof(JavaScriptBundle))

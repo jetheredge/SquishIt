@@ -63,8 +63,8 @@ namespace SquishIt.Framework.Base
         protected IRenderer GetFileRenderer()
         {
             return debugStatusReader.IsDebuggingEnabled() ? new FileRenderer(fileWriterFactory) :
-                releaseFileRenderer ?? 
-                Configuration.Instance.DefaultReleaseRenderer() ?? 
+                releaseFileRenderer ??
+                Configuration.Instance.DefaultReleaseRenderer() ??
                 new FileRenderer(fileWriterFactory);
         }
 
@@ -79,6 +79,12 @@ namespace SquishIt.Framework.Base
             }
 
             return resolvedFilePaths;
+        }
+
+        protected IEnumerable<string> GetFilesForSingleAsset(Asset asset)
+        {
+            var inputFile = GetInputFile(asset);
+            return inputFile.TryResolve(allowedExtensions);
         }
 
         private Input GetInputFile(Asset asset)
@@ -214,8 +220,10 @@ namespace SquishIt.Framework.Base
 
         public T AddString(string content)
         {
-            if(!bundleState.Arbitrary.Contains(content))
-                bundleState.Arbitrary.Add(content);
+            if(!bundleState.Assets.Any(a => a.Content == content))
+            {
+                AddAsset(new Asset { Content = content });
+            }
             return (T)this;
         }
 
@@ -303,11 +311,12 @@ namespace SquishIt.Framework.Base
         private string Render(string renderTo, string key, IRenderer renderer)
         {
             var cacheUniquenessHash = key.Contains("#") ? hasher.GetHash(bundleState.Assets
-                                               .Select(a => a.IsRemote ? a.RemotePath : a.LocalPath)
-                                               .Union(bundleState.Arbitrary)
+                                               .Select(a => a.IsRemote ?
+                                                   a.RemotePath :
+                                                   a.IsArbitrary ? a.Content : a.LocalPath)
                                                .OrderBy(s => s)
                                                .Aggregate((acc, val) => acc + val)) : string.Empty;
-            
+
             key = CachePrefix + key + cacheUniquenessHash;
 
             if(!String.IsNullOrEmpty(BaseOutputHref))
@@ -383,52 +392,53 @@ namespace SquishIt.Framework.Base
             BeforeRenderDebug();
 
             var sb = new StringBuilder();
-            var attributes = GetAdditionalAttributes(bundleState);
             var assets = bundleState.Assets;
 
-            DependentFiles.AddRange(GetFiles(assets));
+            DependentFiles.AddRange(GetFiles(assets.Where(a => !a.IsArbitrary).ToList()));
             foreach(var asset in assets)
             {
-                var inputFile = GetInputFile(asset);
-                var files = inputFile.TryResolve(allowedExtensions);
-
-                if(asset.IsEmbeddedResource)
+                if(asset.IsArbitrary)
                 {
-                    var tsb = new StringBuilder();
-
-                    foreach(var fn in files)
-                    {
-                        tsb.Append(ReadFile(fn) + "\n\n\n");
-                    }
-
-                    var processedFile = ExpandAppRelativePath(asset.LocalPath);
-                    //embedded resources need to be rendered regardless to be usable
-                    renderer.Render(tsb.ToString(), FileSystem.ResolveAppRelativePathToFileSystem(processedFile));
-                    sb.AppendLine(FillTemplate(bundleState, processedFile));
-                }
-                else if(asset.RemotePath != null)
-                {
-                    sb.AppendLine(FillTemplate(bundleState, ExpandAppRelativePath(asset.LocalPath)));
+                    sb.AppendLine(string.Format(tagFormat, asset.Content));
                 }
                 else
                 {
-                    foreach(var file in files)
+                    var inputFile = GetInputFile(asset);
+                    var files = inputFile.TryResolve(allowedExtensions);
+
+                    if (asset.IsEmbeddedResource)
                     {
-                        if(!renderedFiles.Contains(file))
+                        var tsb = new StringBuilder();
+
+                        foreach (var fn in files)
                         {
-                            var fileBase = FileSystem.ResolveAppRelativePathToFileSystem(asset.LocalPath);
-                            var newPath = file.Replace(fileBase, "");
-                            var path = ExpandAppRelativePath(asset.LocalPath + newPath.Replace("\\", "/"));
-                            sb.AppendLine(FillTemplate(bundleState, path));
-                            renderedFiles.Add(file);
+                            tsb.Append(ReadFile(fn) + "\n\n\n");
+                        }
+
+                        var processedFile = ExpandAppRelativePath(asset.LocalPath);
+                        //embedded resources need to be rendered regardless to be usable
+                        renderer.Render(tsb.ToString(), FileSystem.ResolveAppRelativePathToFileSystem(processedFile));
+                        sb.AppendLine(FillTemplate(bundleState, processedFile));
+                    }
+                    else if (asset.RemotePath != null)
+                    {
+                        sb.AppendLine(FillTemplate(bundleState, ExpandAppRelativePath(asset.LocalPath)));
+                    }
+                    else
+                    {
+                        foreach (var file in files)
+                        {
+                            if (!renderedFiles.Contains(file))
+                            {
+                                var fileBase = FileSystem.ResolveAppRelativePathToFileSystem(asset.LocalPath);
+                                var newPath = file.Replace(fileBase, "");
+                                var path = ExpandAppRelativePath(asset.LocalPath + newPath.Replace("\\", "/"));
+                                sb.AppendLine(FillTemplate(bundleState, path));
+                                renderedFiles.Add(file);
+                            }
                         }
                     }
                 }
-            }
-
-            foreach(var cntnt in bundleState.Arbitrary)
-            {
-                sb.AppendLine(string.Format(tagFormat, cntnt));
             }
 
             content = sb.ToString();
@@ -479,14 +489,10 @@ namespace SquishIt.Framework.Base
                             renderToPath = String.Concat(BaseOutputHref.TrimEnd('/'), "/", renderToPath.TrimStart('/'));
                         }
 
-                        var remoteAssetPaths = new List<string>();
-                        foreach(var asset in bundleState.Assets)
-                        {
-                            if(asset.IsRemote)
-                            {
-                                remoteAssetPaths.Add(asset.RemotePath);
-                            }
-                        }
+                        var remoteAssetPaths = bundleState.Assets
+                            .Where(a => a.IsRemote)
+                            .Select(a => a.RemotePath)
+                            .ToList();
 
                         uniqueFiles.AddRange(GetFiles(bundleState.Assets.Where(asset =>
                             asset.IsEmbeddedResource ||
@@ -494,14 +500,15 @@ namespace SquishIt.Framework.Base
                             asset.IsRemoteDownload).ToList()).Distinct());
 
                         string renderedTag = string.Empty;
-                        if(uniqueFiles.Count > 0 || bundleState.Arbitrary.Count > 0)
+
+                        if(uniqueFiles.Count > 0 || bundleState.Assets.Count(a => a.IsArbitrary) > 0)
                         {
                             DependentFiles.AddRange(uniqueFiles);
 
                             if(renderTo.Contains("#"))
                             {
                                 hashInFileName = true;
-                                minifiedContent = Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, bundleState.Arbitrary));
+                                minifiedContent = Minifier.Minify(BeforeMinify(bundleState.Assets, outputFile));
                                 hash = hasher.GetHash(minifiedContent);
                                 renderToPath = renderToPath.Replace("#", hash);
                                 outputFile = outputFile.Replace("#", hash);
@@ -513,7 +520,7 @@ namespace SquishIt.Framework.Base
                             }
                             else
                             {
-                                minifiedContent = minifiedContent ?? Minifier.Minify(BeforeMinify(outputFile, uniqueFiles, bundleState.Arbitrary));
+                                minifiedContent = minifiedContent ?? Minifier.Minify(BeforeMinify(bundleState.Assets, outputFile));
                                 renderer.Render(minifiedContent, outputFile);
                             }
 
@@ -614,17 +621,23 @@ namespace SquishIt.Framework.Base
             return HashKeyNamed(string.Empty);
         }
 
-        protected virtual string BeforeMinify(string outputFile, List<string> files, IEnumerable<string> arbitraryContent)
+        protected string BeforeMinify(List<Asset> assets, string outputFile)
         {
+            var filteredAssets = assets.Where(asset =>
+                                              asset.IsEmbeddedResource ||
+                                              asset.IsLocal ||
+                                              asset.IsRemoteDownload ||
+                                              asset.IsArbitrary)
+                                    .ToList();
+
             var sb = new StringBuilder();
-            var allContent = files.Select(ReadFile).Union(arbitraryContent);
-            foreach(var content in allContent)
-            {
-                sb.Append(ReadFile(content) + "\n");
-            }
+
+            AggregateContent(filteredAssets, sb, outputFile);
 
             return sb.ToString();
         }
+
+        protected abstract void AggregateContent(List<Asset> assets, StringBuilder sb, string outputFile);
 
         internal virtual void BeforeRenderDebug()
         {

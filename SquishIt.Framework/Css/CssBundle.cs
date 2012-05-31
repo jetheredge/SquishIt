@@ -129,15 +129,17 @@ namespace SquishIt.Framework.Css
             return this;
         }
 
-        protected override string BeforeMinify(string outputFile, List<string> filePaths, IEnumerable<string> arbitraryContent)
+        protected override void AggregateContent(List<Asset> assets, StringBuilder sb, string outputFile)
         {
-            var outputCss = new StringBuilder();
-
-            filePaths.Select(file => ProcessCssFile(file, outputFile))
-                .Concat(arbitraryContent)
-                .Aggregate(outputCss, (builder, val) => builder.Append(val + "\n"));
-
-            return outputCss.ToString();
+            assets.SelectMany(a => a.IsArbitrary ? new[] { a.Content }.AsEnumerable() :
+                GetFilesForSingleAsset(a).Select(f => ProcessCssFile(f, outputFile)))
+                .ToList()
+                .Distinct()
+                .Aggregate(sb, (b, s) =>
+                {
+                    b.Append(s + "\n");
+                    return b;
+                });
         }
 
         string ProcessCssFile(string file, string outputFile, bool asImport = false)
@@ -170,7 +172,7 @@ namespace SquishIt.Framework.Css
 
         internal override void BeforeRenderDebug()
         {
-            foreach(var asset in bundleState.Assets)
+            foreach(var asset in bundleState.Assets.Where(a => a.IsLocal))
             {
                 var localPath = asset.LocalPath;
                 if(localPath.ToLower().EndsWith(".less") || localPath.ToLower().EndsWith(".less.css"))
