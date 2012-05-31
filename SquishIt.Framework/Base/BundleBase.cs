@@ -197,15 +197,6 @@ namespace SquishIt.Framework.Base
             return (T)this;
         }
 
-        [Obsolete]
-        public T Add(params string[] filesPath)
-        {
-            foreach(var filePath in filesPath)
-                Add(filePath);
-
-            return (T)this;
-        }
-
         public T Add(string fileOrFolderPath)
         {
             AddAsset(new Asset(fileOrFolderPath));
