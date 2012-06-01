@@ -9,7 +9,6 @@ namespace SquishIt.Framework.Base
     {
         internal List<Asset> Assets = new List<Asset>();
         internal Dictionary<string, string> Attributes = new Dictionary<string, string>();
-        internal IList<ArbitraryContent> Arbitrary = new List<ArbitraryContent>();
         
         internal HashSet<string> AllowedExtensions = new HashSet<string>();
         internal IList<IPreprocessor> Preprocessors = new List<IPreprocessor>();

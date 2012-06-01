@@ -15,7 +15,7 @@ namespace SquishIt.Tests
     [TestFixture]
     public class JavaScriptBundleTests
     {
-        private string javaScript = TestUtilities.NormalizeLineEndings(@"
+        string javaScript = TestUtilities.NormalizeLineEndings(@"
 																				function product(a, b)
 																				{
 																						return a * b;
@@ -26,19 +26,20 @@ namespace SquishIt.Tests
 																				}");
         string minifiedJavaScript = "function product(n,t){return n*t}function sum(n,t){return n+t}";
 
-        private string javaScript2 = TestUtilities.NormalizeLineEndings(@"function sum(a, b){
+        string javaScript2 = TestUtilities.NormalizeLineEndings(@"function sum(a, b){
 																						return a + b;
 																			 }");
+        string minifiedJavaScript2 = "function sum(n,t){return n+t}";
 
-        private JavaScriptBundle javaScriptBundle;
-        private JavaScriptBundle javaScriptBundle2;
-        private JavaScriptBundle debugJavaScriptBundle;
-        private JavaScriptBundle debugJavaScriptBundle2;
-        private StubFileWriterFactory fileWriterFactory;
-        private StubFileReaderFactory fileReaderFactory;
-        private StubCurrentDirectoryWrapper currentDirectoryWrapper;
-        private IHasher hasher;
-        private StubBundleCache stubBundleCache;
+        JavaScriptBundle javaScriptBundle;
+        JavaScriptBundle javaScriptBundle2;
+        JavaScriptBundle debugJavaScriptBundle;
+        JavaScriptBundle debugJavaScriptBundle2;
+        StubFileWriterFactory fileWriterFactory;
+        StubFileReaderFactory fileReaderFactory;
+        StubCurrentDirectoryWrapper currentDirectoryWrapper;
+        IHasher hasher;
+        StubBundleCache stubBundleCache;
 
         [SetUp]
         public void Setup()
@@ -98,32 +99,39 @@ namespace SquishIt.Tests
         [Test]
         public void CanBundleJsVaryingOutputBaseHrefRendersIndependentUrl()
         {
-            fileReaderFactory.SetContents(javaScript);
+            var firstPath = "first.js";
+            var secondPath = "second.js";
+
+            fileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(firstPath), javaScript);
+            fileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(secondPath), javaScript2);
 
             string tag = javaScriptBundle
-                            .Add("/js/first.js")
-                            .Add("/js/second.js")
+                            .Add(firstPath)
+                            .Add(secondPath)
                             .WithOutputBaseHref("http://subdomain.domain.com")
                             .Render("/js/output.js");
 
-
             string tagNoBaseHref = javaScriptBundle2
-                            .Add("/js/first.js")
-                            .Add("/js/second.js")
+                            .Add(firstPath)
+                            .Add(secondPath)
                             .Render("/js/output.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://subdomain.domain.com/js/output.js?r=42C40AB6B5ED5B2868E70CB08201F965\"></script>", tag);
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"/js/output.js?r=42C40AB6B5ED5B2868E70CB08201F965\"></script>", tagNoBaseHref);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://subdomain.domain.com/js/output.js?r=A01134C134801A6DEC25510924C1EEA4\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"/js/output.js?r=A01134C134801A6DEC25510924C1EEA4\"></script>", tagNoBaseHref);
         }
 
         [Test]
         public void RenderNamedUsesOutputBaseHref()
         {
-            fileReaderFactory.SetContents(javaScript);
+            var firstPath = "first.js";
+            var secondPath = "second.js";
+
+            fileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(firstPath), javaScript);
+            fileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(secondPath), javaScript2);
 
             javaScriptBundle
-                .Add("/js/first.js")
-                .Add("/js/second.js")
+                .Add(firstPath)
+                .Add(secondPath)
                 .WithOutputBaseHref("http://subdomain.domain.com")
                 .AsNamed("leBundle", "/js/output.js");
 
@@ -131,7 +139,7 @@ namespace SquishIt.Tests
                 .WithOutputBaseHref("http://subdomain.domain.com")
                 .RenderNamed("leBundle");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://subdomain.domain.com/js/output.js?r=42C40AB6B5ED5B2868E70CB08201F965\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://subdomain.domain.com/js/output.js?r=A01134C134801A6DEC25510924C1EEA4\"></script>", tag);
         }
 
         [Test]
@@ -657,6 +665,67 @@ namespace SquishIt.Tests
                 .Render("doesn't matter where...");
 
             var expectedTag = string.Format("<script type=\"text/javascript\">{0}</script>\n<script type=\"text/javascript\">{1}</script>\n", javaScript, string.Format(js2Format, subtract, divide));
+            Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+        }
+
+        [Test]
+        public void CanMaintainOrderBetweenArbitraryAndFileAssetsInRelease()
+        {
+            var file1 = "somefile.js";
+            var file2 = "anotherfile.js";
+
+            var subtract = "function sub(a,b){return a-b}";
+            var minifiedSubtract = "function sub(n,t){return n-t}";
+
+            var readerFactory = new StubFileReaderFactory();
+            readerFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(file1), javaScript);
+            readerFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(file2), javaScript2);
+
+            var writerFactory = new StubFileWriterFactory();
+
+            var tag = new JavaScriptBundleFactory()
+                .WithFileReaderFactory(readerFactory)
+                .WithFileWriterFactory(writerFactory)
+                .WithDebuggingEnabled(false)
+                .Create()
+                .Add(file1)
+                .AddString(subtract)
+                .Add(file2)
+                .Render("test.js");
+
+            var expectedTag = string.Format("<script type=\"text/javascript\" src=\"test.js?r=hash\"></script>");
+            Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+
+            var combined = minifiedJavaScript + minifiedSubtract + minifiedJavaScript2;
+            Assert.AreEqual(combined, writerFactory.Files[TestUtilities.PrepareRelativePath(@"test.js")]);
+        }
+
+        [Test]
+        public void CanMaintainOrderBetweenArbitraryAndFileAssetsInDebug()
+        {
+            var file1 = "somefile.js";
+            var file2 = "anotherfile.js";
+
+            var subtract = "function sub(a,b){return a-b}";
+
+            var readerFactory = new StubFileReaderFactory();
+            readerFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(file1), javaScript);
+            readerFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(file2), javaScript2);
+
+            var writerFactory = new StubFileWriterFactory();
+
+            var tag = new JavaScriptBundleFactory()
+                .WithFileReaderFactory(readerFactory)
+                .WithFileWriterFactory(writerFactory)
+                .WithDebuggingEnabled(true)
+                .Create()
+                .Add(file1)
+                .AddString(subtract)
+                .Add(file2)
+                .Render("test.js");
+
+            var expectedTag = string.Format("<script type=\"text/javascript\" src=\"somefile.js\"></script>\n<script type=\"text/javascript\">{0}</script>\n<script type=\"text/javascript\" src=\"anotherfile.js\"></script>\n"
+                , subtract);
             Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
         }
 
