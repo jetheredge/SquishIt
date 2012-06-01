@@ -4,8 +4,8 @@ namespace SquishIt.Tests.Stubs
 {
     public class StubFileReader: IFileReader
     {
-        private readonly string file;
-        private readonly string contents;
+        readonly string file;
+        readonly string contents;
 
         public string File
         {

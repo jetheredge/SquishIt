@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Linq;
 using SquishIt.Framework;
 using dotless.Core;
 
@@ -8,7 +6,7 @@ namespace SquishIt.Less
 {
     public class LessPreprocessor : IPreprocessor
     {
-        private static string[] extensions = new string[] { ".less", ".less.css" };
+        static readonly string[] extensions = new[] { ".less", ".less.css" };
         //static Regex lessFiles = new Regex(string.Format(@"(\{0})|(\{1})$", extensions), RegexOptions.Compiled);
 
         public bool ValidFor(string extension)

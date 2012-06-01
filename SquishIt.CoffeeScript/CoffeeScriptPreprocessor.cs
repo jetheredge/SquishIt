@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Linq;
 using SquishIt.CoffeeScript.Coffee;
 using SquishIt.Framework;
 
@@ -8,7 +6,7 @@ namespace SquishIt.CoffeeScript
 {
     public class CoffeeScriptPreprocessor : IPreprocessor
     {
-        static string validExtension = ".coffee";
+        const string validExtension = ".coffee";
         //static Regex coffeeFiles = new Regex(@"(\." + extension + ")$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public bool ValidFor(string extension) 

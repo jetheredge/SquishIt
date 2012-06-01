@@ -5,7 +5,7 @@ namespace SquishIt.Tests.Stubs
 {
 	public class StubBundleCache: IBundleCache
 	{
-		private Dictionary<string, string> cache = new Dictionary<string, string>();
+		Dictionary<string, string> cache = new Dictionary<string, string>();
 
 		public string GetContent(string name)
 		{

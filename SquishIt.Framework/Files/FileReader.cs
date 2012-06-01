@@ -4,7 +4,7 @@ namespace SquishIt.Framework.Files
 {
     public class FileReader: IFileReader
     {
-        private readonly StreamReader streamReader;
+        readonly StreamReader streamReader;
 
         public FileReader(IRetryableFileOpener retryableFileOpener, int numberOfRetries, string file)
         {

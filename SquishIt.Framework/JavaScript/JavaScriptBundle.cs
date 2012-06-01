@@ -10,12 +10,12 @@ namespace SquishIt.Framework.JavaScript
 {
     public class JavaScriptBundle : BundleBase<JavaScriptBundle>
     {
-        private const string JS_TEMPLATE = "<script type=\"text/javascript\" {0}src=\"{1}\" defer></script>";
-        private const string TAG_FORMAT = "<script type=\"text/javascript\">{0}</script>";
+        const string JS_TEMPLATE = "<script type=\"text/javascript\" {0}src=\"{1}\" defer></script>";
+        const string TAG_FORMAT = "<script type=\"text/javascript\">{0}</script>";
 
-        private const string CACHE_PREFIX = "js";
+        const string CACHE_PREFIX = "js";
 
-        private bool deferred;
+        bool deferred;
 
         protected override IMinifier<JavaScriptBundle> DefaultMinifier
         {

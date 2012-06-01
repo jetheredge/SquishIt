@@ -13,13 +13,13 @@ namespace SquishIt.Framework.Css
 {
     public class CSSBundle : BundleBase<CSSBundle>
     {
-        private readonly static Regex IMPORT_PATTERN = new Regex(@"@import +url\(([""']){0,1}(.*?)\1{0,1}\);", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private const string CSS_TEMPLATE = "<link rel=\"stylesheet\" type=\"text/css\" {0}href=\"{1}\" />";
-        private const string CACHE_PREFIX = "css";
-        private const string TAG_FORMAT = "<style type=\"text/css\">{0}</style>";
+        readonly static Regex IMPORT_PATTERN = new Regex(@"@import +url\(([""']){0,1}(.*?)\1{0,1}\);", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        const string CSS_TEMPLATE = "<link rel=\"stylesheet\" type=\"text/css\" {0}href=\"{1}\" />";
+        const string CACHE_PREFIX = "css";
+        const string TAG_FORMAT = "<style type=\"text/css\">{0}</style>";
 
-        private bool ShouldImport { get; set; }
-        private bool ShouldAppendHashForAssets { get; set; }
+        bool ShouldImport { get; set; }
+        bool ShouldAppendHashForAssets { get; set; }
 
 
         protected override string Template
@@ -72,7 +72,7 @@ namespace SquishIt.Framework.Css
         {
         }
 
-        private string ProcessImport(string file, string outputFile, string css)
+        string ProcessImport(string file, string outputFile, string css)
         {
             var sourcePath = FileSystem.ResolveFileSystemPathToAppRelative(Path.GetDirectoryName(file)) + "/";
 

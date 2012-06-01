@@ -1,5 +1,4 @@
-﻿using System;
-using Yahoo.Yui.Compressor;
+﻿using Yahoo.Yui.Compressor;
 using System.Text;
 using System.Globalization;
 
@@ -7,14 +6,14 @@ namespace SquishIt.Framework.Minifiers.JavaScript
 {
     public class YuiMinifier: IJavaScriptMinifier
     {
-        private readonly bool verboseLogging = true;
-        private readonly bool obfuscateJavaScript = true;
-        private readonly bool preserveAllSemicolons = false;
-        private readonly bool disableOptimizations = false;
-        private readonly int lineBreakPosition = -1;
-        private readonly Encoding encoding = Encoding.UTF8;
-        private readonly CultureInfo cultureInfo = CultureInfo.InvariantCulture;
-        private readonly bool ignoreEval = false;
+        readonly bool verboseLogging = true;
+        readonly bool obfuscateJavaScript = true;
+        readonly bool preserveAllSemicolons = false;
+        readonly bool disableOptimizations = false;
+        readonly int lineBreakPosition = -1;
+        readonly Encoding encoding = Encoding.UTF8;
+        readonly CultureInfo cultureInfo = CultureInfo.InvariantCulture;
+        readonly bool ignoreEval = false;
 
         public YuiMinifier()
         {

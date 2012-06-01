@@ -4,7 +4,7 @@ namespace SquishIt.Tests.Stubs
 {
     public class StubDebugStatusReader: IDebugStatusReader
     {
-        private bool isDebuggingEnabled;
+        bool isDebuggingEnabled;
 
         public StubDebugStatusReader()
         {

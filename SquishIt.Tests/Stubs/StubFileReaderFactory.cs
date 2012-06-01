@@ -5,9 +5,9 @@ namespace SquishIt.Tests.Stubs
 {
     public class StubFileReaderFactory: IFileReaderFactory
     {
-        private string contents;
-        private bool fileExists;
-        private Dictionary<string, string> contentsForFiles = new Dictionary<string, string>();
+        string contents;
+        bool fileExists;
+        Dictionary<string, string> contentsForFiles = new Dictionary<string, string>();
 
         public void SetContents(string contents)
         {

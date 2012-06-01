@@ -77,7 +77,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\ArbitraryContent.cs" />
     <Compile Include="Base\Asset.cs" />
     <Compile Include="Base\BundleBase.cs" />
     <Compile Include="Base\BundleBase.Rendering.Internals.cs" />
@@ -103,17 +102,17 @@
     <Compile Include="Files\Input.cs" />
     <Compile Include="JavaScript\JavaScriptBundle.cs" />
     <Compile Include="Minifiers\JavaScript\jsmin\JavaScriptMinifier.cs" />
-    <Compile Include="Minifiers\JavaScript\Minifiers\ClosureMinifier.cs" />
-    <Compile Include="Minifiers\JavaScript\Minifiers\IJavaScriptMinifier.cs" />
-    <Compile Include="Minifiers\JavaScript\Minifiers\JsMinMinifier.cs" />
-    <Compile Include="Minifiers\JavaScript\Minifiers\MsMinifier.cs" />
-    <Compile Include="Minifiers\JavaScript\Minifiers\NullMinifier.cs" />
-    <Compile Include="Minifiers\JavaScript\Minifiers\YuiMinifier.cs" />
+    <Compile Include="Minifiers\JavaScript\ClosureMinifier.cs" />
+    <Compile Include="Minifiers\JavaScript\IJavaScriptMinifier.cs" />
+    <Compile Include="Minifiers\JavaScript\JsMinMinifier.cs" />
+    <Compile Include="Minifiers\JavaScript\MsMinifier.cs" />
+    <Compile Include="Minifiers\JavaScript\NullMinifier.cs" />
+    <Compile Include="Minifiers\JavaScript\YuiMinifier.cs" />
     <Compile Include="Minifiers\CSS\ICSSMinifier.cs" />
     <Compile Include="Minifiers\CSS\MsCompressor.cs" />
     <Compile Include="Minifiers\CSS\NullCompressor.cs" />
     <Compile Include="Minifiers\CSS\YuiCompressor.cs" />
-    <Compile Include="Minifiers\MinifierFactory.cs" />
+    <Compile Include="Minifiers\CSS\MinifierFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderers\CacheRenderer.cs" />
     <Compile Include="Renderers\FileRenderer.cs" />

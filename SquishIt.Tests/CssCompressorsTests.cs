@@ -8,7 +8,7 @@ namespace SquishIt.Tests
     [TestFixture]
     public class CssCompressorsTests
     {
-        private string css = @" li {
+        string css = @" li {
                                     margin-bottom:0.1em;
                                     margin-left:0;
                                     margin-top:0.1em;

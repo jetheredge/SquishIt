@@ -6,10 +6,10 @@ namespace SquishIt.Tests.Stubs
 {
     public class StubResolver : IResolver
     {
-        private string _pathToResolveTo;
-        private string[] _directoryContents;
+        string _pathToResolveTo;
+        string[] _directoryContents;
 
-        private StubResolver(string pathToResolveTo, string [] directoryContents = null)
+        StubResolver(string pathToResolveTo, string [] directoryContents = null)
         {
             _pathToResolveTo = pathToResolveTo;
             _directoryContents = directoryContents;

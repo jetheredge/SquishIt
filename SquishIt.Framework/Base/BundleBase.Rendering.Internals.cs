@@ -14,7 +14,7 @@ namespace SquishIt.Framework.Base
     public abstract partial class BundleBase<T> where T : BundleBase<T>
     {
 
-        private List<string> GetFiles(List<Asset> assets)
+        IEnumerable<string> GetFiles(IEnumerable<Asset> assets)
         {
             var inputFiles = GetInputFiles(assets);
             var resolvedFilePaths = new List<string>();
@@ -33,7 +33,7 @@ namespace SquishIt.Framework.Base
             return inputFile.TryResolve(allowedExtensions, disallowedExtensions);
         }
 
-        private Input GetInputFile(Asset asset)
+        Input GetInputFile(Asset asset)
         {
             if(!asset.IsEmbeddedResource)
             {
@@ -41,44 +41,32 @@ namespace SquishIt.Framework.Base
                 {
                     return GetFileSystemPath(asset.LocalPath, asset.IsRecursive);
                 }
-
                 if(asset.IsRemoteDownload)
                 {
                     return GetHttpPath(asset.RemotePath);
                 }
-                else
-                {
-                    return GetFileSystemPath(asset.LocalPath, asset.IsRecursive);
-                }
+                return GetFileSystemPath(asset.LocalPath, asset.IsRecursive);
             }
-            else
-            {
-                return GetEmbeddedResourcePath(asset.RemotePath);
-            }
+            return GetEmbeddedResourcePath(asset.RemotePath);
         }
 
-        private List<Input> GetInputFiles(List<Asset> assets)
+        IEnumerable<Input> GetInputFiles(IEnumerable<Asset> assets)
         {
-            var inputFiles = new List<Input>();
-            foreach(var asset in assets)
-            {
-                inputFiles.Add(GetInputFile(asset));
-            }
-            return inputFiles;
+            return assets.Select(GetInputFile).ToList();
         }
 
-        private Input GetFileSystemPath(string localPath, bool isRecursive = true)
+        Input GetFileSystemPath(string localPath, bool isRecursive = true)
         {
             string mappedPath = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
             return new Input(mappedPath, isRecursive, ResolverFactory.Get<FileSystemResolver>());
         }
 
-        private Input GetHttpPath(string remotePath)
+        Input GetHttpPath(string remotePath)
         {
             return new Input(remotePath, false, ResolverFactory.Get<HttpResolver>());
         }
 
-        private Input GetEmbeddedResourcePath(string resourcePath)
+        Input GetEmbeddedResourcePath(string resourcePath)
         {
             return new Input(resourcePath, false, ResolverFactory.Get<EmbeddedResourceResolver>());
         }
@@ -136,7 +124,7 @@ namespace SquishIt.Framework.Base
                 .FirstOrDefault(p => p.ValidFor(extension));
         }
 
-        private string ExpandAppRelativePath(string file)
+        string ExpandAppRelativePath(string file)
         {
             if(file.StartsWith("~/"))
             {
@@ -161,10 +149,10 @@ namespace SquishIt.Framework.Base
             return fileReaderFactory.FileExists(file);
         }
 
-        string GetAdditionalAttributes(BundleState bundleState)
+        string GetAdditionalAttributes(BundleState state)
         {
             var result = new StringBuilder();
-            foreach (var attribute in bundleState.Attributes)
+            foreach (var attribute in state.Attributes)
             {
                 result.Append(attribute.Key);
                 result.Append("=\"");
@@ -174,12 +162,12 @@ namespace SquishIt.Framework.Base
             return result.ToString();
         }
 
-        string GetFilesForRemote(List<string> remoteAssetPaths, BundleState bundleState)
+        string GetFilesForRemote(IEnumerable<string> remoteAssetPaths, BundleState state)
         {
             var sb = new StringBuilder();
             foreach (var uri in remoteAssetPaths)
             {
-                sb.Append(FillTemplate(bundleState, uri));
+                sb.Append(FillTemplate(state, uri));
             }
 
             return sb.ToString();
@@ -199,7 +187,7 @@ namespace SquishIt.Framework.Base
                                  VirtualPathUtility.ToAbsolute(siteRelativePath));
         }
 
-        private string Render(string renderTo, string key, IRenderer renderer)
+        string Render(string renderTo, string key, IRenderer renderer)
         {
             var cacheUniquenessHash = key.Contains("#") ? hasher.GetHash(bundleState.Assets
                                                .Select(a => a.IsRemote ? a.RemotePath :
@@ -428,8 +416,8 @@ namespace SquishIt.Framework.Base
             foreach(var asset in bundleState.Assets.Where(a => a.IsLocal))
             {
                 var localPath = asset.LocalPath;
-                var preprocessors = FindPreprocessors(localPath);
-                if(preprocessors != null && preprocessors.Count() > 0)
+                var preprocessors = FindPreprocessors(localPath).ToList();
+                if(preprocessors != null && preprocessors.Any())
                 {
                     var outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
                     var appendExtension = ".debug" + defaultExtension.ToLowerInvariant();

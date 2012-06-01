@@ -1,11 +1,11 @@
 using System.IO;
-using SquishIt.Framework.JavaScript.jsmin;
+using SquishIt.Framework.Minifiers.JavaScript.jsmin;
 
 namespace SquishIt.Framework.Minifiers.JavaScript
 {
     public class JsMinMinifier: IJavaScriptMinifier
     {
-        private string CompressFile(string file)
+        string CompressFile(string file)
         {
             string outputFileName = Path.GetTempPath() + Path.GetRandomFileName();
             var minifier = new JavaScriptMinifier();

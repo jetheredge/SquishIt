@@ -5,10 +5,10 @@ namespace SquishIt.Framework.Renderers
 {
     public class CacheRenderer: IRenderer
     {
-        private readonly string prefix;
-        private readonly string name;
-        private static Dictionary<string, string> cache = new Dictionary<string, string>();
-        private static ReaderWriterLockSlim readerWriterLockSlim = new ReaderWriterLockSlim();
+        readonly string prefix;
+        readonly string name;
+        static readonly Dictionary<string, string> cache = new Dictionary<string, string>();
+        static readonly ReaderWriterLockSlim readerWriterLockSlim = new ReaderWriterLockSlim();
 
         public CacheRenderer(string prefix, string name)
         {

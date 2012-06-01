@@ -4,8 +4,8 @@ namespace SquishIt.Framework.Minifiers.JavaScript
 {
 	public class MsMinifier : IJavaScriptMinifier
 	{
-	    private CodeSettings codeSettings;
-	    private readonly string[] globalNames = new string[0];
+	    CodeSettings codeSettings;
+	    readonly string[] globalNames = new string[0];
 
 	    public MsMinifier()
 	    {

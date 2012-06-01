@@ -14,9 +14,9 @@ namespace SquishIt.Tests
     [TestFixture]
     public class SassTests
     {
-        private CssBundleFactory cssBundleFactory;
-        private IHasher hasher;
-        private string scss = @"$blue: #3bbfce;
+        CssBundleFactory cssBundleFactory;
+        IHasher hasher;
+        string scss = @"$blue: #3bbfce;
                     $margin: 16px;
 
                     .content-navigation {
@@ -30,7 +30,7 @@ namespace SquishIt.Tests
                       margin: $margin / 2;
                       border-color: $blue;
                     }";
-        private string sass = @"$blue: #3bbfce
+        string sass = @"$blue: #3bbfce
 $margin: 16px
 
 .content-navigation
@@ -41,8 +41,8 @@ $margin: 16px
     padding: $margin / 2
     margin: $margin / 2
     border-color: $blue";
-        private string renderedCss = @".content-navigation{border-color:#3bbfce;color:#2ca2af}.border{padding:8px;margin:8px;border-color:#3bbfce}";
-        private string debugRenderedCss = TestUtilities.NormalizeLineEndings(
+        string renderedCss = @".content-navigation{border-color:#3bbfce;color:#2ca2af}.border{padding:8px;margin:8px;border-color:#3bbfce}";
+        string debugRenderedCss = TestUtilities.NormalizeLineEndings(
                     @"<style type=""text/css"">.content-navigation {
   border-color: #3bbfce;
   color: #2ca2af; }

@@ -11,8 +11,8 @@ namespace SquishIt.Tests
     [TestFixture]
     public class ScriptPreprocessorPipelineTests
     {
-        private JavaScriptBundleFactory javaScriptBundleFactory;
-        private IHasher hasher;
+        JavaScriptBundleFactory javaScriptBundleFactory;
+        IHasher hasher;
 
         [SetUp]
         public void Setup()

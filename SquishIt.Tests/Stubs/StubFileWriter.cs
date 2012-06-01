@@ -5,8 +5,8 @@ namespace SquishIt.Tests.Stubs
 {
     public class StubFileWriter: IFileWriter
     {
-        private readonly string file;
-        private readonly Action<string,string> writeDelegate;
+        readonly string file;
+        readonly Action<string,string> writeDelegate;
 
         public StubFileWriter(string file, Action<string,string> writeDelegate)
         {

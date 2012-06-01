@@ -5,7 +5,7 @@ namespace SquishIt.Tests.Stubs
 {
     public class StubFileWriterFactory: IFileWriterFactory
     {
-        private readonly Dictionary<string, string> files = new Dictionary<string, string>();
+        readonly Dictionary<string, string> files = new Dictionary<string, string>();
 
         public Dictionary<string, string> Files
         {

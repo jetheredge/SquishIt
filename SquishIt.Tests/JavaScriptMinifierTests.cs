@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.Minifiers;
+using SquishIt.Framework.Minifiers.CSS;
 using SquishIt.Framework.Minifiers.JavaScript;
 
 namespace SquishIt.Tests
@@ -8,7 +9,7 @@ namespace SquishIt.Tests
     [TestFixture]
     public class JavaScriptMinifierTests
     {
-        private string javaScript = @"
+        string javaScript = @"
                                         function product(a, b)
                                         {
                                             return a * b;

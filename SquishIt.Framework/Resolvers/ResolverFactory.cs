@@ -10,7 +10,7 @@ namespace SquishIt.Framework.Resolvers
 {
     public class ResolverFactory
     {
-        private static Dictionary<string, IResolver> resolvers = new Dictionary<string, IResolver>
+        static Dictionary<string, IResolver> resolvers = new Dictionary<string, IResolver>
         {
             {typeof(EmbeddedResourceResolver).FullName, new EmbeddedResourceResolver()},
             {typeof(FileSystemResolver).FullName, new FileSystemResolver()},

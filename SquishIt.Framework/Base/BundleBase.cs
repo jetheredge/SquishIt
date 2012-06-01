@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SquishIt.Framework.Minifiers;
+using SquishIt.Framework.Minifiers.CSS;
 using SquishIt.Framework.Renderers;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Utilities;
@@ -59,7 +60,7 @@ namespace SquishIt.Framework.Base
                 new FileRenderer(fileWriterFactory);
         }
 
-        private void AddAsset(Asset asset)
+        void AddAsset(Asset asset)
         {
             bundleState.Assets.Add(asset);
         }
@@ -72,13 +73,13 @@ namespace SquishIt.Framework.Base
 
         public T Add(string fileOrFolderPath)
         {
-            AddAsset(new Asset(fileOrFolderPath));
+            AddAsset(new Asset { LocalPath = fileOrFolderPath });
             return (T)this;
         }
 
         public T AddDirectory(string folderPath, bool recursive = true)
         {
-            AddAsset(new Asset(folderPath, isRecursive: recursive));
+            AddAsset(new Asset { LocalPath = folderPath, IsRecursive = recursive });
             return (T)this;
         }
 
@@ -112,8 +113,12 @@ namespace SquishIt.Framework.Base
 
         public T AddRemote(string localPath, string remotePath, bool downloadRemote)
         {
-            var asset = new Asset(localPath, remotePath);
-            asset.DownloadRemote = downloadRemote;
+            var asset = new Asset
+            {
+                LocalPath = localPath,
+                RemotePath = remotePath,
+                DownloadRemote = downloadRemote
+            };
             AddAsset(asset);
             return (T)this;
         }
@@ -126,7 +131,7 @@ namespace SquishIt.Framework.Base
 
         public T AddEmbeddedResource(string localPath, string embeddedResourcePath)
         {
-            AddAsset(new Asset(localPath, embeddedResourcePath, 0, true));
+            AddAsset(new Asset { LocalPath = localPath, RemotePath = embeddedResourcePath, Order = 0, IsEmbeddedResource = true });
             return (T)this;
         }
 
@@ -162,7 +167,7 @@ namespace SquishIt.Framework.Base
             return (T)this;
         }
 
-        private void AddAttributes(Dictionary<string, string> attributes, bool merge = true)
+        void AddAttributes(Dictionary<string, string> attributes, bool merge = true)
         {
             if(merge)
             {
@@ -201,7 +206,7 @@ namespace SquishIt.Framework.Base
             return (T)this;
         }
 
-        private string FillTemplate(BundleState bundleState, string path)
+        string FillTemplate(BundleState bundleState, string path)
         {
             return string.Format(Template, GetAdditionalAttributes(bundleState), path);
         }
@@ -225,7 +230,7 @@ namespace SquishIt.Framework.Base
 
         protected abstract void AggregateContent(List<Asset> assets, StringBuilder sb, string outputFile);
 
-        private BundleState GetCachedBundleState(string name)
+        BundleState GetCachedBundleState(string name)
         {
             var bundle = bundleStateCache[CachePrefix + name];
             if(bundle.ForceDebug)

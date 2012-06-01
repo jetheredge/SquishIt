@@ -8,12 +8,12 @@ namespace SquishIt.Tests.Helpers
 {
     internal class CssBundleFactory
     {
-        private IDebugStatusReader debugStatusReader = new StubDebugStatusReader();
-        private IFileWriterFactory fileWriterFactory = new StubFileWriterFactory();
-        private IFileReaderFactory fileReaderFactory = new StubFileReaderFactory();
-        private ICurrentDirectoryWrapper currentDirectoryWrapper = new StubCurrentDirectoryWrapper();
-        private IHasher hasher = new StubHasher("hash");
-    	private IBundleCache bundleCache = new StubBundleCache();
+        IDebugStatusReader debugStatusReader = new StubDebugStatusReader();
+        IFileWriterFactory fileWriterFactory = new StubFileWriterFactory();
+        IFileReaderFactory fileReaderFactory = new StubFileReaderFactory();
+        ICurrentDirectoryWrapper currentDirectoryWrapper = new StubCurrentDirectoryWrapper();
+        IHasher hasher = new StubHasher("hash");
+    	IBundleCache bundleCache = new StubBundleCache();
 
         public StubFileReaderFactory FileReaderFactory { get { return fileReaderFactory as StubFileReaderFactory; } }
         public StubFileWriterFactory FileWriterFactory { get { return fileWriterFactory as StubFileWriterFactory; } }
@@ -36,7 +36,7 @@ namespace SquishIt.Tests.Helpers
             return this;
         }
 
-        private CssBundleFactory WithCurrentDirectoryWrapper(ICurrentDirectoryWrapper currentDirectoryWrapper)
+        CssBundleFactory WithCurrentDirectoryWrapper(ICurrentDirectoryWrapper currentDirectoryWrapper)
         {
             this.currentDirectoryWrapper = currentDirectoryWrapper;
             return this;

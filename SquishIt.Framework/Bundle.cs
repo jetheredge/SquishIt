@@ -35,7 +35,7 @@ namespace SquishIt.Framework
             Preprocessors.Add(instance);
         }
 
-        private static void ValidatePreprocessor<T>(IPreprocessor instance)
+        static void ValidatePreprocessor<T>(IPreprocessor instance)
         {
             if(Preprocessors.Any(p => p.GetType() == typeof(T)))
             {
@@ -51,7 +51,7 @@ namespace SquishIt.Framework
             }
         }
 
-        private static IEnumerable<string> AllExtensions
+        static IEnumerable<string> AllExtensions
         {
             get { return AllowedGlobalExtensions.Union(AllowedScriptExtensions).Union(AllowedStyleExtensions).Select(x => x.ToUpper()); }
         }

@@ -16,7 +16,7 @@ namespace SquishIt.Tests
     [TestFixture]
     public class CssBundleTests
     {
-        private string css = TestUtilities.NormalizeLineEndings(@" li {
+        string css = TestUtilities.NormalizeLineEndings(@" li {
                                     margin-bottom:0.1em;
                                     margin-left:0;
                                     margin-top:0.1em;
@@ -36,7 +36,7 @@ namespace SquishIt.Tests
                                 }");
         string minifiedCss = "li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}";
 
-        private string css2 = TestUtilities.NormalizeLineEndings(@" li {
+        string css2 = TestUtilities.NormalizeLineEndings(@" li {
                                     margin-bottom:0.1em;
                                     margin-left:0;
                                     margin-top:0.1em;
@@ -52,8 +52,8 @@ namespace SquishIt.Tests
 
 
 
-        private CssBundleFactory cssBundleFactory;
-        private IHasher hasher;
+        CssBundleFactory cssBundleFactory;
+        IHasher hasher;
 
         [SetUp]
         public void Setup()
@@ -1038,7 +1038,7 @@ namespace SquishIt.Tests
             var file1 = "somefile.css";
             var file2 = "anotherfile.css";
 
-            var arbitraryCss = ".someClass { color:red }"; ;
+            var arbitraryCss = ".someClass { color:red }";
 
             var readerFactory = new StubFileReaderFactory();
             readerFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(file1), css);

@@ -32,7 +32,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace SquishIt.Framework.JavaScript.jsmin
+namespace SquishIt.Framework.Minifiers.JavaScript.jsmin
 {
     class JavaScriptMinifier
     {

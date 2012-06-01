@@ -2,13 +2,12 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Web;
 
 namespace SquishIt.Framework.Minifiers.JavaScript
 {
     public class ClosureMinifier: IJavaScriptMinifier
     {
-        private string CompressFile(string file)
+        string CompressFile(string file)
         {
             string path;
             if (HttpContext.Current != null)

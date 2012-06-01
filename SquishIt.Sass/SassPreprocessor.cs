@@ -6,11 +6,8 @@ namespace SquishIt.Sass
 {
     public class SassPreprocessor : IPreprocessor
     {
-        private static string[] extensions = new[] { ".sass", ".scss" };
-        //private static Regex sassFiles = new Regex(@"(\.sass)|(\.scss)$", RegexOptions.Compiled);
-
-        private static Regex isSass = new Regex(@"\.sass$", RegexOptions.Compiled);
-        private static Regex isScss = new Regex(@"\.scss$", RegexOptions.Compiled);
+        static readonly string[] extensions = new[] { ".sass", ".scss" };
+        static readonly Regex isSass = new Regex(@"\.sass$", RegexOptions.Compiled);
 
         public bool ValidFor(string extension) 
         {

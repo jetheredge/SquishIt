@@ -13,8 +13,8 @@ namespace SquishIt.Tests
     public class CoffeeScriptTests
     {
         //TODO: should probably have more tests here
-        private JavaScriptBundleFactory javaScriptBundleFactory;
-        private IHasher hasher;
+        JavaScriptBundleFactory javaScriptBundleFactory;
+        IHasher hasher;
 
         [SetUp]
         public void Setup()

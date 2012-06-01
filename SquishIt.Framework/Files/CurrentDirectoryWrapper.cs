@@ -4,7 +4,7 @@ namespace SquishIt.Framework.Files
 {
     public class CurrentDirectoryWrapper: ICurrentDirectoryWrapper
     {
-        private string previousDirectory;
+        string previousDirectory;
 
         public void SetCurrentDirectory(string directory)
         {

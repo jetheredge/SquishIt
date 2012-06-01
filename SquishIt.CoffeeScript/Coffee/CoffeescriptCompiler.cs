@@ -8,14 +8,14 @@ namespace SquishIt.CoffeeScript.Coffee
 {
     public class CoffeeScriptCompiler
     {
-        private static string _coffeescript;
-        private static ScriptEngine _engine;
+        static string _coffeescript;
+        static ScriptEngine _engine;
 
         public string Compile(string input)
         {
             if(FileSystem.Unix)
             {
-                throw new NotSupportedException ("Coffeescript not yet supported for mono.");
+                throw new NotSupportedException("Coffeescript not yet supported for mono.");
             }
 
             CoffeeScriptEngine.SetGlobalValue("Source", input);
@@ -23,19 +23,18 @@ namespace SquishIt.CoffeeScript.Coffee
             // Errors go from here straight on to the rendered page; 
             // we don't want to hide them because they provide valuable feedback
             // on the location of the error
-            string result = CoffeeScriptEngine.Evaluate<string>("CoffeeScript.compile(Source, {bare: false})");
+            var result = CoffeeScriptEngine.Evaluate<string>("CoffeeScript.compile(Source, {bare: false})");
 
             return result;
         }
 
-        private static ScriptEngine CoffeeScriptEngine
+        static ScriptEngine CoffeeScriptEngine
         {
             get
             {
                 if(_engine == null)
                 {
-                    var engine = new ScriptEngine();
-                    engine.ForceStrictMode = true;
+                    var engine = new ScriptEngine { ForceStrictMode = true };
                     engine.Execute(Compiler);
                     _engine = engine;
                 }
@@ -43,18 +42,18 @@ namespace SquishIt.CoffeeScript.Coffee
             }
         }
 
-        static string Compiler 
-        { 
+        static string Compiler
+        {
             get
             {
-                if (_coffeescript == null)
+                if(_coffeescript == null)
                     _coffeescript = LoadCoffeescript();
 
                 return _coffeescript;
             }
         }
 
-        private static string LoadCoffeescript()
+        static string LoadCoffeescript()
         {
             using(var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SquishIt.CoffeeScript.Coffee.coffee-script.js"))
             {

@@ -1,18 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Web;
-using System.Web.Caching;
 using SquishIt.Framework.Css;
 using SquishIt.Framework.JavaScript;
-using SquishIt.Framework.Minifiers;
+using SquishIt.Framework.Minifiers.JavaScript;
 
-namespace SquishIt.Framework.Minifiers
+namespace SquishIt.Framework.Minifiers.CSS
 {
     public static class MinifierFactory
     {
-        private static Dictionary<Type, Dictionary<Type, object>> Minifiers = new Dictionary<Type, Dictionary<Type, object>>
+        static readonly Dictionary<Type, Dictionary<Type, object>> Minifiers = new Dictionary<Type, Dictionary<Type, object>>
         {
             {
                 typeof(CSSBundle), new Dictionary<Type, object>
@@ -28,7 +24,7 @@ namespace SquishIt.Framework.Minifiers
                                     {typeof(JavaScript.JsMinMinifier), new JavaScript.JsMinMinifier()},
                                     {typeof(JavaScript.NullMinifier), new JavaScript.NullMinifier()},
                                     {typeof(JavaScript.YuiMinifier), new JavaScript.YuiMinifier()},
-                                    {typeof(JavaScript.ClosureMinifier), new JavaScript.ClosureMinifier()},
+                                    {typeof(ClosureMinifier), new ClosureMinifier()},
                                     {typeof(JavaScript.MsMinifier), new JavaScript.MsMinifier()}
                                 }
             }        

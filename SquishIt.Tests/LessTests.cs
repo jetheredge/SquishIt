@@ -12,7 +12,7 @@ namespace SquishIt.Tests
     [TestFixture]
     public class LessTests
     {
-        private string cssLess = TestUtilities.NormalizeLineEndings (@"@brand_color: #4D926F;
+        string cssLess = TestUtilities.NormalizeLineEndings (@"@brand_color: #4D926F;
 
                                     #header {
                                         color: @brand_color;
@@ -22,8 +22,8 @@ namespace SquishIt.Tests
                                         color: @brand_color;
                                     }");
 
-        private CssBundleFactory cssBundleFactory;
-        private IHasher hasher;
+        CssBundleFactory cssBundleFactory;
+        IHasher hasher;
 
         [SetUp]
         public void Setup () {

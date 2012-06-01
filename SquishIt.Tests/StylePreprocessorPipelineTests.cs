@@ -11,8 +11,8 @@ namespace SquishIt.Tests
     [TestFixture]
     public class StylePreprocessorPipelineTests
     {
-        private CssBundleFactory cssBundleFactory;
-        private IHasher hasher;
+        CssBundleFactory cssBundleFactory;
+        IHasher hasher;
 
         [SetUp]
         public void Setup()
