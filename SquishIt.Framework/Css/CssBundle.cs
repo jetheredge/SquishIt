@@ -105,6 +105,20 @@ namespace SquishIt.Framework.Css
             return this;
         }
 
+        protected override void AggregateContent(List<Asset> assets, StringBuilder sb, string outputFile)
+        {
+            assets.SelectMany(a => a.IsArbitrary
+                                       ? new[] { PreprocessArbitrary(a) }.AsEnumerable()
+                                       : GetFilesForSingleAsset(a).Select(f => ProcessFile(f, outputFile)))
+                .ToList()
+                .Distinct()
+                .Aggregate(sb, (b, s) =>
+                                   {
+                                       b.Append(s + "\n");
+                                       return b;
+                                   });
+        }
+
         protected override string ProcessFile(string file, string outputFile)
         {
             return ProcessCssFile(file, outputFile);
