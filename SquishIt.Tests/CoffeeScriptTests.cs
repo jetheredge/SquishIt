@@ -2,14 +2,13 @@
 using NUnit.Framework;
 using SquishIt.CoffeeScript;
 using SquishIt.CoffeeScript.Coffee;
-using SquishIt.Framework;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Helpers;
 
 namespace SquishIt.Tests
 {
-    [TestFixture]
+    [TestFixture, Platform(Exclude = "Unix, Linux, Mono")]
     public class CoffeeScriptTests
     {
         //TODO: should probably have more tests here

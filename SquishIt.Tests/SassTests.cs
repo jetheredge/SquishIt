@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Utilities;
@@ -11,7 +8,7 @@ using SquishIt.Tests.Stubs;
 
 namespace SquishIt.Tests
 {
-    [TestFixture]
+    [TestFixture, Platform(Exclude = "Unix, Linux, Mono")]
     public class SassTests
     {
         CssBundleFactory cssBundleFactory;
