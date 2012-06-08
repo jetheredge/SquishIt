@@ -55,7 +55,7 @@ namespace SquishIt.Framework.Utilities
             return ByteArrayToString(hashBytes);
         }
 
-        private static string ByteArrayToString(byte[] arrInput)
+        static string ByteArrayToString(byte[] arrInput)
         {
             var output = new StringBuilder(arrInput.Length);
             for (var i = 0; i < arrInput.Length; i++)

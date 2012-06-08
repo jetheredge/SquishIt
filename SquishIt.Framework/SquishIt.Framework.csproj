@@ -56,13 +56,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AjaxMin.4.48.4489.28432\lib\net20\AjaxMin.dll</HintPath>
     </Reference>
-    <Reference Include="dotless.Core, Version=1.3.0.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\dotless.1.3.0.0\lib\dotless.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="EcmaScript.NET.modified, Version=0.1.1.0, Culture=neutral, PublicKeyToken=7d53ba4f537753a5, processorArchitecture=MSIL">
-      <HintPath>..\packages\YUICompressor.NET.1.7.1.0\lib\net35\EcmaScript.NET.modified.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
     </Reference>
@@ -75,8 +68,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
-    <Reference Include="Jurassic, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\Jurassic.2.1.1\lib\Jurassic.dll</HintPath>
+    <Reference Include="EcmaScript.NET.modified, Version=0.1.1.0, Culture=neutral, PublicKeyToken=7d53ba4f537753a5">
+      <HintPath>..\packages\YUICompressor.NET.1.6.0.2\lib\net35\EcmaScript.NET.modified.dll</HintPath>
     </Reference>
     <Reference Include="Yahoo.Yui.Compressor, Version=1.7.1.0, Culture=neutral, PublicKeyToken=f8b4b81ec75097e2, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -86,13 +79,14 @@
   <ItemGroup>
     <Compile Include="Base\Asset.cs" />
     <Compile Include="Base\BundleBase.cs" />
+    <Compile Include="Base\BundleBase.Rendering.Internals.cs" />
     <Compile Include="Base\BundleState.cs" />
-    <Compile Include="Coffee\CoffeescriptCompiler.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="HttpContext.cs" />
     <Compile Include="Utilities\CriticalRenderingSection.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="IBundleCache.cs" />
+    <Compile Include="IPreprocessor.cs" />
     <Compile Include="Minifiers\IMinifier.cs" />
     <Compile Include="Bundle.cs" />
     <Compile Include="BundleCache.cs" />
@@ -108,17 +102,17 @@
     <Compile Include="Files\Input.cs" />
     <Compile Include="JavaScript\JavaScriptBundle.cs" />
     <Compile Include="Minifiers\JavaScript\jsmin\JavaScriptMinifier.cs" />
-    <Compile Include="Minifiers\JavaScript\Minifiers\ClosureMinifier.cs" />
-    <Compile Include="Minifiers\JavaScript\Minifiers\IJavaScriptMinifier.cs" />
-    <Compile Include="Minifiers\JavaScript\Minifiers\JsMinMinifier.cs" />
-    <Compile Include="Minifiers\JavaScript\Minifiers\MsMinifier.cs" />
-    <Compile Include="Minifiers\JavaScript\Minifiers\NullMinifier.cs" />
-    <Compile Include="Minifiers\JavaScript\Minifiers\YuiMinifier.cs" />
+    <Compile Include="Minifiers\JavaScript\ClosureMinifier.cs" />
+    <Compile Include="Minifiers\JavaScript\IJavaScriptMinifier.cs" />
+    <Compile Include="Minifiers\JavaScript\JsMinMinifier.cs" />
+    <Compile Include="Minifiers\JavaScript\MsMinifier.cs" />
+    <Compile Include="Minifiers\JavaScript\NullMinifier.cs" />
+    <Compile Include="Minifiers\JavaScript\YuiMinifier.cs" />
     <Compile Include="Minifiers\CSS\ICSSMinifier.cs" />
     <Compile Include="Minifiers\CSS\MsCompressor.cs" />
     <Compile Include="Minifiers\CSS\NullCompressor.cs" />
     <Compile Include="Minifiers\CSS\YuiCompressor.cs" />
-    <Compile Include="Minifiers\MinifierFactory.cs" />
+    <Compile Include="Minifiers\CSS\MinifierFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderers\CacheRenderer.cs" />
     <Compile Include="Renderers\FileRenderer.cs" />
@@ -150,7 +144,6 @@
     <Content Include="closure-compiler\compiler.jar">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Coffee\coffee-script.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="closure-compiler\COPYING">

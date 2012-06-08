@@ -5,14 +5,17 @@ using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
 using SquishIt.Framework;
+using SquishIt.Framework.Css;
+using SquishIt.Less;
 
 namespace SquishItAspNetTest
 {
     public class Global : System.Web.HttpApplication
     {
-
         protected void Application_Start(object sender, EventArgs e)
         {
+            Bundle.RegisterStylePreprocessor(new LessPreprocessor());
+
             Bundle.JavaScript()
                 .ForceRelease()
                 .Add("~/js/alert.js")

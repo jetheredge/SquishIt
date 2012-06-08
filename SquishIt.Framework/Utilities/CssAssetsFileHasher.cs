@@ -43,7 +43,7 @@ namespace SquishIt.Framework.Utilities
             return url;
         }
 
-        private string GetAssetFilePath(string cssFilePath, string url)
+        string GetAssetFilePath(string cssFilePath, string url)
         {
             var queryStringPosition = url.IndexOf('?');
 
@@ -94,7 +94,7 @@ namespace SquishIt.Framework.Utilities
         /// <param name="key">The key to use.</param>
         /// <param name="value">The value to use.</param>
         /// <returns></returns>
-        private static string AppendQueryStringPairValue(string url, string key, string value)
+        static string AppendQueryStringPairValue(string url, string key, string value)
         {
             var path = url;
             var queryString = string.Empty;

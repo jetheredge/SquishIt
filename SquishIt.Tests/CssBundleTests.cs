@@ -9,7 +9,6 @@ using SquishIt.Framework.Renderers;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Helpers;
 using SquishIt.Tests.Stubs;
-using SquishIt.Framework.Tests.Mocks;
 using SquishIt.Framework;
 
 namespace SquishIt.Tests
@@ -17,7 +16,7 @@ namespace SquishIt.Tests
     [TestFixture]
     public class CssBundleTests
     {
-        private string css = TestUtilities.NormalizeLineEndings(@" li {
+        string css = TestUtilities.NormalizeLineEndings(@" li {
                                     margin-bottom:0.1em;
                                     margin-left:0;
                                     margin-top:0.1em;
@@ -37,7 +36,7 @@ namespace SquishIt.Tests
                                 }");
         string minifiedCss = "li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}";
 
-        private string css2 = TestUtilities.NormalizeLineEndings(@" li {
+        string css2 = TestUtilities.NormalizeLineEndings(@" li {
                                     margin-bottom:0.1em;
                                     margin-left:0;
                                     margin-top:0.1em;
@@ -51,18 +50,10 @@ namespace SquishIt.Tests
         string minifiedCss2 =
             "li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}";
 
-        private string cssLess = TestUtilities.NormalizeLineEndings(@"@brand_color: #4D926F;
 
-                                    #header {
-                                        color: @brand_color;
-                                    }
- 
-                                    h2 {
-                                        color: @brand_color;
-                                    }");
 
-        private CssBundleFactory cssBundleFactory;
-        private IHasher hasher;
+        CssBundleFactory cssBundleFactory;
+        IHasher hasher;
 
         [SetUp]
         public void Setup()
@@ -93,6 +84,7 @@ namespace SquishIt.Tests
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output.css?r=E621107093FBAB71C1FC4A4200B71AD4\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
+
             Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")]);
         }
 
@@ -118,6 +110,7 @@ namespace SquishIt.Tests
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"http//subdomain.domain.com/css/output.css?r=E621107093FBAB71C1FC4A4200B71AD4\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
+
             Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")]);
         }
 
@@ -315,96 +308,6 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleCssWithLess()
-        {
-            CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
-                .WithDebuggingEnabled(false)
-                .WithContents(cssLess)
-                .Create();
-
-            string tag = cssBundle
-                .Add("~/css/test.less")
-                .Render("~/css/output.css");
-
-            string contents = cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")];
-
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output.css?r=15D3D9555DEFACE69D6AB9E7FD972638\" />", tag);
-            Assert.AreEqual("#header{color:#4d926f}h2{color:#4d926f}", contents);
-        }
-
-        [Test]
-        public void CanBundleCssWithLessAndPathRewrites()
-        {
-            string css =
-                    @"@brand_color: #4D926F;
-                        #header {
-                            color: @brand_color;
-                            background-image: url(../image/mygif.gif);
-                        }
-                    ";
-
-            CSSBundle cssBundle = cssBundleFactory
-                .WithDebuggingEnabled(false)
-                .WithContents(css)
-                .Create();
-
-            string tag = cssBundle
-                .Add("~/css/something/test.less")
-                .Render("~/css/output_less_with_rewrites.css");
-
-            string contents = cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_less_with_rewrites.css")];
-
-            Assert.AreEqual("#header{color:#4d926f;background-image:url(image/mygif.gif)}", contents);
-        }
-
-        [Test]
-        public void CanBundleCssWithNestedLess()
-        {
-            string importCss =
-                        @"
-                        @import 'other.less';
-                        #header {
-                            color: #4D926F;
-                        }";
-
-            CSSBundle cssBundle = cssBundleFactory
-                .WithDebuggingEnabled(false)
-                .WithContents(importCss)
-                .Create();
-
-            TestUtilities.CreateFile("other.less", "#footer{color:#ffffff}");
-
-            cssBundle
-                .Add("~/css/test.less")
-                .Render("~/css/output_test.css");
-
-            TestUtilities.DeleteFile("other.less");
-
-            Assert.AreEqual("#footer{color:#fff}#header{color:#4d926f}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_test.css")]);
-            Assert.Contains(FileSystem.ResolveAppRelativePathToFileSystem("css/other.less"), cssBundle.DependentFiles);
-        }
-
-        [Test]
-        public void CanBundleCssWithLessWithLessDotCssFileExtension()
-        {
-            CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
-                .WithDebuggingEnabled(false)
-                .WithContents(cssLess)
-                .Create();
-
-            string tag = cssBundle
-                .Add("~/css/test.less.css")
-                .Render("~/css/output_less_dot_css.css");
-
-            string contents = cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_less_dot_css.css")];
-
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output_less_dot_css.css?r=15D3D9555DEFACE69D6AB9E7FD972638\" />", tag);
-            Assert.AreEqual("#header{color:#4d926f}h2{color:#4d926f}", contents);
-        }
-
-        [Test]
         public void CanCreateNamedBundle()
         {
             CSSBundle cssBundle = cssBundleFactory
@@ -544,6 +447,7 @@ namespace SquishIt.Tests
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/css_with_compressor_output.css?r=AE28D2A8F889F7DA07C12166349EAEF5\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
+
             Assert.AreEqual(" li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:400;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:400;vertical-align:bottom}"
                             , cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\css_with_compressor_output.css")]);
         }
@@ -1089,7 +993,7 @@ namespace SquishIt.Tests
                 .WithDebuggingEnabled(true)
                 .Create()
                 .AddString(css)
-                .AddString(css2Format, hrColor, p)
+                .AddString(css2Format, new [] { hrColor, p })
                 .Render("doesn't matter where...");
 
             var expectedTag = string.Format("<style type=\"text/css\">{0}</style>\n<style type=\"text/css\">{1}</style>\n", css, string.Format(css2Format, hrColor, p));
@@ -1134,7 +1038,7 @@ namespace SquishIt.Tests
             var file1 = "somefile.css";
             var file2 = "anotherfile.css";
 
-            var arbitraryCss = ".someClass { color:red }"; ;
+            var arbitraryCss = ".someClass { color:red }";
 
             var readerFactory = new StubFileReaderFactory();
             readerFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(file1), css);
@@ -1169,7 +1073,7 @@ namespace SquishIt.Tests
                 .WithDebuggingEnabled(true)
                 .Create()
                 .AddString(css)
-                .AddString(css2Format, hrColor, p)
+                .AddString(css2Format, new[] { hrColor, p })
                 .WithoutTypeAttribute()
                 .Render("doesn't matter where...");
 
@@ -1207,7 +1111,7 @@ namespace SquishIt.Tests
                     .WithHasher(new StubHasher("hashy"))
                     .Create()
                     .AddString(css)
-                    .AddString(css2Format, hrColor, p)
+                    .AddString(css2Format, new[] { hrColor, p })
                     .Render("~/output.css");
 
             var expectedTag = "<link rel=\"stylesheet\" type=\"text/css\" href=\"output.css?r=hashy\" />";

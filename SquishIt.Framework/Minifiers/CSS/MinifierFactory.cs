@@ -1,0 +1,38 @@
+using System;
+using System.Collections.Generic;
+using SquishIt.Framework.Css;
+using SquishIt.Framework.JavaScript;
+using SquishIt.Framework.Minifiers.JavaScript;
+
+namespace SquishIt.Framework.Minifiers.CSS
+{
+    public static class MinifierFactory
+    {
+        static readonly Dictionary<Type, Dictionary<Type, object>> Minifiers = new Dictionary<Type, Dictionary<Type, object>>
+        {
+            {
+                typeof(CSSBundle), new Dictionary<Type, object>
+                                {
+                                    {typeof(CSS.MsCompressor), new CSS.MsCompressor()},
+                                    {typeof(CSS.NullCompressor), new CSS.NullCompressor()},
+                                    {typeof(CSS.YuiCompressor), new CSS.YuiCompressor()}
+                                }
+            },
+            {
+                typeof(JavaScriptBundle), new Dictionary<Type, object>
+                                {
+                                    {typeof(JavaScript.JsMinMinifier), new JavaScript.JsMinMinifier()},
+                                    {typeof(JavaScript.NullMinifier), new JavaScript.NullMinifier()},
+                                    {typeof(JavaScript.YuiMinifier), new JavaScript.YuiMinifier()},
+                                    {typeof(ClosureMinifier), new ClosureMinifier()},
+                                    {typeof(JavaScript.MsMinifier), new JavaScript.MsMinifier()}
+                                }
+            }        
+        };
+
+        public static Min Get<BundleType, Min>() where BundleType : Base.BundleBase<BundleType> where Min : IMinifier<BundleType>
+        {
+            return (Min)Minifiers[typeof(BundleType)][typeof(Min)];
+        }
+    }
+}

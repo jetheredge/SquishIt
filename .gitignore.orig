@@ -1,0 +1,16 @@
+*.user
+bin
+obj
+*.suo
+_ReSharper*
+*.pidb
+test-results/
+*.userprefs
+SquishItAspNetTest/css/combined*
+SquishItAspNetTest/js/combined*
+<<<<<<< HEAD
+SquishItAspNetTest/combined*
+=======
+SquishItAspNetTest/js/output*
+>>>>>>> origin/master
+*.dotCover

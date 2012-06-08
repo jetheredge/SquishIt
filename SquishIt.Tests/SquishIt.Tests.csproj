@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SquishIt.Tests</RootNamespace>
     <AssemblyName>SquishIt.Tests</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -31,6 +31,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,12 +53,31 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IronRuby, Version=1.1.3.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\IronRuby.1.1.3\Lib\IronRuby.dll</HintPath>
+    </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.0.10827\lib\NET35\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="IronRuby.Libraries">
+      <HintPath>..\packages\IronRuby.1.1.3\Lib\IronRuby.Libraries.dll</HintPath>
+    </Reference>
+    <Reference Include="IronRuby.Libraries.Yaml">
+      <HintPath>..\packages\IronRuby.1.1.3\Lib\IronRuby.Libraries.Yaml.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Dynamic, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\IronRuby.1.1.3\Lib\Microsoft.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\IronRuby.1.1.3\Lib\Microsoft.Scripting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting.Metadata, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\IronRuby.1.1.3\Lib\Microsoft.Scripting.Metadata.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Xml.Linq">
     </Reference>
@@ -72,7 +92,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssetsFileHasherTests.cs" />
-    <Compile Include="Coffee\CoffeescriptCompilerTests.cs" />
+    <Compile Include="CoffeeScriptTests.cs" />
+    <Compile Include="ScriptPreprocessorPipelineTests.cs" />
     <Compile Include="CriticalRenderingSectionTest.cs" />
     <Compile Include="CssBundleTests.cs" />
     <Compile Include="CssCompressorsTests.cs" />
@@ -88,6 +109,10 @@
     <Compile Include="JavaScriptMinifierTests.cs" />
     <Compile Include="MultipleWorkerProcessesTests.cs" />
     <Compile Include="RetryableFileOpenerTest.cs" />
+    <Compile Include="LessTests.cs" />
+    <Compile Include="StylePreprocessorPipelineTests.cs" />
+    <Compile Include="SassTests.cs" />
+    <Compile Include="Stubs\PreprocessorScope.cs" />
     <Compile Include="Stubs\StubBundleCache.cs" />
     <Compile Include="Stubs\StubCurrentDirectoryWrapper.cs" />
     <Compile Include="Stubs\StubDebugStatusReader.cs" />
@@ -99,12 +124,25 @@
     <Compile Include="FileSystemResolverTests.cs" />
     <Compile Include="Stubs\StubHasher.cs" />
     <Compile Include="Helpers\TestUtilities.cs" />
+    <Compile Include="Stubs\StubPreprocessors.cs" />
     <Compile Include="Stubs\StubResolver.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SquishIt.CoffeeScript\SquishIt.CoffeeScript.csproj">
+      <Project>{7746F80A-A9C4-4823-9A17-B375793A72FD}</Project>
+      <Name>SquishIt.CoffeeScript</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SquishIt.Framework\SquishIt.Framework.csproj">
       <Project>{50C3BC24-E534-4B78-8E8E-CB2C4053321D}</Project>
       <Name>SquishIt.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SquishIt.Less\SquishIt.Less.csproj">
+      <Project>{A8E60378-569B-4BAA-B344-75A065796E20}</Project>
+      <Name>SquishIt.Less</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SquishIt.Sass\SquishIt.Sass.csproj">
+      <Project>{EC304F39-5916-45ED-A289-ABEFF1EDD070}</Project>
+      <Name>SquishIt.Sass</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

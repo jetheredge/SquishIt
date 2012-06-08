@@ -70,7 +70,7 @@ namespace SquishIt.Tests
                 File.Create(Path.Combine(directory.FullName, "file1")).Close();
                 File.Create(Path.Combine(directory.FullName, "file2")).Close();
 
-                var result = new FileSystemResolver().TryResolveFolder(path, true, null).ToList();
+                var result = new FileSystemResolver().TryResolveFolder(path, true, null, null).ToList();
                 Assert.AreEqual(2, result.Count);
                 Assert.Contains(path + Path.DirectorySeparatorChar + "file1", result);
                 Assert.Contains(path + Path.DirectorySeparatorChar + "file2", result);
@@ -92,8 +92,9 @@ namespace SquishIt.Tests
                 File.Create(Path.Combine(directory.FullName, "file1.js")).Close();
                 File.Create(Path.Combine(directory.FullName, "file2.css")).Close();
                 File.Create(Path.Combine(directory.FullName, "file21.JS")).Close();
+                File.Create(Path.Combine(directory.FullName, "asdf.css.js")).Close();
 
-                var result = new FileSystemResolver().TryResolveFolder(path, true, new[] { ".js" }).ToList();
+                var result = new FileSystemResolver().TryResolveFolder(path, true, new[] { ".js" }, new [] { ".css" }).ToList();
                 Assert.AreEqual(2, result.Count);
                 Assert.Contains(path + Path.DirectorySeparatorChar + "file1.js", result);
                 Assert.Contains(path + Path.DirectorySeparatorChar + "file21.JS", result);

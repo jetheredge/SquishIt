@@ -7,8 +7,8 @@ namespace SquishIt.Framework.Utilities
     public class DebugStatusReader : IDebugStatusReader
     {
         readonly IMachineConfigReader machineConfigReader;
-        private bool forceDebug = false;
-        private bool forceRelease = false;
+        bool forceDebug = false;
+        bool forceRelease = false;
 
         public DebugStatusReader()
             : this(new MachineConfigReader())

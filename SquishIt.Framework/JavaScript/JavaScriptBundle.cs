@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using SquishIt.Framework.Base;
@@ -11,28 +10,36 @@ namespace SquishIt.Framework.JavaScript
 {
     public class JavaScriptBundle : BundleBase<JavaScriptBundle>
     {
-        private const string JS_TEMPLATE = "<script type=\"text/javascript\" {0}src=\"{1}\" defer></script>";
-        private const string TAG_FORMAT = "<script type=\"text/javascript\">{0}</script>";
+        const string JS_TEMPLATE = "<script type=\"text/javascript\" {0}src=\"{1}\" defer></script>";
+        const string TAG_FORMAT = "<script type=\"text/javascript\">{0}</script>";
 
-        private const string CACHE_PREFIX = "js";
+        const string CACHE_PREFIX = "js";
 
-        private bool deferred;
+        bool deferred;
 
         protected override IMinifier<JavaScriptBundle> DefaultMinifier
         {
             get { return Configuration.Instance.DefaultJsMinifier(); }
         }
 
-        private HashSet<string> _allowedExtensions = new HashSet<string> { ".JS", ".COFFEE" };
-
-        protected override HashSet<string> allowedExtensions
+        protected override IEnumerable<string> allowedExtensions
         {
-            get { return _allowedExtensions; }
+            get { return bundleState.AllowedExtensions.Union(Bundle.AllowedGlobalExtensions.Union(Bundle.AllowedScriptExtensions)); }
+        }
+
+        protected override IEnumerable<string> disallowedExtensions
+        {
+            get { return Bundle.AllowedStyleExtensions; }
+        }
+
+        protected override string defaultExtension
+        {
+            get { return ".JS"; }
         }
 
         protected override string tagFormat
         {
-            get { return typeless ? TAG_FORMAT.Replace(" type=\"text/javascript\"", "") : TAG_FORMAT; }
+            get { return bundleState.Typeless ? TAG_FORMAT.Replace(" type=\"text/javascript\"", "") : TAG_FORMAT; }
         }
 
         public JavaScriptBundle()
@@ -48,7 +55,7 @@ namespace SquishIt.Framework.JavaScript
         {
             get
             {
-                var val = typeless ? JS_TEMPLATE.Replace("type=\"text/javascript\" ", "") : JS_TEMPLATE;
+                var val = bundleState.Typeless ? JS_TEMPLATE.Replace("type=\"text/javascript\" ", "") : JS_TEMPLATE;
                 return deferred ? val : val.Replace(" defer", "");
             }
         }
@@ -58,30 +65,21 @@ namespace SquishIt.Framework.JavaScript
             get { return CACHE_PREFIX; }
         }
 
-        internal override void BeforeRenderDebug()
+        protected override string ProcessFile(string file, string outputFile)
         {
-            foreach(var asset in bundleState.Assets.Where(a => a.IsLocal))
+            var preprocessors = FindPreprocessors(file);
+            if(preprocessors != null)
             {
-                var localPath = asset.LocalPath;
-                if(localPath.ToLower().EndsWith(".coffee"))
-                {
-                    string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
-                    string javascript = ProcessCoffee(outputFile);
-                    outputFile += ".debug.js";
-                    using(var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
-                    {
-                        fileWriter.Write(javascript);
-                    }
-
-                    asset.LocalPath = localPath + ".debug.js";
-                }
+                return PreprocessFile(file, preprocessors);
             }
+            return ReadFile(file);
         }
 
         protected override void AggregateContent(List<Asset> assets, StringBuilder sb, string outputFile)
         {
-            assets.SelectMany(a => a.IsArbitrary ? new[] { a.Content }.AsEnumerable() :
-                    GetFilesForSingleAsset(a).Select(ReadFile))
+            assets.SelectMany(a => a.IsArbitrary
+                                       ? new[] { PreprocessArbitrary(a) }.AsEnumerable()
+                                       : GetFilesForSingleAsset(a).Select(f => ProcessFile(f, outputFile)))
                 .ToList()
                 .Distinct()
                 .Aggregate(sb, (b, s) =>
@@ -89,25 +87,6 @@ namespace SquishIt.Framework.JavaScript
                     b.Append(s + "\n");
                     return b;
                 });
-        }
-        private string ProcessCoffee(string file)
-        {
-            lock(typeof(JavaScriptBundle))
-            {
-                try
-                {
-                    currentDirectoryWrapper.SetCurrentDirectory(Path.GetDirectoryName(file));
-                    var content = ReadFile(file);
-                    var compiler = new Coffee.CoffeescriptCompiler();
-                    currentDirectoryWrapper.Revert();
-                    return compiler.Compile(content);
-                }
-                catch
-                {
-                    currentDirectoryWrapper.Revert();
-                    throw;
-                }
-            }
         }
 
         public JavaScriptBundle WithDeferredLoad()

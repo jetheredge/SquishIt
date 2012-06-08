@@ -10,14 +10,14 @@ namespace SquishIt.Framework.Utilities
 {
     public class FilePathMutexProvider : IFilePathMutexProvider
     {
-        private const string NullPathSurrogate = "<NULL>";
+        const string NullPathSurrogate = "<NULL>";
 
         internal static IFilePathMutexProvider instance;
-        private static readonly object createMutexLock = new object();
+        static readonly object createMutexLock = new object();
 
-        private readonly Dictionary<string, Mutex> pathMutexes =
+        readonly Dictionary<string, Mutex> pathMutexes =
             new Dictionary<string, Mutex>(StringComparer.Ordinal);
-        private readonly IHasher hasher;
+        readonly IHasher hasher;
 
         public static IFilePathMutexProvider Instance
         {
@@ -58,7 +58,7 @@ namespace SquishIt.Framework.Utilities
             return result;
         }
 
-        private static string GetNormalizedPath(string path)
+        static string GetNormalizedPath(string path)
         {
             if(String.IsNullOrEmpty(path))
             {
@@ -73,14 +73,14 @@ namespace SquishIt.Framework.Utilities
                 .ToLowerInvariant();
         }
 
-        private Mutex CreateSharableMutexForPath(string normalizedPath)
+        Mutex CreateSharableMutexForPath(string normalizedPath)
         {
             // The path is transformed to a hash value to avoid getting an invalid Mutex name.
             var mutexName = @"Global\SquishitPath" + hasher.GetHash(normalizedPath);
             return CreateSharableMutex(mutexName);
         }
 
-        private static Mutex CreateSharableMutex(string name)
+        static Mutex CreateSharableMutex(string name)
         {
             // Creates a mutex sharable by more than one process
 

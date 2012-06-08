@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using SquishIt.Framework.Files;
-using SquishIt.Tests.Stubs;
 
-namespace SquishIt.Framework.Tests.Mocks
+namespace SquishIt.Tests.Stubs
 {
     public class StubFileWriterFactory: IFileWriterFactory
     {
-        private readonly Dictionary<string, string> files = new Dictionary<string, string>();
+        readonly Dictionary<string, string> files = new Dictionary<string, string>();
 
         public Dictionary<string, string> Files
         {

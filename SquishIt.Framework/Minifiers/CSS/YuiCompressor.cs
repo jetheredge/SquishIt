@@ -4,9 +4,9 @@ namespace SquishIt.Framework.Minifiers.CSS
 {
     public class YuiCompressor: ICSSMinifier
     {
-        private readonly int columnWidth = 0;
-        private readonly CssCompressionType compressionType = CssCompressionType.Hybrid;
-        private readonly bool removeComments = true;
+        readonly int columnWidth = 0;
+        readonly CssCompressionType compressionType = CssCompressionType.Hybrid;
+        readonly bool removeComments = true;
 
         internal YuiCompressor()
         {

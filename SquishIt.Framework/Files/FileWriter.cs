@@ -5,7 +5,7 @@ namespace SquishIt.Framework.Files
 {
     public class FileWriter: IFileWriter
     {
-        private readonly StreamWriter streamWriter;
+        readonly StreamWriter streamWriter;
 
         public FileWriter(IRetryableFileOpener retryableFileOpener, int numberOfRetries, string file)
         {

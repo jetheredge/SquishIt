@@ -6,7 +6,6 @@ using SquishIt.Framework.Files;
 using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.Minifiers.JavaScript;
 using SquishIt.Framework.Renderers;
-using SquishIt.Framework.Tests.Mocks;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Stubs;
 using SquishIt.Tests.Helpers;
@@ -662,7 +661,7 @@ namespace SquishIt.Tests
                 .WithDebuggingEnabled(true)
                 .Create()
                 .AddString(javaScript)
-                .AddString(js2Format, subtract, divide)
+                .AddString(js2Format, new[] { subtract, divide })
                 .Render("doesn't matter where...");
 
             var expectedTag = string.Format("<script type=\"text/javascript\">{0}</script>\n<script type=\"text/javascript\">{1}</script>\n", javaScript, string.Format(js2Format, subtract, divide));
@@ -760,7 +759,7 @@ namespace SquishIt.Tests
                 .WithDebuggingEnabled(true)
                 .Create()
                 .AddString(javaScript)
-                .AddString(js2Format, subtract, divide)
+                .AddString(js2Format, new[] { subtract, divide })
                 .WithoutTypeAttribute()
                 .Render("doesn't matter where...");
 
@@ -798,7 +797,7 @@ namespace SquishIt.Tests
                     .WithHasher(new StubHasher("hashy"))
                     .Create()
                     .AddString(javaScript)
-                    .AddString(js2Format, subtract, divide)
+                    .AddString(js2Format, new[] { subtract, divide })
                     .Render("~/output.js");
 
             var expectedTag = "<script type=\"text/javascript\" src=\"output.js?r=hashy\"></script>";

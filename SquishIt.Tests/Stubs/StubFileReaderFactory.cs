@@ -1,15 +1,13 @@
-using System;
 using System.Collections.Generic;
 using SquishIt.Framework.Files;
 
-//TODO: fix namespace (stubs)
-namespace SquishIt.Framework.Tests.Mocks
+namespace SquishIt.Tests.Stubs
 {
     public class StubFileReaderFactory: IFileReaderFactory
     {
-        private string contents;
-        private bool fileExists;
-        private Dictionary<string, string> contentsForFiles = new Dictionary<string, string>();
+        string contents;
+        bool fileExists;
+        Dictionary<string, string> contentsForFiles = new Dictionary<string, string>();
 
         public void SetContents(string contents)
         {

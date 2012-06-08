@@ -32,11 +32,12 @@ namespace SquishIt.Framework.Resolvers
             }            
         }
 
-        public IEnumerable<string> TryResolveFolder(string path, bool recursive, IEnumerable<string> allowedExtensions) {
+        public IEnumerable<string> TryResolveFolder(string path, bool recursive, IEnumerable<string> allowedExtensions, IEnumerable<string> disallowedExtensions) {
             throw new NotImplementedException("Adding entire directories only supported by FileSystemResolver.");
         }
 
-        public virtual bool IsDirectory(string path) {
+        public virtual bool IsDirectory(string path) 
+        {
             return false;
         }
     }

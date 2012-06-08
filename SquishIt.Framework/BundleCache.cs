@@ -9,9 +9,9 @@ namespace SquishIt.Framework
 {
     public class BundleCache: IBundleCache
     {
-        private const string KEY_PREFIX = "squishit_";
+        const string KEY_PREFIX = "squishit_";
 
-        private List<string> CacheKeys = new List<string>();
+        readonly List<string> CacheKeys = new List<string>();
 
         public string GetContent(string name)
         {

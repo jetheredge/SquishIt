@@ -42,7 +42,6 @@
                 .Add("~/css/testdotless.css.less")
                 .AppendHashForAssets()
                 .WithAttribute("media", "screen")
-                .ForceRelease()
                 .Render("~/css/combined_#.css") %>
                 
     <%= Bundle.Css()

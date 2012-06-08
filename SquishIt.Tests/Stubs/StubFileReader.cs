@@ -1,13 +1,11 @@
-using System;
 using SquishIt.Framework.Files;
 
-//TODO: fix namespace (stubs)
-namespace SquishIt.Framework.Tests.Mocks
+namespace SquishIt.Tests.Stubs
 {
     public class StubFileReader: IFileReader
     {
-        private readonly string file;
-        private readonly string contents;
+        readonly string file;
+        readonly string contents;
 
         public string File
         {
