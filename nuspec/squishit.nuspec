@@ -14,7 +14,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="lib\SquishIt.Framework.dll" target="lib\SquishIt.Framework.dll" />
-    <file src="optional\SquishIt.Mvc.dll" target="optional\SquishIt.Mvc.dll" />
+    <file src="..\SquishIt.Framework\bin\Release\SquishIt.Framework.dll" target="lib\SquishIt.Framework.dll" />
+    <file src="..\SquishIt.Mvc\bin\Release\SquishIt.Mvc.dll" target="optional\SquishIt.Mvc.dll" />
   </files>
 </package>
