@@ -8,7 +8,7 @@ using SquishIt.Tests.Stubs;
 
 namespace SquishIt.Tests
 {
-    [TestFixture, Platform(Exclude = "Unix, Linux, Mono")]
+    [TestFixture] //TODO: find out why Sass not working on linux
     public class SassTests
     {
         CssBundleFactory cssBundleFactory;
@@ -123,7 +123,7 @@ $margin: 16px
             }
         }
 
-        [Test]
+        [Test, Platform(Exclude = "Unix, Linux, Mono")]
         public void CanBundleCssWithSass()
         {
             using (new StylePreprocessorScope<SassPreprocessor>())
@@ -146,7 +146,7 @@ $margin: 16px
             }
         }
 
-        [Test]
+        [Test, Platform(Exclude = "Unix, Linux, Mono")]
         public void CanBundleCssWithArbitrarySass()
         {
             using(new StylePreprocessorScope<SassPreprocessor>())
@@ -168,7 +168,7 @@ $margin: 16px
             }
         }
 
-        [Test]
+        [Test, Platform(Exclude = "Unix, Linux, Mono")]
         public void CanBundleCssInDebugWithArbitrarySass()
         {
             using(new StylePreprocessorScope<SassPreprocessor>())

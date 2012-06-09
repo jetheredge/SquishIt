@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using IronRuby;
 using Microsoft.Scripting;
 using Microsoft.Scripting.Hosting;
+using SquishIt.Framework;
 
 namespace SquishIt.Sass
 {
@@ -100,12 +102,14 @@ namespace SquishIt.Sass
 
         string pathToResourceName(string path)
         {
-            var ret = path
-                .Replace("1.9.1", "_1._9._1")
+            path = FileSystem.Unix ?
+                path.Replace(Environment.CurrentDirectory, string.Empty).TrimStart(new [] { '/' }):
+                path.Replace("1.9.1", "_1._9._1");
+            
+            return path   
                 .Replace('\\', '.')
                 .Replace('/', '.')
                 .Replace("R:", "SquishIt.Sass"); // TODO: CHANGE APP NAMESPACE!!
-            return ret;
         }
     }
 }
