@@ -216,7 +216,7 @@ $margin: 16px
                     .WithContents(original)
                     .Create();
 
-                string tag = cssBundle
+                cssBundle
                     .Add("~/css/test.scss")
                     .Render("~/css/output.css");
 
@@ -259,7 +259,7 @@ $margin: 16px
                     .WithContents(original)
                     .Create();
 
-                string tag = cssBundle
+                cssBundle
                     .Add("~/css/test.scss")
                     .Render("~/css/output.css");
 
@@ -298,7 +298,7 @@ $margin: 16px
                     .WithContents(original)
                     .Create();
 
-                string tag = cssBundle
+                cssBundle
                     .Add("~/css/test.scss")
                     .Render("~/css/output.css");
 

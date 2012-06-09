@@ -826,7 +826,7 @@ namespace SquishIt.Tests
 
             var content = "content";
 
-            var tag = javaScriptBundle
+            javaScriptBundle
                 .WithReleaseFileRenderer(renderer.Object)
                 .AddString(content)
                 .ForceRelease()
@@ -842,7 +842,7 @@ namespace SquishIt.Tests
 
             var content = "content";
 
-            var tag = javaScriptBundle
+            javaScriptBundle
                 .WithReleaseFileRenderer(renderer.Object)
                 .AddString(content)
                 .ForceDebug()
@@ -858,7 +858,7 @@ namespace SquishIt.Tests
 
             var content = "content";
 
-            var tag = javaScriptBundle
+            javaScriptBundle
                 .WithReleaseFileRenderer(renderer.Object)
                 .AddString(content)
                 .Render("test.js");

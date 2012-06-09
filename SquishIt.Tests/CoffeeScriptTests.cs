@@ -13,14 +13,11 @@ namespace SquishIt.Tests
     {
         //TODO: should probably have more tests here
         JavaScriptBundleFactory javaScriptBundleFactory;
-        IHasher hasher;
 
         [SetUp]
         public void Setup()
         {
             javaScriptBundleFactory = new JavaScriptBundleFactory();
-            var retryableFileOpener = new RetryableFileOpener();
-            hasher = new Hasher(retryableFileOpener);
         }
 
         [Test]
@@ -100,7 +97,7 @@ race = (winner, runners...) ->
 alert 'I knew it!' if elvis?";
 
             var compiler = new CoffeeScriptCompiler();
-            string result = compiler.Compile(source);
+            compiler.Compile(source);
         }
 
         [Test, Platform(Include = "Unix, Linux, Mono")]
