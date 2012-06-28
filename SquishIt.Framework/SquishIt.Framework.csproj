@@ -82,6 +82,7 @@
     <Compile Include="Base\BundleBase.Rendering.Internals.cs" />
     <Compile Include="Base\BundleState.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Hogan\HoganBundle.cs" />
     <Compile Include="HttpContext.cs" />
     <Compile Include="Utilities\CriticalRenderingSection.cs" />
     <Compile Include="Extensions.cs" />
