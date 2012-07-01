@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
+using SquishIt.Framework;
 using SquishIt.Framework.Base;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Minifiers;
 using SquishIt.Framework.Utilities;
 
-namespace SquishIt.Framework.Hogan
+//TODO: is this needed to enforce that minification is not performed?  If so a better way to expose would be nice (mimicking Bundle.XXX() methods)
+namespace SquishIt.Hogan
 {
     public class HoganBundle : BundleBase<HoganBundle>
     {
@@ -30,7 +31,7 @@ namespace SquishIt.Framework.Hogan
 
         protected override IMinifier<HoganBundle> DefaultMinifier
         {
-            get { return new HohganMinifier(); }
+            get { return new HoganMinifier(); }
         }
 
         protected override IEnumerable<string> allowedExtensions
@@ -82,15 +83,11 @@ namespace SquishIt.Framework.Hogan
         }
     }
 
-    public class HohganMinifier : IMinifier<HoganBundle>
+    public class HoganMinifier : IMinifier<HoganBundle>
     {
-        #region IMinifier<HoganBundle> Members
-
         public string Minify(string content)
         {
             return content;
         }
-
-        #endregion
     }
 }

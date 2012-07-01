@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SquishIt.Framework.Css;
-using SquishIt.Framework.Hogan;
 using SquishIt.Framework.JavaScript;
 
 namespace SquishIt.Framework
@@ -33,12 +32,6 @@ namespace SquishIt.Framework
         {
             ValidatePreprocessor<T>(instance);
             foreach (var ext in instance.Extensions) AllowedStyleExtensions.Add(ext.ToUpper());
-            Preprocessors.Add(instance);
-        }
-
-        public static void RegisterTemplatePreprocessor<T>(T instance) where T : IPreprocessor 
-        {
-            ValidatePreprocessor<T>(instance);
             Preprocessors.Add(instance);
         }
 
@@ -78,11 +71,6 @@ namespace SquishIt.Framework
         public static JavaScriptBundle JavaScript()
         {
             return new JavaScriptBundle();
-        }
-
-        public static HoganBundle Hogan()
-        {
-            return new HoganBundle();
         }
 
         public static JavaScriptBundle JavaScript(Utilities.IDebugStatusReader debugStatusReader)

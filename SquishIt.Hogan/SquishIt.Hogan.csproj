@@ -37,6 +37,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HoganBundle.cs" />
     <Compile Include="HoganPreprocessor.cs" />
     <Compile Include="Hogan\HoganCompiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
