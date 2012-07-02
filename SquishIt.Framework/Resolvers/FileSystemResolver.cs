@@ -17,18 +17,17 @@ namespace SquishIt.Framework.Resolvers
             return Directory.Exists(path);
         }
 
-        public IEnumerable<string> TryResolveFolder(string path, bool recursive, IEnumerable<string> allowedFileExtensions, IEnumerable<string> disallowedFileExtensions)
+        public IEnumerable<string> TryResolveFolder(string path, bool recursive, string debugFileExtension, IEnumerable<string> allowedFileExtensions, IEnumerable<string> disallowedFileExtensions)
         {
             if (IsDirectory(path)) 
             {
               var files = Directory.GetFiles(path, "*.*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
                     .Where(
-                        f => (allowedFileExtensions == null
-                            || allowedFileExtensions.Select(s => s.ToUpper()).Any(x => Extensions(f).Contains(x))
+                        f => !f.ToUpperInvariant().EndsWith(debugFileExtension.ToUpperInvariant())
+                            && 
+                            (allowedFileExtensions == null || allowedFileExtensions.Select(s => s.ToUpper()).Any(x => Extensions(f).Contains(x))
                             &&
-                            (disallowedFileExtensions == null
-                            || !disallowedFileExtensions.Select(s => s.ToUpper()).Any(x => Extensions(f).Contains(x)))
-                            ))
+                            (disallowedFileExtensions == null || !disallowedFileExtensions.Select(s => s.ToUpper()).Any(x => Extensions(f).Contains(x)))))
                     .ToArray();
                 Array.Sort(files);
                 return files;
@@ -40,7 +39,7 @@ namespace SquishIt.Framework.Resolvers
         {
             return path.Split('.')
                 .Skip(1)
-                .Select(s => "." + s.ToUpper());
+                .Select(s => "." + s.ToUpperInvariant());
         }
     }
 }
