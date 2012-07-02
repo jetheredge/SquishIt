@@ -920,16 +920,17 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleDirectoryContentsInDebug_Writes_Preprocessed_Debug_Files()
+        public void CanBundleDirectoryContentsInDebug_Writes_And_Ignores_Preprocessed_Debug_Files()
         {
             var path = Guid.NewGuid().ToString();
             var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.style.css");
+            var file2 = TestUtilities.PrepareRelativePath(path + "\\file1.style.css.squishit.debug.css");
             var content = "some stuffs";
 
             var preprocessor = new StubStylePreprocessor();
 
             using(new ScriptPreprocessorScope<StubStylePreprocessor>(preprocessor))
-            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1 })))
+            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, content);
@@ -944,11 +945,11 @@ namespace SquishIt.Tests
                         .Add(path)
                         .Render("~/output.css");
 
-                var expectedTag = string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}/file1.style.css.debug.css\" />\n", path);
+                var expectedTag = string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}/file1.style.css.squishit.debug.css\" />\n", path);
                 Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
                 Assert.AreEqual(content, preprocessor.CalledWith);
                 Assert.AreEqual(1, writerFactory.Files.Count);
-                Assert.AreEqual("styley", writerFactory.Files[file1 + ".debug.css"]);
+                Assert.AreEqual("styley", writerFactory.Files[file1 + ".squishit.debug.css"]);
             }
         }
 

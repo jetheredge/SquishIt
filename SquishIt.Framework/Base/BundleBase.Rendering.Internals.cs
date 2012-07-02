@@ -21,7 +21,7 @@ namespace SquishIt.Framework.Base
 
             foreach(Input input in inputFiles)
             {
-                resolvedFilePaths.AddRange(input.TryResolve(allowedExtensions, disallowedExtensions));
+                resolvedFilePaths.AddRange(input.TryResolve(allowedExtensions, disallowedExtensions, debugExtension));
             }
 
             return resolvedFilePaths;
@@ -30,7 +30,7 @@ namespace SquishIt.Framework.Base
         protected IEnumerable<string> GetFilesForSingleAsset(Asset asset)
         {
             var inputFile = GetInputFile(asset);
-            return inputFile.TryResolve(allowedExtensions, disallowedExtensions);
+            return inputFile.TryResolve(allowedExtensions, disallowedExtensions, debugExtension);
         }
 
         Input GetInputFile(Asset asset)
@@ -233,7 +233,7 @@ namespace SquishIt.Framework.Base
                 else
                 {
                     var inputFile = GetInputFile(asset);
-                    var files = inputFile.TryResolve(allowedExtensions, disallowedExtensions);
+                    var files = inputFile.TryResolve(allowedExtensions, disallowedExtensions, debugExtension);
 
                     if(asset.IsEmbeddedResource)
                     {
@@ -414,13 +414,12 @@ namespace SquishIt.Framework.Base
             var preprocessors = FindPreprocessors(filename).ToList();
             if(preprocessors.Any())
             {
-                var appendExtension = ".debug" + defaultExtension.ToLowerInvariant();
                 string content;
                 lock(typeof(T))
                 {
                     content = PreprocessFile(filename, preprocessors);
                 }
-                filename += appendExtension;
+                filename += debugExtension;
                 using(var fileWriter = fileWriterFactory.GetFileWriter(filename))
                 {
                     fileWriter.Write(content);

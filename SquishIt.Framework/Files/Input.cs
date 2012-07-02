@@ -19,11 +19,11 @@ namespace SquishIt.Framework.Files
             get { return Resolver.IsDirectory(Path); }
         }
 
-        public IEnumerable<string> TryResolve(IEnumerable<string> allowedExtensions, IEnumerable<string> disallowedExtensions) 
+        public IEnumerable<string> TryResolve(IEnumerable<string> allowedExtensions, IEnumerable<string> disallowedExtensions, string debugFileExtension) 
         {
             if (IsDirectory) 
             {
-                return Resolver.TryResolveFolder(Path, IsRecursive, allowedExtensions, disallowedExtensions);
+                return Resolver.TryResolveFolder(Path, IsRecursive, debugFileExtension, allowedExtensions, disallowedExtensions);
             }
             else 
             {

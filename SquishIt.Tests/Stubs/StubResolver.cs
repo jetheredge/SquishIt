@@ -9,7 +9,7 @@ namespace SquishIt.Tests.Stubs
         string _pathToResolveTo;
         string[] _directoryContents;
 
-        StubResolver(string pathToResolveTo, string [] directoryContents = null)
+        StubResolver(string pathToResolveTo, string[] directoryContents = null)
         {
             _pathToResolveTo = pathToResolveTo;
             _directoryContents = directoryContents;
@@ -20,39 +20,40 @@ namespace SquishIt.Tests.Stubs
             return _pathToResolveTo;
         }
 
-        public IEnumerable<string> TryResolveFolder(string path, bool recursive, IEnumerable<string> allowedFileExtensions, IEnumerable<string> disallowedFileExtensions) 
+        public IEnumerable<string> TryResolveFolder(string path, bool recursive, string debugExtension, IEnumerable<string> allowedFileExtensions, IEnumerable<string> disallowedFileExtensions)
         {
             return _directoryContents
                 .Where(
-                        f => (allowedFileExtensions == null
-                            || allowedFileExtensions.Select(s => s.ToUpper()).Any(x => Extensions(f).Contains(x))
+                        f => !f.ToUpperInvariant().EndsWith(debugExtension.ToUpperInvariant())
+                            && (allowedFileExtensions == null
+                            || allowedFileExtensions.Select(s => s.ToUpperInvariant()).Any(x => Extensions(f).Contains(x))
                             &&
                             (disallowedFileExtensions == null
-                            || !disallowedFileExtensions.Select(s => s.ToUpper()).Any(x => Extensions(f).Contains(x)))
+                            || !disallowedFileExtensions.Select(s => s.ToUpperInvariant()).Any(x => Extensions(f).Contains(x)))
                             ))
                 .ToArray();
         }
 
-        public virtual bool IsDirectory(string path) 
+        public virtual bool IsDirectory(string path)
         {
             return _directoryContents != null;
         }
 
-        static IEnumerable<string> Extensions(string path) 
+        static IEnumerable<string> Extensions(string path)
         {
             return path.Split('.')
                 .Skip(1)
-                .Select(s => "." + s.ToUpper());
+                .Select(s => "." + s.ToUpperInvariant());
         }
 
         public static IResolver ForDirectory(string[] files)
         {
-            return new StubResolver(null, files);   
+            return new StubResolver(null, files);
         }
-        
+
         public static IResolver ForFile(string file)
         {
-            return new StubResolver(file, null);   
+            return new StubResolver(file, null);
         }
     }
 }

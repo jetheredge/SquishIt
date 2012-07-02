@@ -534,7 +534,7 @@ namespace SquishIt.Tests
             var file1 = TestUtilities.PreparePath(Environment.CurrentDirectory + "\\" + path + "\\file1.js");
             var file2 = TestUtilities.PreparePath(Environment.CurrentDirectory + "\\" + path + "\\file2.js");
 
-            using(new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, javaScript2.Replace("sum", "replace"));
@@ -587,16 +587,17 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleDirectoryContentsInDebug_Writes_Preprocessed_Debug_Files()
+        public void CanBundleDirectoryContentsInDebug_Writes_And_Ignores_Preprocessed_Debug_Files()
         {
             var path = Guid.NewGuid().ToString();
             var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.script.js");
+            var file2 = TestUtilities.PrepareRelativePath(path + "\\file1.script.js.squishit.debug.js");
             var content = "some stuffs";
 
             var preprocessor = new StubScriptPreprocessor();
 
             using(new ScriptPreprocessorScope<StubScriptPreprocessor>(preprocessor))
-            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1 })))
+            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, content);
@@ -612,11 +613,11 @@ namespace SquishIt.Tests
                         .Add(path)
                         .Render("~/output.js");
 
-                var expectedTag = string.Format("<script type=\"text/javascript\" src=\"{0}/file1.script.js.debug.js\"></script>\n", path);
+                var expectedTag = string.Format("<script type=\"text/javascript\" src=\"{0}/file1.script.js.squishit.debug.js\"></script>\n", path);
                 Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
                 Assert.AreEqual(content, preprocessor.CalledWith);
                 Assert.AreEqual(1, writerFactory.Files.Count);
-                Assert.AreEqual("scripty", writerFactory.Files[file1 + ".debug.js"]);
+                Assert.AreEqual("scripty", writerFactory.Files[file1 + ".squishit.debug.js"]);
             }
         }
 
