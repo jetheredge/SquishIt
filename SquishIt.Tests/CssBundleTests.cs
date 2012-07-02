@@ -382,6 +382,22 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanRenderPreprocessedDebugTags()
+        {
+            CSSBundle cssBundle = cssBundleFactory
+                .WithDebuggingEnabled(true)
+                .WithContents(css)
+                .Create();
+
+            string tag = cssBundle
+                .WithPreprocessor(new StubStylePreprocessor())
+                .Add("~/first.style.css")
+                .Render("/css/output.css");
+
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"first.style.css.squishit.debug.css\" />\n", TestUtilities.NormalizeLineEndings(tag));
+        }
+
+        [Test]
         public void CanRenderDebugTagsTwice()
         {
             CSSBundle cssBundle1 = cssBundleFactory
@@ -433,7 +449,7 @@ namespace SquishIt.Tests
                  .WithDebuggingEnabled(false)
                  .WithContents(css)
                  .Create();
-            
+
             var firstPath = "first.css";
             var secondPath = "second.css";
 
@@ -1028,7 +1044,7 @@ namespace SquishIt.Tests
                 .WithDebuggingEnabled(true)
                 .Create()
                 .AddString(css)
-                .AddString(css2Format, new [] { hrColor, p })
+                .AddString(css2Format, new[] { hrColor, p })
                 .Render("doesn't matter where...");
 
             var expectedTag = string.Format("<style type=\"text/css\">{0}</style>\n<style type=\"text/css\">{1}</style>\n", css, string.Format(css2Format, hrColor, p));
