@@ -252,6 +252,21 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanRenderPreprocessedDebugTags()
+        {
+            using(new ScriptPreprocessorScope<StubScriptPreprocessor>(new StubScriptPreprocessor()))
+            {
+                string tag = debugJavaScriptBundle
+                    .Add("~/first.script.js")
+                    .Render("output.js");
+
+                Assert.AreEqual(
+                    "<script type=\"text/javascript\" src=\"first.script.js.squishit.debug.js\"></script>\n",
+                    TestUtilities.NormalizeLineEndings(tag));
+            }
+        }
+
+        [Test]
         public void CanRenderDebugTagsTwice()
         {
             debugJavaScriptBundle
@@ -873,7 +888,7 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanIgnoreArbitraryReleaseFileRendererIfDebugging() 
+        public void CanIgnoreArbitraryReleaseFileRendererIfDebugging()
         {
             var renderer = new Mock<IRenderer>(MockBehavior.Strict);
 
