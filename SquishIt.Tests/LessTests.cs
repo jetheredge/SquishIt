@@ -112,7 +112,7 @@ h2 {
                     .WithContents (css)
                     .Create ();
 
-                string tag = cssBundle
+                cssBundle
                     .Add ("~/css/something/test.less")
                     .Render ("~/css/output_less_with_rewrites.css");
 

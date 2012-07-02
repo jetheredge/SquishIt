@@ -634,10 +634,10 @@ namespace SquishIt.Tests
             cssBundleFactory.FileReaderFactory.SetContents(importCss);
             cssBundleFactory.FileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(@"css\other.css"), "#footer{color:#ffffff}");
 
-            string tag = cssBundle
-                            .Add("/css/first.css")
-                            .ProcessImports()
-                            .Render("/css/processed_import.css");
+            cssBundle
+                .Add("/css/first.css")
+                .ProcessImports()
+                .Render("/css/processed_import.css");
 
             Assert.AreEqual("#footer{color:#fff}#header{color:#4d926f}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\processed_import.css")]);
         }
@@ -661,10 +661,10 @@ namespace SquishIt.Tests
             cssBundleFactory.FileReaderFactory.SetContents(importCss);
             cssBundleFactory.FileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(@"css\other.css"), "#footer{color:#ffffff}");
 
-            string tag = cssBundle
-                            .Add("/css/first.css")
-                            .ProcessImports()
-                            .Render("/css/processed_import.css");
+            cssBundle
+                .Add("/css/first.css")
+                .ProcessImports()
+                .Render("/css/processed_import.css");
 
             Assert.AreEqual("#footer{color:#fff}#header{color:#4d926f}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\processed_import.css")]);
         }
@@ -686,10 +686,10 @@ namespace SquishIt.Tests
 
             cssBundleFactory.FileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(@"css\other.css"), "#footer{color:#ffffff}");
 
-            string tag = cssBundle
-                            .Add("/css/first.css")
-                            .ProcessImports()
-                            .Render("/css/processed_import_noquotes.css");
+            cssBundle
+                .Add("/css/first.css")
+                .ProcessImports()
+                .Render("/css/processed_import_noquotes.css");
 
             Assert.AreEqual("#footer{color:#fff}#header{color:#4d926f}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\processed_import_noquotes.css")]);
         }
@@ -736,10 +736,10 @@ namespace SquishIt.Tests
 
             cssBundleFactory.FileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(@"css\other.css"), "#footer{color:#ffffff}");
 
-            string tag = cssBundle
-                            .Add("/css/first.css")
-                            .ProcessImports()
-                            .Render("/css/processed_import_uppercase.css");
+            cssBundle
+                .Add("/css/first.css")
+                .ProcessImports()
+                .Render("/css/processed_import_uppercase.css");
 
             Assert.AreEqual("#footer{color:#fff}#header{color:#4d926f}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\processed_import_uppercase.css")]);
         }
@@ -1136,7 +1136,7 @@ namespace SquishIt.Tests
                 .WithContents(css)
                 .Create();
 
-            string tag = cssBundle
+            cssBundle
                 .Add("~/css/something/test.css")
                 .Render("~/css/output_rewriting_url.css");
 
@@ -1154,7 +1154,7 @@ namespace SquishIt.Tests
 
             var content = "content";
 
-            var tag = cssBundleFactory
+            cssBundleFactory
                 .WithDebuggingEnabled(false)
                 .Create()
                 .WithReleaseFileRenderer(renderer.Object)
@@ -1171,7 +1171,7 @@ namespace SquishIt.Tests
 
             var content = "content";
 
-            var tag = cssBundleFactory
+            cssBundleFactory
                 .WithDebuggingEnabled(true)
                 .Create()
                 .WithReleaseFileRenderer(renderer.Object)
@@ -1188,7 +1188,7 @@ namespace SquishIt.Tests
 
             var content = "content";
 
-            var tag = cssBundleFactory
+            cssBundleFactory
                 .WithDebuggingEnabled(true)
                 .Create()
                 .WithReleaseFileRenderer(renderer.Object)
