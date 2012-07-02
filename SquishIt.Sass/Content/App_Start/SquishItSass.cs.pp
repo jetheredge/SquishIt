@@ -2,7 +2,7 @@
 
 namespace $rootnamespace$.App_Start
 {
-    using SquishIt.Framework.Css;
+    using SquishIt.Framework;
     using SquishIt.Sass;
 
     public class SquishItSass

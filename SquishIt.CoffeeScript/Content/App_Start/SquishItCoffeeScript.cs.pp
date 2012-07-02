@@ -2,7 +2,7 @@
 
 namespace $rootnamespace$.App_Start
 {
-    using SquishIt.Framework.JavaScript;
+    using SquishIt.Framework;
     using SquishIt.CoffeeScript;
 
     public class SquishItCoffeeScript
