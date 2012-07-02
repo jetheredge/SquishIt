@@ -33,7 +33,7 @@ namespace SquishItAspNetMvcTest
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
-            Bundle.RegisterTemplatePreprocessor(new HoganPreprocessor());
+            Bundle.RegisterScriptPreprocessor(new HoganPreprocessor());
         }
     }
 }

@@ -7,7 +7,7 @@
 @section JavaScript{
     <script src="/Scripts/hogan-2.0.0.js"> </script>
     @MvcHtmlString.Create(
-        Bundle.Hogan()
+        Bundle.JavaScript()
             .Add("/templates/template1.html")
             .Render("/templates/templates_#.js"))
     <script>
