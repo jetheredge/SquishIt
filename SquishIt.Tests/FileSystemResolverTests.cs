@@ -70,7 +70,7 @@ namespace SquishIt.Tests
                 File.Create(Path.Combine(directory.FullName, "file1")).Close();
                 File.Create(Path.Combine(directory.FullName, "file2")).Close();
 
-                var result = new FileSystemResolver().TryResolveFolder(path, true, null).ToList();
+                var result = new FileSystemResolver().TryResolveFolder(path, true, Guid.NewGuid().ToString(), null).ToList();
                 Assert.AreEqual(2, result.Count);
                 Assert.Contains(path + Path.DirectorySeparatorChar + "file1", result);
                 Assert.Contains(path + Path.DirectorySeparatorChar + "file2", result);
@@ -87,18 +87,42 @@ namespace SquishIt.Tests
             var path = Guid.NewGuid().ToString();
             var directory = Directory.CreateDirectory(path);
 
-            try 
+            try
             {
                 File.Create(Path.Combine(directory.FullName, "file1.js")).Close();
                 File.Create(Path.Combine(directory.FullName, "file2.css")).Close();
                 File.Create(Path.Combine(directory.FullName, "file21.JS")).Close();
 
-                var result = new FileSystemResolver().TryResolveFolder(path, true, new[] { ".js" }).ToList();
+                var result = new FileSystemResolver().TryResolveFolder(path, true, Guid.NewGuid().ToString(), new[] { ".js" }).ToList();
                 Assert.AreEqual(2, result.Count);
                 Assert.Contains(path + Path.DirectorySeparatorChar + "file1.js", result);
                 Assert.Contains(path + Path.DirectorySeparatorChar + "file21.JS", result);
             }
-            finally 
+            finally
+            {
+                Directory.Delete(path, true);
+            }
+        }
+
+        [Test]
+        public void CanResolveDirectory_Excludes_Debug_Files()
+        {
+            var path = Guid.NewGuid().ToString();
+            var directory = Directory.CreateDirectory(path);
+            var debugFileExtension = ".test.this.out";
+            try
+            {
+                File.Create(Path.Combine(directory.FullName, "file1.js")).Close();
+                File.Create(Path.Combine(directory.FullName, "file2.css")).Close();
+                File.Create(Path.Combine(directory.FullName, "file21" + debugFileExtension + ".JS")).Close();
+                File.Create(Path.Combine(directory.FullName, "thisoneshouldbeexccluded" + debugFileExtension)).Close();
+
+                var result = new FileSystemResolver().TryResolveFolder(path, true, debugFileExtension, new[] { ".js" }).ToList();
+                Assert.AreEqual(2, result.Count);
+                Assert.Contains(path + Path.DirectorySeparatorChar + "file1.js", result);
+                Assert.Contains(path + Path.DirectorySeparatorChar + "file21.test.this.out.JS", result);
+            }
+            finally
             {
                 Directory.Delete(path, true);
             }

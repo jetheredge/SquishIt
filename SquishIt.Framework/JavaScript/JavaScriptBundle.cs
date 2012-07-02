@@ -18,6 +18,8 @@ namespace SquishIt.Framework.JavaScript
 
         private bool deferred;
 
+        protected override string defaultExtension { get { return ".JS"; } }
+
         protected override IMinifier<JavaScriptBundle> DefaultMinifier
         {
             get { return Configuration.Instance.DefaultJsMinifier(); }
@@ -63,7 +65,7 @@ namespace SquishIt.Framework.JavaScript
             if(filename.ToLower().EndsWith(".coffee"))
             {
                 string js = ProcessCoffee(filename);
-                filename += ".debug.js";
+                filename += debugExtension;
                 using(var fileWriter = fileWriterFactory.GetFileWriter(filename))
                 {
                     fileWriter.Write(js);

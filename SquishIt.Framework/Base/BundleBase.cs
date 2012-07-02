@@ -15,6 +15,8 @@ namespace SquishIt.Framework.Base
     {
         private static readonly Dictionary<string, string> renderPathCache = new Dictionary<string, string>();
 
+        protected abstract string defaultExtension { get; }
+        protected string debugExtension { get { return ".squishit.debug" + defaultExtension.ToLowerInvariant(); } }
         protected string BaseOutputHref = Configuration.Instance.DefaultOutputBaseHref() ?? String.Empty;
         protected IFileWriterFactory fileWriterFactory;
         protected IFileReaderFactory fileReaderFactory;
@@ -75,7 +77,7 @@ namespace SquishIt.Framework.Base
 
             foreach(Input input in inputFiles)
             {
-                resolvedFilePaths.AddRange(input.TryResolve(allowedExtensions));
+                resolvedFilePaths.AddRange(input.TryResolve(allowedExtensions, debugExtension));
             }
 
             return resolvedFilePaths;
@@ -84,7 +86,7 @@ namespace SquishIt.Framework.Base
         protected IEnumerable<string> GetFilesForSingleAsset(Asset asset)
         {
             var inputFile = GetInputFile(asset);
-            return inputFile.TryResolve(allowedExtensions);
+            return inputFile.TryResolve(allowedExtensions, debugExtension);
         }
 
         private Input GetInputFile(Asset asset)
@@ -393,7 +395,7 @@ namespace SquishIt.Framework.Base
                 else
                 {
                     var inputFile = GetInputFile(asset);
-                    var files = inputFile.TryResolve(allowedExtensions);
+                    var files = inputFile.TryResolve(allowedExtensions, debugExtension);
 
                     if (asset.IsEmbeddedResource)
                     {

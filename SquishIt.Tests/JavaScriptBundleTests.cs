@@ -587,11 +587,11 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleDirectoryContentsInDebug_Writes_Preprocessed_Debug_Files()
+        public void CanBundleDirectoryContentsInDebug_Writes_And_Ignores_Preprocessed_Debug_Files()
         {
             var path = Guid.NewGuid().ToString();
             var file1 = TestUtilities.PreparePath(Environment.CurrentDirectory + "\\" + path + "\\file1.coffee");
-            var file2 = TestUtilities.PreparePath(Environment.CurrentDirectory + "\\" + path + "\\file2.test.coffee");
+            var file2 = TestUtilities.PreparePath(Environment.CurrentDirectory + "\\" + path + "\\file2.coffee.squishit.debug.js");
 
             using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
@@ -610,8 +610,9 @@ namespace SquishIt.Tests
                         .Add(path)
                         .Render("~/output.js");
 
-                var expectedTag = string.Format("<script type=\"text/javascript\" src=\"{0}/file1.coffee.debug.js\"></script>\n<script type=\"text/javascript\" src=\"{0}/file2.test.coffee.debug.js\"></script>\n", path);
+                var expectedTag = string.Format("<script type=\"text/javascript\" src=\"{0}/file1.coffee.squishit.debug.js\"></script>\n", path);
                 Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+                Assert.AreEqual(1, writerFactory.Files.Count);
             }
         }
 

@@ -1016,11 +1016,11 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleDirectoryContentsInDebug_Writes_Preprocessed_Debug_Files()
+        public void CanBundleDirectoryContentsInDebug_Writes_And_Ignores_Preprocessed_Debug_Files()
         {
             var path = Guid.NewGuid().ToString();
             var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.less.css");
-            var file2 = TestUtilities.PrepareRelativePath(path + "\\file2.less");
+            var file2 = TestUtilities.PrepareRelativePath(path + "\\file1.less.css.squishit.debug.css");
 
             using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
@@ -1038,8 +1038,9 @@ namespace SquishIt.Tests
                         .Add(path)
                         .Render("~/output.css");
 
-                var expectedTag = string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}/file1.less.css.debug.css\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}/file2.less.debug.css\" />\n", path);
+                var expectedTag = string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}/file1.less.css.squishit.debug.css\" />\n", path);
                 Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+                Assert.AreEqual(1, writerFactory.Files.Count);
             }
         }
 

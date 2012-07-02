@@ -33,6 +33,8 @@ namespace SquishIt.Framework.Css
             get { return CACHE_PREFIX; }
         }
 
+        protected override string defaultExtension { get { return ".CSS"; } }
+
         protected override IMinifier<CSSBundle> DefaultMinifier
         {
             get { return Configuration.Instance.DefaultCssMinifier(); }
@@ -175,7 +177,7 @@ namespace SquishIt.Framework.Css
             if(filename.ToLower().EndsWith(".less") || filename.ToLower().EndsWith(".less.css"))
             {
                 string css = ProcessLess(filename);
-                filename += ".debug.css";
+                filename += debugExtension;
                 using(var fileWriter = fileWriterFactory.GetFileWriter(filename))
                 {
                     fileWriter.Write(css);
