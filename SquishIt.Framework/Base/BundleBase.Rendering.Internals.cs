@@ -138,7 +138,7 @@ namespace SquishIt.Framework.Base
 
         protected string ReadFile(string file)
         {
-            using (var sr = fileReaderFactory.GetFileReader(file))
+            using(var sr = fileReaderFactory.GetFileReader(file))
             {
                 return sr.ReadToEnd();
             }
@@ -152,7 +152,7 @@ namespace SquishIt.Framework.Base
         string GetAdditionalAttributes(BundleState state)
         {
             var result = new StringBuilder();
-            foreach (var attribute in state.Attributes)
+            foreach(var attribute in state.Attributes)
             {
                 result.Append(attribute.Key);
                 result.Append("=\"");
@@ -165,7 +165,7 @@ namespace SquishIt.Framework.Base
         string GetFilesForRemote(IEnumerable<string> remoteAssetPaths, BundleState state)
         {
             var sb = new StringBuilder();
-            foreach (var uri in remoteAssetPaths)
+            foreach(var uri in remoteAssetPaths)
             {
                 sb.Append(FillTemplate(state, uri));
             }
@@ -175,10 +175,10 @@ namespace SquishIt.Framework.Base
 
         string BuildAbsolutePath(string siteRelativePath)
         {
-            if (HttpContext.Current == null)
+            if(HttpContext.Current == null)
                 throw new InvalidOperationException(
                     "Absolute path can only be constructed in the presence of an HttpContext.");
-            if (!siteRelativePath.StartsWith("/"))
+            if(!siteRelativePath.StartsWith("/"))
                 throw new InvalidOperationException("This helper method only works with site relative paths.");
 
             var url = HttpContext.Current.Request.Url;
@@ -217,8 +217,6 @@ namespace SquishIt.Framework.Base
             bundleState.DependentFiles.Clear();
 
             var renderedFiles = new HashSet<string>();
-
-            BeforeRenderDebug();
 
             var sb = new StringBuilder();
 
@@ -262,7 +260,7 @@ namespace SquishIt.Framework.Base
                             if(!renderedFiles.Contains(file))
                             {
                                 var fileBase = FileSystem.ResolveAppRelativePathToFileSystem(asset.LocalPath);
-                                var newPath = file.Replace(fileBase, "");
+                                var newPath = PreprocessForDebugging(file).Replace(fileBase, "");
                                 var path = ExpandAppRelativePath(asset.LocalPath + newPath.Replace("\\", "/"));
                                 sb.AppendLine(FillTemplate(bundleState, path));
                                 renderedFiles.Add(file);
@@ -411,29 +409,24 @@ namespace SquishIt.Framework.Base
             return sb.ToString();
         }
 
-        void BeforeRenderDebug()
+        string PreprocessForDebugging(string filename)
         {
-            foreach(var asset in bundleState.Assets.Where(a => a.IsLocal))
+            var preprocessors = FindPreprocessors(filename).ToList();
+            if(preprocessors.Any())
             {
-                var localPath = asset.LocalPath;
-                var preprocessors = FindPreprocessors(localPath).ToList();
-                if(preprocessors != null && preprocessors.Any())
+                var appendExtension = ".debug" + defaultExtension.ToLowerInvariant();
+                string content;
+                lock(typeof(T))
                 {
-                    var outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
-                    var appendExtension = ".debug" + defaultExtension.ToLowerInvariant();
-                    string content;
-                    lock(typeof(T))
-                    {
-                        content = PreprocessFile(outputFile, preprocessors);
-                    }
-                    outputFile += appendExtension;
-                    using(var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
-                    {
-                        fileWriter.Write(content);
-                    }
-                    asset.LocalPath = localPath + appendExtension;
+                    content = PreprocessFile(filename, preprocessors);
+                }
+                filename += appendExtension;
+                using(var fileWriter = fileWriterFactory.GetFileWriter(filename))
+                {
+                    fileWriter.Write(content);
                 }
             }
+            return filename;
         }
     }
 }
