@@ -93,6 +93,7 @@
   <ItemGroup>
     <Compile Include="AssetsFileHasherTests.cs" />
     <Compile Include="CoffeeScriptTests.cs" />
+    <Compile Include="HoganTests.cs" />
     <Compile Include="ScriptPreprocessorPipelineTests.cs" />
     <Compile Include="CriticalRenderingSectionTest.cs" />
     <Compile Include="CssBundleTests.cs" />
@@ -135,6 +136,10 @@
     <ProjectReference Include="..\SquishIt.Framework\SquishIt.Framework.csproj">
       <Project>{50C3BC24-E534-4B78-8E8E-CB2C4053321D}</Project>
       <Name>SquishIt.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SquishIt.Hogan\SquishIt.Hogan.csproj">
+      <Project>{3A119E21-0961-4914-A459-A77522A8E414}</Project>
+      <Name>SquishIt.Hogan</Name>
     </ProjectReference>
     <ProjectReference Include="..\SquishIt.Less\SquishIt.Less.csproj">
       <Project>{A8E60378-569B-4BAA-B344-75A065796E20}</Project>
