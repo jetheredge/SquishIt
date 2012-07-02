@@ -58,24 +58,18 @@ namespace SquishIt.Framework.JavaScript
             get { return CACHE_PREFIX; }
         }
 
-        internal override void BeforeRenderDebug()
+        internal override string PreprocessForDebugging(string filename)
         {
-            foreach(var asset in bundleState.Assets.Where(a => a.IsLocal))
+            if(filename.ToLower().EndsWith(".coffee"))
             {
-                var localPath = asset.LocalPath;
-                if(localPath.ToLower().EndsWith(".coffee"))
+                string js = ProcessCoffee(filename);
+                filename += ".debug.js";
+                using(var fileWriter = fileWriterFactory.GetFileWriter(filename))
                 {
-                    string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
-                    string javascript = ProcessCoffee(outputFile);
-                    outputFile += ".debug.js";
-                    using(var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
-                    {
-                        fileWriter.Write(javascript);
-                    }
-
-                    asset.LocalPath = localPath + ".debug.js";
+                    fileWriter.Write(js);
                 }
             }
+            return filename;
         }
 
         protected override void AggregateContent(List<Asset> assets, StringBuilder sb, string outputFile)

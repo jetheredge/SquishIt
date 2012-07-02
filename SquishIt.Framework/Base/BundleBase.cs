@@ -389,8 +389,6 @@ namespace SquishIt.Framework.Base
 
             var renderedFiles = new HashSet<string>();
 
-            BeforeRenderDebug();
-
             var sb = new StringBuilder();
             var assets = bundleState.Assets;
 
@@ -431,7 +429,7 @@ namespace SquishIt.Framework.Base
                             if (!renderedFiles.Contains(file))
                             {
                                 var fileBase = FileSystem.ResolveAppRelativePathToFileSystem(asset.LocalPath);
-                                var newPath = file.Replace(fileBase, "");
+                                var newPath = PreprocessForDebugging(file).Replace(fileBase, "");
                                 var path = ExpandAppRelativePath(asset.LocalPath + newPath.Replace("\\", "/"));
                                 sb.AppendLine(FillTemplate(bundleState, path));
                                 renderedFiles.Add(file);
@@ -642,6 +640,11 @@ namespace SquishIt.Framework.Base
         internal virtual void BeforeRenderDebug()
         {
 
+        }
+
+        internal virtual string PreprocessForDebugging(string filename)
+        {
+            return filename;
         }
 
         private BundleState GetCachedBundleState(string name)
