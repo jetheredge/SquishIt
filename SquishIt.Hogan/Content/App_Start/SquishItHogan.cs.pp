@@ -9,7 +9,7 @@ namespace $rootnamespace$.App_Start
     {
         public static void Start()
         {
-            Bundle.RegisterTemplatePreprocessor(new HoganPreprocessor());
+            Bundle.RegisterScriptPreprocessor(new HoganPreprocessor());
         }
     }
 }

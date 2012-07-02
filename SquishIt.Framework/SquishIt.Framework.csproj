@@ -82,7 +82,6 @@
     <Compile Include="Base\BundleBase.Rendering.Internals.cs" />
     <Compile Include="Base\BundleState.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="Hogan\HoganBundle.cs" />
     <Compile Include="HttpContext.cs" />
     <Compile Include="Utilities\CriticalRenderingSection.cs" />
     <Compile Include="Extensions.cs" />
@@ -174,7 +173,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Hogan\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
