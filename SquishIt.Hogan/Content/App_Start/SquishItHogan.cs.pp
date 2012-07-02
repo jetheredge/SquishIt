@@ -2,7 +2,7 @@
 
 namespace $rootnamespace$.App_Start
 {
-    using SquishIt.Framework.Hogan;
+    using SquishIt.Framework;
     using SquishIt.Hogan;
 
     public class SquishItHogan
