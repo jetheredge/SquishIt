@@ -3,15 +3,10 @@
     ViewBag.Title = "SquishIt-Mvc";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div id="place-for-template"></div>
-@section JavaScript{
-    <script src="/Scripts/hogan-2.0.0.js"> </script>
-    @MvcHtmlString.Create(
-        Bundle.JavaScript()
-            .Add("/templates/template1.html")
-            .Render("/templates/templates_#.js"))
-    <script>
-        var d = document.getElementById("place-for-template");
-        d.innerHTML = JST["template1"].render({ message: "Hello World" });
-    </script>
+<h3>Tests:</h3>
+<ul>
+<li>@Html.ActionLink("Hogan", "Hogan")</li>
+</ul>
+@section JavaScript {
+
 }
