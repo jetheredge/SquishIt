@@ -1,13 +1,14 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using NUnit.Framework;
 using SquishIt.Framework.Resolvers;
 using SquishIt.Hogan;
+using SquishIt.Hogan.Hogan;
 using SquishIt.Tests.Helpers;
 using SquishIt.Tests.Stubs;
 
 namespace SquishIt.Tests
 {
-    [TestFixture, Platform(Exclude = "Unix, Linux, Mono")]
     public class HoganTests
     {
         JavaScriptBundleFactory javaScriptBundleFactory;
@@ -18,7 +19,7 @@ namespace SquishIt.Tests
             javaScriptBundleFactory = new JavaScriptBundleFactory();
         }
 
-        [Test]
+        [Test, Platform(Exclude = "Unix, Linux, Mono")]
         public void CanBundleJavascriptInDebug()
         {
             const string template = "<h1>{{message}}</h1>";
@@ -56,7 +57,7 @@ namespace SquishIt.Tests
             Assert.AreEqual(compiled, writerFactory.Files[TestUtilities.PrepareRelativePath("test.html.squishit.debug.js")]);
         }
 
-        [Test]
+        [Test, Platform(Exclude = "Unix, Linux, Mono")]
         public void CanBundleJavascriptInDebugWithArbitraryHogan()
         {
             const string template = "<h1>{{message}}</h1>";
@@ -75,7 +76,7 @@ namespace SquishIt.Tests
             Assert.AreEqual(sb.ToString(), tag);
         }
 
-        [Test]
+        [Test, Platform(Exclude = "Unix, Linux, Mono")]
         public void CanBundleJavascriptInRelease()
         {
             const string template = "<h1>{{message}}</h1>";
@@ -113,7 +114,7 @@ namespace SquishIt.Tests
             Assert.AreEqual(compiled, actual);
         }
 
-        [Test]
+        [Test, Platform(Exclude = "Unix, Linux, Mono")]
         public void CanBundleJavascriptInReleaseWithArbitraryHogan()
         {
             const string template = "<h1>{{message}}</h1>";
@@ -140,6 +141,14 @@ namespace SquishIt.Tests
 
             var actual = writerFactory.Files[TestUtilities.PrepareRelativePath("template.js")];
             Assert.AreEqual(compiled, actual);
+        }
+
+        [Test, Platform(Include = "Unix, Linux, Mono")]
+        public void CompileFailsGracefullyOnMono()
+        {
+            var compiler = new HoganCompiler();
+            var exception = Assert.Throws(typeof(NotSupportedException), () => compiler.Compile(""));
+            Assert.AreEqual("Hogan not yet supported for mono.", exception.Message);
         }
     }
 }

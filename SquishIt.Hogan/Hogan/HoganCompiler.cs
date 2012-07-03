@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 using Jurassic;
+using SquishIt.Framework;
 
 namespace SquishIt.Hogan.Hogan
 {
@@ -11,6 +13,11 @@ namespace SquishIt.Hogan.Hogan
 
         public string Compile(string input)
         {
+            if(FileSystem.Unix)
+            {
+                throw new NotSupportedException("Hogan not yet supported for mono.");
+            }
+
             return HoganEngine.CallGlobalFunction<string>("compile", input);
         }
 
