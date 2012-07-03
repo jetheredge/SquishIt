@@ -112,7 +112,7 @@ namespace SquishIt.Framework.Base
             {
                 return content;
             }
-            return preprocessors.Aggregate<IPreprocessor, string>(content, (cntnt, pp) => pp.Process(file, cntnt));
+            return preprocessors.Aggregate(content, (cntnt, pp) => pp.Process(file, cntnt));
         }
 
         IPreprocessor FindPreprocessor(string extension)

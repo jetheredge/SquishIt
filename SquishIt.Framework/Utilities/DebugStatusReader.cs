@@ -40,9 +40,6 @@ namespace SquishIt.Framework.Utilities
             return false;
         }
 
-        #region IDebugStatusReader Members
-
-
         public void ForceDebug()
         {
             forceDebug = true;
@@ -52,7 +49,5 @@ namespace SquishIt.Framework.Utilities
         {
             forceRelease = true;
         }
-
-        #endregion
     }
 }

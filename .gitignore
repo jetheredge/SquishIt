@@ -13,4 +13,5 @@ SquishItAspNetTest/css/combined*
 SquishItAspNetTest/js/combined*
 SquishItAspNetTest/js/output*
 SquishItAspNetTest/combined*
-SquishItAspNetTest/css/testdotless.css.less.debug.css
+*.squishit.debug.css
+*.squishit.debug.js

@@ -34,9 +34,12 @@ namespace SquishIt.CoffeeScript.Coffee
             {
                 if(_engine == null)
                 {
-                    var engine = new ScriptEngine { ForceStrictMode = true };
-                    engine.Execute(Compiler);
-                    _engine = engine;
+                    lock(typeof(CoffeeScriptCompiler))
+                    {
+                        var engine = new ScriptEngine {ForceStrictMode = true};
+                        engine.Execute(Compiler);
+                        _engine = engine;
+                    }
                 }
                 return _engine;
             }
