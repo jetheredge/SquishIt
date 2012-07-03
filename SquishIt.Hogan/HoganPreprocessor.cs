@@ -10,8 +10,6 @@ namespace SquishIt.Hogan
     {
         private const string validExtension = ".html";
 
-        #region IPreprocessor Members
-
         public bool ValidFor(string extension)
         {
             string upperExtension = extension.ToUpper();
@@ -33,7 +31,5 @@ namespace SquishIt.Hogan
         {
             get { return new[] {validExtension.ToUpper()}; }
         }
-
-        #endregion
     }
 }
