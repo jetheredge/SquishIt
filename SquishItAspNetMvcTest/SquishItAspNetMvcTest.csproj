@@ -76,6 +76,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Features\MinifyCss.cshtml" />
     <Content Include="Views\Features\MinifyJs.cshtml" />
+    <Content Include="Views\Features\RenderNamed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Preprocessors\Hogan.cshtml" />
