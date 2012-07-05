@@ -22,5 +22,10 @@ namespace SquishItAspNetMvcTest.Controllers
         {
             return View();
         }
+
+        public ActionResult Sass()
+        {
+            return View();
+        }
     }
 }

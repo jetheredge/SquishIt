@@ -52,7 +52,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\less\lesstest.less.css" />
+    <Content Include="assets\styles\lesstest.less.css" />
+    <Content Include="assets\styles\sasstest.sass.css" />
     <Content Include="Global.asax" />
     <Content Include="assets\js\hogan\hogan-2.0.0.js" />
     <Content Include="assets\js\jquery_1.4.2.js" />
@@ -96,14 +97,18 @@
       <Project>{A9F9331C-C3AA-4844-AB33-7714761F725D}</Project>
       <Name>SquishIt.Mvc</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SquishIt.Sass\SquishIt.Sass.csproj">
+      <Project>{EC304F39-5916-45ED-A289-ABEFF1EDD070}</Project>
+      <Name>SquishIt.Sass</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\coffee\Medals.coffee" />
     <Content Include="Views\Preprocessors\Coffee.cshtml" />
     <Content Include="Views\Preprocessors\Less.cshtml" />
+    <Content Include="Views\Preprocessors\Sass.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="assets\css\" />
     <Folder Include="output\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

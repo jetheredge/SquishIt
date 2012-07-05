@@ -4,6 +4,7 @@ using SquishIt.CoffeeScript;
 using SquishIt.Framework;
 using SquishIt.Hogan;
 using SquishIt.Less;
+using SquishIt.Sass;
 
 namespace SquishItAspNetMvcTest
 {
@@ -37,7 +38,9 @@ namespace SquishItAspNetMvcTest
             RegisterRoutes(RouteTable.Routes);
             Bundle.RegisterScriptPreprocessor(new HoganPreprocessor());
             Bundle.RegisterScriptPreprocessor(new CoffeeScriptPreprocessor());
+
             Bundle.RegisterStylePreprocessor(new LessPreprocessor());
+            Bundle.RegisterStylePreprocessor(new SassPreprocessor());
         }
     }
 }
