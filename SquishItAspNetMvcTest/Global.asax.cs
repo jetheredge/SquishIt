@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
+using SquishIt.CoffeeScript;
 using SquishIt.Framework;
 using SquishIt.Hogan;
 
@@ -34,6 +35,7 @@ namespace SquishItAspNetMvcTest
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
             Bundle.RegisterScriptPreprocessor(new HoganPreprocessor());
+            Bundle.RegisterScriptPreprocessor(new CoffeeScriptPreprocessor());
         }
     }
 }
