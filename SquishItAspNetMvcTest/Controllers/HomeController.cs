@@ -8,16 +8,5 @@ namespace SquishItAspNetMvcTest.Controllers
         {
             return View();
         }
-
-        public ActionResult Hogan()
-        {
-            return View();
-        }
-
-        public ActionResult Coffee()
-        {
-            return View();
-        }
-
     }
 }

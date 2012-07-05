@@ -6,9 +6,9 @@
 
 <h2>Coffee</h2>
 @Html.Raw(Bundle.JavaScript()
-                .Add("~/Js/jquery_1.4.2.js")
-                .Add("~/Coffee/Medals.coffee")
-                .Render("~/Js/combined_#.js"))
+                .Add("~/assets/js/jquery_1.4.2.js")
+                .Add("~/assets/coffee/Medals.coffee")
+                .Render("~/output/combined_#.js"))
 <form id="form1" runat="server">
 <div>
     <h2>Gold and Silver</h2>
