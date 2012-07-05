@@ -23,7 +23,7 @@ namespace SquishIt.Tests
         public void CanBundleJavascriptInDebug()
         {
             const string template = "<h1>{{message}}</h1>";
-            var templateFileName = "test.html";
+            var templateFileName = "test.hogan.html";
             var resolver = StubResolver.ForFile(TestUtilities.PrepareRelativePath(templateFileName));
 
             var readerFactory = new StubFileReaderFactory();
@@ -51,10 +51,10 @@ namespace SquishIt.Tests
             var compiled = sb.ToString();
 
             Assert.AreEqual(1, writerFactory.Files.Count);
-            var expectedTag = "<script type=\"text/javascript\" src=\"test.html.squishit.debug.js\"></script>\n";
+            var expectedTag = "<script type=\"text/javascript\" src=\"test.hogan.html.squishit.debug.js\"></script>\n";
             Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
 
-            Assert.AreEqual(compiled, writerFactory.Files[TestUtilities.PrepareRelativePath("test.html.squishit.debug.js")]);
+            Assert.AreEqual(compiled, writerFactory.Files[TestUtilities.PrepareRelativePath("test.hogan.html.squishit.debug.js")]);
         }
 
         [Test, Platform(Exclude = "Unix, Linux, Mono")]
@@ -66,7 +66,7 @@ namespace SquishIt.Tests
                 .WithDebuggingEnabled(true)
                 .Create()
                 .WithPreprocessor(new HoganPreprocessor())
-                .AddString(template, ".html")
+                .AddString(template, ".hogan.html")
                 .Render("~/template.js");
 
             var sb = new StringBuilder();
@@ -80,7 +80,7 @@ namespace SquishIt.Tests
         public void CanBundleJavascriptInRelease()
         {
             const string template = "<h1>{{message}}</h1>";
-            var templateFileName = "test.html";
+            var templateFileName = "test.hogan.html";
             var resolver = StubResolver.ForFile(TestUtilities.PrepareRelativePath(templateFileName));
 
             var readerFactory = new StubFileReaderFactory();
@@ -128,19 +128,18 @@ namespace SquishIt.Tests
                     .WithDebuggingEnabled(false)
                     .Create()
                     .WithPreprocessor(new HoganPreprocessor())
-                    .AddString(template, ".html")
+                    .AddString(template, ".hogan.html")
                     .Render("~/template.js");
 
             //are minifier's optimizations here OK?
-            var compiled =
-                @"var JST=JST||{};JST[""dummy.""]=new Hogan.Template(function(n,t,i){var r=this;return r.b(i=i||""""),r.b(""<h1>""),r.b(r.v(r.f(""message"",n,t,0))),r.b(""</h1>""),r.fl()})";
+            var compiled = @"var JST=JST||{};JST.dummy=new Hogan.Template(";
 
             Assert.AreEqual(1, writerFactory.Files.Count);
             var expectedTag = "<script type=\"text/javascript\" src=\"template.js?r=hash\"></script>";
             Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
 
             var actual = writerFactory.Files[TestUtilities.PrepareRelativePath("template.js")];
-            Assert.AreEqual(compiled, actual);
+            Assert.IsTrue(actual.StartsWith(compiled));
         }
 
         [Test, Platform(Include = "Unix, Linux, Mono")]

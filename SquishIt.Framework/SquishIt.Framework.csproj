@@ -81,6 +81,7 @@
     <Compile Include="Base\BundleBase.cs" />
     <Compile Include="Base\BundleBase.Rendering.Internals.cs" />
     <Compile Include="Base\BundleState.cs" />
+    <Compile Include="Base\Preprocessor.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="HttpContext.cs" />
     <Compile Include="Utilities\CriticalRenderingSection.cs" />

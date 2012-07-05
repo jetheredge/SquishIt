@@ -1,29 +1,19 @@
-﻿using System.Linq;
-using SquishIt.CoffeeScript.Coffee;
-using SquishIt.Framework;
+﻿using SquishIt.CoffeeScript.Coffee;
+using SquishIt.Framework.Base;
 
 namespace SquishIt.CoffeeScript 
 {
-    public class CoffeeScriptPreprocessor : IPreprocessor
+    public class CoffeeScriptPreprocessor : Preprocessor
     {
-        const string validExtension = ".coffee";
-        //static Regex coffeeFiles = new Regex(@"(\." + extension + ")$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
-        public bool ValidFor(string extension) 
+        public override string[] Extensions
         {
-            var upperExtension = extension.ToUpper();
-            return Extensions.Contains(upperExtension.StartsWith(".") ? upperExtension : ("." + upperExtension));
+            get { return new [] { ".coffee" }; }
         }
 
-        public string Process(string filePath, string content) 
+        public override string Process(string filePath, string content) 
         {
             var compiler = new CoffeeScriptCompiler();
             return compiler.Compile(content);
-        }
-
-        public string[] Extensions
-        {
-            get { return new [] { validExtension.ToUpper() }; }
         }
     }
 }

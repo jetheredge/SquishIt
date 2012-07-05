@@ -1,30 +1,20 @@
-﻿using System.Linq;
-using SquishIt.Framework;
+﻿using SquishIt.Framework.Base;
 using dotless.Core;
 
 namespace SquishIt.Less
 {
-    public class LessPreprocessor : IPreprocessor
+    public class LessPreprocessor : Preprocessor
     {
-        static readonly string[] extensions = new[] { ".less", ".less.css" };
-        //static Regex lessFiles = new Regex(string.Format(@"(\{0})|(\{1})$", extensions), RegexOptions.Compiled);
-
-        public bool ValidFor(string extension)
+        public override string[] Extensions
         {
-            var upperExtension = extension.ToUpper();
-            return Extensions.Contains(upperExtension.StartsWith(".") ? upperExtension : ("." + upperExtension));
+            get { return new[] { ".less" }; }
         }
 
-        public string Process(string filePath, string content)
+        public override string Process(string filePath, string content)
         {
             var engineFactory = new EngineFactory();
             var engine = engineFactory.GetEngine();
             return engine.TransformToCss(content, filePath);
-        }
-
-        public string[] Extensions
-        {
-            get { return extensions.Select(ext => ext.ToUpper()).ToArray(); }
         }
     }
 }
