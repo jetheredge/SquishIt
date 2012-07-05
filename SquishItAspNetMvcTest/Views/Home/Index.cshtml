@@ -3,7 +3,15 @@
     ViewBag.Title = "SquishIt-Mvc";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h3>Tests:</h3>
+
+<h3>Features:</h3>
+<ul>
+    <li>@Html.ActionLink("Minify Css", "MinifyCss", "Features")</li>
+    <li>@Html.ActionLink("Minify Js", "MinifyJs", "Features")</li>
+</ul>
+
+
+<h3>Preprocessors:</h3>
 <ul>
     <li>@Html.ActionLink("Hogan", "Hogan", "Preprocessors")</li>
     <li>@Html.ActionLink("Coffeescript", "Coffee", "Preprocessors")</li>

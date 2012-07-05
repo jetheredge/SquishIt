@@ -3,7 +3,7 @@
     ViewBag.Title = "Hogan";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div id="place-for-template"></div>
+<div id="place-for-template">If you see this, the test has failed.</div>
 @section JavaScript{
     @MvcHtmlString.Create(
         Bundle.JavaScript()
@@ -13,6 +13,6 @@
             .Render("/output/templates_#.js"))
     <script>
         var d = document.getElementById("place-for-template");
-        d.innerHTML = JST["template1"].render({ message: "Hello World" });
+        d.innerHTML = JST["template1"].render({ message: "The test passed!" });
     </script>
 }
