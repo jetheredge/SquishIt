@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\js\minifyjs_test.js" />
+    <Content Include="assets\styles\folder_test\folder_test1.css" />
+    <Content Include="assets\styles\folder_test\subfolder\folder_test2.css" />
     <Content Include="assets\styles\import_test2.css" />
     <Content Include="assets\styles\import_test1.css" />
     <Content Include="assets\styles\lesstest.less.css" />
@@ -80,6 +82,8 @@
     <Content Include="Views\Features\MinifyJs.cshtml" />
     <Content Include="Views\Features\RenderNamed.cshtml" />
     <Content Include="Views\Features\Imports.cshtml" />
+    <Content Include="Views\Features\Folders.cshtml" />
+    <Content Include="Views\Features\RecursiveFolders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Preprocessors\Hogan.cshtml" />

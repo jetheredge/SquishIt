@@ -1,0 +1,18 @@
+﻿@using SquishIt.Framework
+@{
+    ViewBag.Title = "Minify Css";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="test-container">
+    <p class="blue-text">This text should be blue if folder was processed.</p>
+    <p class="red-text">This text should be red if subfolder was processed.</p>
+</div>
+
+@section Styles{
+    @MvcHtmlString.Create(
+        Bundle.Css()
+            .AddDirectory("/assets/styles/folder_test", true)
+            .ForceRelease()
+            .Render("/output/recursivefoldercss.css"))
+}
