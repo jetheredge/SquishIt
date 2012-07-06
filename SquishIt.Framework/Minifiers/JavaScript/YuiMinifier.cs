@@ -4,55 +4,58 @@ using System.Globalization;
 
 namespace SquishIt.Framework.Minifiers.JavaScript
 {
-    public class YuiMinifier: IJavaScriptMinifier
+    public class YuiMinifier : IJavaScriptMinifier
     {
-        readonly bool verboseLogging = true;
-        readonly bool obfuscateJavaScript = true;
-        readonly bool preserveAllSemicolons = false;
-        readonly bool disableOptimizations = false;
-        readonly int lineBreakPosition = -1;
-        readonly Encoding encoding = Encoding.UTF8;
-        readonly CultureInfo cultureInfo = CultureInfo.InvariantCulture;
-        readonly bool ignoreEval = false;
+        readonly JavaScriptCompressor compressor;
 
         public YuiMinifier()
         {
+            compressor = new JavaScriptCompressor();
         }
 
-        public YuiMinifier(bool verboseLogging, bool obfuscateJavaScript, bool preserveAllSemicolons, bool disableOptimizations, bool ignoreEval)
+        public YuiMinifier(LoggingType loggingType, bool obfuscateJavaScript, bool preserveAllSemicolons, bool disableOptimizations, bool ignoreEval)
         {
-            this.verboseLogging = verboseLogging;
-            this.obfuscateJavaScript = obfuscateJavaScript;
-            this.preserveAllSemicolons = preserveAllSemicolons;
-            this.disableOptimizations = disableOptimizations;
-            this.ignoreEval = ignoreEval;
+            compressor = new JavaScriptCompressor
+                             {
+                                 LoggingType = loggingType,
+                                 ObfuscateJavascript = obfuscateJavaScript,
+                                 PreserveAllSemicolons = preserveAllSemicolons,
+                                 DisableOptimizations = disableOptimizations,
+                                 IgnoreEval = ignoreEval
+                             };
         }
 
-        public YuiMinifier(bool verboseLogging, bool obfuscateJavaScript, bool preserveAllSemicolons, bool disableOptimizations, bool ignoreEval, int lineBreakPosition)
+        public YuiMinifier(LoggingType loggingType, bool obfuscateJavaScript, bool preserveAllSemicolons, bool disableOptimizations, bool ignoreEval, int lineBreakPosition)
         {
-            this.verboseLogging = verboseLogging;
-            this.obfuscateJavaScript = obfuscateJavaScript;
-            this.preserveAllSemicolons = preserveAllSemicolons;
-            this.disableOptimizations = disableOptimizations;
-            this.ignoreEval = ignoreEval;
-            this.lineBreakPosition = lineBreakPosition;
+            compressor = new JavaScriptCompressor
+                             {
+                                 LoggingType = loggingType,
+                                 ObfuscateJavascript = obfuscateJavaScript,
+                                 PreserveAllSemicolons = preserveAllSemicolons,
+                                 DisableOptimizations = disableOptimizations,
+                                 IgnoreEval = ignoreEval,
+                                 LineBreakPosition = lineBreakPosition
+                             };
         }
 
-        public YuiMinifier(bool verboseLogging, bool obfuscateJavaScript, bool preserveAllSemicolons, bool disableOptimizations, bool ignoreEval, int lineBreakPosition, Encoding encoding, CultureInfo cultureInfo)
+        public YuiMinifier(LoggingType loggingType, bool obfuscateJavaScript, bool preserveAllSemicolons, bool disableOptimizations, bool ignoreEval, int lineBreakPosition, Encoding encoding, CultureInfo cultureInfo)
         {
-            this.verboseLogging = verboseLogging;
-            this.obfuscateJavaScript = obfuscateJavaScript;
-            this.preserveAllSemicolons = preserveAllSemicolons;
-            this.disableOptimizations = disableOptimizations;
-            this.lineBreakPosition = lineBreakPosition;
-            this.encoding = encoding;
-            this.cultureInfo = cultureInfo;
-            this.ignoreEval = ignoreEval;
+            compressor = new JavaScriptCompressor
+                             {
+                                 LoggingType = loggingType,
+                                 ObfuscateJavascript = obfuscateJavaScript,
+                                 PreserveAllSemicolons = preserveAllSemicolons,
+                                 DisableOptimizations = disableOptimizations,
+                                 LineBreakPosition = lineBreakPosition,
+                                 Encoding = encoding,
+                                 ThreadCulture = cultureInfo,
+                                 IgnoreEval = ignoreEval
+                             };
         }
 
         public string Minify(string content)
         {
-            return JavaScriptCompressor.Compress(content, verboseLogging, obfuscateJavaScript, preserveAllSemicolons, disableOptimizations, lineBreakPosition, encoding, cultureInfo, ignoreEval);
+            return compressor.Compress(content);
         }
     }
 }
