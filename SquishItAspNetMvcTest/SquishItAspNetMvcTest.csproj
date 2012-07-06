@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\js\minifyjs_test.js" />
+    <Content Include="assets\styles\import_test2.css" />
+    <Content Include="assets\styles\import_test1.css" />
     <Content Include="assets\styles\lesstest.less.css" />
     <Content Include="assets\styles\minifycss_test2.css" />
     <Content Include="assets\styles\minifycss_test1.css" />
@@ -77,6 +79,7 @@
     <Content Include="Views\Features\MinifyCss.cshtml" />
     <Content Include="Views\Features\MinifyJs.cshtml" />
     <Content Include="Views\Features\RenderNamed.cshtml" />
+    <Content Include="Views\Features\Imports.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Preprocessors\Hogan.cshtml" />
