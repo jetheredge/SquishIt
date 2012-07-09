@@ -4,7 +4,7 @@ namespace SquishIt.Framework.Minifiers.CSS
     {
         public string Minify(string content)
         {
-            return content;
+            return content + "\n";
         }     
     }
 }

@@ -1,6 +1,5 @@
 using NUnit.Framework;
 using SquishIt.Framework.JavaScript;
-using SquishIt.Framework.Minifiers;
 using SquishIt.Framework.Minifiers.CSS;
 using SquishIt.Framework.Minifiers.JavaScript;
 
@@ -24,7 +23,7 @@ namespace SquishIt.Tests
         {
             var javaScriptMinifier = MinifierFactory.Get<JavaScriptBundle, NullMinifier>();
             string minifiedJavaScript = javaScriptMinifier.Minify(javaScript);
-            Assert.AreEqual(javaScript, minifiedJavaScript);
+            Assert.AreEqual(javaScript + "\n", minifiedJavaScript);
         }
 
         [Test]

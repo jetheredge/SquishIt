@@ -4,7 +4,7 @@
     {
         public string Minify(string content)
         {
-            return content;
+            return content + "\n";
         }
     }
 }

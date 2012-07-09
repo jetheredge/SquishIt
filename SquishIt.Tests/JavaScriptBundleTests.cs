@@ -2,7 +2,6 @@ using System;
 using System.Web;
 using Moq;
 using NUnit.Framework;
-using SquishIt.Framework;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.Minifiers.JavaScript;
@@ -329,8 +328,8 @@ namespace SquishIt.Tests
                     .WithMinifier<NullMinifier>()
                     .Render("~/js/output_6.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_6.js?r=20A94660E5983C3E33992D31FAAB109A\"></script>", tag);
-            Assert.AreEqual(javaScript, fileWriterFactory.Files[TestUtilities.PreparePath(Environment.CurrentDirectory + @"\js\output_6.js")]);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_6.js?r=1C5788F076B8F8FB10AF9A76E7B822CB\"></script>", tag);
+            Assert.AreEqual(javaScript + "\n", fileWriterFactory.Files[TestUtilities.PreparePath(Environment.CurrentDirectory + @"\js\output_6.js")]);
         }
 
         [Test]

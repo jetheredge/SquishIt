@@ -32,7 +32,7 @@ namespace SquishIt.Tests
         {
             var cssCompressor = MinifierFactory.Get<CSSBundle, NullCompressor>();
             var uncompressedCss = cssCompressor.Minify(css);
-            Assert.AreEqual(css, uncompressedCss);
+            Assert.AreEqual(css + "\n", uncompressedCss);
         }
 
         [Test]

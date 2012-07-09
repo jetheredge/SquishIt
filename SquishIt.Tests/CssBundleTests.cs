@@ -518,9 +518,9 @@ namespace SquishIt.Tests
                             .WithMinifier<NullCompressor>()
                             .Render("/css/css_with_null_compressor_output.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/css_with_null_compressor_output.css?r=F154DBD45D1723791AB799B95B0AE382\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/css_with_null_compressor_output.css?r=703408685CD7BEBA456CEBDC6271B02F\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
-            Assert.AreEqual(css + css2, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\css_with_null_compressor_output.css")]);
+            Assert.AreEqual(css + "\n" + css2 + "\n", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\css_with_null_compressor_output.css")]);
         }
 
         [Test]
