@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace SquishIt.Framework.Minifiers.JavaScript
+﻿namespace SquishIt.Framework.Minifiers.JavaScript
 {
     public class NullMinifier: IJavaScriptMinifier
     {

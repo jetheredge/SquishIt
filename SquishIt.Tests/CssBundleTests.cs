@@ -90,6 +90,34 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanBundleCssWithAssetsMarkedPrecompressed()
+        {
+            CSSBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
+                .WithDebuggingEnabled(false)
+                .Create();
+
+            var firstPath = "first.css";
+            var secondPath = "second.css";
+
+            cssBundleFactory.FileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(firstPath), css);
+            cssBundleFactory.FileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(secondPath), css2);
+
+            string tag = cssBundle
+                            .Add(firstPath)
+                            .AddCompressed(secondPath)
+                            .Render("/css/output.css");
+
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output.css?r=44A5824D3140BAAE5EF88C3383CD687D\" />", tag);
+            Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
+
+            var output = TestUtilities.NormalizeLineEndings(cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")]);
+
+            Assert.IsTrue(output.StartsWith(minifiedCss));
+            Assert.IsTrue(output.EndsWith(css2));
+        }
+
+        [Test]
         public void CanBundleCssSpecifyingOutputLinkPath()
         {
             CSSBundle cssBundle = cssBundleFactory
@@ -490,9 +518,9 @@ namespace SquishIt.Tests
                             .WithMinifier<NullCompressor>()
                             .Render("/css/css_with_null_compressor_output.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/css_with_null_compressor_output.css?r=703408685CD7BEBA456CEBDC6271B02F\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/css_with_null_compressor_output.css?r=F154DBD45D1723791AB799B95B0AE382\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
-            Assert.AreEqual(css + "\n" + css2 + "\n", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\css_with_null_compressor_output.css")]);
+            Assert.AreEqual(css + css2, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\css_with_null_compressor_output.css")]);
         }
 
         [Test]

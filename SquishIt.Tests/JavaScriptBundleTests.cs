@@ -99,6 +99,28 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanBundleJavascriptWithAssetsMarkedPrecompressed()
+        {
+            var firstPath = "first.js";
+            var secondPath = "second.js";
+
+            fileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(firstPath), javaScript);
+            fileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(secondPath), javaScript2);
+
+            var tag = javaScriptBundle
+                .AddCompressed(firstPath)
+                .Add(secondPath)
+                .Render("script.js");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"script.js?r=D8AC271B01E8DA10CBB6FF91D4C3C061\"></script>", tag);
+
+            Assert.AreEqual(1, fileWriterFactory.Files.Count);
+            var output = TestUtilities.NormalizeLineEndings(fileWriterFactory.Files[TestUtilities.PrepareRelativePath("script.js")]);
+            Assert.True(output.StartsWith(javaScript));
+            Assert.True(output.EndsWith(minifiedJavaScript2));
+        }
+
+        [Test]
         public void CanBundleJsVaryingOutputBaseHrefRendersIndependentUrl()
         {
             var firstPath = "first.js";
@@ -300,15 +322,15 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanCreateBundleWithNullMinifer()
+        public void CanCreateBundleWithNullMinifier()
         {
             var tag = javaScriptBundle
                     .Add("~/js/test.js")
                     .WithMinifier<NullMinifier>()
                     .Render("~/js/output_6.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_6.js?r=1C5788F076B8F8FB10AF9A76E7B822CB\"></script>", tag);
-            Assert.AreEqual(javaScript + "\n", fileWriterFactory.Files[TestUtilities.PreparePath(Environment.CurrentDirectory + @"\js\output_6.js")]);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_6.js?r=20A94660E5983C3E33992D31FAAB109A\"></script>", tag);
+            Assert.AreEqual(javaScript, fileWriterFactory.Files[TestUtilities.PreparePath(Environment.CurrentDirectory + @"\js\output_6.js")]);
         }
 
         [Test]

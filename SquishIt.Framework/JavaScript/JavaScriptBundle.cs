@@ -65,26 +65,26 @@ namespace SquishIt.Framework.JavaScript
             get { return CACHE_PREFIX; }
         }
 
-        protected override string ProcessFile(string file, string outputFile)
+        protected override string ProcessFile(string file, string outputFile, bool minify)
         {
             var preprocessors = FindPreprocessors(file);
             if(preprocessors != null && preprocessors.Count() > 0)
             {
-                return PreprocessFile(file, preprocessors);
+                return MinifyIfNeeded(PreprocessFile(file, preprocessors), minify);
             }
-            return ReadFile(file);
+            return MinifyIfNeeded(ReadFile(file), minify);
         }
 
         protected override void AggregateContent(List<Asset> assets, StringBuilder sb, string outputFile)
         {
             assets.SelectMany(a => a.IsArbitrary
                                        ? new[] { PreprocessArbitrary(a) }.AsEnumerable()
-                                       : GetFilesForSingleAsset(a).Select(f => ProcessFile(f, outputFile)))
+                                       : GetFilesForSingleAsset(a).Select(f => ProcessFile(f, outputFile, a.Minify)))
                 .ToList()
                 .Distinct()
                 .Aggregate(sb, (b, s) =>
                 {
-                    b.Append(s + "\n");
+                    b.Append(s);
                     return b;
                 });
         }

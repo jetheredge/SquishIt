@@ -109,19 +109,19 @@ namespace SquishIt.Framework.Css
         {
             assets.SelectMany(a => a.IsArbitrary
                                        ? new[] { PreprocessArbitrary(a) }.AsEnumerable()
-                                       : GetFilesForSingleAsset(a).Select(f => ProcessFile(f, outputFile)))
+                                       : GetFilesForSingleAsset(a).Select(f => ProcessFile(f, outputFile, a.Minify)))
                 .ToList()
                 .Distinct()
                 .Aggregate(sb, (b, s) =>
                                    {
-                                       b.Append(s + "\n");
+                                       b.Append(s);
                                        return b;
                                    });
         }
 
-        protected override string ProcessFile(string file, string outputFile)
+        protected override string ProcessFile(string file, string outputFile, bool minify)
         {
-            return ProcessCssFile(file, outputFile);
+            return MinifyIfNeeded(ProcessCssFile(file, outputFile), minify);
         }
 
         string ProcessCssFile(string file, string outputFile, bool asImport = false)

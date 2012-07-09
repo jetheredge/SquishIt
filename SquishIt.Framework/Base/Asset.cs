@@ -10,6 +10,7 @@ namespace SquishIt.Framework.Base
         internal bool IsRecursive { get; set; }
         internal string Content { get; set; }
         internal string Extension { get; set; }
+        internal bool Minify { get; set; }
 
         internal bool IsArbitrary
         {
@@ -33,6 +34,7 @@ namespace SquishIt.Framework.Base
 
         internal Asset()
         {
+            Minify = true;
         }
     }
 }

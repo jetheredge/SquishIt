@@ -103,7 +103,7 @@ namespace SquishIt.Framework.Base
 
             var filename = "dummy." + (asset.Extension ?? defaultExtension);
             var preprocessors = FindPreprocessors(filename);
-            return PreprocessContent(filename, preprocessors, asset.Content);
+            return MinifyIfNeeded(PreprocessContent(filename, preprocessors, asset.Content), asset.Minify);
         }
 
         protected string PreprocessContent(string file, IEnumerable<IPreprocessor> preprocessors, string content)
@@ -340,7 +340,7 @@ namespace SquishIt.Framework.Base
                             if(renderTo.Contains("#"))
                             {
                                 hashInFileName = true;
-                                minifiedContent = Minifier.Minify(BeforeMinify(bundleState.Assets, outputFile));
+                                minifiedContent = GetMinifiedContent(bundleState.Assets, outputFile);
                                 hash = hasher.GetHash(minifiedContent);
                                 renderToPath = renderToPath.Replace("#", hash);
                                 outputFile = outputFile.Replace("#", hash);
@@ -352,7 +352,7 @@ namespace SquishIt.Framework.Base
                             }
                             else
                             {
-                                minifiedContent = minifiedContent ?? Minifier.Minify(BeforeMinify(bundleState.Assets, outputFile));
+                                minifiedContent = minifiedContent ?? GetMinifiedContent(bundleState.Assets, outputFile);
                                 renderer.Render(minifiedContent, outputFile);
                             }
 
@@ -393,7 +393,7 @@ namespace SquishIt.Framework.Base
             return content;
         }
 
-        protected string BeforeMinify(List<Asset> assets, string outputFile)
+        protected string GetMinifiedContent(List<Asset> assets, string outputFile)
         {
             var filteredAssets = assets.Where(asset =>
                                               asset.IsEmbeddedResource ||
@@ -407,6 +407,15 @@ namespace SquishIt.Framework.Base
             AggregateContent(filteredAssets, sb, outputFile);
 
             return sb.ToString();
+        }
+
+        protected string MinifyIfNeeded(string content, bool minify)
+        {
+            if(minify)
+            {
+                return Minifier.Minify(content);
+            }
+            return content;
         }
 
         string PreprocessForDebugging(string filename)

@@ -23,7 +23,7 @@ namespace SquishIt.Framework.Base
         protected abstract IEnumerable<string> disallowedExtensions { get; }
         protected abstract string defaultExtension { get; }
         protected string debugExtension { get { return ".squishit.debug" + defaultExtension.ToLowerInvariant(); } }
-        protected abstract string ProcessFile(string file, string outputFile);
+        protected abstract string ProcessFile(string file, string outputFile, bool minify);
 
         internal BundleState bundleState = new BundleState();
         readonly IBundleCache bundleCache;
@@ -72,9 +72,15 @@ namespace SquishIt.Framework.Base
             return (T)this;
         }
 
-        public T Add(string fileOrFolderPath)
+        public T Add(string filePath)
         {
-            AddAsset(new Asset { LocalPath = fileOrFolderPath });
+            AddAsset(new Asset { LocalPath = filePath });
+            return (T)this;
+        }
+
+        public T AddCompressed(string filePath)
+        {
+            AddAsset(new Asset { LocalPath = filePath, Minify = false });
             return (T)this;
         }
 
