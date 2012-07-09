@@ -40,7 +40,7 @@ namespace SquishIt.Tests
         {
             var cssCompressor = MinifierFactory.Get<CSSBundle, YuiCompressor>();
             var compressedCss = cssCompressor.Minify(css);
-            Assert.AreEqual(" li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:400;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", compressedCss);
+            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}", compressedCss);
         }
 
         [Test]

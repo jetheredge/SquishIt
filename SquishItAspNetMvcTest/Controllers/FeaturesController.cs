@@ -22,5 +22,20 @@ namespace SquishItAspNetMvcTest.Controllers
         {
             return View();
         }
+
+        public ActionResult Imports()
+        {
+            return View();
+        }
+
+        public ActionResult Folders()
+        {
+            return View();
+        }
+
+        public ActionResult RecursiveFolders()
+        {
+            return View();
+        }
     }
 }

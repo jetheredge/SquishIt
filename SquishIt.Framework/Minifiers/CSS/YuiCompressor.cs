@@ -4,35 +4,43 @@ namespace SquishIt.Framework.Minifiers.CSS
 {
     public class YuiCompressor: ICSSMinifier
     {
-        readonly int columnWidth = 0;
-        readonly CssCompressionType compressionType = CssCompressionType.Hybrid;
-        readonly bool removeComments = true;
+        readonly CssCompressor compressor;
 
         internal YuiCompressor()
         {
+            compressor = new CssCompressor();
         }
 
         internal YuiCompressor(int columnWidth)
         {
-            this.columnWidth = columnWidth;
+            compressor = new CssCompressor
+            {
+                LineBreakPosition = columnWidth,
+            };
         }
 
-        internal YuiCompressor(int columnWidth, CssCompressionType compressionType)
+        internal YuiCompressor(int columnWidth, CompressionType compressionType)
         {
-            this.columnWidth = columnWidth;
-            this.compressionType = compressionType;
+            compressor = new CssCompressor
+            {
+                CompressionType = compressionType,
+                LineBreakPosition = columnWidth,
+            };
         }
 
-        internal YuiCompressor(int columnWidth, CssCompressionType compressionType, bool removeComments)
+        internal YuiCompressor(int columnWidth, CompressionType compressionType, bool removeComments)
         {
-            this.columnWidth = columnWidth;
-            this.compressionType = compressionType;
-            this.removeComments = removeComments;
+            compressor = new CssCompressor
+                             {
+                                 CompressionType = compressionType,
+                                 LineBreakPosition = columnWidth,
+                                 RemoveComments = removeComments
+                             };
         }
 
         public string Minify(string content)
         {
-            return CssCompressor.Compress(content, columnWidth, compressionType, removeComments);
+            return compressor.Compress(content);
         }
     }
 }
