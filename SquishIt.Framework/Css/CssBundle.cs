@@ -130,7 +130,7 @@ namespace SquishIt.Framework.Css
 
             var preprocessors = FindPreprocessors(file);
 
-            if(preprocessors != null && preprocessors.Count() > 0)
+            if(preprocessors.NullSafeAny())
             {
                 css = PreprocessFile(file, preprocessors);
             }
