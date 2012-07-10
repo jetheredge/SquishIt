@@ -98,7 +98,7 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleJavascriptWithAssetsMarkedPrecompressed()
+        public void CanBundleJavascriptWithMinifiedFiles()
         {
             var firstPath = "first.js";
             var secondPath = "second.js";
@@ -109,6 +109,22 @@ namespace SquishIt.Tests
             var tag = javaScriptBundle
                 .AddMinified(firstPath)
                 .Add(secondPath)
+                .Render("script.js");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"script.js?r=D8AC271B01E8DA10CBB6FF91D4C3C061\"></script>", tag);
+
+            Assert.AreEqual(1, fileWriterFactory.Files.Count);
+            var output = TestUtilities.NormalizeLineEndings(fileWriterFactory.Files[TestUtilities.PrepareRelativePath("script.js")]);
+            Assert.True(output.StartsWith(javaScript));
+            Assert.True(output.EndsWith(minifiedJavaScript2));
+        }
+
+        [Test]
+        public void CanBundleJavascriptWithMinifiedStrings()
+        {
+            var tag = javaScriptBundle
+                .AddMinifiedString(javaScript)
+                .AddString(javaScript2)
                 .Render("script.js");
 
             Assert.AreEqual("<script type=\"text/javascript\" src=\"script.js?r=D8AC271B01E8DA10CBB6FF91D4C3C061\"></script>", tag);

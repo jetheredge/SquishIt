@@ -92,13 +92,28 @@ namespace SquishIt.Framework.Base
 
         public T AddString(string content)
         {
-            return AddString(content, defaultExtension);
+            return AddString(content, defaultExtension, true);
         }
 
         public T AddString(string content, string extension)
         {
+            return AddString(content, extension, true);
+        }
+
+        public T AddMinifiedString(string content)
+        {
+            return AddString(content, defaultExtension, false);
+        }
+
+        public T AddMinifiedString(string content, string extension)
+        {
+            return AddString(content, extension, false);
+        }
+
+        T AddString(string content, string extension, bool minify)
+        {
             if(!bundleState.Assets.Any(ac => ac.Content == content))
-                bundleState.Assets.Add(new Asset { Content = content, Extension = extension });
+                bundleState.Assets.Add(new Asset { Content = content, Extension = extension, Minify = minify });
             return (T)this;
         }
 

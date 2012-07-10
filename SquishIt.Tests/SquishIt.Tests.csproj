@@ -97,7 +97,7 @@
     <Compile Include="ScriptPreprocessorPipelineTests.cs" />
     <Compile Include="CriticalRenderingSectionTest.cs" />
     <Compile Include="CssBundleTests.cs" />
-    <Compile Include="CssCompressorsTests.cs" />
+    <Compile Include="CssMinifierTests.cs" />
     <Compile Include="CssPathRewriterTests.cs" />
     <Compile Include="DebugStatusReaderTest.cs" />
     <Compile Include="Helpers\FilePathMutexProviderScope.cs" />

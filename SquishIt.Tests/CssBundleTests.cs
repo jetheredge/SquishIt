@@ -90,7 +90,7 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleCssWithAssetsMarkedPrecompressed()
+        public void CanBundleCssWithMinifiedFiles()
         {
             CSSBundle cssBundle = cssBundleFactory
                 .WithHasher(hasher)
@@ -106,6 +106,28 @@ namespace SquishIt.Tests
             string tag = cssBundle
                             .Add(firstPath)
                             .AddMinified(secondPath)
+                            .Render("/css/output.css");
+
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output.css?r=44A5824D3140BAAE5EF88C3383CD687D\" />", tag);
+            Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
+
+            var output = TestUtilities.NormalizeLineEndings(cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")]);
+
+            Assert.IsTrue(output.StartsWith(minifiedCss));
+            Assert.IsTrue(output.EndsWith(css2));
+        }
+
+        [Test]
+        public void CanBundleCssWithMinifiedStrings()
+        {
+            CSSBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
+                .WithDebuggingEnabled(false)
+                .Create();
+
+            string tag = cssBundle
+                            .AddString(css)
+                            .AddMinifiedString(css2)
                             .Render("/css/output.css");
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output.css?r=44A5824D3140BAAE5EF88C3383CD687D\" />", tag);
