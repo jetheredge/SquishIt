@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -45,6 +46,11 @@ namespace SquishIt.Framework
                 }
             }
             return relativePath;
+        }
+
+        internal static bool NullSafeAny<T>(this IEnumerable<T> values)
+        {
+            return values != null && values.Any();
         }
     }
 }

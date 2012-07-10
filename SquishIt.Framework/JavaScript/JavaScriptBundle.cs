@@ -68,7 +68,7 @@ namespace SquishIt.Framework.JavaScript
         protected override string ProcessFile(string file, string outputFile, bool minify)
         {
             var preprocessors = FindPreprocessors(file);
-            if(preprocessors != null && preprocessors.Count() > 0)
+            if(preprocessors.NullSafeAny())
             {
                 return MinifyIfNeeded(PreprocessFile(file, preprocessors), minify);
             }

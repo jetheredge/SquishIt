@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -108,11 +109,11 @@ namespace SquishIt.Framework.Base
 
         protected string PreprocessContent(string file, IEnumerable<IPreprocessor> preprocessors, string content)
         {
-            if(preprocessors == null)
+            if(preprocessors.NullSafeAny())
             {
-                return content;
+                return preprocessors.Aggregate(content, (cntnt, pp) => pp.Process(file, cntnt));
             }
-            return preprocessors.Aggregate(content, (cntnt, pp) => pp.Process(file, cntnt));
+            return content;
         }
 
         IPreprocessor FindPreprocessor(string extension)
@@ -421,7 +422,7 @@ namespace SquishIt.Framework.Base
         string PreprocessForDebugging(string filename)
         {
             var preprocessors = FindPreprocessors(filename).ToList();
-            if(preprocessors.Any())
+            if(preprocessors.NullSafeAny())
             {
                 string content;
                 lock(typeof(T))
