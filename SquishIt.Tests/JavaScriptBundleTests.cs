@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Web;
 using Moq;
 using NUnit.Framework;
@@ -133,6 +134,51 @@ namespace SquishIt.Tests
             var output = TestUtilities.NormalizeLineEndings(fileWriterFactory.Files[TestUtilities.PrepareRelativePath("script.js")]);
             Assert.True(output.StartsWith(javaScript));
             Assert.True(output.EndsWith(minifiedJavaScript2));
+        }
+
+        [Test]
+        public void CanBundleCssWithMinifiedDirectories()
+        {
+            var path = Guid.NewGuid().ToString();
+            var path2 = Guid.NewGuid().ToString();
+            var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.js");
+            var file2 = TestUtilities.PrepareRelativePath(path2 + "\\file2.js");
+
+            var resolver = new Mock<IResolver>(MockBehavior.Strict);
+            resolver.Setup(r => r.IsDirectory(It.IsAny<string>())).Returns(true);
+
+            resolver.Setup(r =>
+                r.TryResolveFolder(TestUtilities.PrepareRelativePath(path), It.IsAny<bool>(), It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<IEnumerable<string>>()))
+                .Returns(new[] { file1 });
+
+            resolver.Setup(r =>
+                r.TryResolveFolder(TestUtilities.PrepareRelativePath(path2), It.IsAny<bool>(), It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<IEnumerable<string>>()))
+                .Returns(new[] { file2 });
+
+            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, resolver.Object))
+            {
+                var frf = new StubFileReaderFactory();
+                frf.SetContentsForFile(file1, javaScript2);
+                frf.SetContentsForFile(file2, javaScript);
+
+                var writerFactory = new StubFileWriterFactory();
+
+                var tag = new JavaScriptBundleFactory()
+                    .WithDebuggingEnabled(false)
+                    .WithFileReaderFactory(frf)
+                    .WithFileWriterFactory(writerFactory)
+                    .WithHasher(new StubHasher("hashy"))
+                    .Create()
+                    .AddDirectory(path)
+                    .AddMinifiedDirectory(path2)
+                    .Render("~/output.js");
+
+                Assert.AreEqual("<script type=\"text/javascript\" src=\"output.js?r=hashy\"></script>", tag);
+
+                var content = writerFactory.Files[TestUtilities.PrepareRelativePath(@"output.js")];
+                Assert.True(content.StartsWith(minifiedJavaScript2));
+                Assert.True(content.EndsWith(javaScript));
+            }
         }
 
         [Test]

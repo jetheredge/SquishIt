@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Web;
 using Moq;
 using NUnit.Framework;
@@ -10,7 +11,6 @@ using SquishIt.Framework.Resolvers;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Helpers;
 using SquishIt.Tests.Stubs;
-using SquishIt.Framework;
 
 namespace SquishIt.Tests
 {
@@ -137,6 +137,50 @@ namespace SquishIt.Tests
 
             Assert.IsTrue(output.StartsWith(minifiedCss));
             Assert.IsTrue(output.EndsWith(css2));
+        }
+
+        [Test]
+        public void CanBundleCssWithMinifiedDirectories()
+        {
+            var path = Guid.NewGuid().ToString();
+            var path2 = Guid.NewGuid().ToString();
+            var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.css");
+            var file2 = TestUtilities.PrepareRelativePath(path2 + "\\file2.css");
+
+            var resolver = new Mock<IResolver>(MockBehavior.Strict);
+            resolver.Setup(r => r.IsDirectory(It.IsAny<string>())).Returns(true);
+
+            resolver.Setup(r =>
+                r.TryResolveFolder(TestUtilities.PrepareRelativePath(path), It.IsAny<bool>(), It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<IEnumerable<string>>()))
+                .Returns(new[] { file1 });
+
+            resolver.Setup(r =>
+                r.TryResolveFolder(TestUtilities.PrepareRelativePath(path2), It.IsAny<bool>(), It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<IEnumerable<string>>()))
+                .Returns(new[] { file2 });
+
+            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, resolver.Object))
+            {
+                var frf = new StubFileReaderFactory();
+                frf.SetContentsForFile(file1, css2);
+                frf.SetContentsForFile(file2, css);
+
+                var writerFactory = new StubFileWriterFactory();
+
+                var tag = cssBundleFactory.WithDebuggingEnabled(false)
+                    .WithFileReaderFactory(frf)
+                    .WithFileWriterFactory(writerFactory)
+                    .WithHasher(new StubHasher("hashy"))
+                    .Create()
+                    .AddDirectory(path)
+                    .AddMinifiedDirectory(path2)
+                    .Render("~/output.css");
+
+                Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"output.css?r=hashy\" />", tag);
+
+                var content = writerFactory.Files[TestUtilities.PrepareRelativePath(@"output.css")];
+                Assert.True(content.StartsWith(minifiedCss2));
+                Assert.True(content.EndsWith(css));
+            }
         }
 
         [Test]
