@@ -86,7 +86,17 @@ namespace SquishIt.Framework.Base
 
         public T AddDirectory(string folderPath, bool recursive = true)
         {
-            AddAsset(new Asset { LocalPath = folderPath, IsRecursive = recursive });
+            return AddDirectory(folderPath, recursive, true);
+        }
+
+        public T AddMinifiedDirectory(string folderPath, bool recursive = true)
+        {
+            return AddDirectory(folderPath, recursive, false);
+        }
+
+        T AddDirectory(string folderPath, bool recursive, bool minify)
+        {
+            AddAsset(new Asset { LocalPath = folderPath, IsRecursive = recursive, Minify = minify });
             return (T)this;
         }
 
