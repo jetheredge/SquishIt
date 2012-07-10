@@ -2,16 +2,16 @@ using Yahoo.Yui.Compressor;
 
 namespace SquishIt.Framework.Minifiers.CSS
 {
-    public class YuiCompressor: ICSSMinifier
+    public class YuiMinifier: ICSSMinifier
     {
         readonly CssCompressor compressor;
 
-        internal YuiCompressor()
+        internal YuiMinifier()
         {
             compressor = new CssCompressor();
         }
 
-        internal YuiCompressor(int columnWidth)
+        internal YuiMinifier(int columnWidth)
         {
             compressor = new CssCompressor
             {
@@ -19,7 +19,7 @@ namespace SquishIt.Framework.Minifiers.CSS
             };
         }
 
-        internal YuiCompressor(int columnWidth, CompressionType compressionType)
+        internal YuiMinifier(int columnWidth, CompressionType compressionType)
         {
             compressor = new CssCompressor
             {
@@ -28,7 +28,7 @@ namespace SquishIt.Framework.Minifiers.CSS
             };
         }
 
-        internal YuiCompressor(int columnWidth, CompressionType compressionType, bool removeComments)
+        internal YuiMinifier(int columnWidth, CompressionType compressionType, bool removeComments)
         {
             compressor = new CssCompressor
                              {

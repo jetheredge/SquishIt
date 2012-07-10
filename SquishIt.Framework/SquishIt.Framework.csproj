@@ -113,9 +113,9 @@
     <Compile Include="Minifiers\JavaScript\NullMinifier.cs" />
     <Compile Include="Minifiers\JavaScript\YuiMinifier.cs" />
     <Compile Include="Minifiers\CSS\ICSSMinifier.cs" />
-    <Compile Include="Minifiers\CSS\MsCompressor.cs" />
-    <Compile Include="Minifiers\CSS\NullCompressor.cs" />
-    <Compile Include="Minifiers\CSS\YuiCompressor.cs" />
+    <Compile Include="Minifiers\CSS\MsMinifier.cs" />
+    <Compile Include="Minifiers\CSS\NullMinifier.cs" />
+    <Compile Include="Minifiers\CSS\YuiMinifier.cs" />
     <Compile Include="Minifiers\CSS\MinifierFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderers\CacheRenderer.cs" />

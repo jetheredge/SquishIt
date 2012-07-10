@@ -107,7 +107,7 @@ namespace SquishIt.Tests
             fileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(secondPath), javaScript2);
 
             var tag = javaScriptBundle
-                .AddCompressed(firstPath)
+                .AddMinified(firstPath)
                 .Add(secondPath)
                 .Render("script.js");
 

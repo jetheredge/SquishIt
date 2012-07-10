@@ -13,9 +13,9 @@ namespace SquishIt.Framework.Minifiers.CSS
             {
                 typeof(CSSBundle), new Dictionary<Type, object>
                                 {
-                                    {typeof(CSS.MsCompressor), new CSS.MsCompressor()},
-                                    {typeof(CSS.NullCompressor), new CSS.NullCompressor()},
-                                    {typeof(CSS.YuiCompressor), new CSS.YuiCompressor()}
+                                    {typeof(CSS.MsMinifier), new CSS.MsMinifier()},
+                                    {typeof(CSS.NullMinifier), new CSS.NullMinifier()},
+                                    {typeof(CSS.YuiMinifier), new CSS.YuiMinifier()}
                                 }
             },
             {

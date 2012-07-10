@@ -2,15 +2,15 @@ using Microsoft.Ajax.Utilities;
 
 namespace SquishIt.Framework.Minifiers.CSS
 {
-    public class MsCompressor: ICSSMinifier
+    public class MsMinifier: ICSSMinifier
     {
         public CssSettings Settings { get; set; }
 
-        public MsCompressor()
+        public MsMinifier()
         {
         }
 
-        public MsCompressor(CssSettings settings)
+        public MsMinifier(CssSettings settings)
         {
             Settings = settings;
         }

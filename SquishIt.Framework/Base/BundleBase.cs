@@ -78,7 +78,7 @@ namespace SquishIt.Framework.Base
             return (T)this;
         }
 
-        public T AddCompressed(string filePath)
+        public T AddMinified(string filePath)
         {
             AddAsset(new Asset { LocalPath = filePath, Minify = false });
             return (T)this;

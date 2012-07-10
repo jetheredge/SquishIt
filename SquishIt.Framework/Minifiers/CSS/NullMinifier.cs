@@ -1,6 +1,6 @@
 namespace SquishIt.Framework.Minifiers.CSS
 {
-    public class NullCompressor: ICSSMinifier
+    public class NullMinifier: ICSSMinifier
     {
         public string Minify(string content)
         {

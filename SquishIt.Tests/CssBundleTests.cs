@@ -105,7 +105,7 @@ namespace SquishIt.Tests
 
             string tag = cssBundle
                             .Add(firstPath)
-                            .AddCompressed(secondPath)
+                            .AddMinified(secondPath)
                             .Render("/css/output.css");
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output.css?r=44A5824D3140BAAE5EF88C3383CD687D\" />", tag);
@@ -487,7 +487,7 @@ namespace SquishIt.Tests
             var tag = cssBundle
                             .Add(firstPath)
                             .Add(secondPath)
-                            .WithMinifier<YuiCompressor>()
+                            .WithMinifier<YuiMinifier>()
                             .Render("/css/css_with_compressor_output.css");
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/css_with_compressor_output.css?r=E621107093FBAB71C1FC4A4200B71AD4\" />", tag);
@@ -515,7 +515,7 @@ namespace SquishIt.Tests
             string tag = cssBundle
                             .Add(firstPath)
                             .Add(secondPath)
-                            .WithMinifier<NullCompressor>()
+                            .WithMinifier<NullMinifier>()
                             .Render("/css/css_with_null_compressor_output.css");
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/css_with_null_compressor_output.css?r=703408685CD7BEBA456CEBDC6271B02F\" />", tag);
@@ -540,7 +540,7 @@ namespace SquishIt.Tests
             string tag = cssBundle
                             .Add(firstPath)
                             .Add(secondPath)
-                            .WithMinifier<MsCompressor>()
+                            .WithMinifier<MsMinifier>()
                             .Render("/css/compressor_instance.css");
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/compressor_instance.css?r=E621107093FBAB71C1FC4A4200B71AD4\" />", tag);
