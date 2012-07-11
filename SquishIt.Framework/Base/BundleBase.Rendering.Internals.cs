@@ -21,7 +21,7 @@ namespace SquishIt.Framework.Base
 
             foreach(Input input in inputFiles)
             {
-                resolvedFilePaths.AddRange(input.TryResolve(allowedExtensions, disallowedExtensions, debugExtension));
+                resolvedFilePaths.AddRange(input.Resolve(allowedExtensions, disallowedExtensions, debugExtension));
             }
 
             return resolvedFilePaths;
@@ -30,7 +30,7 @@ namespace SquishIt.Framework.Base
         protected IEnumerable<string> GetFilesForSingleAsset(Asset asset)
         {
             var inputFile = GetInputFile(asset);
-            return inputFile.TryResolve(allowedExtensions, disallowedExtensions, debugExtension);
+            return inputFile.Resolve(allowedExtensions, disallowedExtensions, debugExtension);
         }
 
         Input GetInputFile(Asset asset)
@@ -233,7 +233,7 @@ namespace SquishIt.Framework.Base
                 else
                 {
                     var inputFile = GetInputFile(asset);
-                    var files = inputFile.TryResolve(allowedExtensions, disallowedExtensions, debugExtension);
+                    var files = inputFile.Resolve(allowedExtensions, disallowedExtensions, debugExtension);
 
                     if(asset.IsEmbeddedResource)
                     {

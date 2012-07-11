@@ -81,7 +81,7 @@ namespace SquishIt.Framework.Utilities
                     resolvedUrl = FileSystem.ResolveAppRelativePathToFileSystem(url);
                 }
 
-                return FileSystemResolver.TryResolve(resolvedUrl);
+                return FileSystemResolver.Resolve(resolvedUrl);
             }
 
             return urlUri.LocalPath;

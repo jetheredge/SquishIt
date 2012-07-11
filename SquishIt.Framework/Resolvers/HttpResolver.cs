@@ -7,7 +7,7 @@ namespace SquishIt.Framework.Resolvers
 {
     public class HttpResolver: IResolver
     {
-        public string TryResolve(string file)
+        public string Resolve(string file)
         {
             var webRequestObject = (HttpWebRequest)WebRequest.Create(file);
             var webResponse = webRequestObject.GetResponse();
@@ -32,7 +32,7 @@ namespace SquishIt.Framework.Resolvers
             }            
         }
 
-        public IEnumerable<string> TryResolveFolder(string path, bool recursive, string debugFileExtension, IEnumerable<string> allowedExtensions, IEnumerable<string> disallowedExtensions) {
+        public IEnumerable<string> ResolveFolder(string path, bool recursive, string debugFileExtension, IEnumerable<string> allowedExtensions, IEnumerable<string> disallowedExtensions) {
             throw new NotImplementedException("Adding entire directories only supported by FileSystemResolver.");
         }
 

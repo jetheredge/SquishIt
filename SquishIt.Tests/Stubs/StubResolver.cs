@@ -15,12 +15,12 @@ namespace SquishIt.Tests.Stubs
             _directoryContents = directoryContents;
         }
 
-        public string TryResolve(string file)
+        public string Resolve(string file)
         {
             return _pathToResolveTo;
         }
 
-        public IEnumerable<string> TryResolveFolder(string path, bool recursive, string debugExtension, IEnumerable<string> allowedFileExtensions, IEnumerable<string> disallowedFileExtensions)
+        public IEnumerable<string> ResolveFolder(string path, bool recursive, string debugExtension, IEnumerable<string> allowedFileExtensions, IEnumerable<string> disallowedFileExtensions)
         {
             return _directoryContents
                 .Where(

@@ -113,11 +113,11 @@ namespace SquishIt.Tests
             resolver.Setup(r => r.IsDirectory(It.IsAny<string>())).Returns(true);
 
             resolver.Setup(r =>
-                r.TryResolveFolder(TestUtilities.PrepareRelativePath(path), It.IsAny<bool>(), It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<IEnumerable<string>>()))
+                r.ResolveFolder(TestUtilities.PrepareRelativePath(path), It.IsAny<bool>(), It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<IEnumerable<string>>()))
                 .Returns(new[] { file1 });
 
             resolver.Setup(r =>
-                r.TryResolveFolder(TestUtilities.PrepareRelativePath(path2), It.IsAny<bool>(), It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<IEnumerable<string>>()))
+                r.ResolveFolder(TestUtilities.PrepareRelativePath(path2), It.IsAny<bool>(), It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<IEnumerable<string>>()))
                 .Returns(new[] { file2 });
 
             using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, resolver.Object))
