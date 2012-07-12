@@ -33,6 +33,8 @@ namespace SquishIt.Framework.Css
             get { return CACHE_PREFIX; }
         }
 
+        protected override string defaultExtension { get { return ".CSS"; } }
+
         protected override IMinifier<CSSBundle> DefaultMinifier
         {
             get { return Configuration.Instance.DefaultCssMinifier(); }
@@ -170,23 +172,18 @@ namespace SquishIt.Framework.Css
             return CSSPathRewriter.RewriteCssPaths(outputFile, file, css, fileHasher, asImport);
         }
 
-        internal override void BeforeRenderDebug()
+        internal override string PreprocessForDebugging(string filename)
         {
-            foreach(var asset in bundleState.Assets.Where(a => a.IsLocal))
+            if(filename.ToLower().EndsWith(".less") || filename.ToLower().EndsWith(".less.css"))
             {
-                var localPath = asset.LocalPath;
-                if(localPath.ToLower().EndsWith(".less") || localPath.ToLower().EndsWith(".less.css"))
+                string css = ProcessLess(filename);
+                filename += debugExtension;
+                using(var fileWriter = fileWriterFactory.GetFileWriter(filename))
                 {
-                    string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
-                    string css = ProcessLess(outputFile);
-                    outputFile += ".debug.css";
-                    using(var fileWriter = fileWriterFactory.GetFileWriter(outputFile))
-                    {
-                        fileWriter.Write(css);
-                    }
-                    asset.LocalPath = localPath + ".debug.css";
+                    fileWriter.Write(css);
                 }
             }
+            return filename;
         }
     }
 }

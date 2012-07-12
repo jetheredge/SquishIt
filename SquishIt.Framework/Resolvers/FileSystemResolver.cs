@@ -17,7 +17,7 @@ namespace SquishIt.Framework.Resolvers
             return Directory.Exists(path);
         }
 
-        public IEnumerable<string> TryResolveFolder(string path, bool recursive, IEnumerable<string> allowedFileExtensions)
+        public IEnumerable<string> TryResolveFolder(string path, bool recursive, string debugFileExtension, IEnumerable<string> allowedFileExtensions)
         {
             if (IsDirectory(path)) 
             {

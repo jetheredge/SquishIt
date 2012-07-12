@@ -6,6 +6,7 @@ using SquishIt.Framework.Files;
 using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.Minifiers.JavaScript;
 using SquishIt.Framework.Renderers;
+using SquishIt.Framework.Resolvers;
 using SquishIt.Framework.Tests.Mocks;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Stubs;
@@ -533,7 +534,7 @@ namespace SquishIt.Tests
             var file1 = TestUtilities.PreparePath(Environment.CurrentDirectory + "\\" + path + "\\file1.js");
             var file2 = TestUtilities.PreparePath(Environment.CurrentDirectory + "\\" + path + "\\file2.js");
 
-            using(new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, javaScript2.Replace("sum", "replace"));
@@ -562,7 +563,7 @@ namespace SquishIt.Tests
             var file1 = TestUtilities.PreparePath(Environment.CurrentDirectory + "\\" + path + "\\file1.js");
             var file2 = TestUtilities.PreparePath(Environment.CurrentDirectory + "\\" + path + "\\file2.js");
 
-            using(new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, javaScript2.Replace("sum", "replace"));
@@ -586,13 +587,43 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanBundleDirectoryContentsInDebug_Writes_And_Ignores_Preprocessed_Debug_Files()
+        {
+            var path = Guid.NewGuid().ToString();
+            var file1 = TestUtilities.PreparePath(Environment.CurrentDirectory + "\\" + path + "\\file1.coffee");
+            var file2 = TestUtilities.PreparePath(Environment.CurrentDirectory + "\\" + path + "\\file2.coffee.squishit.debug.js");
+
+            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            {
+                var frf = new StubFileReaderFactory();
+                frf.SetContentsForFile(file1, "some text");
+                frf.SetContentsForFile(file2, "some more text");
+
+                var writerFactory = new StubFileWriterFactory();
+
+                var tag = new JavaScriptBundleFactory()
+                        .WithDebuggingEnabled(true)
+                        .WithFileReaderFactory(frf)
+                        .WithFileWriterFactory(writerFactory)
+                        .WithHasher(new StubHasher("hashy"))
+                        .Create()
+                        .Add(path)
+                        .Render("~/output.js");
+
+                var expectedTag = string.Format("<script type=\"text/javascript\" src=\"{0}/file1.coffee.squishit.debug.js\"></script>\n", path);
+                Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+                Assert.AreEqual(1, writerFactory.Files.Count);
+            }
+        }
+
+        [Test]
         public void CanBundleDirectoryContentsInRelease()
         {
             var path = Guid.NewGuid().ToString();
             var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.js");
             var file2 = TestUtilities.PrepareRelativePath(path + "\\file2.js");
 
-            using(new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, javaScript2.Replace("sum", "replace"));
@@ -624,7 +655,7 @@ namespace SquishIt.Tests
             var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.js");
             var file2 = TestUtilities.PrepareRelativePath(path + "\\file2.js");
 
-            using(new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, javaScript2.Replace("sum", "replace"));

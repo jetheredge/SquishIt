@@ -6,6 +6,7 @@ using SquishIt.Framework.Css;
 using SquishIt.Framework.Minifiers.CSS;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Renderers;
+using SquishIt.Framework.Resolvers;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Helpers;
 using SquishIt.Tests.Stubs;
@@ -529,7 +530,7 @@ namespace SquishIt.Tests
                  .WithDebuggingEnabled(false)
                  .WithContents(css)
                  .Create();
-            
+
             var firstPath = "first.css";
             var secondPath = "second.css";
 
@@ -965,7 +966,7 @@ namespace SquishIt.Tests
             var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.css");
             var file2 = TestUtilities.PrepareRelativePath(path + "\\file2.css");
 
-            using(new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, css2);
@@ -993,7 +994,7 @@ namespace SquishIt.Tests
             var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.css");
             var file2 = TestUtilities.PrepareRelativePath(path + "\\file2.css");
 
-            using(new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, css2);
@@ -1015,13 +1016,42 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanBundleDirectoryContentsInDebug_Writes_And_Ignores_Preprocessed_Debug_Files()
+        {
+            var path = Guid.NewGuid().ToString();
+            var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.less.css");
+            var file2 = TestUtilities.PrepareRelativePath(path + "\\file1.less.css.squishit.debug.css");
+
+            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            {
+                var frf = new StubFileReaderFactory();
+                frf.SetContentsForFile(file1, cssLess);
+                frf.SetContentsForFile(file2, cssLess);
+
+                var writerFactory = new StubFileWriterFactory();
+
+                var tag = cssBundleFactory.WithDebuggingEnabled(true)
+                        .WithFileReaderFactory(frf)
+                        .WithFileWriterFactory(writerFactory)
+                        .WithHasher(new StubHasher("hashy"))
+                        .Create()
+                        .Add(path)
+                        .Render("~/output.css");
+
+                var expectedTag = string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}/file1.less.css.squishit.debug.css\" />\n", path);
+                Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+                Assert.AreEqual(1, writerFactory.Files.Count);
+            }
+        }
+
+        [Test]
         public void CanBundleDirectoryContentsInRelease()
         {
             var path = Guid.NewGuid().ToString();
             var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.css");
             var file2 = TestUtilities.PrepareRelativePath(path + "\\file2.css");
 
-            using(new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, css2);
@@ -1052,7 +1082,7 @@ namespace SquishIt.Tests
             var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.css");
             var file2 = TestUtilities.PrepareRelativePath(path + "\\file2.css");
 
-            using(new ResolverFactoryScope(typeof(SquishIt.Framework.Resolvers.FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, css2);

@@ -20,9 +20,9 @@ namespace SquishIt.Tests.Stubs
             return _pathToResolveTo;
         }
 
-        public IEnumerable<string> TryResolveFolder(string path, bool recursive, IEnumerable<string> allowedExtensions) {
+        public IEnumerable<string> TryResolveFolder(string path, bool recursive, string debugExtension, IEnumerable<string> allowedExtensions) {
             return _directoryContents
-                .Where(dc => allowedExtensions.Any(ext => dc.EndsWith(ext, System.StringComparison.InvariantCultureIgnoreCase)))
+                .Where(dc => !dc.EndsWith(debugExtension) && allowedExtensions.Any(ext => dc.EndsWith(ext, System.StringComparison.InvariantCultureIgnoreCase)))
                 .ToArray();
         }
 
