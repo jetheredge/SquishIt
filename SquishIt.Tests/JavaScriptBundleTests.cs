@@ -67,8 +67,8 @@ namespace SquishIt.Tests
             var firstPath = "first.js";
             var secondPath = "second.js";
 
-            fileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(firstPath), javaScriptPreMinified);
-            fileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(secondPath), javaScript2);
+            javaScriptBundleFactory.FileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(firstPath), javaScriptPreMinified);
+            javaScriptBundleFactory.FileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(secondPath), javaScript2);
 
             var tag = javaScriptBundleFactory
                 .WithHasher(hasher)
