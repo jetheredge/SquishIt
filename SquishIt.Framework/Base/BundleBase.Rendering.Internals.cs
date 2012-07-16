@@ -413,8 +413,14 @@ namespace SquishIt.Framework.Base
         {
             if(minify)
             {
-                return Minifier.Minify(content);
+                var minified = Minifier.Minify(content);
+                return AppendFileClosure(minified);
             }
+            return AppendFileClosure(content);
+        }
+
+        protected virtual string AppendFileClosure(string content)
+        {
             return content;
         }
 

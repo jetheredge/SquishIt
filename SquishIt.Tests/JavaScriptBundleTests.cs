@@ -28,6 +28,8 @@ namespace SquishIt.Tests
 																				}");
         string minifiedJavaScript = "function product(n,t){return n*t}function sum(n,t){return n+t}";
 
+        string javaScriptPreMinified = "(function() { alert('should end with parens') })()";
+
         string javaScript2 = TestUtilities.NormalizeLineEndings(@"function sum(a, b){
 																						return a + b;
 																			 }");
@@ -104,7 +106,7 @@ namespace SquishIt.Tests
             var firstPath = "first.js";
             var secondPath = "second.js";
 
-            fileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(firstPath), javaScript);
+            fileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(firstPath), javaScriptPreMinified);
             fileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(secondPath), javaScript2);
 
             var tag = javaScriptBundle
@@ -112,32 +114,32 @@ namespace SquishIt.Tests
                 .Add(secondPath)
                 .Render("script.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"script.js?r=D8AC271B01E8DA10CBB6FF91D4C3C061\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"script.js?r=43ADB72F0532101360C884E623BB82FD\"></script>", tag);
 
             Assert.AreEqual(1, fileWriterFactory.Files.Count);
             var output = TestUtilities.NormalizeLineEndings(fileWriterFactory.Files[TestUtilities.PrepareRelativePath("script.js")]);
-            Assert.True(output.StartsWith(javaScript));
-            Assert.True(output.EndsWith(minifiedJavaScript2));
+            Assert.True(output.StartsWith(javaScriptPreMinified + ";"));
+            Assert.True(output.EndsWith(";" + minifiedJavaScript2));
         }
 
         [Test]
         public void CanBundleJavascriptWithMinifiedStrings()
         {
             var tag = javaScriptBundle
-                .AddMinifiedString(javaScript)
+                .AddMinifiedString(javaScriptPreMinified)
                 .AddString(javaScript2)
                 .Render("script.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"script.js?r=D8AC271B01E8DA10CBB6FF91D4C3C061\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"script.js?r=43ADB72F0532101360C884E623BB82FD\"></script>", tag);
 
             Assert.AreEqual(1, fileWriterFactory.Files.Count);
             var output = TestUtilities.NormalizeLineEndings(fileWriterFactory.Files[TestUtilities.PrepareRelativePath("script.js")]);
-            Assert.True(output.StartsWith(javaScript));
-            Assert.True(output.EndsWith(minifiedJavaScript2));
+            Assert.True(output.StartsWith(javaScriptPreMinified + ";"));
+            Assert.True(output.EndsWith(";" + minifiedJavaScript2));
         }
 
         [Test]
-        public void CanBundleCssWithMinifiedDirectories()
+        public void CanBundleJavaScriptWithMinifiedDirectories()
         {
             var path = Guid.NewGuid().ToString();
             var path2 = Guid.NewGuid().ToString();
@@ -158,8 +160,8 @@ namespace SquishIt.Tests
             using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, resolver.Object))
             {
                 var frf = new StubFileReaderFactory();
-                frf.SetContentsForFile(file1, javaScript2);
-                frf.SetContentsForFile(file2, javaScript);
+                frf.SetContentsForFile(file1, javaScript);
+                frf.SetContentsForFile(file2, javaScriptPreMinified);
 
                 var writerFactory = new StubFileWriterFactory();
 
@@ -176,8 +178,8 @@ namespace SquishIt.Tests
                 Assert.AreEqual("<script type=\"text/javascript\" src=\"output.js?r=hashy\"></script>", tag);
 
                 var content = writerFactory.Files[TestUtilities.PrepareRelativePath(@"output.js")];
-                Assert.True(content.StartsWith(minifiedJavaScript2));
-                Assert.True(content.EndsWith(javaScript));
+                Assert.True(content.StartsWith(minifiedJavaScript));
+                Assert.True(content.EndsWith(javaScriptPreMinified + ";"));
             }
         }
 
@@ -967,7 +969,7 @@ namespace SquishIt.Tests
                 .ForceRelease()
                 .Render("test.js");
 
-            renderer.Verify(r => r.Render(content, TestUtilities.PrepareRelativePath("test.js")));
+            renderer.Verify(r => r.Render(content + ";", TestUtilities.PrepareRelativePath("test.js")));
         }
 
         [Test]

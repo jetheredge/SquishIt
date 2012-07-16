@@ -104,7 +104,7 @@ namespace SquishIt.Tests
 
             //are minifier's optimizations here OK?
             var compiled =
-                @"var JST=JST||{};JST.test=new Hogan.Template(function(n,t,i){var r=this;return r.b(i=i||""""),r.b(""<h1>""),r.b(r.v(r.f(""message"",n,t,0))),r.b(""</h1>""),r.fl()})";
+                @"var JST=JST||{};JST.test=new Hogan.Template(function(n,t,i){var r=this;return r.b(i=i||""""),r.b(""<h1>""),r.b(r.v(r.f(""message"",n,t,0))),r.b(""</h1>""),r.fl()});";
 
             Assert.AreEqual(1, writerFactory.Files.Count);
             var expectedTag = "<script type=\"text/javascript\" src=\"template.js?r=hash\"></script>";
