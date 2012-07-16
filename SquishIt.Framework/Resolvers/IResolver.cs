@@ -5,7 +5,7 @@ namespace SquishIt.Framework.Resolvers
     public interface IResolver 
     {
         bool IsDirectory(string path);
-        string TryResolve(string path);
-        IEnumerable<string> TryResolveFolder(string path, bool recursive, string debugFileExtension, IEnumerable<string> allowedExtensions, IEnumerable<string> disallowedExtensions);
+        string Resolve(string path);
+        IEnumerable<string> ResolveFolder(string path, bool recursive, string debugFileExtension, IEnumerable<string> allowedExtensions, IEnumerable<string> disallowedExtensions);
     }
 }
