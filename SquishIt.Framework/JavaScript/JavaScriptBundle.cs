@@ -90,11 +90,10 @@ namespace SquishIt.Framework.JavaScript
         }
 
         const string MINIFIED_FILE_SEPARATOR = ";";
-        const string SCOPE_CLOSURE = "}";
         
         protected override string AppendFileClosure(string content)
         {
-            if (!(content.Trim().EndsWith(MINIFIED_FILE_SEPARATOR) || content.Trim().EndsWith(SCOPE_CLOSURE)))
+            if (!(content.Trim().EndsWith(MINIFIED_FILE_SEPARATOR)))
             {
                 content += MINIFIED_FILE_SEPARATOR;
             }
