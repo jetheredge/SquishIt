@@ -5,12 +5,12 @@ namespace SquishIt.Framework.Utilities
 {
     public interface IMachineConfigReader
     {
-        bool IsRetailDeployment { get; }
+        bool IsNotRetailDeployment { get; }
     }
 
     class MachineConfigReader : IMachineConfigReader
     {
-        public bool IsRetailDeployment
+        public bool IsNotRetailDeployment
         {
             get
             {

@@ -35,7 +35,7 @@ namespace SquishIt.Framework.Utilities
 
             if(HttpContext.Current != null && HttpContext.Current.IsDebuggingEnabled)
             {
-                return !TrustLevel.IsHighOrUnrestrictedTrust || machineConfigReader.IsRetailDeployment;
+                return !TrustLevel.IsHighOrUnrestrictedTrust || machineConfigReader.IsNotRetailDeployment;
             }
             return false;
         }
