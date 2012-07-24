@@ -2,7 +2,6 @@ using System;
 using SquishIt.Framework.Css;
 using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.Minifiers;
-using SquishIt.Framework.Minifiers.CSS;
 using SquishIt.Framework.Minifiers.JavaScript;
 using SquishIt.Framework.Renderers;
 using MsMinifier = SquishIt.Framework.Minifiers.CSS.MsMinifier;
@@ -22,6 +21,12 @@ namespace SquishIt.Framework
         public static Configuration Instance
         {
             get { return (instance = instance ?? new Configuration()); }
+        }
+
+        public Configuration()
+        {
+            JavascriptMimeType = "application/javascript";
+            CssMimeType = "text/css";
         }
 
         public Configuration UseMinifierForCss<TMinifier>()
@@ -151,5 +156,15 @@ namespace SquishIt.Framework
         {
             return _defaultOutputBaseHref;
         }
+
+        /// <summary>
+        /// Mime-type used to serve Javascript content. Defaults to "application/javascript".
+        /// To enable gzip compression in IIS change this to "application/x-javascript".
+        /// </summary>
+        public string JavascriptMimeType { get; set; }
+        /// <summary>
+        /// Mime-type used to serve CSS content. Defaults to "text/css".
+        /// </summary>
+        public string CssMimeType { get; set; }
     }
 }
