@@ -45,6 +45,25 @@ namespace SquishIt.Tests
             machineConfigReader.VerifyAll();
         }
 
+        [TestCase(false)]
+        [TestCase(true)]
+        public void Predicate(bool predicateReturn)
+        {
+            //shouldn't touch anything on these
+            var httpContext = new Mock<HttpContextBase>(MockBehavior.Strict);
+            var machineConfigReader = new Mock<IMachineConfigReader>(MockBehavior.Strict);
+
+            using (new HttpContextScope(httpContext.Object))
+            {
+                var reader = new DebugStatusReader(machineConfigReader.Object);
+                reader.ForceRelease();
+                Assert.AreEqual(predicateReturn, reader.IsDebuggingEnabled(() => predicateReturn));
+            }
+
+            httpContext.VerifyAll();
+            machineConfigReader.VerifyAll();
+        }
+
         [Test]
         public void NullHttpContext()
         {

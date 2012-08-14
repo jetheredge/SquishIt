@@ -1,3 +1,5 @@
+using System;
+using SquishIt.Framework;
 using SquishIt.Framework.Utilities;
 
 namespace SquishIt.Tests.Stubs
@@ -16,9 +18,9 @@ namespace SquishIt.Tests.Stubs
             this.isDebuggingEnabled = isDebuggingEnabled;
         }
 
-        public bool IsDebuggingEnabled()
+        public bool IsDebuggingEnabled(Func<bool> debugPredicate = null)
         {
-            return isDebuggingEnabled;
+            return (isDebuggingEnabled || debugPredicate.SafeExecute());
         }
 
         public void ForceDebug()

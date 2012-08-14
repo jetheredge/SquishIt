@@ -52,5 +52,10 @@ namespace SquishIt.Framework
         {
             return values != null && values.Any();
         }
+
+        internal static bool SafeExecute(this Func<bool> function)
+        {
+            return function != null && function();
+        }
     }
 }

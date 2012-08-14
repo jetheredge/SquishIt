@@ -1,15 +1,21 @@
 using System;
+using System.Collections.Specialized;
+using System.IO;
+using System.Linq;
 using System.Collections.Generic;
 using System.Web;
 using Moq;
 using NUnit.Framework;
+using SquishIt.Framework;
 using SquishIt.Framework.Files;
+using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.Minifiers.JavaScript;
 using SquishIt.Framework.Renderers;
 using SquishIt.Framework.Resolvers;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Stubs;
 using SquishIt.Tests.Helpers;
+using HttpContext = SquishIt.Framework.HttpContext;
 
 namespace SquishIt.Tests
 {
@@ -122,7 +128,7 @@ namespace SquishIt.Tests
                 r.ResolveFolder(TestUtilities.PrepareRelativePath(path2), It.IsAny<bool>(), It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<IEnumerable<string>>()))
                 .Returns(new[] { file2 });
 
-            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, resolver.Object))
+            using (new ResolverFactoryScope(typeof(FileSystemResolver).FullName, resolver.Object))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, javaScript);
@@ -345,7 +351,7 @@ namespace SquishIt.Tests
                 .WithHasher(hasher)
                 .Create();
 
-            using(new ScriptPreprocessorScope<StubScriptPreprocessor>(new StubScriptPreprocessor()))
+            using (new ScriptPreprocessorScope<StubScriptPreprocessor>(new StubScriptPreprocessor()))
             {
                 string tag = debugJavaScriptBundle
                     .Add("~/first.script.js")
@@ -705,7 +711,7 @@ namespace SquishIt.Tests
             var file1 = TestUtilities.PreparePath(Environment.CurrentDirectory + "\\" + path + "\\file1.js");
             var file2 = TestUtilities.PreparePath(Environment.CurrentDirectory + "\\" + path + "\\file2.js");
 
-            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            using (new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, javaScript2.Replace("sum", "replace"));
@@ -734,7 +740,7 @@ namespace SquishIt.Tests
             var file1 = TestUtilities.PreparePath(Environment.CurrentDirectory + "\\" + path + "\\file1.js");
             var file2 = TestUtilities.PreparePath(Environment.CurrentDirectory + "\\" + path + "\\file2.js");
 
-            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            using (new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, javaScript2.Replace("sum", "replace"));
@@ -767,8 +773,8 @@ namespace SquishIt.Tests
 
             var preprocessor = new StubScriptPreprocessor();
 
-            using(new ScriptPreprocessorScope<StubScriptPreprocessor>(preprocessor))
-            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            using (new ScriptPreprocessorScope<StubScriptPreprocessor>(preprocessor))
+            using (new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, content);
@@ -799,7 +805,7 @@ namespace SquishIt.Tests
             var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.js");
             var file2 = TestUtilities.PrepareRelativePath(path + "\\file2.js");
 
-            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            using (new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, javaScript2.Replace("sum", "replace"));
@@ -831,7 +837,7 @@ namespace SquishIt.Tests
             var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.js");
             var file2 = TestUtilities.PrepareRelativePath(path + "\\file2.js");
 
-            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            using (new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, javaScript2.Replace("sum", "replace"));
@@ -1099,7 +1105,7 @@ namespace SquishIt.Tests
                 .WithHasher(hasher)
                 .Create();
 
-            using(new HttpContextScope(context.Object))
+            using (new HttpContextScope(context.Object))
             {
                 javaScriptBundle
                     .ForceDebug()
@@ -1126,7 +1132,7 @@ namespace SquishIt.Tests
                 .WithHasher(hasher)
                 .Create();
 
-            using(new HttpContextScope(context.Object))
+            using (new HttpContextScope(context.Object))
             {
                 javaScriptBundle
                     .ForceRelease()
@@ -1145,7 +1151,7 @@ namespace SquishIt.Tests
         public void RenderRelease_OmitsRenderedTag_IfOnlyRemoteAssets()
         {
             //this is rendering tag correctly but incorrectly(?) merging both files
-            using(new ResolverFactoryScope(typeof(Framework.Resolvers.HttpResolver).FullName, StubResolver.ForFile("http://www.someurl.com/css/first.css")))
+            using (new ResolverFactoryScope(typeof(Framework.Resolvers.HttpResolver).FullName, StubResolver.ForFile("http://www.someurl.com/css/first.css")))
             {
                 string tag = javaScriptBundleFactory
                     .WithHasher(hasher)
@@ -1197,6 +1203,190 @@ namespace SquishIt.Tests
                 .Render("~/js/output#.js");
 
             Assert.AreNotEqual(tag, tag2);
+        }
+
+        [Test]
+        public void ForceDebugIf()
+        {
+            javaScriptBundleFactory.FileReaderFactory.SetContents(javaScript);
+
+            var file1 = "test.js";
+            var file2 = "anothertest.js";
+            Func<bool> queryStringPredicate = () => HttpContext.Current.Request.QueryString.AllKeys.Contains("debug") && HttpContext.Current.Request.QueryString["debug"] == "true";
+
+            var nonDebugContext = new Mock<HttpContextBase>();
+            nonDebugContext.Setup(hcb => hcb.Request.QueryString).Returns(new NameValueCollection());
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath(file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath(file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath("~/output.js")).Returns(Path.Combine(Environment.CurrentDirectory, "output.js"));
+
+            JavaScriptBundle bundle;
+
+            using(new HttpContextScope(nonDebugContext.Object))
+            {
+                bundle = javaScriptBundleFactory
+                            .WithDebuggingEnabled(false)
+                            .Create()
+                            .Add(file1)
+                            .Add(file2)
+                            .ForceDebugIf(queryStringPredicate);
+
+                var tag = bundle.Render("~/output.js");
+
+                var expectedTag = "<script type=\"text/javascript\" src=\"output.js?r=hash\"></script>";
+
+                Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+            }
+
+            var debugContext = new Mock<HttpContextBase>();
+            debugContext.Setup(hcb => hcb.Request.QueryString).Returns(new NameValueCollection { { "debug", "true" } });
+            debugContext.Setup(hcb => hcb.Server.MapPath(file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
+            debugContext.Setup(hcb => hcb.Server.MapPath(file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
+            debugContext.Setup(hcb => hcb.Server.MapPath("~/output.js")).Returns(Path.Combine(Environment.CurrentDirectory, "output.js"));
+
+            using(new HttpContextScope(debugContext.Object))
+            {
+                var tag = bundle.Render("~/output.js");
+
+                var expectedTag = "<script type=\"text/javascript\" src=\"test.js\"></script>\n<script type=\"text/javascript\" src=\"anothertest.js\"></script>\n";
+
+                Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+            }
+
+            using(new HttpContextScope(nonDebugContext.Object))
+            {
+                var tag = bundle.Render("~/output.js");
+
+                var expectedTag = "<script type=\"text/javascript\" src=\"output.js?r=hash\"></script>";
+
+                Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+            }
+        }
+
+        [Test]
+        public void ForceDebugIf_Named()
+        {
+            javaScriptBundleFactory.FileReaderFactory.SetContents(javaScript);
+
+            var file1 = "test.js";
+            var file2 = "anothertest.js";
+            Func<bool> queryStringPredicate = () => HttpContext.Current.Request.QueryString.AllKeys.Contains("debug") && HttpContext.Current.Request.QueryString["debug"] == "true";
+
+            var debugContext = new Mock<HttpContextBase>();
+            debugContext.Setup(hcb => hcb.Request.QueryString).Returns(new NameValueCollection { { "debug", "true" } });
+            debugContext.Setup(hcb => hcb.Server.MapPath(file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
+            debugContext.Setup(hcb => hcb.Server.MapPath(file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
+            debugContext.Setup(hcb => hcb.Server.MapPath("~/output.js")).Returns(Path.Combine(Environment.CurrentDirectory, "output.js"));
+
+            var nonDebugContext = new Mock<HttpContextBase>();
+            nonDebugContext.Setup(hcb => hcb.Request.QueryString).Returns(new NameValueCollection());
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath(file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath(file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath("~/output.js")).Returns(Path.Combine(Environment.CurrentDirectory, "output.js"));
+
+            using(new HttpContextScope(nonDebugContext.Object))
+            {
+                javaScriptBundleFactory
+                    .WithDebuggingEnabled(false)
+                    .Create()
+                    .Add(file1)
+                    .Add(file2)
+                    .ForceDebugIf(queryStringPredicate)
+                    .AsNamed("test", "~/output.js");
+
+                var tag = javaScriptBundleFactory
+                    .Create()
+                    .RenderNamed("test");
+
+                var expectedTag = "<script type=\"text/javascript\" src=\"output.js?r=hash\"></script>";
+
+                Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+            }
+
+            using (new HttpContextScope(debugContext.Object))
+            {
+                var tag = javaScriptBundleFactory
+                    .Create()
+                    .RenderNamed("test");
+
+                var expectedTag = "<script type=\"text/javascript\" src=\"test.js\"></script>\n<script type=\"text/javascript\" src=\"anothertest.js\"></script>\n";
+
+                Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+            }
+
+            using (new HttpContextScope(nonDebugContext.Object))
+            {
+                var tag = javaScriptBundleFactory
+                    .Create()
+                    .RenderNamed("test");
+
+                var expectedTag = "<script type=\"text/javascript\" src=\"output.js?r=hash\"></script>";
+
+                Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+            }
+        }
+
+        [Test]
+        public void ForceDebugIf_Cached()
+        {
+            javaScriptBundleFactory.FileReaderFactory.SetContents(javaScript);
+
+            var file1 = "test.js";
+            var file2 = "anothertest.js";
+            Func<bool> queryStringPredicate = () => HttpContext.Current.Request.QueryString.AllKeys.Contains("debug") && HttpContext.Current.Request.QueryString["debug"] == "true";
+
+            var debugContext = new Mock<HttpContextBase>();
+            debugContext.Setup(hcb => hcb.Request.QueryString).Returns(new NameValueCollection { { "debug", "true" } });
+            debugContext.Setup(hcb => hcb.Server.MapPath(file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
+            debugContext.Setup(hcb => hcb.Server.MapPath(file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
+            debugContext.Setup(hcb => hcb.Server.MapPath("~/output.js")).Returns(Path.Combine(Environment.CurrentDirectory, "output.js"));
+
+            var nonDebugContext = new Mock<HttpContextBase>();
+            nonDebugContext.Setup(hcb => hcb.Request.QueryString).Returns(new NameValueCollection());
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath(file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath(file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath("~/output.js")).Returns(Path.Combine(Environment.CurrentDirectory, "output.js"));
+
+            using(new HttpContextScope(nonDebugContext.Object))
+            {
+                javaScriptBundleFactory
+                    .WithDebuggingEnabled(false)
+                    .Create()
+                    .Add(file1)
+                    .Add(file2)
+                    .ForceDebugIf(queryStringPredicate)
+                    .AsCached("test", "~/output.js");
+
+                var tag = javaScriptBundleFactory
+                    .Create()
+                    .RenderNamed("test");
+
+                var expectedTag = "<script type=\"text/javascript\" src=\"output.js?r=hash\"></script>";
+
+                Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+            }
+
+            using (new HttpContextScope(debugContext.Object))
+            {
+                var tag = javaScriptBundleFactory
+                    .Create()
+                    .RenderCachedAssetTag("test");
+
+                var expectedTag = "<script type=\"text/javascript\" src=\"test.js\"></script>\n<script type=\"text/javascript\" src=\"anothertest.js\"></script>\n";
+
+                Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+            }
+
+            using (new HttpContextScope(nonDebugContext.Object))
+            {
+                var tag = javaScriptBundleFactory
+                    .Create()
+                    .RenderCachedAssetTag("test");
+
+                var expectedTag = "<script type=\"text/javascript\" src=\"output.js?r=hash\"></script>";
+
+                Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+            }
         }
     }
 }

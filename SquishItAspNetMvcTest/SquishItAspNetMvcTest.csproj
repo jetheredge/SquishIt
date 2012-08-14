@@ -44,6 +44,7 @@
     <Reference Include="System.Web.Routing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\DebuggingBehaviorController.cs" />
     <Compile Include="Controllers\FeaturesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PreprocessorsController.cs" />
@@ -84,6 +85,7 @@
     <Content Include="Views\Features\Imports.cshtml" />
     <Content Include="Views\Features\Folders.cshtml" />
     <Content Include="Views\Features\RecursiveFolders.cshtml" />
+    <Content Include="Views\DebuggingBehavior\ForceViaPredicate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Preprocessors\Hogan.cshtml" />

@@ -17,7 +17,8 @@ namespace SquishIt.Framework
         Type _defaultJsMinifier = typeof (Minifiers.JavaScript.MsMinifier);
         string _defaultOutputBaseHref;
         IRenderer _defaultReleaseRenderer;
-
+        Func<bool> _defaultDebugPredicate;
+ 
         public static Configuration Instance
         {
             get { return (instance = instance ?? new Configuration()); }
@@ -155,6 +156,17 @@ namespace SquishIt.Framework
         internal string DefaultOutputBaseHref()
         {
             return _defaultOutputBaseHref;
+        }
+
+        public Configuration UseConditionToForceDebugging(Func<bool> condition)
+        {
+            _defaultDebugPredicate = condition;
+            return this;
+        }
+
+        internal Func<bool> DefaultDebugPredicate()
+        {
+            return _defaultDebugPredicate;
         }
 
         /// <summary>

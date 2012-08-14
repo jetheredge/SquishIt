@@ -25,7 +25,7 @@ namespace SquishIt.Framework.Base
         protected string debugExtension { get { return ".squishit.debug" + defaultExtension.ToLowerInvariant(); } }
         protected abstract string ProcessFile(string file, string outputFile, bool minify);
 
-        internal BundleState bundleState = new BundleState();
+        internal BundleState bundleState;
         readonly IBundleCache bundleCache;
         protected string BaseOutputHref = Configuration.Instance.DefaultOutputBaseHref() ?? String.Empty;
         protected IFileWriterFactory fileWriterFactory;
@@ -34,7 +34,7 @@ namespace SquishIt.Framework.Base
         protected ICurrentDirectoryWrapper currentDirectoryWrapper;
         protected IHasher hasher;
         IMinifier<T> minifier;
-
+ 
         protected IMinifier<T> Minifier
         {
             get { return minifier ?? DefaultMinifier; }
@@ -48,14 +48,23 @@ namespace SquishIt.Framework.Base
             this.debugStatusReader = debugStatusReader;
             this.currentDirectoryWrapper = currentDirectoryWrapper;
             this.hasher = hasher;
-            bundleState.ShouldRenderOnlyIfOutputFileIsMissing = false;
-            bundleState.HashKeyName = "r";
+            bundleState = new BundleState
+                              {
+                                  DebugPredicate = Configuration.Instance.DefaultDebugPredicate(),
+                                  ShouldRenderOnlyIfOutputFileIsMissing = false,
+                                  HashKeyName = "r"
+                              };
             this.bundleCache = bundleCache;
+        }
+
+        protected bool IsDebuggingEnabled()
+        {
+            return debugStatusReader.IsDebuggingEnabled(bundleState.DebugPredicate);
         }
 
         protected IRenderer GetFileRenderer()
         {
-            return debugStatusReader.IsDebuggingEnabled() ? new FileRenderer(fileWriterFactory) :
+            return IsDebuggingEnabled() ? new FileRenderer(fileWriterFactory) :
                 bundleState.ReleaseFileRenderer ??
                 Configuration.Instance.DefaultReleaseRenderer() ??
                 new FileRenderer(fileWriterFactory);
@@ -177,6 +186,12 @@ namespace SquishIt.Framework.Base
         {
             debugStatusReader.ForceDebug();
             bundleState.ForceDebug = true;
+            return (T)this;
+        }
+
+        public T ForceDebugIf(Func<bool> predicate)
+        {
+            bundleState.DebugPredicate = predicate;
             return (T)this;
         }
 
@@ -307,17 +322,22 @@ namespace SquishIt.Framework.Base
         public string RenderNamed(string name)
         {
             bundleState = GetCachedBundleState(name);
-            //TODO: this sucks
-            // Revisit https://github.com/jetheredge/SquishIt/pull/155 and https://github.com/jetheredge/SquishIt/issues/183
-            //hopefully we can find a better way to satisfy both of these requirements
-            var fullName = (BaseOutputHref ?? "") + CachePrefix + name;
-            var content = bundleCache.GetContent(fullName);
-            if(content == null)
+
+            if (!bundleState.DebugPredicate.SafeExecute())
             {
-                AsNamed(name, bundleState.Path);
-                return bundleCache.GetContent(CachePrefix + name);
+                //TODO: this sucks
+                // Revisit https://github.com/jetheredge/SquishIt/pull/155 and https://github.com/jetheredge/SquishIt/issues/183
+                //hopefully we can find a better way to satisfy both of these requirements
+                var fullName = (BaseOutputHref ?? "") + CachePrefix + name;
+                var content = bundleCache.GetContent(fullName);
+                if (content == null)
+                {
+                    AsNamed(name, bundleState.Path);
+                    return bundleCache.GetContent(CachePrefix + name);
+                }
+                return content;
             }
-            return content;
+            return RenderDebug(bundleState.Path, name, GetFileRenderer());
         }
 
         public string RenderCached(string name)

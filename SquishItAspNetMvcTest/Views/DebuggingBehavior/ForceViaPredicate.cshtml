@@ -1,0 +1,22 @@
+﻿@using SquishIt.Framework
+@{
+    ViewBag.Title = "Force Via Predicate";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>Debugging condition is whether or not query string contains a value for "SquishItDebug"</p>
+@if (Request.QueryString.AllKeys.Contains("SquishItDebug"))
+{
+    <p>Bundle should have been rendered as multiple files.</p>
+}
+else
+{
+    <p>Bundle should have been rendered as a single file.</p>
+}
+
+<textarea style="width:100%">@MvcHtmlString.Create(Bundle.Css()
+    .AddDirectory("/assets/styles/folder_test")
+    .ForceRelease()
+    .ForceDebugIf(() => Request.QueryString.AllKeys.Contains("SquishItDebug"))
+    .Render("/output/foldercss.css"))</textarea>

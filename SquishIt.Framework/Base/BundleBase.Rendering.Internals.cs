@@ -37,7 +37,7 @@ namespace SquishIt.Framework.Base
         {
             if(!asset.IsEmbeddedResource)
             {
-                if(debugStatusReader.IsDebuggingEnabled())
+                if(IsDebuggingEnabled())
                 {
                     return GetFileSystemPath(asset.LocalPath, asset.IsRecursive);
                 }
@@ -202,7 +202,7 @@ namespace SquishIt.Framework.Base
                 key = BaseOutputHref + key;
             }
 
-            if(debugStatusReader.IsDebuggingEnabled())
+            if(IsDebuggingEnabled())
             {
                 var content = RenderDebug(renderTo, key, renderer);
                 return content;
@@ -276,7 +276,10 @@ namespace SquishIt.Framework.Base
             {
                 bundleCache.Remove(name);
             }
-            bundleCache.Add(name, content, bundleState.DependentFiles);
+            if (debugStatusReader.IsDebuggingEnabled()) //default for predicate is null - only want to add to cache if not forced via predicate
+            {
+                bundleCache.Add(name, content, bundleState.DependentFiles);
+            }
 
             //need to render the bundle to caches, otherwise leave it
             if(renderer is CacheRenderer)
@@ -285,14 +288,24 @@ namespace SquishIt.Framework.Base
             return content;
         }
 
+        bool TryGetCachedBundle(string key, out string content)
+        {
+            if (bundleState.DebugPredicate.SafeExecute())
+            {
+                content = "";
+                return false;
+            }
+            return bundleCache.TryGetValue(key, out content);
+        }
+
         string RenderRelease(string key, string renderTo, IRenderer renderer)
         {
             string content;
-            if(!bundleCache.TryGetValue(key, out content))
+            if (!TryGetCachedBundle(key, out content))
             {
                 using(new CriticalRenderingSection(renderTo))
                 {
-                    if(!bundleCache.TryGetValue(key, out content))
+                    if(!TryGetCachedBundle(key, out content))
                     {
                         var uniqueFiles = new List<string>();
                         string minifiedContent = null;
@@ -387,7 +400,11 @@ namespace SquishIt.Framework.Base
                         content += String.Concat(GetFilesForRemote(remoteAssetPaths, bundleState), renderedTag);
                     }
                 }
-                bundleCache.Add(key, content, bundleState.DependentFiles);
+                //don't cache bundles where debugging was forced via predicate
+                if (!bundleState.DebugPredicate.SafeExecute())
+                {
+                    bundleCache.Add(key, content, bundleState.DependentFiles);
+                }
             }
 
             return content;

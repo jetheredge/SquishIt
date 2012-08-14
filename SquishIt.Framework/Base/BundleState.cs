@@ -26,6 +26,8 @@ namespace SquishIt.Framework.Base
 
         internal IRenderer ReleaseFileRenderer { get; set; }
 
+        internal Func<bool> DebugPredicate { get; set; }
+
         internal BundleState()
         { 
         }
