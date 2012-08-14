@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using SquishIt.Framework.Css;
 using SquishIt.Framework.Utilities;
-using System.Text.RegularExpressions;
 using SquishIt.Tests.Helpers;
 
 namespace SquishIt.Tests
@@ -278,6 +277,37 @@ namespace SquishIt.Tests
 
                                                         .footer {
                                                                 background-image: url('img/blah/somethingelse.jpg');
+                                                        }
+                                                    ";
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void CanRewritePathsInCssWithSpaces()
+        {
+            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            string css =
+                @"
+                                                        .header {
+                                                                background-image: url( ""../img/something.jpg"" );
+                                                        }
+
+                                                        .footer {
+                                                                background-image: url( ""../img/blah/somethingelse.jpg"" );
+                                                        }
+                                                    ";
+            string sourceFile = TestUtilities.PreparePath(@"C:\somepath\somesubpath\myfile.css");
+            string targetFile = TestUtilities.PreparePath(@"C:\somepath\output.css");
+            string result = CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
+
+            string expected =
+                @"
+                                                        .header {
+                                                                background-image: url( ""img/something.jpg"" );
+                                                        }
+
+                                                        .footer {
+                                                                background-image: url( ""img/blah/somethingelse.jpg"" );
                                                         }
                                                     ";
             Assert.AreEqual(expected, result);

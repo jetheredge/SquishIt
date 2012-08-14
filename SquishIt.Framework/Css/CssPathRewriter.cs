@@ -57,7 +57,7 @@ namespace SquishIt.Framework.Css {
 
         static string ReplaceRelativePathsIn (string css, string oldPath, string newPath) 
         {
-            var regex = new Regex (@"url\([""']{0,1}" + Regex.Escape (oldPath) + @"[""']{0,1}\)", RegexOptions.IgnoreCase);
+            var regex = new Regex (@"url\(\s*[""']{0,1}" + Regex.Escape (oldPath) + @"[""']{0,1}\s*\)", RegexOptions.IgnoreCase);
 
             return regex.Replace (css, match => {
                 var path = match.Value.Replace (oldPath, newPath);
@@ -65,7 +65,7 @@ namespace SquishIt.Framework.Css {
             });
         }
 
-        static readonly Regex pathsRegex = new Regex(@"(?<!.*behavior\s*:\s*)url\([""']?(.*?)[""']?\)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        static readonly Regex pathsRegex = new Regex(@"(?<!.*behavior\s*:\s*)url\(\s*(?:[""']?)(.*?)(?:[""']?)\s*\)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         static IEnumerable<string> FindDistinctRelativePathsIn (string css)
         {
             var matches = pathsRegex.Matches(css);
