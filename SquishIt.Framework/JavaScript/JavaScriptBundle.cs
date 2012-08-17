@@ -77,7 +77,7 @@ namespace SquishIt.Framework.JavaScript
         protected override void AggregateContent(List<Asset> assets, StringBuilder sb, string outputFile)
         {
             assets.SelectMany(a => a.IsArbitrary ? new[] { a.Content }.AsEnumerable() :
-                    GetFilesForSingleAsset(a).Select(ReadFile))
+                    GetFilesForSingleAsset(a).Select(ProcessJavascriptFile))
                 .ToList()
                 .Distinct()
                 .Aggregate(sb, (b, s) =>
@@ -86,6 +86,12 @@ namespace SquishIt.Framework.JavaScript
                     return b;
                 });
         }
+
+        private string ProcessJavascriptFile(string file)
+        {
+            return file.EndsWith(".coffee") ? ProcessCoffee(file) : ReadFile(file);
+        }
+
         private string ProcessCoffee(string file)
         {
             lock(typeof(JavaScriptBundle))
@@ -95,8 +101,9 @@ namespace SquishIt.Framework.JavaScript
                     currentDirectoryWrapper.SetCurrentDirectory(Path.GetDirectoryName(file));
                     var content = ReadFile(file);
                     var compiler = new Coffee.CoffeescriptCompiler();
+                    var output = compiler.Compile(content);
                     currentDirectoryWrapper.Revert();
-                    return compiler.Compile(content);
+                    return output;
                 }
                 catch
                 {
