@@ -11,7 +11,7 @@ namespace SquishIt.Tests
     [TestFixture] //TODO: find out why Sass not working on linux
     public class SassTests
     {
-        CssBundleFactory cssBundleFactory;
+        CSSBundleFactory cssBundleFactory;
         IHasher hasher;
         string scss = @"$blue: #3bbfce;
                     $margin: 16px;
@@ -53,7 +53,7 @@ $margin: 16px
         [SetUp]
         public void Setup()
         {
-            cssBundleFactory = new CssBundleFactory();
+            cssBundleFactory = new CSSBundleFactory();
             var retryableFileOpener = new RetryableFileOpener();
             hasher = new Hasher(retryableFileOpener);
         }

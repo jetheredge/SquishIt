@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using SquishIt.Framework;
-using SquishIt.Framework.Css;
+using SquishIt.Framework.CSS;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Helpers;
@@ -11,13 +11,13 @@ namespace SquishIt.Tests
     [TestFixture]
     public class StylePreprocessorPipelineTests
     {
-        CssBundleFactory cssBundleFactory;
+        CSSBundleFactory cssBundleFactory;
         IHasher hasher;
 
         [SetUp]
         public void Setup()
         {
-            cssBundleFactory = new CssBundleFactory();
+            cssBundleFactory = new CSSBundleFactory();
             var retryableFileOpener = new RetryableFileOpener();
             hasher = new Hasher(retryableFileOpener);
         }

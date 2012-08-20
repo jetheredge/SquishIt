@@ -9,7 +9,7 @@ using SquishIt.Framework.Resolvers;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Utilities;
 
-namespace SquishIt.Framework.Css
+namespace SquishIt.Framework.CSS
 {
     public class CSSBundle : BundleBase<CSSBundle>
     {
@@ -144,12 +144,12 @@ namespace SquishIt.Framework.Css
                 css = ProcessImport(file, outputFile, css);
             }
 
-            ICssAssetsFileHasher fileHasher = null;
+            ICSSAssetsFileHasher fileHasher = null;
 
             if(ShouldAppendHashForAssets)
             {
                 var fileResolver = new FileSystemResolver();
-                fileHasher = new CssAssetsFileHasher(bundleState.HashKeyName, fileResolver, hasher);
+                fileHasher = new CSSAssetsFileHasher(bundleState.HashKeyName, fileResolver, hasher);
             }
 
             return CSSPathRewriter.RewriteCssPaths(outputFile, file, css, fileHasher, asImport);

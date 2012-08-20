@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SquishIt.Framework.Css;
+using SquishIt.Framework.CSS;
 using SquishIt.Framework.JavaScript;
 
 namespace SquishIt.Framework

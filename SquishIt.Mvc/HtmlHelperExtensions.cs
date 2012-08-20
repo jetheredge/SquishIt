@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using SquishIt.Framework.Css;
+using SquishIt.Framework.CSS;
 using SquishIt.Framework.JavaScript;
 
 namespace SquishIt.Mvc

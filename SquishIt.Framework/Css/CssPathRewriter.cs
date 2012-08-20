@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using SquishIt.Framework.Utilities;
 
-namespace SquishIt.Framework.Css {
+namespace SquishIt.Framework.CSS {
     public class CSSPathRewriter 
     {
-        public static string RewriteCssPaths (string outputPath, string sourcePath, string css, ICssAssetsFileHasher cssAssetsFileHasher, bool asImport = false) 
+        public static string RewriteCssPaths (string outputPath, string sourcePath, string css, ICSSAssetsFileHasher cssAssetsFileHasher, bool asImport = false) 
         {
             //see http://stackoverflow.com/questions/3692818/uri-makerelativeuri-behavior-on-mono
             if (FileSystem.Unix) 

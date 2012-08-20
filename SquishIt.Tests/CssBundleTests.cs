@@ -6,7 +6,7 @@ using System.IO;
 using System.Web;
 using Moq;
 using NUnit.Framework;
-using SquishIt.Framework.Css;
+using SquishIt.Framework.CSS;
 using SquishIt.Framework.Minifiers.CSS;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Renderers;
@@ -19,7 +19,7 @@ using HttpContext = SquishIt.Framework.HttpContext;
 namespace SquishIt.Tests
 {
     [TestFixture]
-    public class CssBundleTests
+    public class CSSBundleTests
     {
         string css = TestUtilities.NormalizeLineEndings(@" li {
                                     margin-bottom:0.1em;
@@ -57,13 +57,13 @@ namespace SquishIt.Tests
 
 
 
-        CssBundleFactory cssBundleFactory;
+        CSSBundleFactory cssBundleFactory;
         IHasher hasher;
 
         [SetUp]
         public void Setup()
         {
-            cssBundleFactory = new CssBundleFactory();
+            cssBundleFactory = new CSSBundleFactory();
             var retryableFileOpener = new RetryableFileOpener();
             hasher = new Hasher(retryableFileOpener);
         }
@@ -1138,7 +1138,7 @@ namespace SquishIt.Tests
             var hrColor = "hr {color:sienna;}";
             var p = "p {margin-left:20px;}";
 
-            var tag = new CssBundleFactory()
+            var tag = new CSSBundleFactory()
                 .WithDebuggingEnabled(true)
                 .Create()
                 .AddString(css)
@@ -1164,7 +1164,7 @@ namespace SquishIt.Tests
 
             var writerFactory = new StubFileWriterFactory();
 
-            var tag = new CssBundleFactory()
+            var tag = new CSSBundleFactory()
                 .WithFileReaderFactory(readerFactory)
                 .WithFileWriterFactory(writerFactory)
                 .WithDebuggingEnabled(false)
@@ -1195,7 +1195,7 @@ namespace SquishIt.Tests
 
             var writerFactory = new StubFileWriterFactory();
 
-            var tag = new CssBundleFactory()
+            var tag = new CSSBundleFactory()
                 .WithFileReaderFactory(readerFactory)
                 .WithFileWriterFactory(writerFactory)
                 .WithDebuggingEnabled(true)
@@ -1218,7 +1218,7 @@ namespace SquishIt.Tests
             var hrColor = "hr {color:sienna;}";
             var p = "p {margin-left:20px;}";
 
-            var tag = new CssBundleFactory()
+            var tag = new CSSBundleFactory()
                 .WithDebuggingEnabled(true)
                 .Create()
                 .AddString(css)
@@ -1233,7 +1233,7 @@ namespace SquishIt.Tests
         [Test]
         public void DoesNotRenderDuplicateArbitraryStringsInDebug()
         {
-            var tag = new CssBundleFactory()
+            var tag = new CSSBundleFactory()
                 .WithDebuggingEnabled(true)
                 .Create()
                 .AddString(css)
@@ -1254,7 +1254,7 @@ namespace SquishIt.Tests
 
             var writerFactory = new StubFileWriterFactory();
 
-            var tag = new CssBundleFactory()
+            var tag = new CSSBundleFactory()
                     .WithDebuggingEnabled(false)
                     .WithFileWriterFactory(writerFactory)
                     .WithHasher(new StubHasher("hashy"))

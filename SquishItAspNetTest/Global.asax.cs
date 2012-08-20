@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
 using SquishIt.Framework;
-using SquishIt.Framework.Css;
+using SquishIt.Framework.CSS;
 using SquishIt.Less;
 
 namespace SquishItAspNetTest

@@ -1,10 +1,7 @@
 using NUnit.Framework;
 using SquishIt.Framework.JavaScript;
-using SquishIt.Framework.Minifiers.CSS;
+using SquishIt.Framework.Minifiers;
 using SquishIt.Framework.Minifiers.JavaScript;
-using MsMinifier = SquishIt.Framework.Minifiers.JavaScript.MsMinifier;
-using NullMinifier = SquishIt.Framework.Minifiers.JavaScript.NullMinifier;
-using YuiMinifier = SquishIt.Framework.Minifiers.JavaScript.YuiMinifier;
 
 namespace SquishIt.Tests
 {

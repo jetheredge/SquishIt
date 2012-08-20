@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using SquishIt.Framework.Css;
+using SquishIt.Framework.CSS;
 using SquishIt.Framework.JavaScript;
-using SquishIt.Framework.Minifiers.JavaScript;
 
-namespace SquishIt.Framework.Minifiers.CSS
+namespace SquishIt.Framework.Minifiers
 {
     public static class MinifierFactory
     {
@@ -24,7 +23,7 @@ namespace SquishIt.Framework.Minifiers.CSS
                                     {typeof(JavaScript.JsMinMinifier), new JavaScript.JsMinMinifier()},
                                     {typeof(JavaScript.NullMinifier), new JavaScript.NullMinifier()},
                                     {typeof(JavaScript.YuiMinifier), new JavaScript.YuiMinifier()},
-                                    {typeof(ClosureMinifier), new ClosureMinifier()},
+                                    {typeof(JavaScript.ClosureMinifier), new JavaScript.ClosureMinifier()},
                                     {typeof(JavaScript.MsMinifier), new JavaScript.MsMinifier()}
                                 }
             }        

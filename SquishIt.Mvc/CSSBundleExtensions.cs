@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Web.Mvc;
-using SquishIt.Framework.Css;
+using SquishIt.Framework.CSS;
 
 namespace SquishIt.Mvc
 {
-	public static class CssBundleExtensions
+	public static class CSSBundleExtensions
     {
         [Obsolete("Renamed to MvcRender() for concistency with other extension methods.")]
         public static MvcHtmlString RenderMvc(this CSSBundle cssBundle, string renderTo)

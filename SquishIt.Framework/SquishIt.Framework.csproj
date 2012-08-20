@@ -94,8 +94,8 @@
     <Compile Include="Minifiers\IMinifier.cs" />
     <Compile Include="Bundle.cs" />
     <Compile Include="BundleCache.cs" />
-    <Compile Include="Css\CssBundle.cs" />
-    <Compile Include="Css\CssPathRewriter.cs" />
+    <Compile Include="CSS\CSSBundle.cs" />
+    <Compile Include="CSS\CSSPathRewriter.cs" />
     <Compile Include="Resolvers\EmbeddedResourceResolver.cs" />
     <Compile Include="Resolvers\FileSystemResolver.cs" />
     <Compile Include="Resolvers\HttpResolver.cs" />
@@ -116,12 +116,12 @@
     <Compile Include="Minifiers\CSS\MsMinifier.cs" />
     <Compile Include="Minifiers\CSS\NullMinifier.cs" />
     <Compile Include="Minifiers\CSS\YuiMinifier.cs" />
-    <Compile Include="Minifiers\CSS\MinifierFactory.cs" />
+    <Compile Include="Minifiers\MinifierFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderers\CacheRenderer.cs" />
     <Compile Include="Renderers\FileRenderer.cs" />
     <Compile Include="Renderers\IRenderer.cs" />
-    <Compile Include="Utilities\CssAssetsFileHasher.cs" />
+    <Compile Include="CSS\CSSAssetsFileHasher.cs" />
     <Compile Include="Utilities\DebugStatusReader.cs" />
     <Compile Include="Files\FileReader.cs" />
     <Compile Include="Files\FileReaderFactory.cs" />
@@ -130,7 +130,7 @@
     <Compile Include="Files\IRetryableFileOpener.cs" />
     <Compile Include="Files\RetryableFileOpener.cs" />
     <Compile Include="Utilities\Hasher.cs" />
-    <Compile Include="Utilities\ICssAssetsFileHasher.cs" />
+    <Compile Include="CSS\ICSSAssetsFileHasher.cs" />
     <Compile Include="Utilities\IDebugStatusReader.cs" />
     <Compile Include="Files\IFileReader.cs" />
     <Compile Include="Files\IFileReaderFactory.cs" />

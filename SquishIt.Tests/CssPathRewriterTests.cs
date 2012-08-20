@@ -1,17 +1,18 @@
 ﻿using NUnit.Framework;
-using SquishIt.Framework.Css;
+using SquishIt.Framework.CSS;
+using SquishIt.Framework.CSS;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Helpers;
 
 namespace SquishIt.Tests
 {
     [TestFixture]
-    public class CssPathRewriterTests
+    public class CSSPathRewriterTests
     {
         [Test]
         public void CanRewritePathsInCssWhenAbsolutePathsAreUsed()
         {
-            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            ICSSAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -44,7 +45,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanRewritePathsInCssWhenDifferentFoldersAtSameDepth()
         {
-            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            ICSSAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -76,7 +77,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanRewritePathsInCssWhenMultipleOccurencesOfSameRelativePathAppearInOneCssFile()
         {
-            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            ICSSAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .ui-icon { background-image: url(images/ui-icons_222222_256x240.png); }
@@ -104,7 +105,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanRewritePathsInCssWhenMultipleOccurencesOfSameRelativePathAppearInOneCssFileWithDifferentCasing()
         {
-            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            ICSSAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .ui-icon { background-image: url(images/ui-icons_222222_256x240.png); }
@@ -130,7 +131,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanRewritePathsInCssWhenOutputFolderDeeper()
         {
-            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            ICSSAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -161,7 +162,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanRewritePathsInCssWhenOutputFolderMoreShallow()
         {
-            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            ICSSAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -192,7 +193,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanRewritePathsInCssWhenRelativePathsInsideOfSourceFolder()
         {
-            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            ICSSAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -223,7 +224,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanRewritePathsInCssWithQuotes()
         {
-            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            ICSSAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -254,7 +255,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanRewritePathsInCssWithSingleQuotes()
         {
-            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            ICSSAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -285,7 +286,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanRewritePathsInCssWithSpaces()
         {
-            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            ICSSAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -316,7 +317,7 @@ namespace SquishIt.Tests
         [Test]
         public void CanRewritePathsInCssWithUppercaseUrlStatement()
         {
-            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            ICSSAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -347,7 +348,7 @@ namespace SquishIt.Tests
         [Test]
         public void DontThrowIfPathContainsRegexMetacharacters()
         {
-            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            ICSSAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -370,7 +371,7 @@ namespace SquishIt.Tests
         [Test]
         public void DontThrowIfPathIsEmpty()
         {
-            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            ICSSAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -394,7 +395,7 @@ namespace SquishIt.Tests
         [Test]
         public void WontRewriteAbsolutePaths()
         {
-            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            ICSSAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -427,7 +428,7 @@ namespace SquishIt.Tests
         {
             
 
-            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            ICSSAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {
@@ -450,7 +451,7 @@ namespace SquishIt.Tests
         [Test]
         public void WontRewriteBehaviorUrls()
         {
-            ICssAssetsFileHasher cssAssetsFileHasher = null;
+            ICSSAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
                                                         .header {

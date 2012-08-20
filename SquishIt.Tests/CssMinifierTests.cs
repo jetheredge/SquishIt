@@ -1,11 +1,12 @@
 using NUnit.Framework;
-using SquishIt.Framework.Css;
+using SquishIt.Framework.CSS;
+using SquishIt.Framework.Minifiers;
 using SquishIt.Framework.Minifiers.CSS;
 
 namespace SquishIt.Tests
 {
     [TestFixture]
-    public class CssMinifierTests
+    public class CSSMinifierTests
     {
         string css = @" li {
                                     margin-bottom:0.1em;

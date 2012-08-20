@@ -1,5 +1,5 @@
 using System;
-using SquishIt.Framework.Css;
+using SquishIt.Framework.CSS;
 using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.Minifiers;
 using SquishIt.Framework.Minifiers.JavaScript;

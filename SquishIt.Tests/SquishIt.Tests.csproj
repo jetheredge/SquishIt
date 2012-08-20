@@ -96,13 +96,13 @@
     <Compile Include="HoganTests.cs" />
     <Compile Include="ScriptPreprocessorPipelineTests.cs" />
     <Compile Include="CriticalRenderingSectionTest.cs" />
-    <Compile Include="CssBundleTests.cs" />
-    <Compile Include="CssMinifierTests.cs" />
-    <Compile Include="CssPathRewriterTests.cs" />
+    <Compile Include="CSSBundleTests.cs" />
+    <Compile Include="CSSMinifierTests.cs" />
+    <Compile Include="CSSPathRewriterTests.cs" />
     <Compile Include="DebugStatusReaderTest.cs" />
     <Compile Include="Helpers\FilePathMutexProviderScope.cs" />
     <Compile Include="Helpers\JavaScriptBundleFactory.cs" />
-    <Compile Include="Helpers\CssBundleFactory.cs" />
+    <Compile Include="Helpers\CSSBundleFactory.cs" />
     <Compile Include="Helpers\ResolverFactoryScope.cs" />
     <Compile Include="Helpers\TrustLevelScope.cs" />
     <Compile Include="Helpers\HttpContextScope.cs" />
