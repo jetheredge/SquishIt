@@ -470,5 +470,24 @@ namespace SquishIt.Tests
                                                     ";
             Assert.AreEqual(expected, result);
         }
+
+        [Test]
+        public void WontEncodeHashesOrQuestionMarks()
+        {
+            var css = @"@font-face {
+font-family: 'Museo';
+src: url('../case/Museo.eot');
+src: url('../case/Museo.eot?#iefix') format('embedded-opentype'), url('../case/Museo.woff') format('woff'), url('../case/Museo.ttf') format('truetype'), url('../case/Museo.svg#Museo') format('svg');
+font-weight: normal;
+font-style: normal;
+}";
+
+            var sourceFile = TestUtilities.PreparePath(@"C:\somepath\somesubpath\myFile.css");
+            var destinationFile = TestUtilities.PreparePath(@"C:\somepath\somesubpath\myRewrittenFile.css");
+
+            var result = CSSPathRewriter.RewriteCssPaths(destinationFile, sourceFile, css, null);
+
+            Assert.AreEqual(css, result);
+        }
     }
 }
