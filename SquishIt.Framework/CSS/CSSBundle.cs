@@ -58,12 +58,12 @@ namespace SquishIt.Framework.CSS
         }
 
         public CSSBundle()
-            : base(new FileWriterFactory(new RetryableFileOpener(), 5), new FileReaderFactory(new RetryableFileOpener(), 5), new DebugStatusReader(), new CurrentDirectoryWrapper(), new Hasher(new RetryableFileOpener()), new BundleCache())
+            : this(new DebugStatusReader())
         {
         }
 
         public CSSBundle(IDebugStatusReader debugStatusReader)
-            : base(new FileWriterFactory(new RetryableFileOpener(), 5), new FileReaderFactory(new RetryableFileOpener(), 5), debugStatusReader, new CurrentDirectoryWrapper(), new Hasher(new RetryableFileOpener()), new BundleCache())
+            : this(debugStatusReader, new FileWriterFactory(new RetryableFileOpener(), 5), new FileReaderFactory(new RetryableFileOpener(), 5), new CurrentDirectoryWrapper(), new Hasher(new RetryableFileOpener()), new BundleCache())
         {
         }
 
