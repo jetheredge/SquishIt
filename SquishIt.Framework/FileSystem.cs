@@ -9,6 +9,7 @@ namespace SquishIt.Framework
         public static bool Unix
         {
             //assuming this means mono, hoping to avoid a compiler directive / separate assemblies
+            //not sure its worth investigating issues on windows mono, as most problems we have seem file-system related
             get { return Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX; }
         }
 
@@ -20,23 +21,17 @@ namespace SquishIt.Framework
                 file = file.Substring(0, file.IndexOf('?'));
             }
 
-            if (HttpContext.Current == null)
-            {
-                return ProcessWithoutHttpContext(file);
-            }
-            return HttpContext.Current.Server.MapPath(file);
+            return HttpContext.Current == null 
+                ? ProcessWithoutHttpContext(file) 
+                : HttpContext.Current.Server.MapPath(file);
         }
 
         static string ProcessWithoutHttpContext(string file)
         {
-            if(!(Unix))
-            {
-                file = file.Replace("/", "\\").TrimStart('~').TrimStart('\\');
-            }
-            else
-            {
-                file = file.TrimStart('~', '/');
-            }
+            file = Unix 
+                ? file.TrimStart('~', '/') // does this need to stay this way to account for multiple leading slashes or can string trimstart be used?
+                : file.Replace("/", "\\").TrimStart('~').TrimStart('\\');
+
             return Path.Combine(Environment.CurrentDirectory, file);
         }
 

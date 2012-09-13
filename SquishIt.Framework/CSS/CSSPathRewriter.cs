@@ -97,18 +97,10 @@ namespace SquishIt.Framework.CSS
         static IEnumerable<string> FindDistinctLocalRelativePathsThatExist(string css)
         {
             var matches = pathsRegex.Matches(css);
-            var matchesHash = new HashSet<string>();
-            foreach (Match match in matches)
-            {
-                var path = match.Groups[1].Captures[0].Value;
-                if (!path.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    if (matchesHash.Add(path))
-                    {
-                        yield return path;
-                    }
-                }
-            }
+            return matches.Cast<Match>()
+                .Select(match => match.Groups[1].Captures[0].Value)
+                .Where(path => !path.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
+                .Distinct();
         }
     }
 }

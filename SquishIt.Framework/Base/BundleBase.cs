@@ -131,7 +131,7 @@ namespace SquishIt.Framework.Base
 
         T AddString(string content, string extension, bool minify)
         {
-            if(!bundleState.Assets.Any(ac => ac.Content == content))
+            if(bundleState.Assets.All(ac => ac.Content != content))
                 bundleState.Assets.Add(new Asset { Content = content, Extension = extension, Minify = minify });
             return (T)this;
         }

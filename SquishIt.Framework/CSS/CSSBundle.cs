@@ -80,14 +80,9 @@ namespace SquishIt.Framework.CSS
             {
                 var importPath = match.Groups[2].Value;
                 string import;
-                if(importPath.StartsWith("/"))
-                {
-                    import = FileSystem.ResolveAppRelativePathToFileSystem(importPath);
-                }
-                else
-                {
-                    import = FileSystem.ResolveAppRelativePathToFileSystem(sourcePath + importPath);
-                }
+                import = importPath.StartsWith("/") 
+                    ? FileSystem.ResolveAppRelativePathToFileSystem(importPath) 
+                    : FileSystem.ResolveAppRelativePathToFileSystem(sourcePath + importPath);
                 bundleState.DependentFiles.Add(import);
                 return ProcessCssFile(import, outputFile, true);
             });
@@ -126,18 +121,11 @@ namespace SquishIt.Framework.CSS
 
         string ProcessCssFile(string file, string outputFile, bool asImport = false)
         {
-            string css = null;
-
             var preprocessors = FindPreprocessors(file);
 
-            if(preprocessors.NullSafeAny())
-            {
-                css = PreprocessFile(file, preprocessors);
-            }
-            else
-            {
-                css = ReadFile(file);
-            }
+            var css = preprocessors.NullSafeAny() 
+                ? PreprocessFile(file, preprocessors) 
+                : ReadFile(file);
 
             if(ShouldImport)
             {

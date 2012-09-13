@@ -25,12 +25,14 @@ namespace SquishIt.Framework.Minifiers.JavaScript
             {                
                 string arguments = "-jar \"{0}\\closure-compiler\\compiler.jar\" --js \"{1}\" --js_output_file \"{2}\"";
                 arguments = String.Format(arguments, path, file, outFile);
-                var startInfo = new ProcessStartInfo("java", arguments);
-                startInfo.CreateNoWindow = true;
-                startInfo.UseShellExecute = false;
-                startInfo.Arguments = arguments;
-                startInfo.RedirectStandardError = true;
-                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                var startInfo = new ProcessStartInfo("java", arguments)
+                                    {
+                                        CreateNoWindow = true,
+                                        UseShellExecute = false,
+                                        Arguments = arguments,
+                                        RedirectStandardError = true,
+                                        WindowStyle = ProcessWindowStyle.Hidden
+                                    };
                 var process = Process.Start(startInfo);
                 process.WaitForExit();
 

@@ -68,11 +68,9 @@ namespace SquishIt.Framework.JavaScript
         protected override string ProcessFile(string file, string outputFile, bool minify)
         {
             var preprocessors = FindPreprocessors(file);
-            if(preprocessors.NullSafeAny())
-            {
-                return MinifyIfNeeded(PreprocessFile(file, preprocessors), minify);
-            }
-            return MinifyIfNeeded(ReadFile(file), minify);
+            return MinifyIfNeeded(preprocessors.NullSafeAny() 
+                ? PreprocessFile(file, preprocessors) 
+                : ReadFile(file), minify);
         }
 
         protected override void AggregateContent(List<Asset> assets, StringBuilder sb, string outputFile)

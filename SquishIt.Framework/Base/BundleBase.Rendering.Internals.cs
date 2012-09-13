@@ -71,17 +71,18 @@ namespace SquishIt.Framework.Base
             return new Input(resourcePath, false, ResolverFactory.Get<EmbeddedResourceResolver>());
         }
 
-        protected IEnumerable<IPreprocessor> FindPreprocessors(string file)
+        protected IPreprocessor[] FindPreprocessors(string file)
         {
             //using rails convention of applying preprocessing based on file extension components in reverse order
             return file.Split('.')
                 .Skip(1)
                 .Reverse()
                 .Select(FindPreprocessor)
-                .Where(p => p != null);
+                .Where(p => p != null)
+                .ToArray();
         }
 
-        protected string PreprocessFile(string file, IEnumerable<IPreprocessor> preprocessors)
+        protected string PreprocessFile(string file, IPreprocessor[] preprocessors)
         {
             try
             {
@@ -106,13 +107,11 @@ namespace SquishIt.Framework.Base
             return MinifyIfNeeded(PreprocessContent(filename, preprocessors, asset.Content), asset.Minify);
         }
 
-        protected string PreprocessContent(string file, IEnumerable<IPreprocessor> preprocessors, string content)
+        protected string PreprocessContent(string file, IPreprocessor[] preprocessors, string content)
         {
-            if(preprocessors.NullSafeAny())
-            {
-                return preprocessors.Aggregate(content, (cntnt, pp) => pp.Process(file, cntnt));
-            }
-            return content;
+            return preprocessors.NullSafeAny() 
+                ? preprocessors.Aggregate(content, (cntnt, pp) => pp.Process(file, cntnt)) 
+                : content;
         }
 
         IPreprocessor FindPreprocessor(string extension)
@@ -212,8 +211,6 @@ namespace SquishIt.Framework.Base
 
         string RenderDebug(string renderTo, string name, IRenderer renderer)
         {
-            string content = null;
-
             bundleState.DependentFiles.Clear();
 
             var renderedFiles = new HashSet<string>();
@@ -270,7 +267,7 @@ namespace SquishIt.Framework.Base
                 }
             }
 
-            content = sb.ToString();
+            var content = sb.ToString();
 
             if(bundleCache.ContainsKey(name))
             {
@@ -323,7 +320,7 @@ namespace SquishIt.Framework.Base
                             renderPathCache[CachePrefix + "." + key] = renderTo;
                         }
 
-                        string outputFile = FileSystem.ResolveAppRelativePathToFileSystem(renderTo);
+                        var outputFile = FileSystem.ResolveAppRelativePathToFileSystem(renderTo);
                         var renderToPath = ExpandAppRelativePath(renderTo);
 
                         if(!String.IsNullOrEmpty(BaseOutputHref))
@@ -332,20 +329,14 @@ namespace SquishIt.Framework.Base
                         }
 
                         var remoteAssetPaths = new List<string>();
-                        foreach(var asset in bundleState.Assets)
-                        {
-                            if(asset.IsRemote)
-                            {
-                                remoteAssetPaths.Add(asset.RemotePath);
-                            }
-                        }
+                        remoteAssetPaths.AddRange(bundleState.Assets.Where(a => a.IsRemote).Select(a => a.RemotePath));
 
                         uniqueFiles.AddRange(GetFiles(bundleState.Assets.Where(asset =>
                             asset.IsEmbeddedResource ||
                             asset.IsLocal ||
                             asset.IsRemoteDownload).ToList()).Distinct());
 
-                        string renderedTag = string.Empty;
+                        var renderedTag = string.Empty;
                         if(uniqueFiles.Count > 0 || bundleState.Assets.Count(a => a.IsArbitrary) > 0)
                         {
                             bundleState.DependentFiles.AddRange(uniqueFiles);
@@ -443,7 +434,7 @@ namespace SquishIt.Framework.Base
 
         string PreprocessForDebugging(string filename)
         {
-            var preprocessors = FindPreprocessors(filename).ToList();
+            var preprocessors = FindPreprocessors(filename);
             if(preprocessors.NullSafeAny())
             {
                 string content;

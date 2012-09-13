@@ -20,14 +20,9 @@ namespace SquishIt.Framework.Minifiers.CSS
             var minifier = new Minifier();
             var stylesheet = string.Empty;
 
-            if (Settings != null)
-            {
-                stylesheet = minifier.MinifyStyleSheet(content, Settings);
-            }
-            else 
-            {
-                stylesheet = minifier.MinifyStyleSheet(content);
-            }
+            stylesheet = Settings != null 
+                ? minifier.MinifyStyleSheet(content, Settings) 
+                : minifier.MinifyStyleSheet(content);
 
             return stylesheet;
         }
