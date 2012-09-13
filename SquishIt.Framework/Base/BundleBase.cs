@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SquishIt.Framework.Minifiers;
-using SquishIt.Framework.Minifiers.CSS;
 using SquishIt.Framework.Renderers;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Utilities;
@@ -27,7 +26,7 @@ namespace SquishIt.Framework.Base
 
         internal BundleState bundleState;
         readonly IBundleCache bundleCache;
-        protected string BaseOutputHref = Configuration.Instance.DefaultOutputBaseHref() ?? String.Empty;
+        protected string BaseOutputHref = Configuration.Instance.DefaultOutputBaseHref();
         protected IFileWriterFactory fileWriterFactory;
         protected IFileReaderFactory fileReaderFactory;
         protected IDebugStatusReader debugStatusReader;
