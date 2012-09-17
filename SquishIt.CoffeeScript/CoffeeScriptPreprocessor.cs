@@ -1,5 +1,6 @@
 ﻿using SquishIt.CoffeeScript.Coffee;
 using SquishIt.Framework.Base;
+using SquishIt.Framework;
 
 namespace SquishIt.CoffeeScript 
 {
@@ -10,10 +11,10 @@ namespace SquishIt.CoffeeScript
             get { return new [] { ".coffee" }; }
         }
 
-        public override string Process(string filePath, string content) 
+		public override IProcessResult Process(string filePath, string content) 
         {
             var compiler = new CoffeeScriptCompiler();
-            return compiler.Compile(content);
+			return new ProcessResult(compiler.Compile(content));
         }
     }
 }

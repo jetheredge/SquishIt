@@ -10,7 +10,7 @@ namespace SquishIt.Framework.Base
             return Extensions.Contains(extension.StartsWith(".") ? extension : ("." + extension), StringComparer.CurrentCultureIgnoreCase);
         }
 
-        public abstract string Process(string filePath, string content);
+		public abstract IProcessResult Process(string filePath, string content);
         public abstract string[] Extensions { get; }
     }
 }

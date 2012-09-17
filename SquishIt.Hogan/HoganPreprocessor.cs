@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using SquishIt.Framework.Base;
 using SquishIt.Hogan.Hogan;
+using SquishIt.Framework;
 
 namespace SquishIt.Hogan
 {
@@ -13,7 +14,7 @@ namespace SquishIt.Hogan
             get { return new[] { ".hogan" }; }
         }
 
-        public override string Process(string filePath, string content)
+		public override IProcessResult Process(string filePath, string content)
         {
             var compiler = new HoganCompiler();
             string template = compiler.Compile(content);
@@ -21,7 +22,7 @@ namespace SquishIt.Hogan
             var sb = new StringBuilder();
             sb.AppendLine("var JST = JST || {};");
             sb.AppendLine("JST['" + templateName + "'] = new Hogan.Template(" + template + ");");
-            return sb.ToString();
+            return new ProcessResult(sb.ToString());
         }
     }
 }

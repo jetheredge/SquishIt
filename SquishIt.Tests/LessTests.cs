@@ -6,6 +6,7 @@ using SquishIt.Framework.Utilities;
 using SquishIt.Less;
 using SquishIt.Tests.Helpers;
 using SquishIt.Tests.Stubs;
+using SquishIt.Framework;
 
 namespace SquishIt.Tests 
 {
@@ -54,6 +55,34 @@ namespace SquishIt.Tests
                 Assert.AreEqual ("#header{color:#4d926f}h2{color:#4d926f}", contents);
             }
         }
+
+        [Test]
+        public void CanBundleCssWithNestedLess()
+        {
+            string importCss =
+                @"
+                @import 'other.less';
+                #header {
+                    color: #4D926F;
+                }";
+
+            CSSBundle cssBundle = cssBundleFactory
+                .WithDebuggingEnabled(false)
+                .WithContents(importCss)
+                .Create()
+                .WithPreprocessor(new LessPreprocessor());
+
+            TestUtilities.CreateFile("other.less", "#footer{color:#ffffff}");
+            cssBundle
+                .Add("~/css/test.less")
+                .Render("~/css/output_test.css");
+
+            TestUtilities.DeleteFile("other.less");
+
+            Assert.AreEqual("#footer{color:#fff}#header{color:#4d926f}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_test.css")]);
+            Assert.Contains(FileSystem.ResolveAppRelativePathToFileSystem("css/other.less"), cssBundle.bundleState.DependentFiles);
+        }
+ 
 
         [Test]
         public void CanBundleCssWithArbitraryLess ()
