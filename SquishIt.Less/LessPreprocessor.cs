@@ -1,5 +1,9 @@
 ﻿using SquishIt.Framework.Base;
 using dotless.Core;
+using System.Collections.Generic;
+using SquishIt.Framework;
+using System.IO;
+using System.Linq;
 
 namespace SquishIt.Less
 {
@@ -10,11 +14,25 @@ namespace SquishIt.Less
             get { return new[] { ".less" }; }
         }
 
-        public override string Process(string filePath, string content)
+        public override IProcessResult Process(string filePath, string content)
         {
             var engineFactory = new EngineFactory();
             var engine = engineFactory.GetEngine();
-            return engine.TransformToCss(content, filePath);
+            string css = engine.TransformToCss(content, filePath);
+
+            string dir = Path.GetDirectoryName(filePath);
+            string appPath = string.Empty;
+            if (!string.IsNullOrEmpty(dir))
+            {
+                appPath = FileSystem.ResolveFileSystemPathToAppRelative(dir);
+            }
+
+            var dependencies = engine.GetImports().Select(importPath =>
+            {
+                return FileSystem.ResolveAppRelativePathToFileSystem(Path.Combine(appPath, importPath));
+            });
+
+            return new ProcessResult(css, dependencies);
         }
     }
 }

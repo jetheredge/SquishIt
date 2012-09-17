@@ -109,9 +109,25 @@ namespace SquishIt.Framework.Base
 
         protected string PreprocessContent(string file, IPreprocessor[] preprocessors, string content)
         {
-            return preprocessors.NullSafeAny() 
-                ? preprocessors.Aggregate(content, (cntnt, pp) => pp.Process(file, cntnt)) 
-                : content;
+            if (preprocessors.NullSafeAny())
+            {
+                string aggreegateContent = content;
+                foreach (IPreprocessor processor in preprocessors)
+                {
+                    var processedData = processor.Process(file, aggreegateContent);
+                    if (processedData.Dependencies.Count() > 0)
+                    {
+                        this.bundleState.DependentFiles.AddRange(processedData.Dependencies);
+                    }
+                    aggreegateContent = processedData.Result;
+                }
+
+                return aggreegateContent;
+            }
+            else
+            {
+                return content;
+            }
         }
 
         IPreprocessor FindPreprocessor(string extension)

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using SquishIt.Framework;
+using SquishIt.Framework.Base;
 
 namespace SquishIt.Tests.Stubs {
     public interface IStubPreprocessor : IPreprocessor 
@@ -16,10 +17,10 @@ namespace SquishIt.Tests.Stubs {
             return Extensions.Contains (extension);
         }
 
-        public string Process (string filePath, string content)
+		public IProcessResult Process(string filePath, string content)
         {
             calledWith = content;
-            return "globey";
+            return  new ProcessResult("globey");
         }
 
         public string[] Extensions 
@@ -42,10 +43,10 @@ namespace SquishIt.Tests.Stubs {
             return Extensions.Contains (extension);
         }
 
-        public string Process (string filePath, string content)
+		public IProcessResult Process(string filePath, string content)
         {
             calledWith = content;
-            return "scripty";
+            return  new ProcessResult("scripty");
         }
 
         public string[] Extensions 
@@ -68,10 +69,10 @@ namespace SquishIt.Tests.Stubs {
             return Extensions.Contains (extension);
         }
 
-        public string Process (string filePath, string content)
+		public IProcessResult Process(string filePath, string content)
         {
             calledWith = content;
-            return "styley";
+            return  new ProcessResult("styley");
         }
 
         public string[] Extensions 
