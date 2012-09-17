@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace SquishIt.Framework.Base
 {
@@ -9,14 +7,14 @@ namespace SquishIt.Framework.Base
     {
         public ProcessResult(string result)
         {
-            this.Result = result;
-            this.Dependencies = Enumerable.Empty<string>();
+            Result = result;
+            Dependencies = Enumerable.Empty<string>();
         }
 
         public ProcessResult(string result, IEnumerable<string> dependencies)
         {
-            this.Result = result;
-            this.Dependencies = dependencies;
+            Result = result;
+            Dependencies = dependencies;
         }
 
         public string Result { get; private set; }
