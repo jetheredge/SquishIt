@@ -4,12 +4,9 @@ namespace SquishIt.Tests.Stubs
 {
     public class StubCurrentDirectoryWrapper: ICurrentDirectoryWrapper
     {
-        public void SetCurrentDirectory(string directory)
+        public T UsingCurrentDirectory<T>(string directory, System.Func<T> innerFunction)
         {
-        }
-
-        public void Revert()
-        {
+            return innerFunction();
         }
     }
 }

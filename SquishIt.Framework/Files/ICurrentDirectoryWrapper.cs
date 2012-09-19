@@ -1,8 +1,8 @@
-﻿namespace SquishIt.Framework.Files
+﻿using System;
+namespace SquishIt.Framework.Files
 {
     public interface ICurrentDirectoryWrapper
     {
-        void SetCurrentDirectory(string directory);
-        void Revert();
+        T UsingCurrentDirectory<T>(string directory, Func<T> function);
     }
 }
