@@ -115,7 +115,7 @@
     <Compile Include="SassTests.cs" />
     <Compile Include="Stubs\PreprocessorScope.cs" />
     <Compile Include="Stubs\StubBundleCache.cs" />
-    <Compile Include="Stubs\StubCurrentDirectoryWrapper.cs" />
+    <Compile Include="Stubs\StubDirectoryWrapper.cs" />
     <Compile Include="Stubs\StubDebugStatusReader.cs" />
     <Compile Include="Stubs\StubFileReader.cs" />
     <Compile Include="Stubs\StubFileReaderFactory.cs" />

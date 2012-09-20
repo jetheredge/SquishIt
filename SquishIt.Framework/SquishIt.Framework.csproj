@@ -103,8 +103,8 @@
     <Compile Include="Resolvers\HttpResolver.cs" />
     <Compile Include="Resolvers\IResolver.cs" />
     <Compile Include="Resolvers\ResolverFactory.cs" />
-    <Compile Include="Files\CurrentDirectoryWrapper.cs" />
-    <Compile Include="Files\ICurrentDirectoryWrapper.cs" />
+    <Compile Include="Files\DirectoryWrapper.cs" />
+    <Compile Include="Files\IDirectoryWrapper.cs" />
     <Compile Include="Files\Input.cs" />
     <Compile Include="JavaScript\JavaScriptBundle.cs" />
     <Compile Include="Minifiers\JavaScript\jsmin\JavaScriptMinifier.cs" />

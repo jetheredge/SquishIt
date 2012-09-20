@@ -30,7 +30,7 @@ namespace SquishIt.Framework.Base
         protected IFileWriterFactory fileWriterFactory;
         protected IFileReaderFactory fileReaderFactory;
         protected IDebugStatusReader debugStatusReader;
-        protected ICurrentDirectoryWrapper currentDirectoryWrapper;
+        protected IDirectoryWrapper directoryWrapper;
         protected IHasher hasher;
         IMinifier<T> minifier;
  
@@ -40,12 +40,12 @@ namespace SquishIt.Framework.Base
             set { minifier = value; }
         }
 
-        protected BundleBase(IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, IDebugStatusReader debugStatusReader, ICurrentDirectoryWrapper currentDirectoryWrapper, IHasher hasher, IBundleCache bundleCache)
+        protected BundleBase(IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, IDebugStatusReader debugStatusReader, IDirectoryWrapper directoryWrapper, IHasher hasher, IBundleCache bundleCache)
         {
             this.fileWriterFactory = fileWriterFactory;
             this.fileReaderFactory = fileReaderFactory;
             this.debugStatusReader = debugStatusReader;
-            this.currentDirectoryWrapper = currentDirectoryWrapper;
+            this.directoryWrapper = directoryWrapper;
             this.hasher = hasher;
             bundleState = new BundleState
                               {

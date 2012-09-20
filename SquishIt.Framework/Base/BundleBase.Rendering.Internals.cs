@@ -83,7 +83,7 @@ namespace SquishIt.Framework.Base
 
         protected string PreprocessFile(string file, IPreprocessor[] preprocessors)
         {
-            return currentDirectoryWrapper.UsingCurrentDirectory(Path.GetDirectoryName(file), () =>
+            return directoryWrapper.ExecuteInDirectory(Path.GetDirectoryName(file), () =>
             {
                 var preprocessedContent = PreprocessContent(file, preprocessors, ReadFile(file));
                 return preprocessedContent;

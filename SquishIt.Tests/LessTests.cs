@@ -114,7 +114,7 @@ namespace SquishIt.Tests
             TestUtilities.CreateFile("css_A/other.less", "#cssA{color:#ffffff}");            
             TestUtilities.CreateFile("css_B/other.less", "#cssB{color:#000000}");
 
-            var dirWrapper = new CurrentDirectoryWrapper();
+            var dirWrapper = new DirectoryWrapper();
 
             CSSBundle cssBundleA = cssBundleFactory
                 .WithCurrentDirectoryWrapper(dirWrapper)
