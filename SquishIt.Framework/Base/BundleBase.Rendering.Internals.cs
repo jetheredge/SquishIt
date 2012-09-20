@@ -83,11 +83,8 @@ namespace SquishIt.Framework.Base
 
         protected string PreprocessFile(string file, IPreprocessor[] preprocessors)
         {
-            return directoryWrapper.ExecuteInDirectory(Path.GetDirectoryName(file), () =>
-            {
-                var preprocessedContent = PreprocessContent(file, preprocessors, ReadFile(file));
-                return preprocessedContent;
-            });
+            return directoryWrapper.ExecuteInDirectory(Path.GetDirectoryName(file), 
+                () => PreprocessContent(file, preprocessors, ReadFile(file)));
         }
 
         protected string PreprocessArbitrary(Asset asset)
@@ -434,11 +431,7 @@ namespace SquishIt.Framework.Base
             var preprocessors = FindPreprocessors(filename);
             if (preprocessors.NullSafeAny())
             {
-                string content;
-                lock (typeof(T))
-                {
-                    content = PreprocessFile(filename, preprocessors);
-                }
+                var content = PreprocessFile(filename, preprocessors);
                 filename += debugExtension;
                 using (var fileWriter = fileWriterFactory.GetFileWriter(filename))
                 {
