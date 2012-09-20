@@ -83,18 +83,11 @@ namespace SquishIt.Framework.Base
 
         protected string PreprocessFile(string file, IPreprocessor[] preprocessors)
         {
-            try
+            return currentDirectoryWrapper.UsingCurrentDirectory(Path.GetDirectoryName(file), () =>
             {
-                currentDirectoryWrapper.SetCurrentDirectory(Path.GetDirectoryName(file));
                 var preprocessedContent = PreprocessContent(file, preprocessors, ReadFile(file));
-                currentDirectoryWrapper.Revert();
                 return preprocessedContent;
-            }
-            catch
-            {
-                currentDirectoryWrapper.Revert();
-                throw;
-            }
+            });
         }
 
         protected string PreprocessArbitrary(Asset asset)

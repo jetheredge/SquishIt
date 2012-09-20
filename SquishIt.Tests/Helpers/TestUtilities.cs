@@ -36,6 +36,7 @@ namespace SquishIt.Tests.Helpers
 
         public static string CreateFile(string path, string contents)
         {
+            (new FileInfo(path)).Directory.Create();
             using (var file = File.Create(path))
             {
                 var bytes = Encoding.UTF8.GetBytes(contents);

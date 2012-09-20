@@ -36,7 +36,7 @@ namespace SquishIt.Tests.Helpers
             return this;
         }
 
-        CSSBundleFactory WithCurrentDirectoryWrapper(ICurrentDirectoryWrapper currentDirectoryWrapper)
+        public CSSBundleFactory WithCurrentDirectoryWrapper(ICurrentDirectoryWrapper currentDirectoryWrapper)
         {
             this.currentDirectoryWrapper = currentDirectoryWrapper;
             return this;

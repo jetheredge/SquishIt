@@ -1,26 +1,45 @@
 using System;
+using System.Threading;
 
 namespace SquishIt.Framework.Files
 {
-    public class CurrentDirectoryWrapper: ICurrentDirectoryWrapper
+    public class CurrentDirectoryWrapper : ICurrentDirectoryWrapper
     {
-        string previousDirectory;
+        private static object lockObject = new object();
+        private string previousDirectory;
 
-        public void SetCurrentDirectory(string directory)
+        public T UsingCurrentDirectory<T>(string directory, Func<T> innerFunction)
+        {
+            lock (lockObject)
+            {
+                try
+                {
+                    SetCurrentDirectory(directory);
+                    return innerFunction();
+                }
+                finally
+                {
+                    Revert();
+                }
+            }
+        }
+
+        private void SetCurrentDirectory(string directory)
         {
             if (!String.IsNullOrEmpty(directory))
             {
                 previousDirectory = Environment.CurrentDirectory;
-                Environment.CurrentDirectory = directory;    
+                Environment.CurrentDirectory = directory;
             }
         }
 
-        public void Revert()
+        private void Revert()
         {
             if (previousDirectory != null)
             {
-                Environment.CurrentDirectory = previousDirectory;    
+                Environment.CurrentDirectory = previousDirectory;
             }
         }
+
     }
 }
