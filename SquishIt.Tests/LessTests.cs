@@ -7,6 +7,7 @@ using SquishIt.Less;
 using SquishIt.Tests.Helpers;
 using SquishIt.Tests.Stubs;
 using SquishIt.Framework;
+using System.Threading.Tasks;
 
 namespace SquishIt.Tests 
 {
@@ -81,6 +82,85 @@ namespace SquishIt.Tests
 
             Assert.AreEqual("#footer{color:#fff}#header{color:#4d926f}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_test.css")]);
             Assert.Contains(FileSystem.ResolveAppRelativePathToFileSystem("css/other.less"), cssBundle.bundleState.DependentFiles);
+        }
+
+        [Test]
+        public void CanBundleNestedLessInDifferentDirectoriesMultiThreaded()
+        {
+            // This test is dependant on a race condition so may not cause a 
+            // failure every time even when a bug is present. However on a
+            // multicore machine it seems to have a high failure rate.
+
+            string importCssA =
+                @"
+                @import 'other.less';
+                .cssA {
+                    color: #AAAAAA;
+                }";
+
+            string importCssB =
+                @"
+                @import 'other.less';
+                .cssB {
+                    color: #BBBBBB;
+                }";
+
+            cssBundleFactory.FileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(@"css_A\test.less"), importCssA);
+            cssBundleFactory.FileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(@"css_B\test.less"), importCssB);
+
+            TestUtilities.CreateFile("css_A/test.less", importCssA);
+            TestUtilities.CreateFile("css_B/test.less", importCssB);
+
+            TestUtilities.CreateFile("css_A/other.less", "#cssA{color:#ffffff}");            
+            TestUtilities.CreateFile("css_B/other.less", "#cssB{color:#000000}");
+
+            var dirWrapper = new CurrentDirectoryWrapper();
+
+            CSSBundle cssBundleA = cssBundleFactory
+                .WithCurrentDirectoryWrapper(dirWrapper)
+                .WithDebuggingEnabled(false)
+                //.WithContents(importCssA)
+                .Create()
+                .WithPreprocessor(new LessPreprocessor());
+
+            CSSBundle cssBundleB = cssBundleFactory
+                .WithCurrentDirectoryWrapper(dirWrapper)
+                .WithDebuggingEnabled(false)
+                //.WithContents(importCssB)
+                .Create()
+                .WithPreprocessor(new LessPreprocessor());
+
+            // Trigger the parsing of two different .less files in different
+            // directories at the same time. Both import a file called other.less
+            // which should be found in their own directory, but issues with 
+            // changing the current directory at the wrong time could cause
+            // them to pick up the imported file from the incorrect location.
+            var taskA = Task.Factory.StartNew(() =>
+            {
+                var sa = cssBundleA
+                    .Add("css_A/test.less")
+                    .Render("css_A/output_test.css");
+            });
+
+            var taskB = Task.Factory.StartNew(() =>
+            {
+                var sb = cssBundleB
+                   .Add("css_B/test.less")
+                   .Render("css_B/output_test.css");
+            });
+
+            taskA.Wait();
+            taskB.Wait();
+
+            TestUtilities.DeleteFile("css_A/test.less");
+            TestUtilities.DeleteFile("css_B/test.less");
+            TestUtilities.DeleteFile("css_A/other.less");
+            TestUtilities.DeleteFile("css_B/other.less");
+
+            Assert.AreEqual("#cssA{color:#fff}.cssA{color:#aaa}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css_A\output_test.css")]);
+            Assert.AreEqual("#cssB{color:#000}.cssB{color:#bbb}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css_B\output_test.css")]);
+            Assert.Contains(FileSystem.ResolveAppRelativePathToFileSystem("css_A/other.less"), cssBundleA.bundleState.DependentFiles);
+            Assert.Contains(FileSystem.ResolveAppRelativePathToFileSystem("css_B/other.less"), cssBundleB.bundleState.DependentFiles);
         }
  
 
