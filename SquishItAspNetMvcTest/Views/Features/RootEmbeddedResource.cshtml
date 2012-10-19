@@ -1,0 +1,13 @@
+﻿@using SquishIt.Framework
+@{
+    ViewBag.Title = "Embed Resource From Root Namespace";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>You should see a tag for webforms.js?r=1A5B5D161596742950FE1565A8D381B8 below:</p>
+
+<textarea style="width:100%">@MvcHtmlString.Create(Bundle.JavaScript()
+    .AddRootEmbeddedResource("~/output/test.js", "System.Web://WebForms.js")
+    .ForceRelease()
+    .Render("/output/webforms.js"))</textarea>

@@ -64,6 +64,8 @@
     <Content Include="assets\styles\minifycss_test1.css" />
     <None Include="assets\styles\sasstest.scss" />
     <None Include="assets\styles\sasstest.sass" />
+    <EmbeddedResource Include="EmbeddedResource\Embedded.css" />
+    <EmbeddedResource Include="EmbeddedResource\Embedded.js" />
     <Content Include="Global.asax" />
     <Content Include="assets\js\hogan\hogan-2.0.0.js" />
     <Content Include="assets\js\jquery_1.7.2.js" />
@@ -86,6 +88,8 @@
     <Content Include="Views\Features\Folders.cshtml" />
     <Content Include="Views\Features\RecursiveFolders.cshtml" />
     <Content Include="Views\DebuggingBehavior\ForceViaPredicate.cshtml" />
+    <Content Include="Views\Features\RootEmbeddedResource.cshtml" />
+    <Content Include="Views\Features\EmbeddedResource.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Preprocessors\Hogan.cshtml" />

@@ -37,5 +37,15 @@ namespace SquishItAspNetMvcTest.Controllers
         {
             return View();
         }
+
+        public ActionResult EmbeddedResource()
+        {
+            return View();
+        }
+
+        public ActionResult RootEmbeddedResource()
+        {
+            return View();
+        }
     }
 }
