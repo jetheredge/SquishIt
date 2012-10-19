@@ -311,7 +311,7 @@ namespace SquishIt.Tests
             Assert.AreEqual(1, javaScriptBundleFactory.FileWriterFactory.Files.Count);
         }
 
-        [Test]
+        [Test, Platform(Exclude = "Unix, Linux, Mono")]//WebForms.js not available in Mono's System.Web
         public void CanBundleJavaScriptWithRootEmbeddedResource()
         {
             //this only tests that the resource can be resolved

@@ -389,7 +389,7 @@ namespace SquishIt.Tests
             Assert.AreEqual(minifiedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_embedded.css")]);
         }
 
-        [Test]
+        [Test, Platform(Exclude = "Unix, Linux, Mono")]//WebForms.js not available in Mono's System.Web
         public void CanBundleCssWithRootEmbeddedResource()
         {
             //this only tests that the resource can be resolved
