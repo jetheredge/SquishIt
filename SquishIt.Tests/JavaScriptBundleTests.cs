@@ -312,6 +312,21 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanBundleJavaScriptWithRootEmbeddedResource()
+        {
+            //this only tests that the resource can be resolved
+            var tag = javaScriptBundleFactory
+                    .WithHasher(hasher)
+                    .Create()
+                    .AddRootEmbeddedResource("~/js/test.js", "System.Web://WebForms.js")
+                    .Render("~/js/output_Embedded.js");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_Embedded.js?r=7A22C17AD1D18D091F274599E8644755\"></script>", tag);
+            Assert.AreEqual(1, javaScriptBundleFactory.FileWriterFactory.Files.Count);
+            Assert.AreEqual(minifiedJavaScript, javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_Embedded.js")]);
+        }
+
+        [Test]
         public void CanDebugBundleJavaScriptWithEmbeddedResource()
         {
             var tag = javaScriptBundleFactory

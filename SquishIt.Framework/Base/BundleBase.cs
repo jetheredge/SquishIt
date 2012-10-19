@@ -169,6 +169,12 @@ namespace SquishIt.Framework.Base
             return AddRemote(siteRelativePath, absolutePath, true);
         }
 
+        public T AddRootEmbeddedResource(string localPath, string embeddedResourcePath)
+        {
+            AddAsset(new Asset { LocalPath = localPath, RemotePath = embeddedResourcePath, Order = 0, IsEmbeddedResource = true, IsEmbeddedInRootNamespace = true });
+            return (T)this;
+        }
+
         public T AddEmbeddedResource(string localPath, string embeddedResourcePath)
         {
             AddAsset(new Asset { LocalPath = localPath, RemotePath = embeddedResourcePath, Order = 0, IsEmbeddedResource = true });

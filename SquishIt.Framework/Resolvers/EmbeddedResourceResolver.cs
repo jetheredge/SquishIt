@@ -5,14 +5,15 @@ using System.IO;
 
 namespace SquishIt.Framework.Resolvers
 {
-    public class EmbeddedResourceResolver : IResolver
+    public abstract class EmbeddedResourceResolver : IResolver
     {
+        protected abstract string CalculateResourceName(string assemblyName, string resourceName); 
         public string Resolve(string file)
         {
             var split = file.Split(new[] { "://" }, StringSplitOptions.None);
             var assemblyName = split.ElementAt(0);
             var assembly = AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(x => x.GetName().Name == assemblyName);
-            var resourceName = assemblyName + "." + split.ElementAt(1);
+            var resourceName = CalculateResourceName(assemblyName, split.ElementAt(1));
             using (var stream = assembly.GetManifestResourceStream(resourceName))
             {
                 if (stream == null) throw new InvalidOperationException(String.Format("Embedded resource not found: {0}", file));
@@ -37,9 +38,25 @@ namespace SquishIt.Framework.Resolvers
             throw new NotImplementedException("Adding entire directories only supported by FileSystemResolver.");
         }
 
-        public virtual bool IsDirectory(string path) 
+        public virtual bool IsDirectory(string path)
         {
             return false;
+        }
+    }
+
+    public class StandardEmbeddedResourceResolver : EmbeddedResourceResolver
+    {
+        protected override string CalculateResourceName(string assemblyName, string resourceName)
+        {
+            return assemblyName + "." + resourceName;
+        }
+    }
+
+    public class RootEmbeddedResourceResolver : EmbeddedResourceResolver
+    {
+        protected override string CalculateResourceName(string assemblyName, string resourceName)
+        {
+            return resourceName;
         }
     }
 }

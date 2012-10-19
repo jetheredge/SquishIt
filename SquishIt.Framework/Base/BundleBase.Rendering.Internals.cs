@@ -46,7 +46,7 @@ namespace SquishIt.Framework.Base
                 }
                 return GetFileSystemPath(asset.LocalPath, asset.IsRecursive);
             }
-            return GetEmbeddedResourcePath(asset.RemotePath);
+            return GetEmbeddedResourcePath(asset.RemotePath, asset.IsEmbeddedInRootNamespace);
         }
 
         IEnumerable<Input> GetInputFiles(IEnumerable<Asset> assets)
@@ -65,9 +65,11 @@ namespace SquishIt.Framework.Base
             return new Input(remotePath, false, ResolverFactory.Get<HttpResolver>());
         }
 
-        Input GetEmbeddedResourcePath(string resourcePath)
+        Input GetEmbeddedResourcePath(string resourcePath, bool isInRootNamespace)
         {
-            return new Input(resourcePath, false, ResolverFactory.Get<EmbeddedResourceResolver>());
+            return isInRootNamespace 
+                ? new Input(resourcePath, false, ResolverFactory.Get<RootEmbeddedResourceResolver>())
+                : new Input(resourcePath, false, ResolverFactory.Get<StandardEmbeddedResourceResolver>());
         }
 
         protected IPreprocessor[] FindPreprocessors(string file)

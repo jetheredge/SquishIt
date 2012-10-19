@@ -372,7 +372,7 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void CanBundleCssWithEmbedded()
+        public void CanBundleCssWithEmbeddedResource()
         {
             CSSBundle cssBundle = cssBundleFactory
                 .WithHasher(hasher)
@@ -386,8 +386,27 @@ namespace SquishIt.Tests
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_embedded.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
-            Assert.AreEqual(minifiedCss
-                            , cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_embedded.css")]);
+            Assert.AreEqual(minifiedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_embedded.css")]);
+        }
+
+        [Test]
+        public void CanBundleCssWithRootEmbeddedResource()
+        {
+            //this only tests that the resource can be resolved
+            //using a .js file because the resource still needs to be found - I am not sure how to add a resource to the global namespace
+            CSSBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
+                .WithDebuggingEnabled(false)
+                .WithContents(css)
+                .Create();
+
+            string tag = cssBundle
+                            .AddRootEmbeddedResource("/css/first.css", "System.Web://WebForms.js") 
+                            .Render("/css/output_embedded.css");
+
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_embedded.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
+            Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
+            Assert.AreEqual(minifiedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_embedded.css")]);
         }
 
         [Test]

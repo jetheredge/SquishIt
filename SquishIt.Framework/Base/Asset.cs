@@ -6,6 +6,7 @@ namespace SquishIt.Framework.Base
         internal string RemotePath { get; set; }
         internal int Order { get; set; }
         internal bool IsEmbeddedResource { get; set; }
+        internal bool IsEmbeddedInRootNamespace { get; set; }
         internal bool DownloadRemote { get; set; }
         internal bool IsRecursive { get; set; }
         internal string Content { get; set; }

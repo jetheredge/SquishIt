@@ -7,35 +7,37 @@ namespace SquishIt.Framework.Resolvers
     {
         static Dictionary<string, IResolver> resolvers = new Dictionary<string, IResolver>
         {
-            {typeof(EmbeddedResourceResolver).FullName, new EmbeddedResourceResolver()},
+            {typeof(RootEmbeddedResourceResolver).FullName, new RootEmbeddedResourceResolver()},
+            {typeof(StandardEmbeddedResourceResolver).FullName, new StandardEmbeddedResourceResolver()},
             {typeof(FileSystemResolver).FullName, new FileSystemResolver()},
             {typeof(HttpResolver).FullName, new HttpResolver()},
         };
-        
+
         public static IResolver Get<T>() where T : IResolver
         {
             return resolvers[typeof(T).FullName];
         }
-        
-        internal static void SetContent(string key, IResolver resolver) 
+
+        internal static void SetContent(string key, IResolver resolver)
         {
-            if(resolvers.ContainsKey(key))
+            if (resolvers.ContainsKey(key))
             {
-                resolvers[key] = resolver;   
+                resolvers[key] = resolver;
             }
-            else 
+            else
             {
-                throw new InvalidOperationException("Invalid resolver type injected");  
+                throw new InvalidOperationException("Invalid resolver type injected");
             }
         }
-        
-        internal static void Reset() 
+
+        internal static void Reset()
         {
             resolvers = new Dictionary<string, IResolver>
             {
-                {typeof(EmbeddedResourceResolver).FullName, new EmbeddedResourceResolver()},
-                {typeof(FileSystemResolver).FullName, new FileSystemResolver()},
-                {typeof(HttpResolver).FullName, new HttpResolver()},
+            {typeof(RootEmbeddedResourceResolver).FullName, new RootEmbeddedResourceResolver()},
+            {typeof(StandardEmbeddedResourceResolver).FullName, new StandardEmbeddedResourceResolver()},
+            {typeof(FileSystemResolver).FullName, new FileSystemResolver()},
+            {typeof(HttpResolver).FullName, new HttpResolver()},
             };
         }
     }
