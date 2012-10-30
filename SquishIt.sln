@@ -17,7 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.Sass", "SquishIt.S
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuspec", "nuspec", "{0723B20D-9241-4D11-9242-09E20F0C55A9}"
 	ProjectSection(SolutionItems) = preProject
-		nuspec\squishit.coffeescript.nuspec = nuspec\squishit.coffeescript.nuspec
 		nuspec\squishit.hogan.nuspec = nuspec\squishit.hogan.nuspec
 		nuspec\squishit.less.nuspec = nuspec\squishit.less.nuspec
 		nuspec\squishit.mvc.nuspec = nuspec\squishit.mvc.nuspec

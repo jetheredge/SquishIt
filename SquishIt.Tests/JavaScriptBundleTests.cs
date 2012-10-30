@@ -128,7 +128,7 @@ namespace SquishIt.Tests
                 r.ResolveFolder(TestUtilities.PrepareRelativePath(path2), It.IsAny<bool>(), It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<IEnumerable<string>>()))
                 .Returns(new[] { file2 });
 
-            using (new ResolverFactoryScope(typeof(FileSystemResolver).FullName, resolver.Object))
+            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, resolver.Object))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, javaScript);
@@ -311,14 +311,15 @@ namespace SquishIt.Tests
             Assert.AreEqual(1, javaScriptBundleFactory.FileWriterFactory.Files.Count);
         }
 
-        [Test, Platform(Exclude = "Unix, Linux, Mono")]//WebForms.js not available in Mono's System.Web
+        [Test]
         public void CanBundleJavaScriptWithRootEmbeddedResource()
         {
             //this only tests that the resource can be resolved
             var tag = javaScriptBundleFactory
+                    .WithDebuggingEnabled(false)
                     .WithHasher(hasher)
                     .Create()
-                    .AddRootEmbeddedResource("~/js/test.js", "System.Web://WebForms.js")
+                    .AddRootEmbeddedResource("~/js/test.js", "SquishIt.Tests://RootEmbedded.js")
                     .Render("~/js/output_Embedded.js");
 
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_Embedded.js?r=7A22C17AD1D18D091F274599E8644755\"></script>", tag);
@@ -366,7 +367,7 @@ namespace SquishIt.Tests
                 .WithHasher(hasher)
                 .Create();
 
-            using (new ScriptPreprocessorScope<StubScriptPreprocessor>(new StubScriptPreprocessor()))
+            using(new ScriptPreprocessorScope<StubScriptPreprocessor>(new StubScriptPreprocessor()))
             {
                 string tag = debugJavaScriptBundle
                     .Add("~/first.script.js")
@@ -726,7 +727,7 @@ namespace SquishIt.Tests
             var file1 = TestUtilities.PreparePath(Environment.CurrentDirectory + "\\" + path + "\\file1.js");
             var file2 = TestUtilities.PreparePath(Environment.CurrentDirectory + "\\" + path + "\\file2.js");
 
-            using (new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, javaScript2.Replace("sum", "replace"));
@@ -755,7 +756,7 @@ namespace SquishIt.Tests
             var file1 = TestUtilities.PreparePath(Environment.CurrentDirectory + "\\" + path + "\\file1.js");
             var file2 = TestUtilities.PreparePath(Environment.CurrentDirectory + "\\" + path + "\\file2.js");
 
-            using (new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, javaScript2.Replace("sum", "replace"));
@@ -788,8 +789,8 @@ namespace SquishIt.Tests
 
             var preprocessor = new StubScriptPreprocessor();
 
-            using (new ScriptPreprocessorScope<StubScriptPreprocessor>(preprocessor))
-            using (new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            using(new ScriptPreprocessorScope<StubScriptPreprocessor>(preprocessor))
+            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, content);
@@ -820,7 +821,7 @@ namespace SquishIt.Tests
             var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.js");
             var file2 = TestUtilities.PrepareRelativePath(path + "\\file2.js");
 
-            using (new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, javaScript2.Replace("sum", "replace"));
@@ -852,7 +853,7 @@ namespace SquishIt.Tests
             var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.js");
             var file2 = TestUtilities.PrepareRelativePath(path + "\\file2.js");
 
-            using (new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
+            using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();
                 frf.SetContentsForFile(file1, javaScript2.Replace("sum", "replace"));
@@ -1120,7 +1121,7 @@ namespace SquishIt.Tests
                 .WithHasher(hasher)
                 .Create();
 
-            using (new HttpContextScope(context.Object))
+            using(new HttpContextScope(context.Object))
             {
                 javaScriptBundle
                     .ForceDebug()
@@ -1147,7 +1148,7 @@ namespace SquishIt.Tests
                 .WithHasher(hasher)
                 .Create();
 
-            using (new HttpContextScope(context.Object))
+            using(new HttpContextScope(context.Object))
             {
                 javaScriptBundle
                     .ForceRelease()
@@ -1166,7 +1167,7 @@ namespace SquishIt.Tests
         public void RenderRelease_OmitsRenderedTag_IfOnlyRemoteAssets()
         {
             //this is rendering tag correctly but incorrectly(?) merging both files
-            using (new ResolverFactoryScope(typeof(Framework.Resolvers.HttpResolver).FullName, StubResolver.ForFile("http://www.someurl.com/css/first.css")))
+            using(new ResolverFactoryScope(typeof(Framework.Resolvers.HttpResolver).FullName, StubResolver.ForFile("http://www.someurl.com/css/first.css")))
             {
                 string tag = javaScriptBundleFactory
                     .WithHasher(hasher)
@@ -1318,7 +1319,7 @@ namespace SquishIt.Tests
                 Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
             }
 
-            using (new HttpContextScope(debugContext.Object))
+            using(new HttpContextScope(debugContext.Object))
             {
                 var tag = javaScriptBundleFactory
                     .Create()
@@ -1329,7 +1330,7 @@ namespace SquishIt.Tests
                 Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
             }
 
-            using (new HttpContextScope(nonDebugContext.Object))
+            using(new HttpContextScope(nonDebugContext.Object))
             {
                 var tag = javaScriptBundleFactory
                     .Create()
@@ -1381,7 +1382,7 @@ namespace SquishIt.Tests
                 Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
             }
 
-            using (new HttpContextScope(debugContext.Object))
+            using(new HttpContextScope(debugContext.Object))
             {
                 var tag = javaScriptBundleFactory
                     .Create()
@@ -1392,7 +1393,7 @@ namespace SquishIt.Tests
                 Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
             }
 
-            using (new HttpContextScope(nonDebugContext.Object))
+            using(new HttpContextScope(nonDebugContext.Object))
             {
                 var tag = javaScriptBundleFactory
                     .Create()

@@ -389,11 +389,10 @@ namespace SquishIt.Tests
             Assert.AreEqual(minifiedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_embedded.css")]);
         }
 
-        [Test, Platform(Exclude = "Unix, Linux, Mono")]//WebForms.js not available in Mono's System.Web
+        [Test]
         public void CanBundleCssWithRootEmbeddedResource()
         {
             //this only tests that the resource can be resolved
-            //using a .js file because the resource still needs to be found - I am not sure how to add a resource to the global namespace
             CSSBundle cssBundle = cssBundleFactory
                 .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
@@ -401,7 +400,7 @@ namespace SquishIt.Tests
                 .Create();
 
             string tag = cssBundle
-                            .AddRootEmbeddedResource("/css/first.css", "System.Web://WebForms.js") 
+                            .AddRootEmbeddedResource("~/js/test.css", "SquishIt.Tests://RootEmbedded.css")
                             .Render("/css/output_embedded.css");
 
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_embedded.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
