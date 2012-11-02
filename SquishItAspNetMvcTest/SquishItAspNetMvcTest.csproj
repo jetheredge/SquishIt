@@ -55,8 +55,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\js\minifyjs_test.js" />
+    <Content Include="assets\styles\processedimport_test1.css" />
     <Content Include="assets\styles\folder_test\folder_test1.css" />
     <Content Include="assets\styles\folder_test\subfolder\folder_test2.css" />
+    <Content Include="assets\styles\import_subfolder\import_test2.css" />
     <Content Include="assets\styles\import_test2.css" />
     <Content Include="assets\styles\import_test1.css" />
     <Content Include="assets\styles\lesstest.less.css" />
@@ -90,6 +92,7 @@
     <Content Include="Views\DebuggingBehavior\ForceViaPredicate.cshtml" />
     <Content Include="Views\Features\RootEmbeddedResource.cshtml" />
     <Content Include="Views\Features\EmbeddedResource.cshtml" />
+    <Content Include="Views\Features\ProcessImports.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Preprocessors\Hogan.cshtml" />

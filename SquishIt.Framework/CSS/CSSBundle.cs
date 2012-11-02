@@ -74,7 +74,9 @@ namespace SquishIt.Framework.CSS
 
         string ProcessImport(string file, string outputFile, string css)
         {
-            var sourcePath = FileSystem.ResolveFileSystemPathToAppRelative(Path.GetDirectoryName(file)) + "/";
+            //https://github.com/jetheredge/SquishIt/issues/215
+            //if sourcePath is used below and doesn't start with a /, the path is not resolved relative to site root but relative to current folder
+            var sourcePath = "/" + (FileSystem.ResolveFileSystemPathToAppRelative(Path.GetDirectoryName(file)) + "/").TrimStart("/");
 
             return IMPORT_PATTERN.Replace(css, match =>
             {
