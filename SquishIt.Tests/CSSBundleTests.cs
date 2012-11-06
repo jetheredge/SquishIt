@@ -390,6 +390,29 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanBundleCssWithEmbeddedResourceAndPathRewrites()
+        {
+            var cssWithRelativePath = @".lightbox {
+background:url(images/button-loader.gif) #ccc;
+}";
+            var expectedCss = @".lightbox{background:url(css/images/button-loader.gif) #ccc}";
+
+            CSSBundle cssBundle = cssBundleFactory
+                .WithHasher(hasher)
+                .WithDebuggingEnabled(false)
+                .WithContents(cssWithRelativePath)
+                .Create();
+
+            string tag = cssBundle
+                            .AddEmbeddedResource("/css/first.css", "SquishIt.Tests://EmbeddedResource.Embedded.css")
+                            .Render("/output_embedded.css");
+
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/output_embedded.css?r=E6DC19BBDCC25B77CF0A8B3D5D85E6FA\" />", tag);
+            Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
+            Assert.AreEqual(expectedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"output_embedded.css")]);
+        }
+
+        [Test]
         public void CanBundleCssWithRootEmbeddedResource()
         {
             //this only tests that the resource can be resolved

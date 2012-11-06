@@ -106,7 +106,7 @@ namespace SquishIt.Framework.CSS
         {
             assets.SelectMany(a => a.IsArbitrary
                                        ? new[] { PreprocessArbitrary(a) }.AsEnumerable()
-                                       : GetFilesForSingleAsset(a).Select(f => ProcessFile(f, outputFile, a.Minify)))
+                                       : GetFilesForSingleAsset(a).Select(f => ProcessFile(f, outputFile, a)))
                 .ToList()
                 .Distinct()
                 .Aggregate(sb, (b, s) =>
@@ -116,9 +116,10 @@ namespace SquishIt.Framework.CSS
                                    });
         }
 
-        protected override string ProcessFile(string file, string outputFile, bool minify)
+        protected override string ProcessFile(string file, string outputFile, Asset originalAsset)
         {
-            return MinifyIfNeeded(ProcessCssFile(file, outputFile), minify);
+            var sourcePath = originalAsset.IsEmbeddedResource ? FileSystem.ResolveAppRelativePathToFileSystem(originalAsset.LocalPath) : file;
+            return MinifyIfNeeded(ProcessCssFile(sourcePath, outputFile), originalAsset.Minify);
         }
 
         string ProcessCssFile(string file, string outputFile, bool asImport = false)

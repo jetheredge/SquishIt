@@ -22,7 +22,7 @@ namespace SquishIt.Framework.Base
         protected abstract IEnumerable<string> disallowedExtensions { get; }
         protected abstract string defaultExtension { get; }
         protected string debugExtension { get { return ".squishit.debug" + defaultExtension.ToLowerInvariant(); } }
-        protected abstract string ProcessFile(string file, string outputFile, bool minify);
+        protected abstract string ProcessFile(string file, string outputFile, Asset originalAsset);
 
         internal BundleState bundleState;
         readonly IBundleCache bundleCache;
