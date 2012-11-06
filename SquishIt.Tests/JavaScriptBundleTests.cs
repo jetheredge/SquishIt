@@ -41,16 +41,15 @@ namespace SquishIt.Tests
         string minifiedJavaScript2 = "function sum(n,t){return n+t};";
 
         JavaScriptBundleFactory javaScriptBundleFactory;
-        IHasher hasher;
 
         [SetUp]
         public void Setup()
         {
             javaScriptBundleFactory = new JavaScriptBundleFactory()
-                .WithDebuggingEnabled(false);
-            javaScriptBundleFactory.FileReaderFactory.SetContents(javaScript);
-            var retryableFileOpener = new RetryableFileOpener();
-            hasher = new Hasher(retryableFileOpener);
+                .WithDebuggingEnabled(false)
+                .WithHasher(new StubHasher("hash"))
+                .WithContents(javaScript);
+            //javaScriptBundleFactory.FileReaderFactory.SetContents(javaScript);
         }
 
         [Test]
@@ -58,12 +57,11 @@ namespace SquishIt.Tests
         {
             var tag = javaScriptBundleFactory
                     .WithDebuggingEnabled(false)
-                    .WithHasher(hasher)
                     .Create()
                     .Add("~/js/test.js")
                     .Render("~/js/output_1.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_1.js?r=7A22C17AD1D18D091F274599E8644755\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_1.js?r=hash\"></script>", tag);
             Assert.AreEqual(minifiedJavaScript, javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_1.js")]);
         }
 
@@ -77,13 +75,12 @@ namespace SquishIt.Tests
             javaScriptBundleFactory.FileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(secondPath), javaScript2);
 
             var tag = javaScriptBundleFactory
-                .WithHasher(hasher)
                 .Create()
                 .AddMinified(firstPath)
                 .Add(secondPath)
                 .Render("script.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"script.js?r=A3E320D2C20229B3A4E1DE05B935A25F\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"script.js?r=hash\"></script>", tag);
 
             Assert.AreEqual(1, javaScriptBundleFactory.FileWriterFactory.Files.Count);
             var output = TestUtilities.NormalizeLineEndings(javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath("script.js")]);
@@ -95,13 +92,12 @@ namespace SquishIt.Tests
         public void CanBundleJavascriptWithMinifiedStrings()
         {
             var tag = javaScriptBundleFactory
-                .WithHasher(hasher)
                 .Create()
                 .AddMinifiedString(javaScriptPreMinified)
                 .AddString(javaScript2)
                 .Render("script.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"script.js?r=A3E320D2C20229B3A4E1DE05B935A25F\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"script.js?r=hash\"></script>", tag);
 
             Assert.AreEqual(1, javaScriptBundleFactory.FileWriterFactory.Files.Count);
             var output = TestUtilities.NormalizeLineEndings(javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath("script.js")]);
@@ -140,13 +136,12 @@ namespace SquishIt.Tests
                     .WithDebuggingEnabled(false)
                     .WithFileReaderFactory(frf)
                     .WithFileWriterFactory(writerFactory)
-                    .WithHasher(new StubHasher("hashy"))
                     .Create()
                     .AddDirectory(path)
                     .AddMinifiedDirectory(path2)
                     .Render("~/output.js");
 
-                Assert.AreEqual("<script type=\"text/javascript\" src=\"output.js?r=hashy\"></script>", tag);
+                Assert.AreEqual("<script type=\"text/javascript\" src=\"output.js?r=hash\"></script>", tag);
 
                 var content = writerFactory.Files[TestUtilities.PrepareRelativePath(@"output.js")];
                 Assert.True(content.StartsWith(minifiedJavaScript));
@@ -164,7 +159,6 @@ namespace SquishIt.Tests
             javaScriptBundleFactory.FileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(secondPath), javaScript2);
 
             string tag = javaScriptBundleFactory
-                            .WithHasher(hasher)
                             .Create()
                             .Add(firstPath)
                             .Add(secondPath)
@@ -172,14 +166,13 @@ namespace SquishIt.Tests
                             .Render("/js/output.js");
 
             string tagNoBaseHref = javaScriptBundleFactory
-                            .WithHasher(hasher)
                             .Create()
                             .Add(firstPath)
                             .Add(secondPath)
                             .Render("/js/output.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://subdomain.domain.com/js/output.js?r=CB8512CA03217B9A95DD29B04B85CE5C\"></script>", tag);
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"/js/output.js?r=CB8512CA03217B9A95DD29B04B85CE5C\"></script>", tagNoBaseHref);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://subdomain.domain.com/js/output.js?r=hash\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"/js/output.js?r=hash\"></script>", tagNoBaseHref);
         }
 
         [Test]
@@ -192,7 +185,6 @@ namespace SquishIt.Tests
             javaScriptBundleFactory.FileReaderFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(secondPath), javaScript2);
 
             javaScriptBundleFactory
-                .WithHasher(hasher)
                 .Create()
                 .Add(firstPath)
                 .Add(secondPath)
@@ -200,31 +192,28 @@ namespace SquishIt.Tests
                 .AsNamed("leBundle", "/js/output.js");
 
             var tag = javaScriptBundleFactory
-                            .WithHasher(hasher)
                             .Create()
                 .WithOutputBaseHref("http://subdomain.domain.com")
                 .RenderNamed("leBundle");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://subdomain.domain.com/js/output.js?r=CB8512CA03217B9A95DD29B04B85CE5C\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://subdomain.domain.com/js/output.js?r=hash\"></script>", tag);
         }
 
         [Test]
         public void CanBundleJavaScriptWithQuerystringParameter()
         {
             var tag = javaScriptBundleFactory
-                    .WithHasher(hasher)
                     .Create()
                     .Add("~/js/test.js")
                     .Render("~/js/output_querystring.js?v=2");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_querystring.js?v=2&r=7A22C17AD1D18D091F274599E8644755\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_querystring.js?v=2&r=hash\"></script>", tag);
         }
 
         [Test]
         public void CanBundleJavaScriptWithoutRevisionHash()
         {
             var tag = javaScriptBundleFactory
-                    .WithHasher(hasher)
                     .Create()
                     .Add("~/js/test.js")
                     .WithoutRevisionHash()
@@ -237,17 +226,15 @@ namespace SquishIt.Tests
         public void CanCreateNamedBundle()
         {
             javaScriptBundleFactory
-                    .WithHasher(hasher)
                     .Create()
                     .Add("~/js/test.js")
                     .AsNamed("TestNamed", "~/js/output_namedbundle.js");
 
             var tag = javaScriptBundleFactory
-                            .WithHasher(hasher)
                             .Create()
                             .RenderNamed("TestNamed");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_namedbundle.js?r=7A22C17AD1D18D091F274599E8644755\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_namedbundle.js?r=hash\"></script>", tag);
             Assert.AreEqual(minifiedJavaScript, javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_namedbundle.js")]);
         }
 
@@ -255,13 +242,12 @@ namespace SquishIt.Tests
         public void CanBundleJavaScriptWithRemote()
         {
             var tag = javaScriptBundleFactory
-                    .WithHasher(hasher)
                     .Create()
                     .AddRemote("~/js/test.js", "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js")
                     .Add("~/js/test.js")
                     .Render("~/js/output_1_2.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_1_2.js?r=7A22C17AD1D18D091F274599E8644755\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_1_2.js?r=hash\"></script>", tag);
             Assert.AreEqual(minifiedJavaScript, javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_1_2.js")]);
         }
 
@@ -269,31 +255,28 @@ namespace SquishIt.Tests
         public void CanBundleJavaScriptWithRemoteAndQuerystringParameter()
         {
             var tag = javaScriptBundleFactory
-                    .WithHasher(hasher)
                     .Create()
                     .AddRemote("~/js/test.js", "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js")
                     .Add("~/js/test.js")
                     .Render("~/js/output_querystring.js?v=2_2");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_querystring.js?v=2_2&r=7A22C17AD1D18D091F274599E8644755\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_querystring.js?v=2_2&r=hash\"></script>", tag);
         }
 
         [Test]
         public void CanCreateNamedBundleWithRemote()
         {
             javaScriptBundleFactory
-                    .WithHasher(hasher)
                     .Create()
                     .AddRemote("~/js/test.js", "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js")
                     .Add("~/js/test.js")
                     .AsNamed("TestCdn", "~/js/output_3_2.js");
 
             var tag = javaScriptBundleFactory
-                            .WithHasher(hasher)
                             .Create()
                             .RenderNamed("TestCdn");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_3_2.js?r=7A22C17AD1D18D091F274599E8644755\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script><script type=\"text/javascript\" src=\"js/output_3_2.js?r=hash\"></script>", tag);
             Assert.AreEqual(minifiedJavaScript, javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_3_2.js")]);
         }
 
@@ -301,12 +284,11 @@ namespace SquishIt.Tests
         public void CanBundleJavaScriptWithEmbeddedResource()
         {
             var tag = javaScriptBundleFactory
-                    .WithHasher(hasher)
                     .Create()
                     .AddEmbeddedResource("~/js/test.js", "SquishIt.Tests://EmbeddedResource.Embedded.js")
                     .Render("~/js/output_Embedded.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_Embedded.js?r=7A22C17AD1D18D091F274599E8644755\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_Embedded.js?r=hash\"></script>", tag);
             Assert.AreEqual(minifiedJavaScript, javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_Embedded.js")]);
             Assert.AreEqual(1, javaScriptBundleFactory.FileWriterFactory.Files.Count);
         }
@@ -317,12 +299,11 @@ namespace SquishIt.Tests
             //this only tests that the resource can be resolved
             var tag = javaScriptBundleFactory
                     .WithDebuggingEnabled(false)
-                    .WithHasher(hasher)
                     .Create()
                     .AddRootEmbeddedResource("~/js/test.js", "SquishIt.Tests://RootEmbedded.js")
                     .Render("~/js/output_Embedded.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_Embedded.js?r=7A22C17AD1D18D091F274599E8644755\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_Embedded.js?r=hash\"></script>", tag);
             Assert.AreEqual(1, javaScriptBundleFactory.FileWriterFactory.Files.Count);
             Assert.AreEqual(minifiedJavaScript, javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_Embedded.js")]);
         }
@@ -332,7 +313,6 @@ namespace SquishIt.Tests
         {
             var tag = javaScriptBundleFactory
                     .WithDebuggingEnabled(true)
-                    .WithHasher(hasher)
                     .Create()
                     .AddEmbeddedResource("~/js/test.js", "SquishIt.Tests://EmbeddedResource.Embedded.js")
                     .Render("~/js/output_Embedded.js");
@@ -346,7 +326,6 @@ namespace SquishIt.Tests
         {
             var debugJavaScriptBundle = javaScriptBundleFactory
                 .WithDebuggingEnabled(true)
-                .WithHasher(hasher)
                 .Create();
 
             debugJavaScriptBundle
@@ -364,7 +343,6 @@ namespace SquishIt.Tests
         {
             var debugJavaScriptBundle = javaScriptBundleFactory
                 .WithDebuggingEnabled(true)
-                .WithHasher(hasher)
                 .Create();
 
             using(new ScriptPreprocessorScope<StubScriptPreprocessor>(new StubScriptPreprocessor()))
@@ -384,12 +362,10 @@ namespace SquishIt.Tests
         {
             var debugJavaScriptBundle = javaScriptBundleFactory
                 .WithDebuggingEnabled(true)
-                .WithHasher(hasher)
                 .Create();
 
             var debugJavaScriptBundle2 = javaScriptBundleFactory
                 .WithDebuggingEnabled(true)
-                .WithHasher(hasher)
                 .Create();
 
             debugJavaScriptBundle
@@ -414,7 +390,6 @@ namespace SquishIt.Tests
         {
             var debugJavaScriptBundle = javaScriptBundleFactory
                 .WithDebuggingEnabled(true)
-                .WithHasher(hasher)
                 .Create();
 
             debugJavaScriptBundle
@@ -431,13 +406,12 @@ namespace SquishIt.Tests
         public void CanCreateBundleWithNullMinifier()
         {
             var tag = javaScriptBundleFactory
-                    .WithHasher(hasher)
                     .Create()
                     .Add("~/js/test.js")
                     .WithMinifier<NullMinifier>()
                     .Render("~/js/output_6.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_6.js?r=89F36590BFD47B9B448FE958E8747B5E\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_6.js?r=hash\"></script>", tag);
             Assert.AreEqual(javaScript + "\n;", javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PreparePath(Environment.CurrentDirectory + @"\js\output_6.js")]);
         }
 
@@ -445,13 +419,12 @@ namespace SquishIt.Tests
         public void CanCreateBundleWithJsMinMinifer()
         {
             var tag = javaScriptBundleFactory
-                    .WithHasher(hasher)
                     .Create()
                     .Add("~/js/test.js")
                     .WithMinifier<JsMinMinifier>()
                     .Render("~/js/output_7.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_7.js?r=A36C83E01CD1B7E36912834C428E713B\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_7.js?r=hash\"></script>", tag);
             Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;};", javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_7.js")]);
         }
 
@@ -459,13 +432,12 @@ namespace SquishIt.Tests
         public void CanCreateBundleWithJsMinMiniferByPassingInstance()
         {
             var tag = javaScriptBundleFactory
-                    .WithHasher(hasher)
                     .Create()
                     .Add("~/js/test.js")
                     .WithMinifier(new JsMinMinifier())
                     .Render("~/js/output_jsmininstance.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_jsmininstance.js?r=A36C83E01CD1B7E36912834C428E713B\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_jsmininstance.js?r=hash\"></script>", tag);
             Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;};", javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_jsmininstance.js")]);
         }
 
@@ -473,13 +445,12 @@ namespace SquishIt.Tests
         public void CanCreateEmbeddedBundleWithJsMinMinifer()
         {
             var tag = javaScriptBundleFactory
-                    .WithHasher(hasher)
                     .Create()
                     .AddEmbeddedResource("~/js/test.js", "SquishIt.Tests://EmbeddedResource.Embedded.js")
                     .WithMinifier<JsMinMinifier>()
                     .Render("~/js/output_embedded7.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_embedded7.js?r=A36C83E01CD1B7E36912834C428E713B\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_embedded7.js?r=hash\"></script>", tag);
             Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;};", javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_embedded7.js")]);
         }
 
@@ -489,7 +460,6 @@ namespace SquishIt.Tests
             javaScriptBundleFactory.FileReaderFactory.SetFileExists(false);
 
             var javaScriptBundle = javaScriptBundleFactory
-                .WithHasher(hasher)
                 .Create();
 
             javaScriptBundle
@@ -517,11 +487,9 @@ namespace SquishIt.Tests
             javaScriptBundleFactory.FileReaderFactory.SetFileExists(false);
 
             var javaScriptBundle = javaScriptBundleFactory
-                .WithHasher(hasher)
                 .Create();
 
             var javaScriptBundle2 = javaScriptBundleFactory
-                .WithHasher(hasher)
                 .Create();
 
             javaScriptBundle
@@ -546,26 +514,24 @@ namespace SquishIt.Tests
         public void CanBundleJavaScriptWithHashInFilename()
         {
             var tag = javaScriptBundleFactory
-                    .WithHasher(hasher)
                     .Create()
                     .Add("~/js/test.js")
                     .Render("~/js/output_#.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_7A22C17AD1D18D091F274599E8644755.js\"></script>", tag);
-            Assert.AreEqual(minifiedJavaScript, javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_7A22C17AD1D18D091F274599E8644755.js")]);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_hash.js\"></script>", tag);
+            Assert.AreEqual(minifiedJavaScript, javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_hash.js")]);
         }
 
         [Test]
         public void CanBundleJavaScriptWithUnderscoresInName()
         {
             var tag = javaScriptBundleFactory
-                    .WithHasher(hasher)
                     .Create()
                     .Add("~/js/test_file.js")
                     .Render("~/js/outputunder_#.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/outputunder_7A22C17AD1D18D091F274599E8644755.js\"></script>", tag);
-            Assert.AreEqual(minifiedJavaScript, javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\outputunder_7A22C17AD1D18D091F274599E8644755.js")]);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/outputunder_hash.js\"></script>", tag);
+            Assert.AreEqual(minifiedJavaScript, javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\outputunder_hash.js")]);
         }
 
         [Test]
@@ -573,7 +539,6 @@ namespace SquishIt.Tests
         {
             var debugJavaScriptBundle = javaScriptBundleFactory
                 .WithDebuggingEnabled(true)
-                .WithHasher(hasher)
                 .Create();
 
             debugJavaScriptBundle
@@ -582,11 +547,10 @@ namespace SquishIt.Tests
                     .AsNamed("ForceRelease", "~/js/output_forcerelease.js");
 
             var tag = javaScriptBundleFactory
-                            .WithHasher(hasher)
                             .Create()
                             .RenderNamed("ForceRelease");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_forcerelease.js?r=7A22C17AD1D18D091F274599E8644755\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_forcerelease.js?r=hash\"></script>", tag);
             Assert.AreEqual(minifiedJavaScript, javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_forcerelease.js")]);
         }
 
@@ -594,27 +558,25 @@ namespace SquishIt.Tests
         public void CanBundleJavaScriptWithSingleAttribute()
         {
             var tag = javaScriptBundleFactory
-                    .WithHasher(hasher)
                     .Create()
                     .Add("~/js/test.js")
                     .WithAttribute("charset", "utf-8")
                     .Render("~/js/output_att.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" charset=\"utf-8\" src=\"js/output_att.js?r=7A22C17AD1D18D091F274599E8644755\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" charset=\"utf-8\" src=\"js/output_att.js?r=hash\"></script>", tag);
         }
 
         [Test]
         public void CanBundleJavaScriptWithSingleMultipleAttributes()
         {
             var tag = javaScriptBundleFactory
-                    .WithHasher(hasher)
                     .Create()
                     .Add("~/js/test.js")
                     .WithAttribute("charset", "utf-8")
                     .WithAttribute("other", "value")
                     .Render("~/js/output_att2.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" charset=\"utf-8\" other=\"value\" src=\"js/output_att2.js?r=7A22C17AD1D18D091F274599E8644755\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" charset=\"utf-8\" other=\"value\" src=\"js/output_att2.js?r=hash\"></script>", tag);
         }
 
         [Test]
@@ -622,7 +584,6 @@ namespace SquishIt.Tests
         {
             string tag = javaScriptBundleFactory
                 .WithDebuggingEnabled(true)
-                .WithHasher(hasher)
                 .Create()
                 .Add("~/js/test1.js")
                 .Add("~/js/test2.js")
@@ -636,7 +597,6 @@ namespace SquishIt.Tests
         public void CanCreateCachedBundle()
         {
             var javaScriptBundle = javaScriptBundleFactory
-                .WithHasher(hasher)
                 .Create();
 
             var tag = javaScriptBundle
@@ -645,7 +605,7 @@ namespace SquishIt.Tests
 
             var content = javaScriptBundle.RenderCached("Test");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_2.js?r=7A22C17AD1D18D091F274599E8644755\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_2.js?r=hash\"></script>", tag);
             Assert.AreEqual(minifiedJavaScript, content);
         }
 
@@ -653,7 +613,6 @@ namespace SquishIt.Tests
         public void CanCreateCachedBundleAssetTag()
         {
             var javaScriptBundle = javaScriptBundleFactory
-                .WithHasher(hasher)
                 .Create();
 
             javaScriptBundle
@@ -664,7 +623,7 @@ namespace SquishIt.Tests
             javaScriptBundle.ClearCache();
             var tag = javaScriptBundle.RenderCachedAssetTag("Test");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"assets/js/main?r=7A22C17AD1D18D091F274599E8644755\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"assets/js/main?r=hash\"></script>", tag);
             Assert.AreEqual(minifiedJavaScript, content);
         }
 
@@ -673,7 +632,6 @@ namespace SquishIt.Tests
         {
             var tag = javaScriptBundleFactory
                 .WithDebuggingEnabled(true)
-                .WithHasher(hasher)
                 .Create()
                     .Add("~/js/test.js")
                     .AsCached("Test", "~/js/output_2.js");
@@ -685,11 +643,9 @@ namespace SquishIt.Tests
         {
             var debugJavaScriptBundle = javaScriptBundleFactory
                 .WithDebuggingEnabled(true)
-                .WithHasher(hasher)
                 .Create();
 
             var javaScriptBundle = javaScriptBundleFactory
-                .WithHasher(hasher)
                 .Create();
 
             var tag1 = debugJavaScriptBundle
@@ -702,7 +658,7 @@ namespace SquishIt.Tests
             var tag2 = debugJavaScriptBundle.RenderCachedAssetTag("Test");
 
             Assert.AreEqual(tag1, tag2);
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"assets/js/main?r=7A22C17AD1D18D091F274599E8644755\"></script>", tag1);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"assets/js/main?r=hash\"></script>", tag1);
             Assert.AreEqual(minifiedJavaScript, content);
         }
 
@@ -710,13 +666,12 @@ namespace SquishIt.Tests
         public void WithoutTypeAttribute()
         {
             var tag = javaScriptBundleFactory
-                            .WithHasher(hasher)
                             .Create()
                     .Add("~/js/test.js")
                     .WithoutTypeAttribute()
                     .Render("~/js/output_1.js");
 
-            Assert.AreEqual("<script src=\"js/output_1.js?r=7A22C17AD1D18D091F274599E8644755\"></script>", tag);
+            Assert.AreEqual("<script src=\"js/output_1.js?r=hash\"></script>", tag);
             Assert.AreEqual(minifiedJavaScript, javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_1.js")]);
         }
 
@@ -964,7 +919,6 @@ namespace SquishIt.Tests
         {
             var debugJavaScriptBundle = javaScriptBundleFactory
                 .WithDebuggingEnabled(true)
-                .WithHasher(hasher)
                 .Create();
 
             var content = debugJavaScriptBundle
@@ -1046,13 +1000,12 @@ namespace SquishIt.Tests
         public void CanBundleJavaScriptWithDeferredLoad()
         {
             var tag = javaScriptBundleFactory
-                    .WithHasher(hasher)
                     .Create()
                     .WithDeferredLoad()
                     .Add("~/js/test.js")
                     .Render("~/js/output_1.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_1.js?r=7A22C17AD1D18D091F274599E8644755\" defer></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_1.js?r=hash\" defer></script>", tag);
             Assert.AreEqual(minifiedJavaScript, javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_1.js")]);
         }
 
@@ -1064,7 +1017,6 @@ namespace SquishIt.Tests
             var content = "content";
 
             javaScriptBundleFactory
-                .WithHasher(hasher)
                 .Create()
                 .WithReleaseFileRenderer(renderer.Object)
                 .AddString(content)
@@ -1082,7 +1034,6 @@ namespace SquishIt.Tests
             var content = "content";
 
             javaScriptBundleFactory
-                .WithHasher(hasher)
                 .Create()
                 .WithReleaseFileRenderer(renderer.Object)
                 .AddString(content)
@@ -1100,7 +1051,6 @@ namespace SquishIt.Tests
             var content = "content";
 
             javaScriptBundleFactory
-                .WithHasher(hasher)
                 .Create()
                 .WithReleaseFileRenderer(renderer.Object)
                 .AddString(content)
@@ -1118,7 +1068,6 @@ namespace SquishIt.Tests
             context.SetupGet(c => c.Request).Returns(request.Object);
 
             var javaScriptBundle = javaScriptBundleFactory
-                .WithHasher(hasher)
                 .Create();
 
             using(new HttpContextScope(context.Object))
@@ -1145,7 +1094,6 @@ namespace SquishIt.Tests
             context.SetupGet(c => c.Request).Returns(request.Object);
 
             var javaScriptBundle = javaScriptBundleFactory
-                .WithHasher(hasher)
                 .Create();
 
             using(new HttpContextScope(context.Object))
@@ -1160,17 +1108,16 @@ namespace SquishIt.Tests
 
             Assert.AreEqual(1, javaScriptBundleFactory.FileWriterFactory.Files.Count);
             Assert.AreEqual(minifiedJavaScript, javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath("combined.js")]);
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"combined.js?r=7A22C17AD1D18D091F274599E8644755\"></script>", tag);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"combined.js?r=hash\"></script>", tag);
         }
 
         [Test]
         public void RenderRelease_OmitsRenderedTag_IfOnlyRemoteAssets()
         {
             //this is rendering tag correctly but incorrectly(?) merging both files
-            using(new ResolverFactoryScope(typeof(Framework.Resolvers.HttpResolver).FullName, StubResolver.ForFile("http://www.someurl.com/css/first.css")))
+            using(new ResolverFactoryScope(typeof(HttpResolver).FullName, StubResolver.ForFile("http://www.someurl.com/css/first.css")))
             {
                 string tag = javaScriptBundleFactory
-                    .WithHasher(hasher)
                     .Create()
                     .ForceRelease()
                     .AddRemote("/css/first.js", "http://www.someurl.com/js/first.js")
@@ -1184,21 +1131,23 @@ namespace SquishIt.Tests
         [Test]
         public void CanRenderDistinctBundlesIfSameOutputButDifferentFileNames()
         {
+            var hasher = new Hasher(new RetryableFileOpener());
+
             javaScriptBundleFactory.FileReaderFactory.SetContents(javaScript);
 
             var tag = javaScriptBundleFactory
-                    .WithHasher(hasher)
-                    .Create()
-                    .Add("~/js/test.js")
-                    .Render("~/js/output#.js");
+                        .WithHasher(hasher)
+                        .Create()
+                        .Add("~/js/test.js")
+                        .Render("~/js/output#.js");
 
             javaScriptBundleFactory.FileReaderFactory.SetContents(javaScript2);
 
             var tag2 = javaScriptBundleFactory
-                            .WithHasher(hasher)
-                            .Create()
-                .Add("~/js/test2.js")
-                .Render("~/js/output#.js");
+                        .WithHasher(hasher)
+                        .Create()
+                        .Add("~/js/test2.js")
+                        .Render("~/js/output#.js");
 
             Assert.AreNotEqual(tag, tag2);
         }
@@ -1206,6 +1155,8 @@ namespace SquishIt.Tests
         [Test]
         public void CanRenderDistinctBundlesIfSameOutputButDifferentArbitrary()
         {
+            var hasher = new Hasher(new RetryableFileOpener());
+
             var tag = javaScriptBundleFactory
                     .WithHasher(hasher)
                     .Create()
@@ -1213,10 +1164,10 @@ namespace SquishIt.Tests
                     .Render("~/js/output#.js");
 
             var tag2 = javaScriptBundleFactory
-                .WithHasher(hasher)
-                .Create()
-                .AddString(javaScript2)
-                .Render("~/js/output#.js");
+                    .WithHasher(hasher)
+                    .Create()
+                    .AddString(javaScript2)
+                    .Render("~/js/output#.js");
 
             Assert.AreNotEqual(tag, tag2);
         }

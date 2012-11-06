@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -49,6 +50,7 @@ namespace SquishIt.Framework.Utilities
         /// <returns>A string containing an MD5 hash.</returns>
         public string GetHash(string content)
         {
+            if(content == null) throw new InvalidOperationException("Can't calculate hash for null content.");
             var bytes = Encoding.UTF8.GetBytes(content);
             var md5 = new MD5CryptoServiceProvider();
             var hashBytes = md5.ComputeHash(bytes);

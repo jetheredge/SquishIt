@@ -58,21 +58,20 @@ namespace SquishIt.Tests
 
 
         CSSBundleFactory cssBundleFactory;
-        IHasher hasher;
+        IHasher stubHasher;
 
         [SetUp]
         public void Setup()
         {
-            cssBundleFactory = new CSSBundleFactory();
-            var retryableFileOpener = new RetryableFileOpener();
-            hasher = new Hasher(retryableFileOpener);
+            stubHasher = new StubHasher("hash");
+            cssBundleFactory = new CSSBundleFactory()
+                .WithHasher(stubHasher);
         }
 
         [Test]
         public void CanBundleCss()
         {
             CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .Create();
 
@@ -87,7 +86,7 @@ namespace SquishIt.Tests
                             .Add(secondPath)
                             .Render("/css/output.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output.css?r=E621107093FBAB71C1FC4A4200B71AD4\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output.css?r=hash\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
 
             Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")]);
@@ -97,7 +96,6 @@ namespace SquishIt.Tests
         public void CanBundleCssWithMinifiedFiles()
         {
             CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .Create();
 
@@ -112,7 +110,7 @@ namespace SquishIt.Tests
                             .AddMinified(secondPath)
                             .Render("/css/output.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output.css?r=44A5824D3140BAAE5EF88C3383CD687D\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output.css?r=hash\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
 
             var output = TestUtilities.NormalizeLineEndings(cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")]);
@@ -125,7 +123,6 @@ namespace SquishIt.Tests
         public void CanBundleCssWithMinifiedStrings()
         {
             CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .Create();
 
@@ -134,7 +131,7 @@ namespace SquishIt.Tests
                             .AddMinifiedString(css2)
                             .Render("/css/output.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output.css?r=44A5824D3140BAAE5EF88C3383CD687D\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output.css?r=hash\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
 
             var output = TestUtilities.NormalizeLineEndings(cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")]);
@@ -191,7 +188,6 @@ namespace SquishIt.Tests
         public void CanBundleCssSpecifyingOutputLinkPath()
         {
             CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .Create();
 
@@ -207,7 +203,7 @@ namespace SquishIt.Tests
                             .WithOutputBaseHref("http//subdomain.domain.com")
                             .Render("/css/output.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"http//subdomain.domain.com/css/output.css?r=E621107093FBAB71C1FC4A4200B71AD4\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"http//subdomain.domain.com/css/output.css?r=hash\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
 
             Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")]);
@@ -216,9 +212,8 @@ namespace SquishIt.Tests
         [Test]
         public void CanBundleCssVaryingOutputBaseHrefRendersIndependentUrl()
         {
-            //Verify that depending on basehref, we get independantly cached and returned URLs
+            //Verify that depending on basehref, we get independently cached and returned URLs
             CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .Create();
 
@@ -235,7 +230,6 @@ namespace SquishIt.Tests
                             .Render("/css/output.css");
 
             CSSBundle cssBundleNoBaseHref = cssBundleFactory
-                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .Create();
 
@@ -244,8 +238,8 @@ namespace SquishIt.Tests
                             .Add(secondPath)
                             .Render("/css/output.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"http://subdomain.domain.com/css/output.css?r=E621107093FBAB71C1FC4A4200B71AD4\" />", tag);
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output.css?r=E621107093FBAB71C1FC4A4200B71AD4\" />", tagNoBaseHref);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"http://subdomain.domain.com/css/output.css?r=hash\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output.css?r=hash\" />", tagNoBaseHref);
         }
 
         [Test]
@@ -253,7 +247,6 @@ namespace SquishIt.Tests
         {
             //Verify that depending on basehref, we get independantly cached and returned URLs
             CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .Create();
 
@@ -272,20 +265,18 @@ namespace SquishIt.Tests
                 .AsNamed("leBundle", "/css/output.css");
 
             var tag = cssBundleFactory
-                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .Create()
                 .WithOutputBaseHref("http://subdomain.domain.com")
                 .RenderNamed("leBundle");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"http://subdomain.domain.com/css/output.css?r=E621107093FBAB71C1FC4A4200B71AD4\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"http://subdomain.domain.com/css/output.css?r=hash\" />", tag);
         }
 
         [Test]
         public void CanBundleCssWithQueryStringParameter()
         {
             CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                 .WithContents(css)
                 .WithDebuggingEnabled(false)
                 .Create();
@@ -301,14 +292,13 @@ namespace SquishIt.Tests
                             .Add(secondPath)
                             .Render("/css/output_querystring.css?v=1");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_querystring.css?v=1&r=E621107093FBAB71C1FC4A4200B71AD4\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_querystring.css?v=1&r=hash\" />", tag);
         }
 
         [Test]
         public void CanBundleCssWithoutRevisionHash()
         {
             CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                 .WithContents(css)
                 .WithDebuggingEnabled(false)
                 .Create();
@@ -326,7 +316,6 @@ namespace SquishIt.Tests
         public void CanBundleCssWithMediaAttribute()
         {
             CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .WithContents(css)
                 .Create();
@@ -343,7 +332,7 @@ namespace SquishIt.Tests
                             .WithAttribute("media", "screen")
                             .Render("/css/css_with_media_output.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"/css/css_with_media_output.css?r=E621107093FBAB71C1FC4A4200B71AD4\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"/css/css_with_media_output.css?r=hash\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
             Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}"
                             , cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\css_with_media_output.css")]);
@@ -353,10 +342,9 @@ namespace SquishIt.Tests
         public void CanBundleCssWithRemote()
         {
             //this is rendering tag correctly but incorrectly(?) merging both files
-            using(new ResolverFactoryScope(typeof(Framework.Resolvers.HttpResolver).FullName, StubResolver.ForFile("http://www.someurl.com/css/first.css")))
+            using(new ResolverFactoryScope(typeof(HttpResolver).FullName, StubResolver.ForFile("http://www.someurl.com/css/first.css")))
             {
                 CSSBundle cssBundle = cssBundleFactory
-                    .WithHasher(hasher)
                     .WithDebuggingEnabled(false)
                     .WithContents(css)
                     .Create();
@@ -365,7 +353,7 @@ namespace SquishIt.Tests
                     .AddRemote("/css/first.css", "http://www.someurl.com/css/first.css")
                     .Add("/css/second.css")
                     .Render("/css/output_remote.css");
-                Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"http://www.someurl.com/css/first.css\" /><link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_remote.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
+                Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"http://www.someurl.com/css/first.css\" /><link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_remote.css?r=hash\" />", tag);
                 Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
                 Assert.AreEqual(minifiedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_remote.css")]);
             }
@@ -375,7 +363,6 @@ namespace SquishIt.Tests
         public void CanBundleCssWithEmbeddedResource()
         {
             CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .WithContents(css)
                 .Create();
@@ -384,7 +371,7 @@ namespace SquishIt.Tests
                             .AddEmbeddedResource("/css/first.css", "SquishIt.Tests://EmbeddedResource.Embedded.css")
                             .Render("/css/output_embedded.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_embedded.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_embedded.css?r=hash\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
             Assert.AreEqual(minifiedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_embedded.css")]);
         }
@@ -398,7 +385,6 @@ background:url(images/button-loader.gif) #ccc;
             var expectedCss = @".lightbox{background:url(css/images/button-loader.gif) #ccc}";
 
             CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .WithContents(cssWithRelativePath)
                 .Create();
@@ -407,7 +393,7 @@ background:url(images/button-loader.gif) #ccc;
                             .AddEmbeddedResource("/css/first.css", "SquishIt.Tests://EmbeddedResource.Embedded.css")
                             .Render("/output_embedded.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/output_embedded.css?r=E6DC19BBDCC25B77CF0A8B3D5D85E6FA\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/output_embedded.css?r=hash\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
             Assert.AreEqual(expectedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"output_embedded.css")]);
         }
@@ -417,7 +403,6 @@ background:url(images/button-loader.gif) #ccc;
         {
             //this only tests that the resource can be resolved
             CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .WithContents(css)
                 .Create();
@@ -426,7 +411,7 @@ background:url(images/button-loader.gif) #ccc;
                             .AddRootEmbeddedResource("~/js/test.css", "SquishIt.Tests://RootEmbedded.css")
                             .Render("/css/output_embedded.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_embedded.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_embedded.css?r=hash\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
             Assert.AreEqual(minifiedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_embedded.css")]);
         }
@@ -451,7 +436,6 @@ background:url(images/button-loader.gif) #ccc;
         public void CanCreateNamedBundle()
         {
             CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .WithContents(css)
                 .Create();
@@ -463,7 +447,7 @@ background:url(images/button-loader.gif) #ccc;
             string tag = cssBundle.RenderNamed("Test");
 
             Assert.AreEqual(minifiedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")]);
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output.css?r=hash\" />", tag);
         }
 
         [Test]
@@ -488,7 +472,6 @@ background:url(images/button-loader.gif) #ccc;
         public void CanCreateNamedBundleWithMediaAttribute()
         {
             CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .WithContents(css)
                 .Create();
@@ -501,7 +484,7 @@ background:url(images/button-loader.gif) #ccc;
             string tag = cssBundle.RenderNamed("TestWithMedia");
 
             Assert.AreEqual(minifiedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")]);
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"css/output.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"css/output.css?r=hash\" />", tag);
         }
 
         [Test]
@@ -584,7 +567,6 @@ background:url(images/button-loader.gif) #ccc;
         public void CanBundleCssWithCompressorAttribute()
         {
             var cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                  .WithDebuggingEnabled(false)
                  .WithContents(css)
                  .Create();
@@ -601,7 +583,7 @@ background:url(images/button-loader.gif) #ccc;
                             .WithMinifier<YuiMinifier>()
                             .Render("/css/css_with_compressor_output.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/css_with_compressor_output.css?r=E621107093FBAB71C1FC4A4200B71AD4\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/css_with_compressor_output.css?r=hash\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
 
             Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}"
@@ -612,7 +594,6 @@ background:url(images/button-loader.gif) #ccc;
         public void CanBundleCssWithNullCompressorAttribute()
         {
             CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .WithContents(css)
                 .Create();
@@ -629,7 +610,7 @@ background:url(images/button-loader.gif) #ccc;
                             .WithMinifier<NullMinifier>()
                             .Render("/css/css_with_null_compressor_output.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/css_with_null_compressor_output.css?r=703408685CD7BEBA456CEBDC6271B02F\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/css_with_null_compressor_output.css?r=hash\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
             Assert.AreEqual(css + "\n" + css2 + "\n", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\css_with_null_compressor_output.css")]);
         }
@@ -638,7 +619,6 @@ background:url(images/button-loader.gif) #ccc;
         public void CanBundleCssWithCompressorInstance()
         {
             CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .Create();
 
@@ -654,7 +634,7 @@ background:url(images/button-loader.gif) #ccc;
                             .WithMinifier<MsMinifier>()
                             .Render("/css/compressor_instance.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/compressor_instance.css?r=E621107093FBAB71C1FC4A4200B71AD4\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/compressor_instance.css?r=hash\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
             Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}"
                             , cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\compressor_instance.css")]);
@@ -725,7 +705,6 @@ background:url(images/button-loader.gif) #ccc;
         public void CanRenderCssFileWithHashInFileName()
         {
             CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .WithContents(css)
                 .Create();
@@ -741,9 +720,9 @@ background:url(images/button-loader.gif) #ccc;
                             .Add(secondPath)
                             .Render("/css/output_#.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_E621107093FBAB71C1FC4A4200B71AD4.css\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/output_hash.css\" />", tag);
             Assert.AreEqual(1, cssBundleFactory.FileWriterFactory.Files.Count);
-            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_E621107093FBAB71C1FC4A4200B71AD4.css")]);
+            Assert.AreEqual("li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_hash.css")]);
         }
 
         [Test]
@@ -904,7 +883,6 @@ background:url(images/button-loader.gif) #ccc;
         public void CanCreateNamedBundleWithForceRelease()
         {
             CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                 .WithDebuggingEnabled(true)
                 .WithContents(css)
                 .Create();
@@ -917,14 +895,13 @@ background:url(images/button-loader.gif) #ccc;
             string tag = cssBundle.RenderNamed("TestForce");
 
             Assert.AreEqual(minifiedCss, cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\named_withforce.css")]);
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/named_withforce.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/named_withforce.css?r=hash\" />", tag);
         }
 
         [Test]
         public void CanBundleCssWithArbitraryAttributes()
         {
             CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                     .WithDebuggingEnabled(false)
                     .WithContents(css)
                     .Create();
@@ -942,7 +919,7 @@ background:url(images/button-loader.gif) #ccc;
                                             .WithAttribute("test", "other")
                                             .Render("/css/css_with_attribute_output.css");
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" test=\"other\" href=\"/css/css_with_attribute_output.css?r=E621107093FBAB71C1FC4A4200B71AD4\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" test=\"other\" href=\"/css/css_with_attribute_output.css?r=hash\" />", tag);
         }
 
         [Test]
@@ -967,7 +944,6 @@ background:url(images/button-loader.gif) #ccc;
         public void CanCreateCachedBundle()
         {
             CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .WithContents(css)
                 .Create();
@@ -979,14 +955,13 @@ background:url(images/button-loader.gif) #ccc;
             string contents = cssBundle.RenderCached("TestCached");
 
             Assert.AreEqual(minifiedCss, contents);
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"static/css/TestCached.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"static/css/TestCached.css?r=hash\" />", tag);
         }
 
         [Test]
         public void CanCreateCachedBundleAssetTag()
         {
             CSSBundle cssBundle = cssBundleFactory
-                .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
                 .WithContents(css)
                 .Create();
@@ -1000,7 +975,7 @@ background:url(images/button-loader.gif) #ccc;
             string tag = cssBundle.RenderCachedAssetTag("TestCached");
 
             Assert.AreEqual(minifiedCss, contents);
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"static/css/TestCached.css?r=67F81278D746D60E6F711B5A29747388\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"static/css/TestCached.css?r=hash\" />", tag);
         }
 
         [Test]
@@ -1036,7 +1011,6 @@ background:url(images/button-loader.gif) #ccc;
                 var tag = cssBundleFactory.WithDebuggingEnabled(true)
                         .WithFileReaderFactory(frf)
                         .WithFileWriterFactory(writerFactory)
-                        .WithHasher(new StubHasher("hashy"))
                         .Create()
                         .Add(path)
                         .Render("~/output.css");
@@ -1064,7 +1038,6 @@ background:url(images/button-loader.gif) #ccc;
                 var tag = cssBundleFactory.WithDebuggingEnabled(true)
                         .WithFileReaderFactory(frf)
                         .WithFileWriterFactory(writerFactory)
-                        .WithHasher(new StubHasher("hashy"))
                         .Create()
                         .Add(path)
                         .Render("~/output.css");
@@ -1095,7 +1068,6 @@ background:url(images/button-loader.gif) #ccc;
                 var tag = cssBundleFactory.WithDebuggingEnabled(true)
                         .WithFileReaderFactory(frf)
                         .WithFileWriterFactory(writerFactory)
-                        .WithHasher(new StubHasher("hashy"))
                         .Create()
                         .Add(path)
                         .Render("~/output.css");
@@ -1126,12 +1098,11 @@ background:url(images/button-loader.gif) #ccc;
                 var tag = cssBundleFactory.WithDebuggingEnabled(false)
                         .WithFileReaderFactory(frf)
                         .WithFileWriterFactory(writerFactory)
-                        .WithHasher(new StubHasher("hashy"))
                         .Create()
                         .Add(path)
                         .Render("~/output.css");
 
-                var expectedTag = "<link rel=\"stylesheet\" type=\"text/css\" href=\"output.css?r=hashy\" />";
+                var expectedTag = "<link rel=\"stylesheet\" type=\"text/css\" href=\"output.css?r=hash\" />";
                 Assert.AreEqual(expectedTag, tag);
 
                 var combined = "li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}";
@@ -1157,13 +1128,12 @@ background:url(images/button-loader.gif) #ccc;
                 var tag = cssBundleFactory.WithDebuggingEnabled(false)
                         .WithFileReaderFactory(frf)
                         .WithFileWriterFactory(writerFactory)
-                        .WithHasher(new StubHasher("hashy"))
                         .Create()
                         .Add(path)
                         .Add(file1)
                         .Render("~/output.css");
 
-                var expectedTag = "<link rel=\"stylesheet\" type=\"text/css\" href=\"output.css?r=hashy\" />";
+                var expectedTag = "<link rel=\"stylesheet\" type=\"text/css\" href=\"output.css?r=hash\" />";
                 Assert.AreEqual(expectedTag, tag);
 
                 var combined = "li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}li{margin-bottom:.1em;margin-left:0;margin-top:.1em}th{font-weight:normal;vertical-align:bottom}.FloatRight{float:right}.FloatLeft{float:left}";
@@ -1445,7 +1415,6 @@ background:url(images/button-loader.gif) #ccc;
             using(new ResolverFactoryScope(typeof(Framework.Resolvers.HttpResolver).FullName, StubResolver.ForFile("http://www.someurl.com/css/first.css")))
             {
                 CSSBundle cssBundle = cssBundleFactory
-                    .WithHasher(hasher)
                     .WithDebuggingEnabled(false)
                     .WithContents(css)
                     .Create();
@@ -1463,6 +1432,8 @@ background:url(images/button-loader.gif) #ccc;
         [Test]
         public void CanRenderDistinctBundlesIfSameOutputButDifferentFileNames()
         {
+            var hasher = new Hasher(new RetryableFileOpener());
+
             CSSBundle cssBundle = cssBundleFactory
                 .WithHasher(hasher)
                 .WithDebuggingEnabled(false)
@@ -1491,6 +1462,8 @@ background:url(images/button-loader.gif) #ccc;
         [Test]
         public void CanRenderDistinctBundlesIfSameOutputButDifferentArbitrary()
         {
+            var hasher = new Hasher(new RetryableFileOpener());
+
             CSSBundle cssBundle = cssBundleFactory
                 .WithHasher(hasher)
                 .WithDebuggingEnabled(false)

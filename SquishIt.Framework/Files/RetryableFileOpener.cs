@@ -19,7 +19,7 @@ namespace SquishIt.Framework.Files
         /// It attempt to open the file in increasingly longer periods and throw an exception if it cannot open it within the
         /// specified number of retries.
         /// </remarks>
-        public FileStream OpenFileStream(FileInfo fileInfo, int retry, FileMode fileMode, FileAccess fileAccess, FileShare fileShare)
+        public Stream OpenFileStream(FileInfo fileInfo, int retry, FileMode fileMode, FileAccess fileAccess, FileShare fileShare)
         {
             return OpenFileStream(fileInfo.FullName, retry, fileMode, fileAccess, fileShare);
         }
@@ -37,7 +37,7 @@ namespace SquishIt.Framework.Files
         /// It attempt to open the file in increasingly longer periods and throw an exception if it cannot open it within the
         /// specified number of retries.
         /// </remarks>
-        public FileStream OpenFileStream(string filePath, int retry, FileMode fileMode, FileAccess fileAccess, FileShare fileShare)
+        public Stream OpenFileStream(string filePath, int retry, FileMode fileMode, FileAccess fileAccess, FileShare fileShare)
         {
             var delay = 0;
 

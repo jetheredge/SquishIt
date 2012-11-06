@@ -17,7 +17,7 @@ namespace SquishIt.Framework.Files
         /// It attempt to open the file in increasingly longer periods and throw an exception if it cannot open it within the
         /// specified number of retries.
         /// </remarks>
-        FileStream OpenFileStream(FileInfo fileInfo, int retry, FileMode fileMode, FileAccess fileAccess, FileShare fileShare);
+        Stream OpenFileStream(FileInfo fileInfo, int retry, FileMode fileMode, FileAccess fileAccess, FileShare fileShare);
 
         /// <summary>
         /// File might be locked when attempting to open it. This will attempt to open the file the number of times specified by <paramref name="retry"/>
@@ -32,7 +32,7 @@ namespace SquishIt.Framework.Files
         /// It attempt to open the file in increasingly longer periods and throw an exception if it cannot open it within the
         /// specified number of retries.
         /// </remarks>
-        FileStream OpenFileStream(string filePath, int retry, FileMode fileMode, FileAccess fileAccess, FileShare fileShare);
+        Stream OpenFileStream(string filePath, int retry, FileMode fileMode, FileAccess fileAccess, FileShare fileShare);
 
         /// <summary>
         /// File might be locked when attempting to open it. This will attempt to open the file the number of times specified by <paramref name="retry"/>
