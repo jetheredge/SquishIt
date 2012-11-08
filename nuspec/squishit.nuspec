@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>SquishIt</id>
-    <version>0.9.2-beta1</version>
+    <version>0.9.2-beta2</version>
     <authors>Justin Etheredge, Alex Ullrich</authors>
     <owners>Justin Etheredge, Alex Ullrich</owners>
     <projectUrl>https://github.com/jetheredge/SquishIt</projectUrl>
@@ -16,6 +16,8 @@
   </metadata>
   <files>
     <file src="..\SquishIt.Framework\bin\Release\SquishIt.Framework.dll" target="lib\SquishIt.Framework.dll" />
+    <file src="..\SquishIt.Framework\bin\Release\SquishIt.Framework.pdb" target="lib\SquishIt.Framework.pdb" />
     <file src="..\SquishIt.Mvc\bin\Release\SquishIt.Mvc.dll" target="optional\SquishIt.Mvc.dll" />
+    <file src="..\SquishIt.Mvc\bin\Release\SquishIt.Mvc.pdb" target="optional\SquishIt.Mvc.pdb" />
   </files>
 </package>
