@@ -1,6 +1,6 @@
 msbuild ..\SquishIt.sln /p:Configuration=Release
 for %%s in (..\nuspec\*.nuspec) do (
-	nuget pack %%s
+	nuget pack %%s -Symbols
 )
 for %%p in (*.nupkg) do (
 	nuget push %%p
