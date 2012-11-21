@@ -58,6 +58,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Content\App_Start\SquishItMsIeCoffeeScript.cs.pp" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
