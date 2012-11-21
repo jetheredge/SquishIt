@@ -1,6 +1,5 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.Framework", "SquishIt.Framework\SquishIt.Framework.csproj", "{50C3BC24-E534-4B78-8E8E-CB2C4053321D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.Tests", "SquishIt.Tests\SquishIt.Tests.csproj", "{9C25B211-82E0-43AC-A68C-4346E642D16C}"
@@ -27,6 +26,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.Hogan", "SquishIt.Hogan\SquishIt.Hogan.csproj", "{3A119E21-0961-4914-A459-A77522A8E414}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishItAspNetMvcTest", "SquishItAspNetMvcTest\SquishItAspNetMvcTest.csproj", "{8F1F1EEE-5C0C-46B8-8D76-F0777CBA4633}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.MsIeCoffeeScript", "SquishIt.MsIeCoffeeScript\SquishIt.MsIeCoffeeScript.csproj", "{92AC834F-D187-4ECF-B509-96CFFEA3397F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,6 +67,10 @@ Global
 		{8F1F1EEE-5C0C-46B8-8D76-F0777CBA4633}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F1F1EEE-5C0C-46B8-8D76-F0777CBA4633}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F1F1EEE-5C0C-46B8-8D76-F0777CBA4633}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92AC834F-D187-4ECF-B509-96CFFEA3397F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92AC834F-D187-4ECF-B509-96CFFEA3397F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92AC834F-D187-4ECF-B509-96CFFEA3397F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92AC834F-D187-4ECF-B509-96CFFEA3397F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,6 +80,7 @@ Global
 		{7746F80A-A9C4-4823-9A17-B375793A72FD} = {FD2AA282-971B-4E20-B5F7-E244A05627DC}
 		{EC304F39-5916-45ED-A289-ABEFF1EDD070} = {FD2AA282-971B-4E20-B5F7-E244A05627DC}
 		{3A119E21-0961-4914-A459-A77522A8E414} = {FD2AA282-971B-4E20-B5F7-E244A05627DC}
+		{92AC834F-D187-4ECF-B509-96CFFEA3397F} = {FD2AA282-971B-4E20-B5F7-E244A05627DC}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = SquishIt\SquishIt.csproj
