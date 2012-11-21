@@ -43,7 +43,7 @@ namespace SquishIt.MsIeCoffeeScript.Coffee
             {
                 _jsEngine = new MsieJsEngine(true);
                 _jsEngine.ExecuteResource(COFFEESCRIPT_LIBRARY_RESOURCE_NAME, GetType());
-                _jsEngine.Execute(string.Format(@"var {0} = function(code) {{ 	return CoffeeScript.compile(code, {{ bare: true }});}}", COMPILATION_FUNCTION_NAME));
+                _jsEngine.Execute(string.Format(@"var {0} = function(code) {{ 	return CoffeeScript.compile(code, {{ bare: false }});}}", COMPILATION_FUNCTION_NAME));
 
                 _initialized = true;
             }

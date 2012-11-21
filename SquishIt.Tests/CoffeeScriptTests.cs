@@ -1,7 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using SquishIt.CoffeeScript;
-using SquishIt.CoffeeScript.Coffee;
+using SquishIt.Framework;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Helpers;
@@ -20,15 +19,19 @@ namespace SquishIt.Tests
             javaScriptBundleFactory = new JavaScriptBundleFactory();
         }
 
-        [Test]
-        public void CanBundleJavascriptWithArbitraryCoffeeScript()
+        [TestCase(typeof(MsIeCoffeeScript.CoffeeScriptPreprocessor))]
+        [TestCase(typeof(CoffeeScript.CoffeeScriptPreprocessor))]
+        public void CanBundleJavascriptWithArbitraryCoffeeScript(Type preprocessorType)
         {
+            var preprocessor = Activator.CreateInstance(preprocessorType) as IPreprocessor;
+            Assert.NotNull(preprocessor);
+
             var coffee = "alert 'test' ";
 
             var tag = javaScriptBundleFactory
                 .WithDebuggingEnabled(false)
                 .Create()
-                .WithPreprocessor(new CoffeeScriptPreprocessor())
+                .WithPreprocessor(preprocessor)
                 .AddString(coffee, ".coffee")
                 .Render("~/brewed.js");
 
@@ -38,75 +41,23 @@ namespace SquishIt.Tests
             Assert.AreEqual(@"<script type=""text/javascript"" src=""brewed.js?r=hash""></script>", tag);
         }
 
-        [Test]
-        public void CanBundleJavascriptInDebugWithArbitraryCoffeeScript()
+        [TestCase(typeof(MsIeCoffeeScript.CoffeeScriptPreprocessor))]
+        [TestCase(typeof(CoffeeScript.CoffeeScriptPreprocessor))]
+        public void CanBundleJavascriptInDebugWithArbitraryCoffeeScript(Type preprocessorType)
         {
+            var preprocessor = Activator.CreateInstance(preprocessorType) as IPreprocessor;
+            Assert.NotNull(preprocessor);
+
             var coffee = "alert 'test' ";
 
             var tag = javaScriptBundleFactory
                 .WithDebuggingEnabled(true)
                 .Create()
-                .WithPreprocessor(new CoffeeScriptPreprocessor())
+                .WithPreprocessor(preprocessor)
                 .AddString(coffee, ".coffee")
                 .Render("~/brewed.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\">(function() {\n  alert('test');\n}).call(this);\n</script>\r\n", tag);
+            Assert.AreEqual("<script type=\"text/javascript\">(function() {\n\n  alert('test');\n\n}).call(this);\n</script>\n", TestUtilities.NormalizeLineEndings(tag));
         }
-    }
-
-    [TestFixture]
-    public class CoffeescriptCompilerTests
-    {
-        [Test, Platform(Exclude = "Unix, Linux, Mono")]
-        public void CompileWithSimpleAlertSucceeds()
-        {
-            var compiler = new CoffeeScriptCompiler();
-
-            string result = compiler.Compile("alert 'test' ");
-
-            Assert.AreEqual("(function() {\n  alert('test');\n}).call(this);\n", result);
-        }
-
-        [Test, Platform(Exclude = "Unix, Linux, Mono")]
-        public void CompileWithComplexScriptSucceeds()
-        {
-            string source = @"# Assignment:
-number   = 42
-opposite = true
-
-# Conditions:
-number = -42 if opposite
-
-# Functions:
-square = (x) -> x * x
-
-# Arrays:
-list = [1, 2, 3, 4, 5]
-
-# Objects:
-math =
-  root:   Math.sqrt
-  square: square
-  cube:   (x) -> x * square x
-
-# Splats:
-race = (winner, runners...) ->
-  print winner, runners
-
-# Existence:
-alert 'I knew it!' if elvis?";
-
-            var compiler = new CoffeeScriptCompiler();
-            compiler.Compile(source);
-        }
-
-        [Test, Platform(Include = "Unix, Linux, Mono")]
-        public void CompileFailsGracefullyOnMono()
-        {
-            var compiler = new CoffeeScriptCompiler();
-            var exception = Assert.Throws(typeof(NotSupportedException), () => compiler.Compile(""));
-            Assert.AreEqual("Coffeescript not yet supported for mono.", exception.Message);
-        }
-
     }
 }
