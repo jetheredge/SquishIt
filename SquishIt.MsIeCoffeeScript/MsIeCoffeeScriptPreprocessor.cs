@@ -13,8 +13,10 @@ namespace SquishIt.MsIeCoffeeScript
 
 		public override IProcessResult Process(string filePath, string content) 
         {
-            var compiler = new CoffeeScriptCompiler();
-			return new ProcessResult(compiler.Compile(content));
+		    using (var compiler = new CoffeeScriptCompiler())
+		    {
+		        return new ProcessResult(compiler.Compile(content));
+		    }
         }
     }
 }
