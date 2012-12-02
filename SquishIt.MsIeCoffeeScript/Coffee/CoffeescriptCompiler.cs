@@ -6,7 +6,7 @@ using MsieJavaScriptEngine.ActiveScript;
 
 namespace SquishIt.MsIeCoffeeScript.Coffee
 {
-    public class CoffeeScriptCompiler
+    public class CoffeeScriptCompiler : IDisposable
     {
         /// <summary>
         /// Name of resource, which contains a CoffeeScript-library
@@ -73,6 +73,47 @@ namespace SquishIt.MsIeCoffeeScript.Coffee
             }
 
             return newContent;
+        }
+
+        /// <summary>
+        /// Flag that object is destroyed
+        /// </summary>
+        private bool _disposed;
+
+
+        /// <summary>
+        /// Destructs instance of CoffeeScript-compiler
+        /// </summary>
+        ~CoffeeScriptCompiler()
+        {
+            Dispose(false);
+        }
+
+        /// <summary>
+        /// Destroys object
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Destroys object
+        /// </summary>
+        /// <param name="disposing">Flag, allowing destruction of 
+        /// managed objects contained in fields of class</param>
+        private void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                _disposed = true;
+
+                if (_jsEngine != null)
+                {
+                    _jsEngine.Dispose();
+                }
+            }
         }
     }
 }
