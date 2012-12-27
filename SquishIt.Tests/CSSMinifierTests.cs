@@ -13,7 +13,11 @@ namespace SquishIt.Tests
                                     margin-left:0;
                                     margin-top:0.1em;
                                 }
-
+                                /* comment */
+                                /*
+                                    multiline
+                                    comment
+                                */
                                 th {
                                     font-weight:normal;
                                     vertical-align:bottom;

@@ -13,7 +13,11 @@ namespace SquishIt.Tests
                                         {
                                             return a * b;
                                         }
-
+                                        //comment
+                                        /*
+                                            multiline
+                                            comment
+                                        */
                                         function sum(a, b){
                                             return a + b;
                                         }";
