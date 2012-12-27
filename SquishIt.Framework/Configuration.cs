@@ -2,6 +2,7 @@ using System;
 using SquishIt.Framework.CSS;
 using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.Minifiers;
+using SquishIt.Framework.Minifiers.CSS;
 using SquishIt.Framework.Minifiers.JavaScript;
 using SquishIt.Framework.Renderers;
 using MsMinifier = SquishIt.Framework.Minifiers.CSS.MsMinifier;
@@ -13,8 +14,8 @@ namespace SquishIt.Framework
     public class Configuration
     {
         static Configuration instance;
-        Type _defaultCssMinifier = typeof (MsMinifier);
-        Type _defaultJsMinifier = typeof (Minifiers.JavaScript.MsMinifier);
+        IMinifier<CSSBundle> _defaultCssMinifier = new MsMinifier();
+        IMinifier<JavaScriptBundle> _defaultJsMinifier = new Minifiers.JavaScript.MsMinifier();
         string _defaultOutputBaseHref;
         IRenderer _defaultReleaseRenderer;
         Func<bool> _defaultDebugPredicate;
@@ -42,7 +43,12 @@ namespace SquishIt.Framework
                 throw new InvalidCastException(
                     String.Format("Type '{0}' must implement '{1}' to be used for Css minification.",
                                   minifierType, typeof (IMinifier<CSSBundle>)));
-            _defaultCssMinifier = minifierType;
+            return UseMinifierForCss((IMinifier<CSSBundle>) Activator.CreateInstance(minifierType, true));
+        }
+
+        public Configuration UseMinifierForCss(IMinifier<CSSBundle> minifier)
+        {
+            _defaultCssMinifier = minifier;
             return this;
         }
 
@@ -58,7 +64,12 @@ namespace SquishIt.Framework
                 throw new InvalidCastException(
                     String.Format("Type '{0}' must implement '{1}' to be used for Javascript minification.",
                                   minifierType, typeof (IMinifier<JavaScriptBundle>)));
-            _defaultJsMinifier = minifierType;
+            return UseMinifierForJs((IMinifier<JavaScriptBundle>)Activator.CreateInstance(minifierType, true));
+        }
+
+        public Configuration UseMinifierForJs(IMinifier<JavaScriptBundle> minifier)
+        {
+            _defaultJsMinifier = minifier;
             return this;
         }
 
@@ -128,12 +139,12 @@ namespace SquishIt.Framework
 
         internal IMinifier<CSSBundle> DefaultCssMinifier()
         {
-            return (IMinifier<CSSBundle>) Activator.CreateInstance(_defaultCssMinifier, true);
+            return _defaultCssMinifier;
         }
 
         internal IMinifier<JavaScriptBundle> DefaultJsMinifier()
         {
-            return (IMinifier<JavaScriptBundle>) Activator.CreateInstance(_defaultJsMinifier, true);
+            return _defaultJsMinifier;
         }
 
         public Configuration UseReleaseRenderer(IRenderer releaseRenderer)
