@@ -4,15 +4,26 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div id="place-for-template">If you see this, the test has failed.</div>
+<div id="place-for-lambda-template"></div>
 @section JavaScript{
     @MvcHtmlString.Create(
         Bundle.JavaScript()
             .Add("/assets/js/hogan/hogan-2.0.0.js")
             .Add("/assets/templates/hogan/template1.hogan.html")
+            .Add("/assets/templates/hogan/lambda.hogan.html")
             .ForceRelease()
             .Render("/output/templates_#.js"))
     <script>
         var d = document.getElementById("place-for-template");
         d.innerHTML = JST["template1"].render({ message: "The test passed!" });
+        var obj = {
+            key1: "Hello, World!"
+        };
+        var l = document.getElementById("place-for-lambda-template");
+        l.innerHTML = JST["lambda"].render({
+            wrapper: function(key) {
+                return obj[key];
+            }
+        });
     </script>
 }

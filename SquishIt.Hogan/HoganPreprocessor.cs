@@ -17,11 +17,11 @@ namespace SquishIt.Hogan
 		public override IProcessResult Process(string filePath, string content)
         {
             var compiler = new HoganCompiler();
-            string template = compiler.Compile(content);
+            string renderFunc = compiler.Compile(content);
             string templateName = Path.GetFileName(filePath).Split('.').First();
             var sb = new StringBuilder();
             sb.AppendLine("var JST = JST || {};");
-            sb.AppendLine("JST['" + templateName + "'] = new Hogan.Template(" + template + ");");
+            sb.AppendLine("JST['" + templateName + "'] = new Hogan.Template(" + renderFunc + ",\"" + content + "\",Hogan,{});");
             return new ProcessResult(sb.ToString());
         }
     }
