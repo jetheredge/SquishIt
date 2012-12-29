@@ -47,7 +47,7 @@ namespace SquishIt.Tests
 
             var sb = new StringBuilder();
             sb.AppendLine(@"var JST = JST || {};");
-            sb.AppendLine(@"JST['test'] = new Hogan.Template(function(c,p,i){var _=this;_.b(i=i||"""");_.b(""<h1>"");_.b(_.v(_.f(""message"",c,p,0)));_.b(""</h1>"");return _.fl();;});");
+            sb.AppendLine(@"JST['test'] = new Hogan.Template(function(c,p,i){var _=this;_.b(i=i||"""");_.b(""<h1>"");_.b(_.v(_.f(""message"",c,p,0)));_.b(""</h1>"");return _.fl();;},""" + template + "\",Hogan,{});");
             var compiled = sb.ToString();
 
             Assert.AreEqual(1, writerFactory.Files.Count);
@@ -71,7 +71,7 @@ namespace SquishIt.Tests
 
             var sb = new StringBuilder();
             sb.AppendLine(@"<script type=""text/javascript"">var JST = JST || {};");
-            sb.AppendLine(@"JST['dummy'] = new Hogan.Template(function(c,p,i){var _=this;_.b(i=i||"""");_.b(""<h1>"");_.b(_.v(_.f(""message"",c,p,0)));_.b(""</h1>"");return _.fl();;});");
+            sb.AppendLine(@"JST['dummy'] = new Hogan.Template(function(c,p,i){var _=this;_.b(i=i||"""");_.b(""<h1>"");_.b(_.v(_.f(""message"",c,p,0)));_.b(""</h1>"");return _.fl();;},""" + template + "\",Hogan,{});");
             sb.AppendLine("</script>");
             Assert.AreEqual(sb.ToString(), tag);
         }
@@ -104,7 +104,7 @@ namespace SquishIt.Tests
 
             //are minifier's optimizations here OK?
             var compiled =
-                @"var JST=JST||{};JST.test=new Hogan.Template(function(n,t,i){var r=this;return r.b(i=i||""""),r.b(""<h1>""),r.b(r.v(r.f(""message"",n,t,0))),r.b(""</h1>""),r.fl()});";
+                @"var JST=JST||{};JST.test=new Hogan.Template(function(n,t,i){var r=this;return r.b(i=i||""""),r.b(""<h1>""),r.b(r.v(r.f(""message"",n,t,0))),r.b(""</h1>""),r.fl()},""" + template + "\",Hogan,{});";
 
             Assert.AreEqual(1, writerFactory.Files.Count);
             var expectedTag = "<script type=\"text/javascript\" src=\"template.js?r=hash\"></script>";
