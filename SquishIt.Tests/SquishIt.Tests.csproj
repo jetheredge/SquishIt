@@ -151,6 +151,10 @@
       <Project>{92AC834F-D187-4ECF-B509-96CFFEA3397F}</Project>
       <Name>SquishIt.MsIeCoffeeScript</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SquishIt.MsIeHogan\SquishIt.MsIeHogan.csproj">
+      <Project>{1776A1BF-5096-4833-9E28-59D9627A6700}</Project>
+      <Name>SquishIt.MsIeHogan</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SquishIt.Sass\SquishIt.Sass.csproj">
       <Project>{EC304F39-5916-45ED-A289-ABEFF1EDD070}</Project>
       <Name>SquishIt.Sass</Name>
