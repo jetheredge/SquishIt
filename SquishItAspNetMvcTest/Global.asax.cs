@@ -1,8 +1,13 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
-using SquishIt.CoffeeScript;
 using SquishIt.Framework;
+/*
+//uncomment this (and comment out MsIe equivalents) to test jurassic-based preprocessors
+using SquishIt.CoffeeScript;
 using SquishIt.Hogan;
+*/
+using SquishIt.MsIeCoffeeScript;
+using SquishIt.MsIeHogan;
 using SquishIt.Less;
 using SquishIt.Sass;
 
