@@ -1,10 +1,11 @@
 using System;
 using SquishIt.Framework.CSS;
+using SquishIt.Framework.Files;
 using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.Minifiers;
-using SquishIt.Framework.Minifiers.CSS;
 using SquishIt.Framework.Minifiers.JavaScript;
 using SquishIt.Framework.Renderers;
+using SquishIt.Framework.Utilities;
 using MsMinifier = SquishIt.Framework.Minifiers.CSS.MsMinifier;
 using NullMinifier = SquishIt.Framework.Minifiers.CSS.NullMinifier;
 using YuiMinifier = SquishIt.Framework.Minifiers.CSS.YuiMinifier;
@@ -19,10 +20,12 @@ namespace SquishIt.Framework
         string _defaultOutputBaseHref;
         IRenderer _defaultReleaseRenderer;
         Func<bool> _defaultDebugPredicate;
- 
+        IHasher _defaultHasher = new Hasher(new RetryableFileOpener());
+
         public static Configuration Instance
         {
             get { return (instance = instance ?? new Configuration()); }
+            internal set { instance = value; }
         }
 
         public Configuration()
@@ -180,6 +183,12 @@ namespace SquishIt.Framework
             return _defaultDebugPredicate;
         }
 
+        public Configuration UseHasher(IHasher hasher)
+        {
+            _defaultHasher = hasher;
+            return this;
+        }
+
         /// <summary>
         /// Mime-type used to serve Javascript content. Defaults to "application/javascript".
         /// To enable gzip compression in IIS change this to "application/x-javascript".
@@ -189,5 +198,10 @@ namespace SquishIt.Framework
         /// Mime-type used to serve CSS content. Defaults to "text/css".
         /// </summary>
         public string CssMimeType { get; set; }
+
+        internal IHasher DefaultHasher()
+        {
+            return _defaultHasher;
+        }
     }
 }
