@@ -21,7 +21,7 @@ namespace SquishIt.MsIeHogan
             string templateName = Path.GetFileName(filePath).Split('.').First();
             var sb = new StringBuilder();
             sb.AppendLine("var JST = JST || {};");
-            sb.AppendLine("JST['" + templateName + "'] = new Hogan.Template(" + renderFunc + ",\"" + content + "\",Hogan,{});");
+            sb.AppendLine("JST['" + templateName + "'] = new Hogan.Template(" + renderFunc + ",\"" + content.Replace("\"", "\\\"") + "\",Hogan,{});");
             return new ProcessResult(sb.ToString());
         }
     }
