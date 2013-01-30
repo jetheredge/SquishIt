@@ -5,11 +5,13 @@
 }
 <div id="place-for-template">If you see this, the test has failed.</div>
 <div id="place-for-lambda-template"></div>
+<div id="place-for-template2">If you see this, the test has failed.</div>
 @section JavaScript{
     @MvcHtmlString.Create(
         Bundle.JavaScript()
             .Add("/assets/js/hogan/hogan-2.0.0.js")
             .Add("/assets/templates/hogan/template1.hogan.html")
+            .Add("/assets/templates/hogan/template2.hogan.html")
             .Add("/assets/templates/hogan/lambda.hogan.html")
             .ForceRelease()
             .Render("/output/templates_#.js"))
@@ -25,5 +27,7 @@
                 return obj[key];
             }
         });
+        var d2 = document.getElementById("place-for-template2");
+        d2.innerHTML = JST["template2"].render();
     </script>
 }
