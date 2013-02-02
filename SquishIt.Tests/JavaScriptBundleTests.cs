@@ -628,6 +628,22 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanCreateCachedBundleAssetTag_When_Debugging()
+        {
+            var javaScriptBundle = javaScriptBundleFactory
+                .WithDebuggingEnabled(true)
+                .Create();
+
+            javaScriptBundle
+                    .Add("~/js/test.js")
+                    .AsCached("Test", "~/assets/js/main");
+
+            var tag = javaScriptBundle.RenderCachedAssetTag("Test");
+
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/test.js\"></script>\n", TestUtilities.NormalizeLineEndings(tag));
+        }
+
+        [Test]
         public void CanCreateCachedBundleWithDebug()
         {
             var tag = javaScriptBundleFactory

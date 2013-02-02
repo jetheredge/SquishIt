@@ -979,6 +979,22 @@ background:url(images/button-loader.gif) #ccc;
         }
 
         [Test]
+        public void CanCreateCachedBundleAssetTag_When_Debugging()
+        {
+            var cssBundle = cssBundleFactory
+                .WithDebuggingEnabled(true)
+                .Create();
+
+            cssBundle
+                .Add("~/css/temp.css")
+                .AsCached("TestCached", "~/static/css/TestCached.css");
+
+            var tag = cssBundle.RenderCachedAssetTag("TestCached");
+
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/temp.css\" />\n", TestUtilities.NormalizeLineEndings(tag));
+        }
+
+        [Test]
         public void CanCreateCachedBundleInDebugMode()
         {
             CSSBundle cssBundle = cssBundleFactory
