@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using NUnit.Framework;
 using SquishIt.Framework.Resolvers;
 
@@ -96,6 +97,26 @@ th {
             EmbeddedResourceResolver.ClearTempFiles();
 
             Assert.False(File.Exists(path));
+        }
+
+        [Test]
+        public void ResolveFolder_Standard()
+        {
+            var resolver = new StandardEmbeddedResourceResolver();
+
+            var ex = Assert.Throws<NotImplementedException>(() => resolver.ResolveFolder("", false, "", new string[0], new string[0]));
+
+            Assert.AreEqual("Adding entire directories only supported by FileSystemResolver.", ex.Message);
+        }
+
+        [Test]
+        public void ResolveFolder_Root()
+        {
+            var resolver = new RootEmbeddedResourceResolver();
+
+            var ex = Assert.Throws<NotImplementedException>(() => resolver.ResolveFolder("", false, "", new string[0], new string[0]));
+
+            Assert.AreEqual("Adding entire directories only supported by FileSystemResolver.", ex.Message);
         }
     }
 }
