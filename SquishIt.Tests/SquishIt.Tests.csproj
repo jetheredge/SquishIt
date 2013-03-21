@@ -95,6 +95,7 @@
     <Compile Include="CoffeescriptCompilerTests.cs" />
     <Compile Include="CoffeeScriptTests.cs" />
     <Compile Include="ConfigurationTests.cs" />
+    <Compile Include="EmbeddedResourceResolverTest.cs" />
     <Compile Include="HasherTests.cs" />
     <Compile Include="HoganTests.cs" />
     <Compile Include="ScriptPreprocessorPipelineTests.cs" />
