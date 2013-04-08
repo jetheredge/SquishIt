@@ -1,0 +1,1 @@
+find ../ -name *AssemblyInfo.cs -exec sed -i s/$1/$2/g {} ";"
