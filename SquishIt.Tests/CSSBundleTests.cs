@@ -69,6 +69,12 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanRenderEmptyBundle_WithHashInFilename()
+        {
+            cssBundleFactory.Create().Render("~/css/output_#.css");
+        }
+
+        [Test]
         public void CanBundleCss()
         {
             CSSBundle cssBundle = cssBundleFactory
