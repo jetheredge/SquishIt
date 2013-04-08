@@ -53,6 +53,12 @@ namespace SquishIt.Tests
         }
 
         [Test]
+        public void CanRenderEmptyBundle_WithHashInFilename()
+        {
+            javaScriptBundleFactory.Create().Render("~/js/output_#.js");
+        }
+
+        [Test]
         public void CanBundleJavaScript()
         {
             var tag = javaScriptBundleFactory

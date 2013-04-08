@@ -188,7 +188,7 @@ namespace SquishIt.Framework.Base
                                                .Select(a => a.IsRemote ? a.RemotePath :
                                                    a.IsArbitrary ? a.Content : a.LocalPath)
                                                .OrderBy(s => s)
-                                               .Aggregate((acc, val) => acc + val)) : string.Empty;
+                                               .Aggregate(string.Empty, (acc, val) => acc + val)) : string.Empty;
 
             key = CachePrefix + key + cacheUniquenessHash;
 
