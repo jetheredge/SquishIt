@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 using SquishIt.Framework.Base;
@@ -19,9 +20,11 @@ namespace SquishIt.Hogan
             var compiler = new HoganCompiler();
             string renderFunc = compiler.Compile(content);
             string templateName = Path.GetFileName(filePath).Split('.').First();
+		    string templateHtml = string.Join("\\r\"+\"\\n",
+		                           content.Replace("\"", "\\\"").Split(new[] {Environment.NewLine}, StringSplitOptions.None));
             var sb = new StringBuilder();
             sb.AppendLine("var JST = JST || {};");
-            sb.AppendLine("JST['" + templateName + "'] = new Hogan.Template(" + renderFunc + ",\"" + content.Replace("\"", "\\\"") + "\",Hogan,{});");
+            sb.AppendLine("JST['" + templateName + "'] = new Hogan.Template(" + renderFunc + ",\"" + templateHtml + "\",Hogan,{});");
             return new ProcessResult(sb.ToString());
         }
     }
