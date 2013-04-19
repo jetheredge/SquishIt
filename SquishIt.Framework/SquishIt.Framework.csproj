@@ -141,7 +141,6 @@
     <Compile Include="Utilities\IFilePathMutexProvider.cs" />
     <Compile Include="Utilities\IHasher.cs" />
     <Compile Include="Utilities\MachineConfigReader.cs" />
-    <Compile Include="Utilities\NamedState.cs" />
     <Compile Include="FileSystem.cs" />
     <Compile Include="Utilities\FilePathMutexProvider.cs" />
     <Compile Include="Utilities\TrustLevel.cs" />

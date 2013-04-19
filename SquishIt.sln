@@ -17,9 +17,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuspec", "nuspec", "{0723B20D-9241-4D11-9242-09E20F0C55A9}"
 	ProjectSection(SolutionItems) = preProject
 		nuspec\squishit.coffeescript.nuspec = nuspec\squishit.coffeescript.nuspec
-		nuspec\squishit.hogan.nuspec = nuspec\squishit.hogan.nuspec
 		nuspec\squishit.less.nuspec = nuspec\squishit.less.nuspec
-		nuspec\squishit.msiecoffeescript.nuspec = nuspec\squishit.msiecoffeescript.nuspec
 		nuspec\squishit.msiehogan.nuspec = nuspec\squishit.msiehogan.nuspec
 		nuspec\squishit.mvc.nuspec = nuspec\squishit.mvc.nuspec
 		nuspec\squishit.nuspec = nuspec\squishit.nuspec
