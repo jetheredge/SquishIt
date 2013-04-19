@@ -3,23 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Reflection;
+using SquishIt.Framework.Utilities;
 
 namespace SquishIt.Framework.Resolvers
 {
     public abstract class EmbeddedResourceResolver : IResolver
     {
-        internal static void ClearTempFiles()
-        {
-            foreach (var path in resolutions.Values)
-            {
-                File.Delete(path);
-            }
-
-            resolutions.Clear();
-        }
-
-        static readonly Dictionary<string, string> resolutions = new Dictionary<string, string>();
- 
         protected abstract string CalculateResourceName(string assemblyName, string resourceName); 
 
         public string Resolve(string file)
@@ -30,7 +19,7 @@ namespace SquishIt.Framework.Resolvers
             var resourceName = CalculateResourceName(assemblyName, split.ElementAt(1));
 
             string resolved;
-            if (resolutions.TryGetValue(resourceName, out resolved))
+            if (TempFileResolutionCache.TryGetValue(resourceName, out resolved))
             {
                 return resolved;
             }
@@ -55,7 +44,7 @@ namespace SquishIt.Framework.Resolvers
                 {
                     sw.Write(contents);
                 }
-                resolutions.Add(resourceName, fileName);
+                TempFileResolutionCache.Add(resourceName, fileName);
                 return fileName;
             }
         }

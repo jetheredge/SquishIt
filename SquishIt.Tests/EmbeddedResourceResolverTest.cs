@@ -2,6 +2,7 @@
 using System.IO;
 using NUnit.Framework;
 using SquishIt.Framework.Resolvers;
+using SquishIt.Framework.Utilities;
 
 namespace SquishIt.Tests
 {
@@ -38,7 +39,7 @@ th {
 
             Assert.AreEqual(cssContent, File.ReadAllText(path));
 
-            EmbeddedResourceResolver.ClearTempFiles();
+            TempFileResolutionCache.Clear();
             
             Assert.False(File.Exists(path));
         }
@@ -58,7 +59,7 @@ th {
 
             Assert.AreEqual(path, path2);
 
-            EmbeddedResourceResolver.ClearTempFiles();
+            TempFileResolutionCache.Clear();
 
             Assert.False(File.Exists(path));
         }
@@ -74,7 +75,7 @@ th {
 
             Assert.AreEqual(cssContent, File.ReadAllText(path));
 
-            EmbeddedResourceResolver.ClearTempFiles();
+            TempFileResolutionCache.Clear();
 
             Assert.False(File.Exists(path));
         }
@@ -94,7 +95,7 @@ th {
 
             Assert.AreEqual(path, path2);
 
-            EmbeddedResourceResolver.ClearTempFiles();
+            TempFileResolutionCache.Clear();
 
             Assert.False(File.Exists(path));
         }
