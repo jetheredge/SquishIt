@@ -2,14 +2,14 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>SquishIt.Hogan</id>
-    <version>0.9.3-beta1</version>
+    <version>0.9.3-beta2</version>
     <authors>Justin Etheredge, Alex Ullrich, Abdrashitov Vadim</authors>
     <owners>Justin Etheredge, Alex Ullrich</owners>
     <projectUrl>https://github.com/jetheredge/SquishIt</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Adds Hogan processing capability to SquishIt.</description>
     <dependencies>
-      <dependency id="SquishIt" version="0.9.3-beta1" />
+      <dependency id="SquishIt" version="0.9.3-beta2" />
       <dependency id="Jurassic" version="2.1.1" />
       <dependency id="WebActivator" version="1.4" />
     </dependencies>
