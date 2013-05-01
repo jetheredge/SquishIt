@@ -415,7 +415,7 @@ namespace SquishIt.Framework.Base
 
         protected string MinifyIfNeeded(string content, bool minify)
         {
-            if (minify)
+            if (minify && !string.IsNullOrEmpty(content))
             {
                 var minified = Minifier.Minify(content);
                 return AppendFileClosure(minified);
