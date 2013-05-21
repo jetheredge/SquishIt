@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SquishIt.Framework.Invalidation;
 using SquishIt.Framework.Minifiers;
 using SquishIt.Framework.Renderers;
 using SquishIt.Framework.Files;
@@ -32,6 +33,10 @@ namespace SquishIt.Framework.Base
         protected IDebugStatusReader debugStatusReader;
         protected IDirectoryWrapper directoryWrapper;
         protected IHasher hasher;
+
+        //TODO: make this configurable
+        protected ICacheInvalidationStrategy invalidationStrategy = new DefaultCacheInvalidationStrategy();
+
         IMinifier<T> minifier;
  
         protected IMinifier<T> Minifier

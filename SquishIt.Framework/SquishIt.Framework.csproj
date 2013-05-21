@@ -88,6 +88,7 @@
     <Compile Include="Base\ProcessResult.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="HttpContext.cs" />
+    <Compile Include="Invalidation\ICacheInvalidationStrategy.cs" />
     <Compile Include="IProcessResult.cs" />
     <Compile Include="Utilities\CriticalRenderingSection.cs" />
     <Compile Include="Extensions.cs" />

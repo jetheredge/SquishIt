@@ -67,7 +67,7 @@ namespace SquishIt.Framework.Base
 
         Input GetEmbeddedResourcePath(string resourcePath, bool isInRootNamespace)
         {
-            return isInRootNamespace 
+            return isInRootNamespace
                 ? new Input(resourcePath, false, ResolverFactory.Get<RootEmbeddedResourceResolver>())
                 : new Input(resourcePath, false, ResolverFactory.Get<StandardEmbeddedResourceResolver>());
         }
@@ -85,7 +85,7 @@ namespace SquishIt.Framework.Base
 
         protected string PreprocessFile(string file, IPreprocessor[] preprocessors)
         {
-            return directoryWrapper.ExecuteInDirectory(Path.GetDirectoryName(file), 
+            return directoryWrapper.ExecuteInDirectory(Path.GetDirectoryName(file),
                 () => PreprocessContent(file, preprocessors, ReadFile(file)));
         }
 
@@ -301,9 +301,7 @@ namespace SquishIt.Framework.Base
                     if (!TryGetCachedBundle(key, out content))
                     {
                         var uniqueFiles = new List<string>();
-                        string minifiedContent = null;
                         string hash = null;
-                        bool hashInFileName = false;
 
                         bundleState.DependentFiles.Clear();
 
@@ -337,51 +335,21 @@ namespace SquishIt.Framework.Base
                         {
                             bundleState.DependentFiles.AddRange(uniqueFiles);
 
-                            if (renderTo.Contains("#"))
+                            var minifiedContent = GetMinifiedContent(bundleState.Assets, outputFile);
+                            if (!string.IsNullOrEmpty(bundleState.HashKeyName))
                             {
-                                hashInFileName = true;
-                                minifiedContent = GetMinifiedContent(bundleState.Assets, outputFile);
                                 hash = hasher.GetHash(minifiedContent);
-                                renderToPath = renderToPath.Replace("#", hash);
-                                outputFile = outputFile.Replace("#", hash);
                             }
 
-                            if (bundleState.ShouldRenderOnlyIfOutputFileIsMissing && FileExists(outputFile))
+                            renderToPath = invalidationStrategy.GetOutputWebPath(renderToPath, bundleState.HashKeyName, hash);
+                            outputFile = invalidationStrategy.GetOutputFileLocation(outputFile, hash);
+
+                            if (!(bundleState.ShouldRenderOnlyIfOutputFileIsMissing && FileExists(outputFile)))
                             {
-                                minifiedContent = ReadFile(outputFile);
-                            }
-                            else
-                            {
-                                minifiedContent = minifiedContent ?? GetMinifiedContent(bundleState.Assets, outputFile);
                                 renderer.Render(minifiedContent, outputFile);
                             }
 
-                            if (hash == null && !string.IsNullOrEmpty(bundleState.HashKeyName))
-                            {
-                                hash = hasher.GetHash(minifiedContent);
-                            }
-
-                            if (hashInFileName)
-                            {
-                                renderedTag = FillTemplate(bundleState, renderToPath);
-                            }
-                            else
-                            {
-                                if (string.IsNullOrEmpty(bundleState.HashKeyName))
-                                {
-                                    renderedTag = FillTemplate(bundleState, renderToPath);
-                                }
-                                else if (renderToPath.Contains("?"))
-                                {
-                                    renderedTag = FillTemplate(bundleState,
-                                                               renderToPath + "&" + bundleState.HashKeyName + "=" + hash);
-                                }
-                                else
-                                {
-                                    renderedTag = FillTemplate(bundleState,
-                                                               renderToPath + "?" + bundleState.HashKeyName + "=" + hash);
-                                }
-                            }
+                            renderedTag = FillTemplate(bundleState, renderToPath);
                         }
 
                         content += String.Concat(GetFilesForRemote(remoteAssetPaths, bundleState), renderedTag);

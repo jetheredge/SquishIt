@@ -95,6 +95,7 @@
     <Content Include="Views\Features\RootEmbeddedResource.cshtml" />
     <Content Include="Views\Features\EmbeddedResource.cshtml" />
     <Content Include="Views\Features\ProcessImports.cshtml" />
+    <Content Include="Views\Features\HashInFileName.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Preprocessors\Hogan.cshtml" />
