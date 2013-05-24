@@ -88,6 +88,8 @@
     <Compile Include="Base\ProcessResult.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="HttpContext.cs" />
+    <Compile Include="Invalidation\DefaultCacheInvalidationStrategy.cs" />
+    <Compile Include="Invalidation\HashAsVirtualDirectoryCacheInvalidationStrategy.cs" />
     <Compile Include="Invalidation\ICacheInvalidationStrategy.cs" />
     <Compile Include="IProcessResult.cs" />
     <Compile Include="Utilities\CriticalRenderingSection.cs" />

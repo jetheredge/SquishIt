@@ -1,0 +1,37 @@
+﻿@using SquishIt.Framework
+@using SquishIt.Framework.Invalidation
+@{
+    ViewBag.Title = "Minify Css";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>For this to work, you will need to run with IIS express</h2>
+
+<div id="test-container">
+    <p class="red-text">
+        This text should be red if css1 was processed.</p>
+    <p class="blue-text">
+        This text should be blue if css2 was processed.</p>
+</div>
+<div id="js-test-container">
+    <p style="color: #f00;">
+        This test is broken! This text should have been replaced!</p>
+</div>
+@section Styles{
+    @MvcHtmlString.Create(
+        Bundle.Css()
+           .Add("/assets/styles/minifycss_test1.css")
+           .Add("/assets/styles/minifycss_test2.css")
+           .WithCacheInvalidationStrategy(new HashAsVirtualDirectoryCacheInvalidationStrategy())
+           .ForceRelease()
+           .Render("/#/output/minifycss-hashasvdir.css"))
+}
+@section JavaScript{
+    @MvcHtmlString.Create(
+        Bundle.JavaScript()
+           .Add("/assets/js/jquery_1.7.2.js")
+           .Add("/assets/js/minifyjs_test.js")
+           .WithCacheInvalidationStrategy(new HashAsVirtualDirectoryCacheInvalidationStrategy())
+           .ForceRelease()
+           .Render("/#/output/minifyjs-hashasvdir.js"))
+}

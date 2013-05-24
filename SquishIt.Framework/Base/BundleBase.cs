@@ -34,11 +34,8 @@ namespace SquishIt.Framework.Base
         protected IDirectoryWrapper directoryWrapper;
         protected IHasher hasher;
 
-        //TODO: make this configurable
-        protected ICacheInvalidationStrategy invalidationStrategy = new DefaultCacheInvalidationStrategy();
-
         IMinifier<T> minifier;
- 
+
         protected IMinifier<T> Minifier
         {
             get { return minifier ?? DefaultMinifier; }
@@ -56,7 +53,8 @@ namespace SquishIt.Framework.Base
                               {
                                   DebugPredicate = Configuration.Instance.DefaultDebugPredicate(),
                                   ShouldRenderOnlyIfOutputFileIsMissing = false,
-                                  HashKeyName = "r"
+                                  HashKeyName = "r",
+                                  CacheInvalidationStrategy = Configuration.Instance.DefaultCacheInvalidationStrategy()
                               };
             this.bundleCache = bundleCache;
         }
@@ -135,7 +133,7 @@ namespace SquishIt.Framework.Base
 
         T AddString(string content, string extension, bool minify)
         {
-            if(bundleState.Assets.All(ac => ac.Content != content))
+            if (bundleState.Assets.All(ac => ac.Content != content))
                 bundleState.Assets.Add(new Asset { Content = content, Extension = extension, Minify = minify });
             return (T)this;
         }
@@ -224,11 +222,16 @@ namespace SquishIt.Framework.Base
             return (T)this;
         }
 
+        public T WithCacheInvalidationStrategy(ICacheInvalidationStrategy strategy)
+        {
+            bundleState.CacheInvalidationStrategy = strategy;
+            return (T)this;
+        }
         void AddAttributes(Dictionary<string, string> attributes, bool merge = true)
         {
-            if(merge)
+            if (merge)
             {
-                foreach(var attribute in attributes)
+                foreach (var attribute in attributes)
                 {
                     bundleState.Attributes[attribute.Key] = attribute.Value;
                 }
@@ -290,11 +293,11 @@ namespace SquishIt.Framework.Base
         BundleState GetCachedBundleState(string name)
         {
             var bundle = bundleStateCache[CachePrefix + name];
-            if(bundle.ForceDebug)
+            if (bundle.ForceDebug)
             {
                 debugStatusReader.ForceDebug();
             }
-            if(bundle.ForceRelease)
+            if (bundle.ForceRelease)
             {
                 debugStatusReader.ForceRelease();
             }
@@ -354,7 +357,7 @@ namespace SquishIt.Framework.Base
         {
             bundleState = GetCachedBundleState(name);
             var content = CacheRenderer.Get(CachePrefix, name);
-            if(content == null)
+            if (content == null)
             {
                 AsCached(name, bundleState.Path);
                 return CacheRenderer.Get(CachePrefix, name);

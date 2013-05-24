@@ -341,8 +341,8 @@ namespace SquishIt.Framework.Base
                                 hash = hasher.GetHash(minifiedContent);
                             }
 
-                            renderToPath = invalidationStrategy.GetOutputWebPath(renderToPath, bundleState.HashKeyName, hash);
-                            outputFile = invalidationStrategy.GetOutputFileLocation(outputFile, hash);
+                            renderToPath = bundleState.CacheInvalidationStrategy.GetOutputWebPath(renderToPath, bundleState.HashKeyName, hash);
+                            outputFile = bundleState.CacheInvalidationStrategy.GetOutputFileLocation(outputFile, hash);
 
                             if (!(bundleState.ShouldRenderOnlyIfOutputFileIsMissing && FileExists(outputFile)))
                             {

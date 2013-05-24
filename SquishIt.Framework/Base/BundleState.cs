@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SquishIt.Framework.Invalidation;
 using SquishIt.Framework.Renderers;
 
 namespace SquishIt.Framework.Base
@@ -25,7 +26,7 @@ namespace SquishIt.Framework.Base
         internal string Path { get; set; }
 
         internal IRenderer ReleaseFileRenderer { get; set; }
-
+        internal ICacheInvalidationStrategy CacheInvalidationStrategy { get; set; }
         internal Func<bool> DebugPredicate { get; set; }
 
         internal BundleState()

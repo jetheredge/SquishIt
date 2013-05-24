@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -96,6 +97,7 @@
     <Content Include="Views\Features\EmbeddedResource.cshtml" />
     <Content Include="Views\Features\ProcessImports.cshtml" />
     <Content Include="Views\Features\HashInFileName.cshtml" />
+    <Content Include="Views\Features\HashAsVirtualDirectory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Preprocessors\Hogan.cshtml" />
@@ -165,8 +167,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>33627</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
+          <IISUrl>http://localhost/SquishItAspNetMvcTest</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

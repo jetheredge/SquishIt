@@ -1,6 +1,7 @@
 using System;
 using SquishIt.Framework.CSS;
 using SquishIt.Framework.Files;
+using SquishIt.Framework.Invalidation;
 using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.Minifiers;
 using SquishIt.Framework.Minifiers.JavaScript;
@@ -17,6 +18,8 @@ namespace SquishIt.Framework
         static Configuration instance;
         IMinifier<CSSBundle> _defaultCssMinifier = new MsMinifier();
         IMinifier<JavaScriptBundle> _defaultJsMinifier = new Minifiers.JavaScript.MsMinifier();
+        ICacheInvalidationStrategy _defaultCacheInvalidationStrategy = new DefaultCacheInvalidationStrategy();
+
         string _defaultOutputBaseHref;
         IRenderer _defaultReleaseRenderer;
         Func<bool> _defaultDebugPredicate;
@@ -202,6 +205,22 @@ namespace SquishIt.Framework
         internal IHasher DefaultHasher()
         {
             return _defaultHasher;
+        }
+
+        public Configuration UseHashAsVirtualDirectoryInvalidationStrategy()
+        {
+            return UseCacheInvalidationStrategy(new HashAsVirtualDirectoryCacheInvalidationStrategy());
+        }
+
+        public Configuration UseCacheInvalidationStrategy(ICacheInvalidationStrategy strategy)
+        {
+            _defaultCacheInvalidationStrategy = strategy;
+            return this;
+        }
+
+        public ICacheInvalidationStrategy DefaultCacheInvalidationStrategy()
+        {
+            return _defaultCacheInvalidationStrategy;
         }
     }
 }

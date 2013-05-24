@@ -57,5 +57,10 @@ namespace SquishItAspNetMvcTest.Controllers
         {
             return View();
         }
+
+        public ActionResult HashAsVirtualDirectory()
+        {
+            return View();
+        }
     }
 }
