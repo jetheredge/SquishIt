@@ -53,7 +53,7 @@ namespace SquishIt.Framework.Base
                               {
                                   DebugPredicate = Configuration.Instance.DefaultDebugPredicate(),
                                   ShouldRenderOnlyIfOutputFileIsMissing = false,
-                                  HashKeyName = "r",
+                                  HashKeyName = Configuration.Instance.DefaultHashKeyName(),
                                   CacheInvalidationStrategy = Configuration.Instance.DefaultCacheInvalidationStrategy()
                               };
             this.bundleCache = bundleCache;

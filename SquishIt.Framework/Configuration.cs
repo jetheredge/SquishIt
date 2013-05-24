@@ -19,7 +19,7 @@ namespace SquishIt.Framework
         IMinifier<CSSBundle> _defaultCssMinifier = new MsMinifier();
         IMinifier<JavaScriptBundle> _defaultJsMinifier = new Minifiers.JavaScript.MsMinifier();
         ICacheInvalidationStrategy _defaultCacheInvalidationStrategy = new DefaultCacheInvalidationStrategy();
-
+        string _defaultHashKeyName = "r";
         string _defaultOutputBaseHref;
         IRenderer _defaultReleaseRenderer;
         Func<bool> _defaultDebugPredicate;
@@ -221,6 +221,17 @@ namespace SquishIt.Framework
         public ICacheInvalidationStrategy DefaultCacheInvalidationStrategy()
         {
             return _defaultCacheInvalidationStrategy;
+        }
+
+        public Configuration UseHashKeyName(string hashKeyName)
+        {
+            _defaultHashKeyName = hashKeyName;
+            return this;
+        }
+
+        public string DefaultHashKeyName()
+        {
+            return _defaultHashKeyName;
         }
     }
 }
