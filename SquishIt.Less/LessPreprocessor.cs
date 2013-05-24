@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using SquishIt.Framework;
 using System.IO;
 using System.Linq;
+using dotless.Core.configuration;
 
 namespace SquishIt.Less
 {
@@ -16,8 +17,7 @@ namespace SquishIt.Less
 
         public override IProcessResult Process(string filePath, string content)
         {
-            var engineFactory = new EngineFactory();
-            var engine = engineFactory.GetEngine();
+            var engine = GetEngine();
             string css = engine.TransformToCss(content, filePath);
 
             string dir = Path.GetDirectoryName(filePath);
@@ -33,6 +33,18 @@ namespace SquishIt.Less
             });
 
             return new ProcessResult(css, dependencies);
+        }
+
+        ILessEngine GetEngine()
+        {
+            try
+            {
+                return new EngineFactory(new WebConfigConfigurationLoader().GetConfiguration()).GetEngine();
+            }
+            catch
+            {
+                return new EngineFactory().GetEngine();
+            }
         }
     }
 }
