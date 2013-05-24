@@ -1,7 +1,7 @@
 ﻿@using SquishIt.Framework
 @using SquishIt.Framework.Invalidation
 @{
-    ViewBag.Title = "Minify Css";
+    ViewBag.Title = "Hash as Virtual Directory";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -24,7 +24,7 @@
            .Add("/assets/styles/minifycss_test2.css")
            .WithCacheInvalidationStrategy(new HashAsVirtualDirectoryCacheInvalidationStrategy())
            .ForceRelease()
-           .Render("/#/output/minifycss-hashasvdir.css"))
+           .Render("/output/#/minifycss-hashasvdir.css"))
 }
 @section JavaScript{
     @MvcHtmlString.Create(
@@ -33,5 +33,5 @@
            .Add("/assets/js/minifyjs_test.js")
            .WithCacheInvalidationStrategy(new HashAsVirtualDirectoryCacheInvalidationStrategy())
            .ForceRelease()
-           .Render("/#/output/minifyjs-hashasvdir.js"))
+           .Render("/output/#/minifyjs-hashasvdir.js"))
 }
