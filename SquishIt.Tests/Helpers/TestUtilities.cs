@@ -13,7 +13,7 @@ namespace SquishIt.Tests.Helpers
         public static string PreparePath(string windowsPath)
         {
             var path = windowsPath;
-            if (FileSystem.Unix)
+            if (Platform.Unix)
             {
                 path = driveLetter.Replace(path, @"/")
                     .Replace(@"\", @"/");

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using SquishIt.Framework.Utilities;
 
 namespace SquishIt.Framework.CSS
 {
@@ -11,14 +10,7 @@ namespace SquishIt.Framework.CSS
     {
         public static string RewriteCssPaths(string outputPath, string sourcePath, string css, ICSSAssetsFileHasher cssAssetsFileHasher, bool asImport = false)
         {
-            //see http://stackoverflow.com/questions/3692818/uri-makerelativeuri-behavior-on-mono
-            if (FileSystem.Unix)
-            {
-                outputPath += "/";
-            }
-
-            var sourceDirectory = Path.GetDirectoryName(sourcePath) + "/";
-            var outputUri = new Uri(Path.GetDirectoryName(outputPath) + "/", UriKind.Absolute);
+            var difference = CalculateDifference(outputPath, sourcePath);
 
             var relativePaths = FindDistinctRelativePathsIn(css);
 
@@ -34,11 +26,7 @@ namespace SquishIt.Framework.CSS
                     ? relativePath.Substring(0, firstIndexOfHashOrQuestionMark)
                     : relativePath;
 
-                var resolvedSourcePathString = Path.Combine(sourceDirectory, capturedRelativePath);
-
-                var resolvedSourcePath = new Uri(resolvedSourcePathString);
-
-                var resolvedOutput = outputUri.MakeRelativePathTo(resolvedSourcePath);
+                var resolvedOutput = difference.ApplyTo(capturedRelativePath);
 
                 var newRelativePath = asImport ? "squishit://" + resolvedOutput : (resolvedOutput + segmentAfterHashOrQuestionMark);
 
@@ -101,6 +89,90 @@ namespace SquishIt.Framework.CSS
                 .Select(match => match.Groups[1].Captures[0].Value)
                 .Where(path => !path.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
                 .Distinct();
+        }
+
+        static DirectoryDifference CalculateDifference(string from, string to)
+        {
+            var directoryFrom = Path.GetDirectoryName(from);
+            var directoryTo = Path.GetDirectoryName(to);
+
+            var commonRoot = FindRootPath(new List<string> { directoryFrom, directoryTo });
+
+            var directoriesUp =
+                commonRoot == directoryFrom
+                    ? 0
+                    : directoryFrom.TrimStart(commonRoot).Count(c => c == Path.DirectorySeparatorChar);
+
+
+            var pathUp = directoryFrom.TrimStart(commonRoot);
+            var pathDown = directoryTo.TrimStart(commonRoot);
+
+            return new DirectoryDifference(
+                pathDown.Split(new[] { Path.DirectorySeparatorChar },StringSplitOptions.RemoveEmptyEntries), 
+                pathUp.Split(new[] { Path.DirectorySeparatorChar },StringSplitOptions.RemoveEmptyEntries));
+        }
+
+        static string FindRootPath(List<string> paths)
+        {
+            var separator = Path.DirectorySeparatorChar;
+            string commonPath = String.Empty;
+            List<string> separatedPath = paths
+                .First(str => str.Length == paths.Max(st2 => st2.Length))
+                .Split(new[] { separator }, StringSplitOptions.RemoveEmptyEntries)
+                .ToList();
+
+            foreach (string pathSegment in separatedPath.AsEnumerable())
+            {
+                if (commonPath.Length == 0 && paths.All(str => str.StartsWith(pathSegment)))
+                {
+                    commonPath = pathSegment;
+                }
+                else if (paths.All(str => str.StartsWith(commonPath + separator + pathSegment)))
+                {
+                    commonPath += separator + pathSegment;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return commonPath;
+        }
+
+        internal class DirectoryDifference
+        {
+            public DirectoryDifference(string[] localDirectoriesDown, string[] localDirectoriesUp)
+            {
+                _directoriesDown = localDirectoriesDown;
+                _directoriesUp = localDirectoriesUp;
+            }
+
+            private readonly string[] _directoriesUp;
+            private readonly string[] _directoriesDown;
+
+            public string ApplyTo(string relative)
+            {
+                //TODO: make this somewhat readable/sensible if it works
+                var localRelative = relative.TrimStart("../");
+
+                var relativeDirectoriesUp = (relative.Length - localRelative.Length) / 3;
+
+                var isInSource = relativeDirectoriesUp == 0;
+
+                var totalDirectoriesUp = _directoriesUp.Length + relativeDirectoriesUp;
+
+                var localLead = _directoriesDown
+                    .Take(_directoriesDown.Length - (isInSource ? 0 : totalDirectoriesUp)).ToArray();
+
+                var s = totalDirectoriesUp > 0 ?
+                    Enumerable.Range(1, totalDirectoriesUp - (isInSource ? 0 : _directoriesDown.Length)).Aggregate(string.Empty, (acc, i) => acc + "../") : string.Empty;
+
+                var d = string.Join("/", localLead);
+                var o = s + d;
+                var x = o.Length == 0 ? o : o + "/";
+                return (x + localRelative).Replace("//", "/");
+            }
         }
     }
 }

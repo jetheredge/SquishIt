@@ -90,7 +90,7 @@ namespace SquishIt.Framework.Utilities
 
             var everyoneSid = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
 
-            if(FileSystem.Unix)
+            if(Platform.Mono)
             {
                 //MutexAccessRules don't seem to work on mono yet: http://lists.ximian.com/pipermail/mono-list/2008-August/039294.html
                 return new Mutex(false, name, out createdNew);

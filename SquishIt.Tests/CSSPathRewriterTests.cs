@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using SquishIt.Framework.CSS;
-using SquishIt.Framework.CSS;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Helpers;
 

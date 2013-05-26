@@ -75,7 +75,9 @@
     <Content Include="assets\js\hogan\hogan-2.0.0.js" />
     <Content Include="assets\js\jquery_1.7.2.js" />
     <Content Include="assets\templates\hogan\template1.hogan.html" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

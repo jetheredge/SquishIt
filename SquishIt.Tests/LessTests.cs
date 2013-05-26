@@ -7,7 +7,7 @@ using SquishIt.Less;
 using SquishIt.Tests.Helpers;
 using SquishIt.Tests.Stubs;
 using SquishIt.Framework;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace SquishIt.Tests 
 {
@@ -111,7 +111,7 @@ namespace SquishIt.Tests
             TestUtilities.CreateFile("css_A/test.less", importCssA);
             TestUtilities.CreateFile("css_B/test.less", importCssB);
 
-            TestUtilities.CreateFile("css_A/other.less", "#cssA{color:#ffffff}");            
+            TestUtilities.CreateFile("css_A/other.less", "#cssA{color:#ffffff}");
             TestUtilities.CreateFile("css_B/other.less", "#cssB{color:#000000}");
 
             var dirWrapper = new DirectoryWrapper();
@@ -135,22 +135,25 @@ namespace SquishIt.Tests
             // which should be found in their own directory, but issues with 
             // changing the current directory at the wrong time could cause
             // them to pick up the imported file from the incorrect location.
-            var taskA = Task.Factory.StartNew(() =>
+            var taskA = new Thread(() =>
             {
                 var sa = cssBundleA
                     .Add("css_A/test.less")
                     .Render("css_A/output_test.css");
             });
 
-            var taskB = Task.Factory.StartNew(() =>
+            var taskB = new Thread(() =>
             {
                 var sb = cssBundleB
-                   .Add("css_B/test.less")
-                   .Render("css_B/output_test.css");
+                    .Add("css_B/test.less")
+                    .Render("css_B/output_test.css");
             });
 
-            taskA.Wait();
-            taskB.Wait();
+            taskA.Start();
+            taskB.Start();
+
+            taskA.Join();
+            taskB.Join();
 
             TestUtilities.DeleteFile("css_A/test.less");
             TestUtilities.DeleteFile("css_B/test.less");

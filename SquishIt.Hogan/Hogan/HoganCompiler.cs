@@ -13,7 +13,7 @@ namespace SquishIt.Hogan.Hogan
 
         public string Compile(string input)
         {
-            if(FileSystem.Unix)
+            if(Platform.Mono)
             {
                 throw new NotSupportedException("Hogan not yet supported for mono.");
             }

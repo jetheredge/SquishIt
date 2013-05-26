@@ -97,7 +97,7 @@ namespace SquishIt.Sass
 
         string pathToResourceName(string path)
         {
-            path = FileSystem.Unix ?
+            path = Platform.Mono ?
                 path.Replace(Environment.CurrentDirectory, string.Empty).TrimStart(new [] { '/' }):
                 path.Replace("1.9.1", "_1._9._1");
             
