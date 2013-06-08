@@ -58,15 +58,5 @@ namespace SquishIt.Tests
 
             Assert.AreEqual("<script type=\"text/javascript\">(function() {\n\n  alert('test');\n\n}).call(this);\n</script>\n", TestUtilities.NormalizeLineEndings(tag));
         }
-
-        [TestCase(typeof(CoffeeScriptCompiler)), Platform(Include = "Unix, Linux, Mono")]
-        [TestCase(typeof(MsIeCoffeeScript.Coffee.CoffeeScriptCompiler)), Platform(Include = "Unix, Linux, Mono")]
-        public void CompileFailsGracefullyOnMono(Type compilerType)
-        {
-            var compiler = Activator.CreateInstance(compilerType);
-            var method = compilerType.GetMethod("Compile");
-            var exception = Assert.Throws<Exception>(() => method.Invoke(compiler, new[] { "" }));
-            Assert.AreEqual("CoffeeScript not yet supported for mono.", exception.Message);
-        }
     }
 }

@@ -52,7 +52,9 @@ namespace SquishIt.Tests
             var info = new FileInfo("fakeFile");
             var hasher = new Hasher(new RetryableFileOpener());
             var ex = Assert.Throws<FileNotFoundException>(() => hasher.GetHash(info));
-            Assert.AreEqual("Could not find file '" + info.FullName + "'.", ex.Message);
+            //mono 3 uses " instead of ' around file name
+			Assert.True(ex.Message.StartsWith("Could not find file"));
+			Assert.True(ex.Message.Contains(info.FullName));
         }
     }
 }

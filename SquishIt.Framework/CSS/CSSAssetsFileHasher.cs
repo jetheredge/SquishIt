@@ -52,7 +52,7 @@ namespace SquishIt.Framework.CSS
                 url = url.Substring(0, queryStringPosition);
             }
 
-            if (FileSystem.Unix)
+            if (Platform.Unix)
             {
                 url = url.TrimStart('/');
             }
@@ -66,7 +66,7 @@ namespace SquishIt.Framework.CSS
                 if (!url.StartsWith("/"))
                 {
                     var resolvedPath = Path.GetDirectoryName(cssFilePath);
-                    if (FileSystem.Unix)
+                    if (Platform.Unix)
                     {
                         resolvedPath = resolvedPath.Replace("file:", "");
                     }

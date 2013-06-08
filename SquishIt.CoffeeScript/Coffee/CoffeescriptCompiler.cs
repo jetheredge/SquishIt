@@ -13,7 +13,7 @@ namespace SquishIt.CoffeeScript.Coffee
 
         public string Compile(string input)
         {
-            if(FileSystem.Unix)
+            if(Platform.Mono)
             {
                 throw new NotSupportedException("Coffeescript not yet supported for mono.");
             }
