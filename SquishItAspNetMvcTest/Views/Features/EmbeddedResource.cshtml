@@ -2,12 +2,16 @@
 @{
     ViewBag.Title = "Embed Resource";
 }
-
 <h2>@ViewBag.Title</h2>
-
-<p>You should see a tag for embedded.js?r=7A22C17AD1D18D091F274599E8644755 below:</p>
-
-<textarea style="width:100%">@MvcHtmlString.Create(Bundle.JavaScript()
-    .AddEmbeddedResource("~/output/test.js", "SquishItAspNetMvcTest://EmbeddedResource.Embedded.js")
+<p>
+    You should see a tag for embedded.js?r=7A22C17AD1D18D091F274599E8644755 below:</p>
+<textarea style="width: 100%">@MvcHtmlString.Create(Bundle.JavaScript()
+                                                         .AddEmbeddedResource("~/output/test.js", "SquishItAspNetMvcTest://EmbeddedResource.Embedded.js")
+                                                         .ForceRelease()
+                                                         .Render("/output/embedded.js"))</textarea>
+<p>
+    You should see a tag for embedded.css?r=67F81278D746D60E6F711B5A29747388 below:</p>
+<textarea style="width: 100%">@MvcHtmlString.Create(Bundle.Css()
+    .AddEmbeddedResource("~/output/test.css", "SquishItAspNetMvcTest://EmbeddedResource.Embedded.css")
     .ForceRelease()
-    .Render("/output/embedded.js"))</textarea>
+    .Render("/output/embedded.css"))</textarea>

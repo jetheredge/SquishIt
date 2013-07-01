@@ -95,6 +95,7 @@
     <Compile Include="EmbeddedResourceResolverTest.cs" />
     <Compile Include="HasherTests.cs" />
     <Compile Include="HoganTests.cs" />
+    <Compile Include="RelativePathAdapterTest.cs" />
     <Compile Include="ScriptPreprocessorPipelineTests.cs" />
     <Compile Include="CriticalRenderingSectionTest.cs" />
     <Compile Include="CSSBundleTests.cs" />

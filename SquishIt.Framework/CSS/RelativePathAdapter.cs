@@ -44,6 +44,11 @@ namespace SquishIt.Framework.CSS
 
             var commonRoot = FindRootPath(directoryFrom, directoryTo);
 
+            if (string.IsNullOrEmpty(commonRoot))
+            {
+                throw new InvalidOperationException(string.Format("Can't calculate relative distance between '{0}' and '{1}' because they do not have a shared base.", from, to));
+            }
+
             var pathUp = directoryFrom.TrimStart(commonRoot);
             var pathDown = directoryTo.TrimStart(commonRoot);
 
