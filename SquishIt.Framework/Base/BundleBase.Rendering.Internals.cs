@@ -95,8 +95,8 @@ namespace SquishIt.Framework.Base
             
             var filename = "dummy." + (asset.Extension ?? defaultExtension);
             var preprocessors = FindPreprocessors(filename);
-            return asset.CurrentDirectory != null ?
-                        directoryWrapper.ExecuteInDirectory(asset.CurrentDirectory, () => MinifyIfNeeded(PreprocessContent(filename, preprocessors, asset.Content), asset.Minify)) :
+            return asset.ArbitraryWorkingDirectory != null ?
+                        directoryWrapper.ExecuteInDirectory(asset.ArbitraryWorkingDirectory, () => MinifyIfNeeded(PreprocessContent(filename, preprocessors, asset.Content), asset.Minify)) :
                         MinifyIfNeeded(PreprocessContent(filename, preprocessors, asset.Content), asset.Minify);
         }
 
@@ -222,8 +222,8 @@ namespace SquishIt.Framework.Base
                 {
                     var filename = "dummy" + asset.Extension;
                     var preprocessors = FindPreprocessors(filename);
-                    var processedContent = asset.CurrentDirectory != null ?
-                           directoryWrapper.ExecuteInDirectory(asset.CurrentDirectory, () => PreprocessContent(filename, preprocessors, asset.Content)) :
+                    var processedContent = asset.ArbitraryWorkingDirectory != null ?
+                           directoryWrapper.ExecuteInDirectory(asset.ArbitraryWorkingDirectory, () => PreprocessContent(filename, preprocessors, asset.Content)) :
                            PreprocessContent(filename, preprocessors, asset.Content);
                     sb.AppendLine(string.Format(tagFormat, processedContent));
                 }
