@@ -1,0 +1,23 @@
+﻿@using SquishIt.Framework
+@{
+    ViewBag.Title = "Dynamic Content With Imports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="test-container">
+    <p class="dynamic-text">This text should be green if dynamic less was processed.</p>    
+</div>
+
+@section Styles{
+    @{
+        var dynamicContent = "@dynamicColor:#0f0;";
+        dynamicContent += "@import 'assets/styles/dynamic_import_test1.less';";
+    }
+
+
+    @MvcHtmlString.Create(
+        Bundle.Css()
+            .AddString(dynamicContent, ".less", AppDomain.CurrentDomain.BaseDirectory)
+            .ForceRelease()
+            .Render("/output/dynamiclesstest.css"))
+}
