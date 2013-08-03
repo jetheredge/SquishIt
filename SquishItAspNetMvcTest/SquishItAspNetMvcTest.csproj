@@ -102,7 +102,7 @@
     <Content Include="Views\Features\ProcessImports.cshtml" />
     <Content Include="Views\Features\HashInFileName.cshtml" />
     <Content Include="Views\Features\HashAsVirtualDirectory.cshtml" />
-    <Content Include="Views\Preprocessors\DynamicContentWithImports.cshtml" />
+    <Content Include="Views\Preprocessors\ArbitraryContentWithImports.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Preprocessors\Hogan.cshtml" />

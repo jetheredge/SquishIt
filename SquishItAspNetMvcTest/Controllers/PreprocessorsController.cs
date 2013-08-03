@@ -28,7 +28,7 @@ namespace SquishItAspNetMvcTest.Controllers
             return View();
         }
 
-        public ActionResult DynamicContentWithImports()
+        public ActionResult ArbitraryContentWithImports()
         {
             return View();
         }
