@@ -7,9 +7,9 @@ namespace SquishIt.Framework.Resolvers
 {
     public class FileSystemResolver : IResolver
     {
-        public string Resolve(string path) 
+        public string Resolve(string file) 
         {
-            return Path.GetFullPath(path);
+            return Path.GetFullPath(file);
         }
 
         public bool IsDirectory(string path) 

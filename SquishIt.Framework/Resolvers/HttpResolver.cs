@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using SquishIt.Framework.Utilities;
 
 namespace SquishIt.Framework.Resolvers
 {
@@ -9,7 +10,17 @@ namespace SquishIt.Framework.Resolvers
     {
         public string Resolve(string file)
         {
-            var webRequestObject = (HttpWebRequest)WebRequest.Create(file);
+            string resolved;
+            if (TempFileResolutionCache.TryGetValue(file, out resolved))
+            {
+                return resolved;
+            }
+            return ResolveWebResource(file);
+        }
+
+        private static string ResolveWebResource(string path)
+        {
+            var webRequestObject = (HttpWebRequest) WebRequest.Create(path);
             var webResponse = webRequestObject.GetResponse();
             try
             {
@@ -24,12 +35,13 @@ namespace SquishIt.Framework.Resolvers
                 {
                     sw.Write(contents);
                 }
+                TempFileResolutionCache.Add(path, fileName);
                 return fileName;
             }
             finally
             {
                 webResponse.Close();
-            }            
+            }
         }
 
         public IEnumerable<string> ResolveFolder(string path, bool recursive, string debugFileExtension, IEnumerable<string> allowedExtensions, IEnumerable<string> disallowedExtensions) {
