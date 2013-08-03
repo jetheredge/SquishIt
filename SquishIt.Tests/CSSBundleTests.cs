@@ -1420,7 +1420,8 @@ background:url(images/button-loader.gif) #ccc;
 
             using(new HttpContextScope(context.Object))
             {
-                bundle.AddDynamic("/some/dynamic/css");
+                //some/dynamic/css started returning 404's
+                bundle.AddDynamic("/");
             }
 
             var tag = bundle.Render("~/combined.css");

@@ -1120,9 +1120,10 @@ namespace SquishIt.Tests
 
             using(new HttpContextScope(context.Object))
             {
+                //some/dynamic/js started returning 404s
                 javaScriptBundle
                     .ForceRelease()
-                    .AddDynamic("/some/dynamic/js");
+                    .AddDynamic("/");
             }
 
             var tag = javaScriptBundle
