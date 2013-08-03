@@ -12,6 +12,7 @@ namespace SquishIt.Framework.Base
         internal string Content { get; set; }
         internal string Extension { get; set; }
         internal bool Minify { get; set; }
+        internal string CurrentDirectory { get; set; }
 
         internal bool IsArbitrary
         {

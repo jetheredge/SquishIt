@@ -116,9 +116,9 @@ namespace SquishIt.Framework.Base
             return AddString(content, defaultExtension, true);
         }
 
-        public T AddString(string content, string extension)
+        public T AddString(string content, string extension, string currentDirectory = null)
         {
-            return AddString(content, extension, true);
+            return AddString(content, extension, true, currentDirectory);
         }
 
         public T AddMinifiedString(string content)
@@ -131,10 +131,10 @@ namespace SquishIt.Framework.Base
             return AddString(content, extension, false);
         }
 
-        T AddString(string content, string extension, bool minify)
+        T AddString(string content, string extension, bool minify, string currentDirectory = null)
         {
             if (bundleState.Assets.All(ac => ac.Content != content))
-                bundleState.Assets.Add(new Asset { Content = content, Extension = extension, Minify = minify });
+                bundleState.Assets.Add(new Asset { Content = content, Extension = extension, Minify = minify, CurrentDirectory = currentDirectory });
             return (T)this;
         }
 
