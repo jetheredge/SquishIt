@@ -25,7 +25,7 @@ namespace SquishIt.Framework.CSS
 
             var pathUp = totalDirectoriesUp == 0
                              ? string.Empty
-                             : Enumerable.Range(1, totalDirectoriesUp - (relativePathIsInSourceDirectory ? 0 : _directoriesDown.Length))
+                             : Enumerable.Range(1, Math.Max(totalDirectoriesUp - (relativePathIsInSourceDirectory ? 0 : _directoriesDown.Length),0))
                                          .Aggregate(string.Empty, (acc, i) => acc + "../");
 
             var pathDown = _directoriesDown
