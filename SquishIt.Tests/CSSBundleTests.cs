@@ -1518,10 +1518,11 @@ background:url(images/button-loader.gif) #ccc;
             Func<bool> queryStringPredicate = () => HttpContext.Current.Request.QueryString.AllKeys.Contains("debug") && HttpContext.Current.Request.QueryString["debug"] == "true";
 
             var nonDebugContext = new Mock<HttpContextBase>();
+            nonDebugContext.Setup(hcb => hcb.Request.ApplicationPath).Returns(string.Empty);
             nonDebugContext.Setup(hcb => hcb.Request.QueryString).Returns(new NameValueCollection());
-            nonDebugContext.Setup(hcb => hcb.Server.MapPath(file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
-            nonDebugContext.Setup(hcb => hcb.Server.MapPath(file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
-            nonDebugContext.Setup(hcb => hcb.Server.MapPath("~/output.css")).Returns(Path.Combine(Environment.CurrentDirectory, "output.css"));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath("/" + file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath("/" + file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath("/output.css")).Returns(Path.Combine(Environment.CurrentDirectory, "output.css"));
 
             CSSBundle bundle;
 
@@ -1543,9 +1544,9 @@ background:url(images/button-loader.gif) #ccc;
 
             var debugContext = new Mock<HttpContextBase>();
             debugContext.Setup(hcb => hcb.Request.QueryString).Returns(new NameValueCollection { { "debug", "true" } });
-            debugContext.Setup(hcb => hcb.Server.MapPath(file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
-            debugContext.Setup(hcb => hcb.Server.MapPath(file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
-            debugContext.Setup(hcb => hcb.Server.MapPath("~/output.css")).Returns(Path.Combine(Environment.CurrentDirectory, "output.css"));
+            debugContext.Setup(hcb => hcb.Server.MapPath("/" + file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
+            debugContext.Setup(hcb => hcb.Server.MapPath("/" + file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
+            debugContext.Setup(hcb => hcb.Server.MapPath("/output.css")).Returns(Path.Combine(Environment.CurrentDirectory, "output.css"));
 
             using(new HttpContextScope(debugContext.Object))
             {
@@ -1577,15 +1578,15 @@ background:url(images/button-loader.gif) #ccc;
 
             var debugContext = new Mock<HttpContextBase>();
             debugContext.Setup(hcb => hcb.Request.QueryString).Returns(new NameValueCollection { { "debug", "true" } });
-            debugContext.Setup(hcb => hcb.Server.MapPath(file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
-            debugContext.Setup(hcb => hcb.Server.MapPath(file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
-            debugContext.Setup(hcb => hcb.Server.MapPath("~/output.css")).Returns(Path.Combine(Environment.CurrentDirectory, "output.css"));
+            debugContext.Setup(hcb => hcb.Server.MapPath("/" + file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
+            debugContext.Setup(hcb => hcb.Server.MapPath("/" + file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
+            debugContext.Setup(hcb => hcb.Server.MapPath("/output.css")).Returns(Path.Combine(Environment.CurrentDirectory, "output.css"));
 
             var nonDebugContext = new Mock<HttpContextBase>();
             nonDebugContext.Setup(hcb => hcb.Request.QueryString).Returns(new NameValueCollection());
-            nonDebugContext.Setup(hcb => hcb.Server.MapPath(file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
-            nonDebugContext.Setup(hcb => hcb.Server.MapPath(file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
-            nonDebugContext.Setup(hcb => hcb.Server.MapPath("~/output.css")).Returns(Path.Combine(Environment.CurrentDirectory, "output.css"));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath("/" + file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath("/" + file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath("/output.css")).Returns(Path.Combine(Environment.CurrentDirectory, "output.css"));
 
             using(new HttpContextScope(nonDebugContext.Object))
             {
@@ -1640,15 +1641,15 @@ background:url(images/button-loader.gif) #ccc;
 
             var debugContext = new Mock<HttpContextBase>();
             debugContext.Setup(hcb => hcb.Request.QueryString).Returns(new NameValueCollection { { "debug", "true" } });
-            debugContext.Setup(hcb => hcb.Server.MapPath(file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
-            debugContext.Setup(hcb => hcb.Server.MapPath(file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
-            debugContext.Setup(hcb => hcb.Server.MapPath("~/output.css")).Returns(Path.Combine(Environment.CurrentDirectory, "output.css"));
+            debugContext.Setup(hcb => hcb.Server.MapPath("/" + file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
+            debugContext.Setup(hcb => hcb.Server.MapPath("/" + file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
+            debugContext.Setup(hcb => hcb.Server.MapPath("/output.css")).Returns(Path.Combine(Environment.CurrentDirectory, "output.css"));
 
             var nonDebugContext = new Mock<HttpContextBase>();
             nonDebugContext.Setup(hcb => hcb.Request.QueryString).Returns(new NameValueCollection());
-            nonDebugContext.Setup(hcb => hcb.Server.MapPath(file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
-            nonDebugContext.Setup(hcb => hcb.Server.MapPath(file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
-            nonDebugContext.Setup(hcb => hcb.Server.MapPath("~/output.css")).Returns(Path.Combine(Environment.CurrentDirectory, "output.css"));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath("/" + file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath("/" + file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath("/output.css")).Returns(Path.Combine(Environment.CurrentDirectory, "output.css"));
 
             using(new HttpContextScope(nonDebugContext.Object))
             {

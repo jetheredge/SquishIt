@@ -1206,9 +1206,9 @@ namespace SquishIt.Tests
 
             var nonDebugContext = new Mock<HttpContextBase>();
             nonDebugContext.Setup(hcb => hcb.Request.QueryString).Returns(new NameValueCollection());
-            nonDebugContext.Setup(hcb => hcb.Server.MapPath(file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
-            nonDebugContext.Setup(hcb => hcb.Server.MapPath(file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
-            nonDebugContext.Setup(hcb => hcb.Server.MapPath("~/output.js")).Returns(Path.Combine(Environment.CurrentDirectory, "output.js"));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath("/" + file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath("/" + file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath("/output.js")).Returns(Path.Combine(Environment.CurrentDirectory, "output.js"));
 
             JavaScriptBundle bundle;
 
@@ -1230,9 +1230,9 @@ namespace SquishIt.Tests
 
             var debugContext = new Mock<HttpContextBase>();
             debugContext.Setup(hcb => hcb.Request.QueryString).Returns(new NameValueCollection { { "debug", "true" } });
-            debugContext.Setup(hcb => hcb.Server.MapPath(file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
-            debugContext.Setup(hcb => hcb.Server.MapPath(file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
-            debugContext.Setup(hcb => hcb.Server.MapPath("~/output.js")).Returns(Path.Combine(Environment.CurrentDirectory, "output.js"));
+            debugContext.Setup(hcb => hcb.Server.MapPath("/" + file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
+            debugContext.Setup(hcb => hcb.Server.MapPath("/" + file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
+            debugContext.Setup(hcb => hcb.Server.MapPath("/output.js")).Returns(Path.Combine(Environment.CurrentDirectory, "output.js"));
 
             using(new HttpContextScope(debugContext.Object))
             {
@@ -1264,15 +1264,15 @@ namespace SquishIt.Tests
 
             var debugContext = new Mock<HttpContextBase>();
             debugContext.Setup(hcb => hcb.Request.QueryString).Returns(new NameValueCollection { { "debug", "true" } });
-            debugContext.Setup(hcb => hcb.Server.MapPath(file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
-            debugContext.Setup(hcb => hcb.Server.MapPath(file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
-            debugContext.Setup(hcb => hcb.Server.MapPath("~/output.js")).Returns(Path.Combine(Environment.CurrentDirectory, "output.js"));
+            debugContext.Setup(hcb => hcb.Server.MapPath("/" + file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
+            debugContext.Setup(hcb => hcb.Server.MapPath("/" + file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
+            debugContext.Setup(hcb => hcb.Server.MapPath("/output.js")).Returns(Path.Combine(Environment.CurrentDirectory, "output.js"));
 
             var nonDebugContext = new Mock<HttpContextBase>();
             nonDebugContext.Setup(hcb => hcb.Request.QueryString).Returns(new NameValueCollection());
-            nonDebugContext.Setup(hcb => hcb.Server.MapPath(file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
-            nonDebugContext.Setup(hcb => hcb.Server.MapPath(file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
-            nonDebugContext.Setup(hcb => hcb.Server.MapPath("~/output.js")).Returns(Path.Combine(Environment.CurrentDirectory, "output.js"));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath("/" + file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath("/" + file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath("/output.js")).Returns(Path.Combine(Environment.CurrentDirectory, "output.js"));
 
             using(new HttpContextScope(nonDebugContext.Object))
             {
@@ -1327,15 +1327,15 @@ namespace SquishIt.Tests
 
             var debugContext = new Mock<HttpContextBase>();
             debugContext.Setup(hcb => hcb.Request.QueryString).Returns(new NameValueCollection { { "debug", "true" } });
-            debugContext.Setup(hcb => hcb.Server.MapPath(file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
-            debugContext.Setup(hcb => hcb.Server.MapPath(file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
-            debugContext.Setup(hcb => hcb.Server.MapPath("~/output.js")).Returns(Path.Combine(Environment.CurrentDirectory, "output.js"));
+            debugContext.Setup(hcb => hcb.Server.MapPath("/" + file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
+            debugContext.Setup(hcb => hcb.Server.MapPath("/" + file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
+            debugContext.Setup(hcb => hcb.Server.MapPath("/output.js")).Returns(Path.Combine(Environment.CurrentDirectory, "output.js"));
 
             var nonDebugContext = new Mock<HttpContextBase>();
             nonDebugContext.Setup(hcb => hcb.Request.QueryString).Returns(new NameValueCollection());
-            nonDebugContext.Setup(hcb => hcb.Server.MapPath(file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
-            nonDebugContext.Setup(hcb => hcb.Server.MapPath(file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
-            nonDebugContext.Setup(hcb => hcb.Server.MapPath("~/output.js")).Returns(Path.Combine(Environment.CurrentDirectory, "output.js"));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath("/" + file1)).Returns(Path.Combine(Environment.CurrentDirectory, file1));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath("/" + file2)).Returns(Path.Combine(Environment.CurrentDirectory, file2));
+            nonDebugContext.Setup(hcb => hcb.Server.MapPath("/output.js")).Returns(Path.Combine(Environment.CurrentDirectory, "output.js"));
 
             using(new HttpContextScope(nonDebugContext.Object))
             {
