@@ -10,7 +10,7 @@ Until we set up a new download site (github recently removed the downloads secti
 
 ##Thanks
 
-The build is generously hosted and run on the [CodeBetter TeamCity](:http://codebetter.com/codebetter-ci/) infrastructure.
+The build is generously hosted and run on the [CodeBetter TeamCity](http://codebetter.com/codebetter-ci/) infrastructure.
 
 Latest build status: [![status](http://teamcity.codebetter.com/app/rest/builds/buildType:\(id:bt516\)/statusIcon)](http://teamcity.codebetter.com/viewType.html?buildTypeId=bt516&guest=1)
 
