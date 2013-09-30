@@ -369,5 +369,15 @@ namespace SquishIt.Framework.Base
         {
             bundleCache.ClearTestingCache();
         }
+
+        public int AssetCount
+        {
+            get
+            {
+                return bundleState == null ? 0
+                    : bundleState.Assets == null ? 0 
+                    : bundleState.Assets.Count;
+            }
+        }
     }
 }
