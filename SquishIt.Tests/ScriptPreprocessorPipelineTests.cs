@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Moq;
+using NUnit.Framework;
 using SquishIt.Framework;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.JavaScript;
@@ -19,7 +20,7 @@ namespace SquishIt.Tests
         {
             javaScriptBundleFactory = new JavaScriptBundleFactory();
             var retryableFileOpener = new RetryableFileOpener();
-            hasher = new Hasher(retryableFileOpener);
+            hasher = new StubHasher("hash");
         }
 
         [Test]
@@ -44,8 +45,8 @@ namespace SquishIt.Tests
                 string contents =
                     javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output.js")];
 
-                Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output.js?r=4AC018380A2609F7B20456FA1200CBD7\"></script>", tag);
-                Assert.AreEqual("globey;", contents);
+                Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output.js?r=hash\"></script>", tag);
+                Assert.AreEqual("globey;\n", contents);
 
                 Assert.AreEqual("start", scriptPreprocessor.CalledWith);
                 Assert.AreEqual("scripty", globalPreprocessor.CalledWith);
@@ -74,8 +75,8 @@ namespace SquishIt.Tests
                 string contents =
                     javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output.js")];
 
-                Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output.js?r=1CAFA2D8FF256D13A3BBBFB4770AC743\"></script>", tag);
-                Assert.AreEqual("scripty;", contents);
+                Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output.js?r=hash\"></script>", tag);
+                Assert.AreEqual("scripty;\n", contents);
 
                 Assert.AreEqual("globey", scriptPreprocessor.CalledWith);
                 Assert.AreEqual("start", globalPreprocessor.CalledWith);
@@ -104,8 +105,8 @@ namespace SquishIt.Tests
                 string contents =
                     javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output.js")];
 
-                Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output.js?r=1CAFA2D8FF256D13A3BBBFB4770AC743\"></script>", tag);
-                Assert.AreEqual("scripty;", contents);
+                Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output.js?r=hash\"></script>", tag);
+                Assert.AreEqual("scripty;\n", contents);
 
                 Assert.AreEqual("globey", scriptPreprocessor.CalledWith);
                 Assert.AreEqual("start", globalPreprocessor.CalledWith);
@@ -133,8 +134,8 @@ namespace SquishIt.Tests
             string contents =
                 javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output.js")];
 
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output.js?r=1CAFA2D8FF256D13A3BBBFB4770AC743\"></script>", tag);
-            Assert.AreEqual("scripty;", contents);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output.js?r=hash\"></script>", tag);
+            Assert.AreEqual("scripty;\n", contents);
 
             Assert.AreEqual("globey", scriptPreprocessor.CalledWith);
             Assert.AreEqual("start", globalPreprocessor.CalledWith);

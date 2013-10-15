@@ -27,7 +27,7 @@ namespace SquishIt.Tests
         {
             var javaScriptMinifier = MinifierFactory.Get<JavaScriptBundle, NullMinifier>();
             string minifiedJavaScript = javaScriptMinifier.Minify(javaScript);
-            Assert.AreEqual(javaScript + "\n", minifiedJavaScript);
+            Assert.AreEqual(javaScript, minifiedJavaScript);
         }
 
         [Test]

@@ -123,7 +123,7 @@ namespace SquishIt.Tests
             Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
 
             var actual = writerFactory.Files[TestUtilities.PrepareRelativePath("template.js")];
-            Assert.AreEqual(compiled, actual);
+            Assert.AreEqual(compiled + "\n", actual);
         }
 
         [TestCase(typeof(HoganPreprocessor)), Platform(Exclude = "Unix, Linux, Mono")]

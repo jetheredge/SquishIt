@@ -87,15 +87,11 @@ namespace SquishIt.Framework.JavaScript
                 });
         }
 
-        const string MINIFIED_FILE_SEPARATOR = ";";
+        const string MINIFIED_FILE_SEPARATOR = ";\n";
         
         protected override string AppendFileClosure(string content)
         {
-            if (!(content.Trim().EndsWith(MINIFIED_FILE_SEPARATOR)))
-            {
-                content += MINIFIED_FILE_SEPARATOR;
-            }
-            return content;
+            return content.TrimEnd(MINIFIED_FILE_SEPARATOR).TrimEnd(";") + MINIFIED_FILE_SEPARATOR;
         }
 
         public JavaScriptBundle WithDeferredLoad()

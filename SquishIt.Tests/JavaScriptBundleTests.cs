@@ -31,14 +31,14 @@ namespace SquishIt.Tests
 																				function sum(a, b){
 																						return a + b;
 																				}");
-        string minifiedJavaScript = "function product(n,t){return n*t}function sum(n,t){return n+t};";
+        string minifiedJavaScript = "function product(n,t){return n*t}function sum(n,t){return n+t};\n";
 
-        string javaScriptPreMinified = "(function() { alert('should end with parens') })()";
+        string javaScriptPreMinified = "(function() { alert('should end with parens') })();\n";
 
         string javaScript2 = TestUtilities.NormalizeLineEndings(@"function sum(a, b){
 																						return a + b;
 																			 }");
-        string minifiedJavaScript2 = "function sum(n,t){return n+t};";
+        string minifiedJavaScript2 = "function sum(n,t){return n+t};\n";
 
         JavaScriptBundleFactory javaScriptBundleFactory;
 
@@ -90,7 +90,7 @@ namespace SquishIt.Tests
 
             Assert.AreEqual(1, javaScriptBundleFactory.FileWriterFactory.Files.Count);
             var output = TestUtilities.NormalizeLineEndings(javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath("script.js")]);
-            Assert.True(output.StartsWith(javaScriptPreMinified + ";"));
+            Assert.True(output.StartsWith(javaScriptPreMinified));
             Assert.True(output.EndsWith(minifiedJavaScript2));
         }
 
@@ -107,7 +107,7 @@ namespace SquishIt.Tests
 
             Assert.AreEqual(1, javaScriptBundleFactory.FileWriterFactory.Files.Count);
             var output = TestUtilities.NormalizeLineEndings(javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath("script.js")]);
-            Assert.True(output.StartsWith(javaScriptPreMinified + ";"));
+            Assert.True(output.StartsWith(javaScriptPreMinified));
             Assert.True(output.EndsWith(minifiedJavaScript2));
         }
 
@@ -151,7 +151,7 @@ namespace SquishIt.Tests
 
                 var content = writerFactory.Files[TestUtilities.PrepareRelativePath(@"output.js")];
                 Assert.True(content.StartsWith(minifiedJavaScript));
-                Assert.True(content.EndsWith(javaScriptPreMinified + ";"));
+                Assert.True(content.EndsWith(javaScriptPreMinified));
             }
         }
 
@@ -418,7 +418,7 @@ namespace SquishIt.Tests
                     .Render("~/js/output_6.js");
 
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_6.js?r=hash\"></script>", tag);
-            Assert.AreEqual(javaScript + "\n;", javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PreparePath(Environment.CurrentDirectory + @"\js\output_6.js")]);
+            Assert.AreEqual(javaScript + ";\n", javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PreparePath(Environment.CurrentDirectory + @"\js\output_6.js")]);
         }
 
         [Test]
@@ -431,7 +431,7 @@ namespace SquishIt.Tests
                     .Render("~/js/output_7.js");
 
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_7.js?r=hash\"></script>", tag);
-            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;};", javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_7.js")]);
+            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;};\n", javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_7.js")]);
         }
 
         [Test]
@@ -444,7 +444,7 @@ namespace SquishIt.Tests
                     .Render("~/js/output_jsmininstance.js");
 
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_jsmininstance.js?r=hash\"></script>", tag);
-            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;};", javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_jsmininstance.js")]);
+            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;};\n", javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_jsmininstance.js")]);
         }
 
         [Test]
@@ -457,7 +457,7 @@ namespace SquishIt.Tests
                     .Render("~/js/output_embedded7.js");
 
             Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output_embedded7.js?r=hash\"></script>", tag);
-            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;};", javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_embedded7.js")]);
+            Assert.AreEqual("\nfunction product(a,b)\n{return a*b;}\nfunction sum(a,b){return a+b;};\n", javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_embedded7.js")]);
         }
 
         [Test]
@@ -513,7 +513,7 @@ namespace SquishIt.Tests
                     .Add("~/js/test.js")
                     .Render("~/js/output_10.js");
 
-            Assert.AreEqual("function sum(n,t){return n+t};", javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_10.js")]);
+            Assert.AreEqual("function sum(n,t){return n+t};\n", javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output_10.js")]);
         }
 
         [Test]
@@ -818,7 +818,7 @@ namespace SquishIt.Tests
                 var expectedTag = "<script type=\"text/javascript\" src=\"output.js?r=hashy\"></script>";
                 Assert.AreEqual(expectedTag, tag);
 
-                var combined = "function replace(n,t){return n+t};function product(n,t){return n*t}function sum(n,t){return n+t};";
+                var combined = "function replace(n,t){return n+t};\nfunction product(n,t){return n*t}function sum(n,t){return n+t};\n";
                 Assert.AreEqual(combined, writerFactory.Files[TestUtilities.PrepareRelativePath(@"output.js")]);
             }
         }
@@ -851,7 +851,7 @@ namespace SquishIt.Tests
                 var expectedTag = "<script type=\"text/javascript\" src=\"output.js?r=hashy\"></script>";
                 Assert.AreEqual(expectedTag, tag);
 
-                var combined = "function replace(n,t){return n+t};function product(n,t){return n*t}function sum(n,t){return n+t};";
+                var combined = "function replace(n,t){return n+t};\nfunction product(n,t){return n*t}function sum(n,t){return n+t};\n";
                 Assert.AreEqual(combined, writerFactory.Files[TestUtilities.PrepareRelativePath(@"output.js")]);
             }
         }
@@ -903,7 +903,7 @@ namespace SquishIt.Tests
             var expectedTag = string.Format("<script type=\"text/javascript\" src=\"test.js?r=hash\"></script>");
             Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
 
-            var combined = minifiedJavaScript + minifiedSubtract + minifiedJavaScript2;
+            var combined = minifiedJavaScript + minifiedSubtract + "\n" + minifiedJavaScript2;
             Assert.AreEqual(combined, writerFactory.Files[TestUtilities.PrepareRelativePath(@"test.js")]);
         }
 
@@ -1014,7 +1014,7 @@ namespace SquishIt.Tests
             var expectedTag = "<script type=\"text/javascript\" src=\"output.js?r=hashy\"></script>";
             Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
 
-            var minifiedScript = "function product(n,t){return n*t}function sum(n,t){return n+t};function sub(n,t){return n-t}function div(n,t){return n/t};";
+            var minifiedScript = "function product(n,t){return n*t}function sum(n,t){return n+t};\nfunction sub(n,t){return n-t}function div(n,t){return n/t};\n";
             Assert.AreEqual(minifiedScript, writerFactory.Files[TestUtilities.PrepareRelativePath(@"output.js")]);
         }
 
@@ -1045,7 +1045,7 @@ namespace SquishIt.Tests
                 .ForceRelease()
                 .Render("test.js");
 
-            renderer.Verify(r => r.Render(content + ";", TestUtilities.PrepareRelativePath("test.js")));
+            renderer.Verify(r => r.Render(content + ";\n", TestUtilities.PrepareRelativePath("test.js")));
         }
 
         [Test]
@@ -1377,6 +1377,27 @@ namespace SquishIt.Tests
 
                 Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
             }
+        }
+
+        [Test]
+        public void Includes_Semicolon_And_Newline_Between_Scripts()
+        {
+            var writerFactory = new StubFileWriterFactory();
+
+            var tag = new JavaScriptBundleFactory()
+                    .WithDebuggingEnabled(false)
+                    .WithFileWriterFactory(writerFactory)
+                    .WithHasher(new StubHasher("hashy"))
+                    .Create()
+                    .AddString("first")
+                    .AddString("second")
+                    .Render("~/output.js");
+
+            var expectedTag = "<script type=\"text/javascript\" src=\"output.js?r=hashy\"></script>";
+            Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
+
+            var minifiedScript = "first;\nsecond;\n";
+            Assert.AreEqual(minifiedScript, writerFactory.Files[TestUtilities.PrepareRelativePath(@"output.js")]);
         }
     }
 }

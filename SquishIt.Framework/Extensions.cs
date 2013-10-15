@@ -15,6 +15,16 @@ namespace SquishIt.Framework
             return result;
         }
 
+        internal static string TrimEnd(this string target, string toTrim)
+        {
+            string result = target;
+            while (result.EndsWith(toTrim))
+            {
+                result = result.Substring(0, result.Length - toTrim.Length);
+            }
+            return result;
+        }
+
         internal static bool NullSafeAny<T>(this IEnumerable<T> values)
         {
             return values != null && values.Any();
