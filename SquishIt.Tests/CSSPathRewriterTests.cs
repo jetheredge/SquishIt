@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using SquishIt.Framework.CSS;
-using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Helpers;
 
 namespace SquishIt.Tests
@@ -482,6 +481,34 @@ font-style: normal;
 }";
 
             var sourceFile = TestUtilities.PreparePath(@"C:\somepath\somesubpath\myFile.css");
+            var destinationFile = TestUtilities.PreparePath(@"C:\somepath\somesubpath\myRewrittenFile.css");
+
+            var result = CSSPathRewriter.RewriteCssPaths(destinationFile, sourceFile, css, null);
+
+            Assert.AreEqual(css, result);
+        }
+
+        [Test]
+        public void WontEncodeSpecialCharacters()
+        {
+            var css = @".icon-facebook-squared:before { content: '\e804'; } /* '' */
+.icon-calendar:before { content: '\e801'; } /* '' */";
+
+            var sourceFile = TestUtilities.PreparePath(@"C:\somepath\myFile.css");
+            var destinationFile = TestUtilities.PreparePath(@"C:\somepath\somesubpath\myRewrittenFile.css");
+
+            var result = CSSPathRewriter.RewriteCssPaths(destinationFile, sourceFile, css, null);
+
+            Assert.AreEqual(css, result);
+        }
+
+        [Test]
+        public void FontsWith()
+        {
+            var css = @".icon-facebook-squared:before { content: '\e804'; } /* '' */
+.icon-calendar:before { content: '\e801'; } /* '' */";
+
+            var sourceFile = TestUtilities.PreparePath(@"C:\somepath\myFile.css");
             var destinationFile = TestUtilities.PreparePath(@"C:\somepath\somesubpath\myRewrittenFile.css");
 
             var result = CSSPathRewriter.RewriteCssPaths(destinationFile, sourceFile, css, null);
