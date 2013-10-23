@@ -4,11 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Caching;
+using SquishIt.Framework.Utilities;
 
 namespace SquishIt.Framework
 {
     public class BundleCache: IBundleCache
     {
+        private readonly IDebugStatusReader debugStatusReader = new DebugStatusReader(new MachineConfigReader());
+
         const string KEY_PREFIX = "squishit_";
 
         readonly List<string> CacheKeys = new List<string>();
@@ -43,7 +46,7 @@ namespace SquishIt.Framework
             CacheKeys.Add(cacheKey);
 
             var physicalFiles = files.Where(File.Exists).ToArray();
-            var cacheDependency = physicalFiles.Length > 0
+            var cacheDependency = (physicalFiles.Length > 0 && !debugStatusReader.IsDebuggingEnabled())
                 ? new CacheDependency(physicalFiles)
                 : null;
             HttpRuntime.Cache.Add(cacheKey, content, cacheDependency,
