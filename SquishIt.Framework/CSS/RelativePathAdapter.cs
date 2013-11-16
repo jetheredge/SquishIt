@@ -20,16 +20,20 @@ namespace SquishIt.Framework.CSS
             var relativeWithoutLeadingAscent = relative.TrimStart("../");
             var relativeAscent = (relative.Length - relativeWithoutLeadingAscent.Length) / 3;
             var relativePathIsInSourceDirectory = relativeAscent == 0;
+            var sourceIsDeeperThanDestination = _directoriesUp.Length < _directoriesDown.Length;
 
             var totalDirectoriesUp = _directoriesUp.Length + relativeAscent;
 
+            var howFarToAscend = sourceIsDeeperThanDestination ? _directoriesUp.Length : Math.Max(totalDirectoriesUp - (relativePathIsInSourceDirectory ? 0 : _directoriesDown.Length), 0);
+            var howFarToDescend = _directoriesDown.Length - (relativePathIsInSourceDirectory ? 0 : sourceIsDeeperThanDestination ? relativeAscent : totalDirectoriesUp);
+
             var pathUp = totalDirectoriesUp == 0
-                             ? string.Empty
-                             : Enumerable.Range(1, Math.Max(totalDirectoriesUp - (relativePathIsInSourceDirectory ? 0 : _directoriesDown.Length),0))
-                                         .Aggregate(string.Empty, (acc, i) => acc + "../");
+                                ? string.Empty
+                                : Enumerable.Range(1, howFarToAscend)
+                                            .Aggregate(string.Empty, (acc, i) => acc + "../");
 
             var pathDown = _directoriesDown
-                .Take(_directoriesDown.Length - (relativePathIsInSourceDirectory ? 0 : totalDirectoriesUp))
+                .Take(howFarToDescend)
                 .Aggregate(string.Empty, (acc, s) => acc == string.Empty ? s : string.Concat(acc, "/", s));
 
             var pathToBase = string.Concat(pathUp, pathDown, (string.IsNullOrEmpty(pathDown) ? string.Empty : "/"));

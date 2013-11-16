@@ -515,5 +515,21 @@ font-style: normal;
 
             Assert.AreEqual(css, result);
         }
+
+        [Test]
+        public void CanRewritePathsInCSSWhenSourceDeeperThanDestination()
+        {
+            //https://github.com/jetheredge/SquishIt/issues/264
+            var css = @"background: transparent url('../Images/rss-icon.png') no-repeat;";
+
+            var expected = @"background: transparent url('../../Themes/Metro/Content/Images/rss-icon.png') no-repeat;";
+
+            var sourceFile = TestUtilities.PreparePath(@"C:\X\Themes\Metro\Content\Styles\myFile.css");
+            var destinationFile = TestUtilities.PreparePath(@"C:\X\Content\cache\combined.css");
+
+            var result = CSSPathRewriter.RewriteCssPaths(destinationFile, sourceFile, css, null);
+
+            Assert.AreEqual(expected, result);
+        }
     }
 }
