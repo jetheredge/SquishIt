@@ -1,0 +1,284 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HelpTOC>
+
+  <HelpTOCNode Id="39b28e63-1838-4061-82ab-4bba7d2daec2" Title="SquishIt.CoffeeScript Namespace" Url="html/680e4bad-9a1d-a74d-36ce-686d017a2211.htm">
+    <HelpTOCNode Id="8e43c0e7-2fd1-4ce7-94d1-f4a74b6120af" Title="CoffeeScriptPreprocessor Class" Url="html/6ac24b90-2f35-7947-b177-29b570519897.htm">
+      <HelpTOCNode Title="CoffeeScriptPreprocessor Members" Url="html/013ba666-1e35-0829-fd61-2d80dc71727f.htm" />
+      <HelpTOCNode Title="CoffeeScriptPreprocessor Constructor " Url="html/8c35617a-ff58-9fb7-5595-69496fc6d517.htm" />
+      <HelpTOCNode Id="c82b30d1-ae64-4cce-94d4-a779cde2875a" Title="CoffeeScriptPreprocessor Methods" Url="html/a3b3f61d-429a-e70e-5f2a-756537d72b87.htm">
+        <HelpTOCNode Title="Process Method " Url="html/2b69d281-a0b3-168f-f15b-0580a3bb790f.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="daa6df7c-0001-4734-865c-e3ad6cb66c0a" Title="CoffeeScriptPreprocessor Properties" Url="html/65b3a5c7-a401-4ff6-6b60-779042d69e19.htm">
+        <HelpTOCNode Title="Extensions Property " Url="html/66ae906d-c54a-170f-598c-380705484eb9.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+  </HelpTOCNode>
+  <HelpTOCNode Id="8f60d6c0-aa6b-4576-9ffd-c7707e620991" Title="SquishIt.Framework Namespace" Url="html/5a8376d8-77e7-b5ca-1fa6-39dc91512dc2.htm">
+    <HelpTOCNode Id="a3ceebdc-9ebf-4fc0-9b92-f968acb12ed0" Title="Bundle Class" Url="html/ebc2f224-66c4-d408-3acc-2b45a635fca7.htm">
+      <HelpTOCNode Title="Bundle Members" Url="html/cb59eb49-145f-4114-8612-b1d49116fccf.htm" />
+      <HelpTOCNode Title="Bundle Constructor " Url="html/611525ef-1e02-c967-b37a-c2171b877e7b.htm" />
+      <HelpTOCNode Id="05878dec-0a30-4354-943d-be43a499104f" Title="Bundle Methods" Url="html/a3f5f998-85f8-e45d-e8cf-28a71078fdf0.htm">
+        <HelpTOCNode Title="ClearPreprocessors Method " Url="html/bd02972e-24ec-ccb8-2a51-7e63581121f3.htm" />
+        <HelpTOCNode Title="ConfigureDefaults Method " Url="html/e6ac8b0d-5cdf-2950-8199-94c5628a030d.htm" />
+        <HelpTOCNode Id="86b678da-44da-4ad0-9b49-634f2a5f5ef0" Title="Css Method " Url="html/06dc2317-b788-1c3b-692d-ef464b21e738.htm">
+          <HelpTOCNode Title="Css Method " Url="html/f0c829c0-5fd1-2271-045b-9822f82c977d.htm" />
+          <HelpTOCNode Title="Css Method ()" Url="html/dc0c165c-9808-fff6-4d9e-9fd15b9a0572.htm" />
+        </HelpTOCNode>
+        <HelpTOCNode Id="eda410dc-6144-484e-aa3d-f648432eec50" Title="JavaScript Method " Url="html/c4892cef-b75b-a461-74ce-327a5452f653.htm">
+          <HelpTOCNode Title="JavaScript Method " Url="html/290e09af-1100-689c-aa80-43390dd296eb.htm" />
+          <HelpTOCNode Title="JavaScript Method ()" Url="html/5df17768-36a9-9f20-54f2-507be45ca74e.htm" />
+        </HelpTOCNode>
+        <HelpTOCNode Title="RegisterGlobalPreprocessor(T) Method " Url="html/ff602ec5-a929-b24c-7cf7-a79fad47eb90.htm" />
+        <HelpTOCNode Title="RegisterScriptPreprocessor(T) Method " Url="html/4268e538-589a-e7e0-0fe8-6fd4e6c6b0bc.htm" />
+        <HelpTOCNode Title="RegisterStylePreprocessor(T) Method " Url="html/485fc0eb-8fb5-465d-3bc6-da5fa5562018.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="7ace035c-722f-43aa-9c2f-b461b1e759a0" Title="IPreprocessor Interface" Url="html/ff61d179-5c39-311f-ba1f-a04354168bd1.htm">
+      <HelpTOCNode Title="IPreprocessor Members" Url="html/0630d2b9-6d33-54a0-6065-310af45c025a.htm" />
+      <HelpTOCNode Id="dde815e9-d7bb-43b5-9e60-3ac30f6bd876" Title="IPreprocessor Methods" Url="html/ff37ca8f-b4d2-5b10-c37a-2f18325eaeda.htm">
+        <HelpTOCNode Title="Process Method " Url="html/3d1e016d-9569-ed9b-1bc8-09102fea7169.htm" />
+        <HelpTOCNode Title="ValidFor Method " Url="html/2d9a4c66-e3ca-2e67-afa3-4df14b8beeca.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="6db3575b-9f3e-4ec3-b339-7fdc483642d4" Title="IPreprocessor Properties" Url="html/54126ac2-4dd0-fd3f-c86e-359e3eeb8caf.htm">
+        <HelpTOCNode Title="Extensions Property " Url="html/7b83d73e-1dcf-4485-a604-72c25e8de6ce.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="35993325-7ae2-43d5-964b-6cc02ec945a1" Title="IProcessResult Interface" Url="html/c970cc4e-099b-2c49-bb57-609a1a32754f.htm">
+      <HelpTOCNode Title="IProcessResult Members" Url="html/89121798-aad7-6eb4-2f7b-581c68feb74f.htm" />
+      <HelpTOCNode Id="ab986b09-848e-4a40-9557-0fa400c287e9" Title="IProcessResult Properties" Url="html/28d36f4a-295a-40aa-248d-c224dfeeb35c.htm">
+        <HelpTOCNode Title="Dependencies Property " Url="html/3b1b0503-74b8-7e71-801c-fd71965f6779.htm" />
+        <HelpTOCNode Title="Result Property " Url="html/7cfff5c2-e536-1f61-5884-61fd72fa2180.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+  </HelpTOCNode>
+  <HelpTOCNode Id="d1d813f9-61a5-497b-8fc4-82bdd616d5ff" Title="SquishIt.Framework.Base Namespace" Url="html/fc2890b4-2dd9-8649-ed46-f8e0aad90fd0.htm">
+    <HelpTOCNode Id="a6829d4c-becb-4f8d-add4-7abc1b59f459" Title="BundleBase(T) Class" Url="html/0b171740-a102-8440-039e-113635419b6d.htm">
+      <HelpTOCNode Title="BundleBase(T) Members" Url="html/02c4b2ac-1c16-9931-3140-e6b369011cfb.htm" />
+      <HelpTOCNode Id="9ac7dea9-be45-4fe4-80bf-b0322fed9f4b" Title="BundleBase(T) Methods" Url="html/f3e87501-4cfa-96f5-f1c6-5a4e4c65a6c2.htm">
+        <HelpTOCNode Title="Add Method " Url="html/c26a04f6-ebc6-b7dc-1b61-d3a7a6bb3be8.htm" />
+        <HelpTOCNode Title="AddDirectory Method " Url="html/2136e6e5-544d-9d7c-d44c-557541122411.htm" />
+        <HelpTOCNode Title="AddDynamic Method " Url="html/d22ed8f9-2808-658d-9cdc-2b5b8cbdbbfd.htm" />
+        <HelpTOCNode Title="AddEmbeddedResource Method " Url="html/b9358d9d-08e3-b546-8f9f-2d6fa0e3b667.htm" />
+        <HelpTOCNode Title="AddMinified Method " Url="html/bc780345-735f-9ed6-e6ea-8384d103a0b0.htm" />
+        <HelpTOCNode Title="AddMinifiedDirectory Method " Url="html/7983695d-1f52-8b09-4c42-37bea427cb88.htm" />
+        <HelpTOCNode Id="fd646c9b-024e-4b22-9c0e-ff528e470b08" Title="AddMinifiedString Method " Url="html/edf26de4-cb32-60e3-74a2-f8035da0cc99.htm">
+          <HelpTOCNode Title="AddMinifiedString Method (String)" Url="html/0457c369-aeb4-4d23-0684-4b39d72e5061.htm" />
+          <HelpTOCNode Title="AddMinifiedString Method (String, String)" Url="html/05dc0e57-5a6f-eb63-9d45-7eedac42f3e6.htm" />
+        </HelpTOCNode>
+        <HelpTOCNode Id="2c2cddae-9817-4c39-9946-14bfe8fdb006" Title="AddRemote Method " Url="html/e219f284-c275-331e-7816-bc4c4b9778c0.htm">
+          <HelpTOCNode Title="AddRemote Method (String, String)" Url="html/c67b087b-de41-effd-c4ef-7b299feeec1f.htm" />
+          <HelpTOCNode Title="AddRemote Method (String, String, Boolean)" Url="html/b315582b-9210-7798-1d44-d989bd0ca1ab.htm" />
+        </HelpTOCNode>
+        <HelpTOCNode Title="AddRootEmbeddedResource Method " Url="html/d3a67c91-cdff-0496-b9b1-fa5ab66dfc77.htm" />
+        <HelpTOCNode Id="84a1ef89-6e95-44fc-adbd-ec30fbf3c7a9" Title="AddString Method " Url="html/188789f6-cc4c-c39d-5812-45f7597a2d45.htm">
+          <HelpTOCNode Title="AddString Method (String)" Url="html/d419a370-58c5-fe04-55c5-275ccbbce0ce.htm" />
+          <HelpTOCNode Title="AddString Method (String, Object[])" Url="html/8e56d2f5-edfe-f1cd-6b79-0c86db6b9591.htm" />
+          <HelpTOCNode Title="AddString Method (String, String, Object[])" Url="html/94b8f074-fbbc-2bfd-3064-67a9ee68c6b2.htm" />
+          <HelpTOCNode Title="AddString Method (String, String, String)" Url="html/b717fa1d-0fcc-fe26-8e72-b34a4798e08c.htm" />
+        </HelpTOCNode>
+        <HelpTOCNode Title="AsCached Method " Url="html/c1a98ff0-c98b-8a20-a45c-a766d5f24b88.htm" />
+        <HelpTOCNode Title="AsNamed Method " Url="html/57f7147a-e224-9988-1ea9-d4dce12a346f.htm" />
+        <HelpTOCNode Title="ClearCache Method " Url="html/0a3a78ff-c0dc-7ed0-eed0-f7b22fd7713b.htm" />
+        <HelpTOCNode Title="ForceDebug Method " Url="html/cb1e8868-c336-cdd1-eb4f-74ea9df99768.htm" />
+        <HelpTOCNode Title="ForceDebugIf Method " Url="html/2f8398fb-57d9-1c12-2a1d-bee2d310afa1.htm" />
+        <HelpTOCNode Title="ForceRelease Method " Url="html/c06d1eef-0a50-255f-f6d1-11509e121bf6.htm" />
+        <HelpTOCNode Title="HashKeyNamed Method " Url="html/3b006e83-6b9b-e081-773e-f20b165c40f5.htm" />
+        <HelpTOCNode Title="Render Method " Url="html/5e502bdc-565b-c2e6-c731-5de8610bc2f5.htm" />
+        <HelpTOCNode Title="RenderCached Method " Url="html/62f6f0e3-9941-961f-a012-10babcc8eca5.htm" />
+        <HelpTOCNode Title="RenderCachedAssetTag Method " Url="html/dec4c0cf-4658-3760-c2cd-33f8e7e39a93.htm" />
+        <HelpTOCNode Title="RenderNamed Method " Url="html/90fc1e04-3b0b-ef79-24ce-4411f5bc36ad.htm" />
+        <HelpTOCNode Title="RenderOnlyIfOutputFileMissing Method " Url="html/b877bae8-0ab9-300a-486c-5748f45ba2f3.htm" />
+        <HelpTOCNode Title="WithAttribute Method " Url="html/b6174666-47be-8be5-4fdd-66a20dbca0b5.htm" />
+        <HelpTOCNode Title="WithAttributes Method " Url="html/ebe6034c-f0de-78d6-d7d0-8e8191d3648a.htm" />
+        <HelpTOCNode Title="WithCacheInvalidationStrategy Method " Url="html/07609f2f-d113-a30c-0ee3-b6dc016c8e5f.htm" />
+        <HelpTOCNode Id="55ead080-9363-443b-bf62-a1024018b4f6" Title="WithMinifier Method " Url="html/d8503d76-58aa-d23d-a511-66fc1eb5c561.htm">
+          <HelpTOCNode Title="WithMinifier(TMin) Method " Url="html/abc0737b-1f07-3c56-2d38-2fe6c1b453ce.htm" />
+          <HelpTOCNode Title="WithMinifier(TMin) Method (TMin)" Url="html/b169afb3-e582-032c-f604-80e73f4988cd.htm" />
+        </HelpTOCNode>
+        <HelpTOCNode Title="WithOutputBaseHref Method " Url="html/aaf498c4-4d32-7b5e-ae9a-7e0b180e713a.htm" />
+        <HelpTOCNode Title="WithoutRevisionHash Method " Url="html/6f8b1261-2984-3d96-cf71-4781689654e7.htm" />
+        <HelpTOCNode Title="WithoutTypeAttribute Method " Url="html/f8dcb3c8-881b-acaf-9b7a-d9f5dd4e8eac.htm" />
+        <HelpTOCNode Title="WithPreprocessor Method " Url="html/d71d33b3-2e00-661e-4dae-763667e0f008.htm" />
+        <HelpTOCNode Title="WithReleaseFileRenderer Method " Url="html/d129cfde-96f3-9b7a-2aff-4ad7013ce05d.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="97d2b401-783e-460d-81b1-d151553d8d2d" Title="BundleBase(T) Properties" Url="html/e93fd93c-86e2-f8e8-9f90-32a65f988436.htm">
+        <HelpTOCNode Title="AssetCount Property " Url="html/865c2fee-ce79-947e-0210-7e0b9a312b7f.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="0ae990dc-4776-44e0-bc69-e6f8939ea6f9" Title="Preprocessor Class" Url="html/6b8b1a1e-21d6-4377-1832-b10fbd971a08.htm">
+      <HelpTOCNode Title="Preprocessor Members" Url="html/9c29cfe8-8908-5b81-554a-b06e8de31a1b.htm" />
+      <HelpTOCNode Id="f4d65fff-d929-4add-a5b4-98632dc384b6" Title="Preprocessor Methods" Url="html/90b7f15e-ba8f-6b6c-cd22-fe4854f48cfe.htm">
+        <HelpTOCNode Title="Process Method " Url="html/f9760b11-d5f7-d2ed-8288-7a3879fb3552.htm" />
+        <HelpTOCNode Title="ValidFor Method " Url="html/44107310-8b18-61a4-9f94-2aa66f2593bb.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="8f7f0784-469f-4cde-be7c-114835b217de" Title="Preprocessor Properties" Url="html/25a034c9-bbb6-b7bc-cad4-1bf6aa114892.htm">
+        <HelpTOCNode Title="Extensions Property " Url="html/03300629-9153-e4da-0b5c-b7810918c0c9.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="c08ac8d2-66cb-4b9c-8d92-4dfb1b3241f9" Title="ProcessResult Class" Url="html/d5f12d33-f550-f9c3-d514-29a026523282.htm">
+      <HelpTOCNode Title="ProcessResult Members" Url="html/469dca28-1d50-070c-83ad-95f7cea095f2.htm" />
+      <HelpTOCNode Id="5bd07c9c-454c-40cb-8409-8ac348ab1f32" Title="ProcessResult Constructor " Url="html/e750c9f5-dc5d-edac-b48b-575aeabb1ba7.htm">
+        <HelpTOCNode Title="ProcessResult Constructor (String)" Url="html/9e6c9d3e-9974-d75f-f317-d8f4412e3e14.htm" />
+        <HelpTOCNode Title="ProcessResult Constructor (String, IEnumerable(String))" Url="html/29087539-2a68-87a9-c302-f06fb525eb72.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="0b1fb5e5-a31b-4092-9592-98534e37939d" Title="ProcessResult Properties" Url="html/aaa95f5b-3f8b-e528-beda-b9e6e6da4f85.htm">
+        <HelpTOCNode Title="Dependencies Property " Url="html/7db32118-fa53-076f-2ebb-5eb33e962ce7.htm" />
+        <HelpTOCNode Title="Result Property " Url="html/59f276e7-0a8c-eed1-543a-9c0da0a9e598.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+  </HelpTOCNode>
+  <HelpTOCNode Id="8af9ca43-753b-4fb1-aa5a-f17064fcd214" Title="SquishIt.Framework.CSS Namespace" Url="html/a24d2a94-d97e-5f0e-7811-ae3d049579b0.htm">
+    <HelpTOCNode Id="024e8939-2b09-4877-8fdf-2cfbaffb8c15" Title="CSSBundle Class" Url="html/fddcfcdf-b8e6-0c63-6674-a5efd118ebe9.htm">
+      <HelpTOCNode Title="CSSBundle Members" Url="html/8ced490a-b739-2e6d-5708-923a3cce4d48.htm" />
+      <HelpTOCNode Id="d3bc8d3c-9398-499f-9669-c73cf4a114d5" Title="CSSBundle Constructor " Url="html/ed432df4-8418-7e98-2e93-556c14d6a837.htm">
+        <HelpTOCNode Title="CSSBundle Constructor " Url="html/4c345bd2-428d-7460-ce82-3c4b0325792d.htm" />
+        <HelpTOCNode Title="CSSBundle Constructor ()" Url="html/00e9c5ce-ec08-c91f-54ed-e6d1e52c4c9e.htm" />
+        <HelpTOCNode Title="CSSBundle Constructor (, , , , , )" Url="html/d5a37189-6def-a026-e47a-0603c9c3b758.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="944963d4-1ed0-40e7-bd0c-4e0b7c270339" Title="CSSBundle Methods" Url="html/0cd05569-824b-e87f-b8d1-66bc1b3bb9c7.htm">
+        <HelpTOCNode Title="AppendHashForAssets Method " Url="html/71453f19-eda9-a548-edc1-733267978ec8.htm" />
+        <HelpTOCNode Title="ProcessImports Method " Url="html/494f682c-0856-d6ef-d08d-99ea049fe50a.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Title="CSSBundle Properties" Url="html/2998e59e-fdcb-3f47-4b8f-eb07fc811ab7.htm" />
+    </HelpTOCNode>
+  </HelpTOCNode>
+  <HelpTOCNode Id="f636793e-cd82-4b7c-8f47-41404c54a3c6" Title="SquishIt.Framework.Invalidation Namespace" Url="html/9b58c471-1e4b-e532-c90d-3145a5c6c172.htm">
+    <HelpTOCNode Id="5d533d41-f189-4b67-89a1-fcd9e354555e" Title="DefaultCacheInvalidationStrategy Class" Url="html/a5d2a183-ea30-3e2c-e3be-aa1a8ec69a60.htm">
+      <HelpTOCNode Title="DefaultCacheInvalidationStrategy Members" Url="html/0fb2be86-79a9-82ab-e8b1-f7eebfc35691.htm" />
+      <HelpTOCNode Title="DefaultCacheInvalidationStrategy Constructor " Url="html/9f5f3be6-9a52-1219-e0ae-80e3415561d0.htm" />
+      <HelpTOCNode Id="686b1c01-6e1c-4c6c-9971-7fb91316fc78" Title="DefaultCacheInvalidationStrategy Methods" Url="html/1afc5106-1a76-1122-2bcb-b762abbc87a3.htm">
+        <HelpTOCNode Title="GetOutputFileLocation Method " Url="html/03f2c013-203e-66d4-8202-4dc8fb883040.htm" />
+        <HelpTOCNode Title="GetOutputWebPath Method " Url="html/b6d651a9-9051-12c5-393f-79b6bdaec203.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="e4142dc8-91d5-4dba-8602-8ca8cc141740" Title="HashAsVirtualDirectoryCacheInvalidationStrategy Class" Url="html/aad4febe-90a0-8dcc-4fbb-bf55b20ab733.htm">
+      <HelpTOCNode Title="HashAsVirtualDirectoryCacheInvalidationStrategy Members" Url="html/7ac1e135-fbd3-7164-77c7-6145c1abe30c.htm" />
+      <HelpTOCNode Title="HashAsVirtualDirectoryCacheInvalidationStrategy Constructor " Url="html/1f61ce70-b3d3-6bcd-b939-e9deca221695.htm" />
+      <HelpTOCNode Id="87d4b4ce-5928-4cdb-8078-217e34d7c08e" Title="HashAsVirtualDirectoryCacheInvalidationStrategy Methods" Url="html/544406f9-7066-b62f-1ba4-53ca1ef25946.htm">
+        <HelpTOCNode Title="GetOutputFileLocation Method " Url="html/5ae7a892-f686-c933-d390-647a7f586f0a.htm" />
+        <HelpTOCNode Title="GetOutputWebPath Method " Url="html/9176d5de-ec8c-cb52-eee0-41a3485bcf72.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="ad2c04d3-9234-438d-aaed-3c07b961662c" Title="ICacheInvalidationStrategy Interface" Url="html/6535275c-7f21-97f3-9079-0e395d56ef86.htm">
+      <HelpTOCNode Title="ICacheInvalidationStrategy Members" Url="html/7976e79f-61e9-22ad-a4fe-c18b73c103e3.htm" />
+      <HelpTOCNode Id="63b65987-1f92-4ff6-9c13-43525b1d1ddf" Title="ICacheInvalidationStrategy Methods" Url="html/aa92af7a-92e7-9452-1f73-cca09bd29d97.htm">
+        <HelpTOCNode Title="GetOutputFileLocation Method " Url="html/c419d8de-2401-0a1c-163e-4652af9ecaa5.htm" />
+        <HelpTOCNode Title="GetOutputWebPath Method " Url="html/7ad46474-1e94-2cd3-f060-25ba496a4049.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+  </HelpTOCNode>
+  <HelpTOCNode Id="9e5307fa-575f-496c-913a-3fef1d971d60" Title="SquishIt.Framework.JavaScript Namespace" Url="html/94409344-08bf-0713-1b93-b932cc4b482c.htm">
+    <HelpTOCNode Id="2a21da7c-e888-48e3-bb5f-173922332419" Title="JavaScriptBundle Class" Url="html/306397d5-d24a-cc5f-b5e0-3c49e454870c.htm">
+      <HelpTOCNode Title="JavaScriptBundle Members" Url="html/c5c20a26-ed67-4418-0bb8-6965977265e4.htm" />
+      <HelpTOCNode Id="d4655cca-3c8e-42d0-b2c8-0a2ea6a3463f" Title="JavaScriptBundle Constructor " Url="html/18bdb5c1-2f4e-f39f-5473-96a680a452fe.htm">
+        <HelpTOCNode Title="JavaScriptBundle Constructor " Url="html/dc9a2a48-7626-eb7d-ec51-9700547810b2.htm" />
+        <HelpTOCNode Title="JavaScriptBundle Constructor ()" Url="html/70dde251-a500-08fd-5322-f4cc4df3f8b3.htm" />
+        <HelpTOCNode Title="JavaScriptBundle Constructor (, , , , , )" Url="html/ef3d5d9b-41eb-3206-d888-2b1e0c3c63bf.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="7e42fa8b-24c0-4d31-a316-0630feb46e28" Title="JavaScriptBundle Methods" Url="html/3a62bc5d-bd42-6cd8-4f56-067664632a64.htm">
+        <HelpTOCNode Title="WithDeferredLoad Method " Url="html/6ee86fa4-4fad-f2f3-1a2d-ef70a95c0502.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Title="JavaScriptBundle Properties" Url="html/314b7eac-d78d-df77-7a9e-75c28f764c4f.htm" />
+    </HelpTOCNode>
+  </HelpTOCNode>
+  <HelpTOCNode Id="a6ad70bb-11db-490a-b991-b0580c98f914" Title="SquishIt.Hogan Namespace" Url="html/41999fc4-a259-dca9-1f14-55848e9190a4.htm">
+    <HelpTOCNode Id="581c0fbe-bbff-408d-bba8-7a49aba718ac" Title="HoganPreprocessor Class" Url="html/d645b561-f235-1566-f16f-9a830ee5c7b9.htm">
+      <HelpTOCNode Title="HoganPreprocessor Members" Url="html/d3a6a47c-2bae-b4fc-5460-16c957879d9a.htm" />
+      <HelpTOCNode Title="HoganPreprocessor Constructor " Url="html/62ffed66-fc39-f90b-fc7d-82c12d88f9db.htm" />
+      <HelpTOCNode Id="8a18321c-e592-4af3-9c7d-b477e16a0d9e" Title="HoganPreprocessor Methods" Url="html/1c68928b-b1d4-df4a-425a-618de25a3500.htm">
+        <HelpTOCNode Title="Process Method " Url="html/32f414a2-0e67-0977-94f4-b9c4eb6e564d.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="7afc1106-a95d-433c-ae8a-2d11764be32e" Title="HoganPreprocessor Properties" Url="html/a271f08c-6c9a-5234-2135-cf3b32c84a73.htm">
+        <HelpTOCNode Title="Extensions Property " Url="html/24838269-acab-75b1-c04c-5547e1ca7c13.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+  </HelpTOCNode>
+  <HelpTOCNode Id="6743b368-b56d-4d01-a08a-7c62e3bdb0c7" Title="SquishIt.Less Namespace" Url="html/33db9212-8c8a-78db-5609-3a00d387a4eb.htm">
+    <HelpTOCNode Id="e3512c69-2660-4367-afd0-a9a1e02fbbed" Title="LessPreprocessor Class" Url="html/cfab79fc-eeed-f69a-4036-ac034a090cf1.htm">
+      <HelpTOCNode Title="LessPreprocessor Members" Url="html/d8131d4f-9e4f-1921-35a9-4f697dfab5a7.htm" />
+      <HelpTOCNode Id="e84fbd17-8c0b-4148-a156-6ffd729c535e" Title="LessPreprocessor Constructor " Url="html/68f9d5ca-d521-1c3d-f0e3-3c1e5f7369d7.htm">
+        <HelpTOCNode Title="LessPreprocessor Constructor " Url="html/84e4c757-1e91-b205-f6f9-aab57d792376.htm" />
+        <HelpTOCNode Title="LessPreprocessor Constructor (Func())" Url="html/087ad57a-9c7e-a8a5-9ad3-802ed0a5fba3.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="75c83b5e-f6a5-46b4-bc57-bbba38133082" Title="LessPreprocessor Fields" Url="html/4c56b740-d6bf-c616-038b-6276a557fa6e.htm">
+        <HelpTOCNode Title="EngineBuilder Field" Url="html/bc6183d0-40b5-7668-8f1a-c77e7690ac7d.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="7becbd02-d954-4ca6-a6e5-1b0050748b8a" Title="LessPreprocessor Methods" Url="html/f98ad931-74ef-a09d-cb80-dd36d15485d7.htm">
+        <HelpTOCNode Title="Process Method " Url="html/abad8eb2-941a-d5b9-2d8c-3a81ec8bf3f9.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="19cec5bf-b24e-467e-83e3-0dfc4a7cf86b" Title="LessPreprocessor Properties" Url="html/355a7d30-2c94-e773-4456-55df8110a4a8.htm">
+        <HelpTOCNode Title="Extensions Property " Url="html/bbb636bb-5912-a177-24b4-c7166bf70938.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+  </HelpTOCNode>
+  <HelpTOCNode Id="2216d14d-fe3a-4b68-8c6f-91960413d21b" Title="SquishIt.MsIeCoffeeScript Namespace" Url="html/75a9fdfb-af4a-1bd0-4e77-c3ad42a29aea.htm">
+    <HelpTOCNode Id="d8f5fdfd-c0d0-4daf-83c7-53666ad99f95" Title="CoffeeScriptPreprocessor Class" Url="html/6e8faa86-cd89-0310-90a1-7f60bc310ddd.htm">
+      <HelpTOCNode Title="CoffeeScriptPreprocessor Members" Url="html/dbbcb6b4-3859-5792-b092-3a89ae00c871.htm" />
+      <HelpTOCNode Title="CoffeeScriptPreprocessor Constructor " Url="html/fce5caba-676b-5089-4010-39a275f09684.htm" />
+      <HelpTOCNode Id="9785d12e-d1ea-40ee-ae7c-7867beb08a81" Title="CoffeeScriptPreprocessor Methods" Url="html/240cebd5-722c-e245-ddc2-5e121c1de1ef.htm">
+        <HelpTOCNode Title="Process Method " Url="html/272e93eb-0fa5-81e4-48c3-a41b5796a63a.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="fd87e6be-9d66-415a-8a75-1c1dec3ca1eb" Title="CoffeeScriptPreprocessor Properties" Url="html/cbe70a59-43ba-b154-d18b-2ff38b324c5c.htm">
+        <HelpTOCNode Title="Extensions Property " Url="html/815eb751-9b45-1589-ed68-00410fe9414c.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+  </HelpTOCNode>
+  <HelpTOCNode Id="a7e0ec2f-d581-4104-adc4-bf71bfc47b97" Title="SquishIt.MsIeHogan Namespace" Url="html/2565d762-c2c1-48e3-9b27-8c251c22dd8a.htm">
+    <HelpTOCNode Id="d3329392-0227-4121-9279-63e10063857c" Title="HoganPreprocessor Class" Url="html/f52dd54a-112c-ab1f-a994-65a64b60cd04.htm">
+      <HelpTOCNode Title="HoganPreprocessor Members" Url="html/63240fe5-5345-e857-759c-624e6bcc7f8c.htm" />
+      <HelpTOCNode Title="HoganPreprocessor Constructor " Url="html/66a19655-1b45-a039-c0e2-6dc3abcbb6f3.htm" />
+      <HelpTOCNode Id="0e7cb044-176a-4226-bbea-39def5b08a02" Title="HoganPreprocessor Methods" Url="html/1c5a98a7-b597-fac9-fccf-0b604f3e2c04.htm">
+        <HelpTOCNode Title="Process Method " Url="html/9b9b47e9-d8b7-521f-4d3a-3289e198c5ae.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="2762080c-954b-41da-bb7f-cfa942694607" Title="HoganPreprocessor Properties" Url="html/2e555af3-1eb1-73c0-131d-e62311903bf8.htm">
+        <HelpTOCNode Title="Extensions Property " Url="html/b528e09d-00f1-3e82-551f-56df60e45d99.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+  </HelpTOCNode>
+  <HelpTOCNode Id="58be39d9-8381-4d89-b970-587e31569573" Title="SquishIt.Mvc Namespace" Url="html/8b144a86-a0fd-7506-799e-b982f4224260.htm">
+    <HelpTOCNode Id="4e66c581-2e97-4622-b698-f123b1769e6f" Title="CSSBundleExtensions Class" Url="html/c99c4f26-fdcf-f710-22c9-2fda58abfbf6.htm">
+      <HelpTOCNode Title="CSSBundleExtensions Members" Url="html/fa569138-1706-fb7a-bf6e-dad8cce74e10.htm" />
+      <HelpTOCNode Id="ee900442-2e45-46cd-8aec-e9a9faef9733" Title="CSSBundleExtensions Methods" Url="html/17b21b08-2fde-eb98-a12f-af7885975092.htm">
+        <HelpTOCNode Title="MvcRender Method " Url="html/3acea4e2-bd61-b5a0-2d42-58e0c737df75.htm" />
+        <HelpTOCNode Title="MvcRenderCachedAssetTag Method " Url="html/6b14607d-b08f-9016-4df8-5788da68de6d.htm" />
+        <HelpTOCNode Title="MvcRenderNamed Method " Url="html/7e3bd4d9-0dc6-e7e9-ce01-46cc8eb5b032.htm" />
+        <HelpTOCNode Title="RenderMvc Method " Url="html/77b1a37c-db87-e54e-9b42-206433071205.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="2ba66fa2-a8e6-48e7-964d-65154f74e7b1" Title="HtmlHelperExtensions Class" Url="html/1e771f1b-4bdb-25d1-1fe4-3303818665f5.htm">
+      <HelpTOCNode Title="HtmlHelperExtensions Members" Url="html/bc5ea901-16ba-094c-eeba-3179eb925ff9.htm" />
+      <HelpTOCNode Id="5a871786-76e1-4622-a8c4-5a640f414a97" Title="HtmlHelperExtensions Methods" Url="html/80cb37de-2cbf-5496-b3e2-6d2d540c56f2.htm">
+        <HelpTOCNode Title="BundleCss Method " Url="html/52719af2-55e9-c693-fdc0-182fcb5bd9c8.htm" />
+        <HelpTOCNode Title="BundleJavaScript Method " Url="html/ef9b06c2-4dce-c375-357a-e1cf1aaac9f1.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="1f432f71-f0ca-4714-85ea-86fa8307d1ba" Title="JavaScriptBundleExtensions Class" Url="html/f68f1d2b-4621-340b-46c7-c65b04e40161.htm">
+      <HelpTOCNode Title="JavaScriptBundleExtensions Members" Url="html/791bf2d2-ae27-7973-3e7c-78a818bbdc24.htm" />
+      <HelpTOCNode Id="91b3e63b-1230-4158-a3a8-059356596683" Title="JavaScriptBundleExtensions Methods" Url="html/fb00a2ba-2244-3ec5-eff9-90fb33c6b7c2.htm">
+        <HelpTOCNode Title="MvcRender Method " Url="html/900f1c0a-f310-659d-b190-0a3b99cec9a8.htm" />
+        <HelpTOCNode Title="MvcRenderCachedAssetTag Method " Url="html/8090f180-5478-321e-7ef3-939cbb0ea33d.htm" />
+        <HelpTOCNode Title="MvcRenderNamed Method " Url="html/448b9254-69ce-82ba-4378-87cdf943d5d8.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="1649a49d-15db-4f37-94cd-81fdb93e765f" Title="SquishItController Class" Url="html/8eb4e90e-b17f-499a-60a3-1ab024ec6198.htm">
+      <HelpTOCNode Title="SquishItController Members" Url="html/90e32407-e7f6-c08c-4fc0-5c670d17d66a.htm" />
+      <HelpTOCNode Title="SquishItController Constructor " Url="html/1f642441-1b3d-2abd-a99a-973b7a49edb7.htm" />
+      <HelpTOCNode Id="fa53d826-790b-4972-981c-e0c93dbb8c36" Title="SquishItController Methods" Url="html/e990f3d8-a4c3-9f6f-9264-92e185290e81.htm">
+        <HelpTOCNode Title="Css Method " Url="html/73ed6d7c-2914-a8ab-1099-4f225aebde7c.htm" />
+        <HelpTOCNode Title="Js Method " Url="html/c5192bcf-633a-f65c-6222-a56464cb4d06.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+  </HelpTOCNode>
+  <HelpTOCNode Id="605a4674-0c04-4590-88e5-a7b051272806" Title="SquishIt.Sass Namespace" Url="html/ffbba609-eb94-b839-c503-ff753ab29ced.htm">
+    <HelpTOCNode Id="02481af3-06c5-4205-8ad8-58b56e9545cd" Title="SassPreprocessor Class" Url="html/28cf4201-0838-8075-104b-db5e351375a7.htm">
+      <HelpTOCNode Title="SassPreprocessor Members" Url="html/3cb4156f-3531-2890-a364-321abfe819c0.htm" />
+      <HelpTOCNode Title="SassPreprocessor Constructor " Url="html/72c3321d-35e2-c163-81a1-ed91d9fa09e0.htm" />
+      <HelpTOCNode Id="85b88645-808c-4dba-ba29-25fb6ce92137" Title="SassPreprocessor Methods" Url="html/e736ff8f-4d11-870d-6e03-05c7f61193c2.htm">
+        <HelpTOCNode Title="Process Method " Url="html/d737671b-754b-23c2-5a01-8e21af97481a.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="df0b5c73-50a5-457a-8d3b-d7df7cd10047" Title="SassPreprocessor Properties" Url="html/e315e0fb-dd64-529c-e0db-042ce234cf6f.htm">
+        <HelpTOCNode Title="Extensions Property " Url="html/5a7081ca-422e-e6a6-ed70-dbfc58e42ae8.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+  </HelpTOCNode>
+</HelpTOC>

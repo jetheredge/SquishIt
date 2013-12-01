@@ -1,0 +1,528 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HelpKI>
+  <HelpKINode Title="Add method" Url="html/c26a04f6-ebc6-b7dc-1b61-d3a7a6bb3be8.htm" />
+  <HelpKINode Title="AddDirectory method" Url="html/2136e6e5-544d-9d7c-d44c-557541122411.htm" />
+  <HelpKINode Title="AddDynamic method" Url="html/d22ed8f9-2808-658d-9cdc-2b5b8cbdbbfd.htm" />
+  <HelpKINode Title="AddEmbeddedResource method" Url="html/b9358d9d-08e3-b546-8f9f-2d6fa0e3b667.htm" />
+  <HelpKINode Title="AddMinified method" Url="html/bc780345-735f-9ed6-e6ea-8384d103a0b0.htm" />
+  <HelpKINode Title="AddMinifiedDirectory method" Url="html/7983695d-1f52-8b09-4c42-37bea427cb88.htm" />
+  <HelpKINode Title="AddMinifiedString method" Url="html/edf26de4-cb32-60e3-74a2-f8035da0cc99.htm" />
+  <HelpKINode Title="AddRemote method" Url="html/e219f284-c275-331e-7816-bc4c4b9778c0.htm" />
+  <HelpKINode Title="AddRootEmbeddedResource method" Url="html/d3a67c91-cdff-0496-b9b1-fa5ab66dfc77.htm" />
+  <HelpKINode Title="AddString method" Url="html/188789f6-cc4c-c39d-5812-45f7597a2d45.htm" />
+  <HelpKINode Title="AppendHashForAssets method" Url="html/71453f19-eda9-a548-edc1-733267978ec8.htm" />
+  <HelpKINode Title="AsCached method" Url="html/c1a98ff0-c98b-8a20-a45c-a766d5f24b88.htm" />
+  <HelpKINode Title="AsNamed method" Url="html/57f7147a-e224-9988-1ea9-d4dce12a346f.htm" />
+  <HelpKINode Title="AssetCount property" Url="html/865c2fee-ce79-947e-0210-7e0b9a312b7f.htm" />
+  <HelpKINode Title="Bundle class">
+    <HelpKINode Title="Bundle Class" Url="html/ebc2f224-66c4-d408-3acc-2b45a635fca7.htm" />
+    <HelpKINode Title="Bundle Members" Url="html/cb59eb49-145f-4114-8612-b1d49116fccf.htm" />
+    <HelpKINode Title="about Bundle class" Url="html/ebc2f224-66c4-d408-3acc-2b45a635fca7.htm" />
+    <HelpKINode Title="all members" Url="html/cb59eb49-145f-4114-8612-b1d49116fccf.htm" />
+    <HelpKINode Title="constructor" Url="html/611525ef-1e02-c967-b37a-c2171b877e7b.htm" />
+    <HelpKINode Title="methods" Url="html/a3f5f998-85f8-e45d-e8cf-28a71078fdf0.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Bundle.Bundle constructor" Url="html/611525ef-1e02-c967-b37a-c2171b877e7b.htm" />
+  <HelpKINode Title="Bundle.ClearPreprocessors method" Url="html/bd02972e-24ec-ccb8-2a51-7e63581121f3.htm" />
+  <HelpKINode Title="Bundle.ConfigureDefaults method" Url="html/e6ac8b0d-5cdf-2950-8199-94c5628a030d.htm" />
+  <HelpKINode Title="Bundle.Css method" Url="html/06dc2317-b788-1c3b-692d-ef464b21e738.htm" />
+  <HelpKINode Title="Bundle.JavaScript method" Url="html/c4892cef-b75b-a461-74ce-327a5452f653.htm" />
+  <HelpKINode Title="Bundle.RegisterGlobalPreprocessor(Of T) method" Url="html/ff602ec5-a929-b24c-7cf7-a79fad47eb90.htm" />
+  <HelpKINode Title="Bundle.RegisterGlobalPreprocessor&lt;T&gt; method" Url="html/ff602ec5-a929-b24c-7cf7-a79fad47eb90.htm" />
+  <HelpKINode Title="Bundle.RegisterScriptPreprocessor(Of T) method" Url="html/4268e538-589a-e7e0-0fe8-6fd4e6c6b0bc.htm" />
+  <HelpKINode Title="Bundle.RegisterScriptPreprocessor&lt;T&gt; method" Url="html/4268e538-589a-e7e0-0fe8-6fd4e6c6b0bc.htm" />
+  <HelpKINode Title="Bundle.RegisterStylePreprocessor(Of T) method" Url="html/485fc0eb-8fb5-465d-3bc6-da5fa5562018.htm" />
+  <HelpKINode Title="Bundle.RegisterStylePreprocessor&lt;T&gt; method" Url="html/485fc0eb-8fb5-465d-3bc6-da5fa5562018.htm" />
+  <HelpKINode Title="BundleBase(Of T) class">
+    <HelpKINode Title="BundleBase(T) Class" Url="html/0b171740-a102-8440-039e-113635419b6d.htm" />
+    <HelpKINode Title="BundleBase(T) Members" Url="html/02c4b2ac-1c16-9931-3140-e6b369011cfb.htm" />
+    <HelpKINode Title="about BundleBase(Of T) class" Url="html/0b171740-a102-8440-039e-113635419b6d.htm" />
+    <HelpKINode Title="all members" Url="html/02c4b2ac-1c16-9931-3140-e6b369011cfb.htm" />
+    <HelpKINode Title="methods" Url="html/f3e87501-4cfa-96f5-f1c6-5a4e4c65a6c2.htm" />
+    <HelpKINode Title="properties" Url="html/e93fd93c-86e2-f8e8-9f90-32a65f988436.htm" />
+  </HelpKINode>
+  <HelpKINode Title="BundleBase(Of T).Add method" Url="html/c26a04f6-ebc6-b7dc-1b61-d3a7a6bb3be8.htm" />
+  <HelpKINode Title="BundleBase(Of T).AddDirectory method" Url="html/2136e6e5-544d-9d7c-d44c-557541122411.htm" />
+  <HelpKINode Title="BundleBase(Of T).AddDynamic method" Url="html/d22ed8f9-2808-658d-9cdc-2b5b8cbdbbfd.htm" />
+  <HelpKINode Title="BundleBase(Of T).AddEmbeddedResource method" Url="html/b9358d9d-08e3-b546-8f9f-2d6fa0e3b667.htm" />
+  <HelpKINode Title="BundleBase(Of T).AddMinified method" Url="html/bc780345-735f-9ed6-e6ea-8384d103a0b0.htm" />
+  <HelpKINode Title="BundleBase(Of T).AddMinifiedDirectory method" Url="html/7983695d-1f52-8b09-4c42-37bea427cb88.htm" />
+  <HelpKINode Title="BundleBase(Of T).AddMinifiedString method" Url="html/edf26de4-cb32-60e3-74a2-f8035da0cc99.htm" />
+  <HelpKINode Title="BundleBase(Of T).AddRemote method" Url="html/e219f284-c275-331e-7816-bc4c4b9778c0.htm" />
+  <HelpKINode Title="BundleBase(Of T).AddRootEmbeddedResource method" Url="html/d3a67c91-cdff-0496-b9b1-fa5ab66dfc77.htm" />
+  <HelpKINode Title="BundleBase(Of T).AddString method" Url="html/188789f6-cc4c-c39d-5812-45f7597a2d45.htm" />
+  <HelpKINode Title="BundleBase(Of T).AsCached method" Url="html/c1a98ff0-c98b-8a20-a45c-a766d5f24b88.htm" />
+  <HelpKINode Title="BundleBase(Of T).AsNamed method" Url="html/57f7147a-e224-9988-1ea9-d4dce12a346f.htm" />
+  <HelpKINode Title="BundleBase(Of T).AssetCount property" Url="html/865c2fee-ce79-947e-0210-7e0b9a312b7f.htm" />
+  <HelpKINode Title="BundleBase(Of T).ClearCache method" Url="html/0a3a78ff-c0dc-7ed0-eed0-f7b22fd7713b.htm" />
+  <HelpKINode Title="BundleBase(Of T).ForceDebug method" Url="html/cb1e8868-c336-cdd1-eb4f-74ea9df99768.htm" />
+  <HelpKINode Title="BundleBase(Of T).ForceDebugIf method" Url="html/2f8398fb-57d9-1c12-2a1d-bee2d310afa1.htm" />
+  <HelpKINode Title="BundleBase(Of T).ForceRelease method" Url="html/c06d1eef-0a50-255f-f6d1-11509e121bf6.htm" />
+  <HelpKINode Title="BundleBase(Of T).HashKeyNamed method" Url="html/3b006e83-6b9b-e081-773e-f20b165c40f5.htm" />
+  <HelpKINode Title="BundleBase(Of T).Render method" Url="html/5e502bdc-565b-c2e6-c731-5de8610bc2f5.htm" />
+  <HelpKINode Title="BundleBase(Of T).RenderCached method" Url="html/62f6f0e3-9941-961f-a012-10babcc8eca5.htm" />
+  <HelpKINode Title="BundleBase(Of T).RenderCachedAssetTag method" Url="html/dec4c0cf-4658-3760-c2cd-33f8e7e39a93.htm" />
+  <HelpKINode Title="BundleBase(Of T).RenderNamed method" Url="html/90fc1e04-3b0b-ef79-24ce-4411f5bc36ad.htm" />
+  <HelpKINode Title="BundleBase(Of T).RenderOnlyIfOutputFileMissing method" Url="html/b877bae8-0ab9-300a-486c-5748f45ba2f3.htm" />
+  <HelpKINode Title="BundleBase(Of T).WithAttribute method" Url="html/b6174666-47be-8be5-4fdd-66a20dbca0b5.htm" />
+  <HelpKINode Title="BundleBase(Of T).WithAttributes method" Url="html/ebe6034c-f0de-78d6-d7d0-8e8191d3648a.htm" />
+  <HelpKINode Title="BundleBase(Of T).WithCacheInvalidationStrategy method" Url="html/07609f2f-d113-a30c-0ee3-b6dc016c8e5f.htm" />
+  <HelpKINode Title="BundleBase(Of T).WithMinifier method" Url="html/d8503d76-58aa-d23d-a511-66fc1eb5c561.htm" />
+  <HelpKINode Title="BundleBase(Of T).WithOutputBaseHref method" Url="html/aaf498c4-4d32-7b5e-ae9a-7e0b180e713a.htm" />
+  <HelpKINode Title="BundleBase(Of T).WithoutRevisionHash method" Url="html/6f8b1261-2984-3d96-cf71-4781689654e7.htm" />
+  <HelpKINode Title="BundleBase(Of T).WithoutTypeAttribute method" Url="html/f8dcb3c8-881b-acaf-9b7a-d9f5dd4e8eac.htm" />
+  <HelpKINode Title="BundleBase(Of T).WithPreprocessor method" Url="html/d71d33b3-2e00-661e-4dae-763667e0f008.htm" />
+  <HelpKINode Title="BundleBase(Of T).WithReleaseFileRenderer method" Url="html/d129cfde-96f3-9b7a-2aff-4ad7013ce05d.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt; class">
+    <HelpKINode Title="BundleBase(T) Class" Url="html/0b171740-a102-8440-039e-113635419b6d.htm" />
+    <HelpKINode Title="BundleBase(T) Members" Url="html/02c4b2ac-1c16-9931-3140-e6b369011cfb.htm" />
+    <HelpKINode Title="about BundleBase&lt;T&gt; class" Url="html/0b171740-a102-8440-039e-113635419b6d.htm" />
+    <HelpKINode Title="all members" Url="html/02c4b2ac-1c16-9931-3140-e6b369011cfb.htm" />
+    <HelpKINode Title="methods" Url="html/f3e87501-4cfa-96f5-f1c6-5a4e4c65a6c2.htm" />
+    <HelpKINode Title="properties" Url="html/e93fd93c-86e2-f8e8-9f90-32a65f988436.htm" />
+  </HelpKINode>
+  <HelpKINode Title="BundleBase&lt;T&gt;.Add method" Url="html/c26a04f6-ebc6-b7dc-1b61-d3a7a6bb3be8.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.AddDirectory method" Url="html/2136e6e5-544d-9d7c-d44c-557541122411.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.AddDynamic method" Url="html/d22ed8f9-2808-658d-9cdc-2b5b8cbdbbfd.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.AddEmbeddedResource method" Url="html/b9358d9d-08e3-b546-8f9f-2d6fa0e3b667.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.AddMinified method" Url="html/bc780345-735f-9ed6-e6ea-8384d103a0b0.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.AddMinifiedDirectory method" Url="html/7983695d-1f52-8b09-4c42-37bea427cb88.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.AddMinifiedString method" Url="html/edf26de4-cb32-60e3-74a2-f8035da0cc99.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.AddRemote method" Url="html/e219f284-c275-331e-7816-bc4c4b9778c0.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.AddRootEmbeddedResource method" Url="html/d3a67c91-cdff-0496-b9b1-fa5ab66dfc77.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.AddString method" Url="html/188789f6-cc4c-c39d-5812-45f7597a2d45.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.AsCached method" Url="html/c1a98ff0-c98b-8a20-a45c-a766d5f24b88.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.AsNamed method" Url="html/57f7147a-e224-9988-1ea9-d4dce12a346f.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.AssetCount property" Url="html/865c2fee-ce79-947e-0210-7e0b9a312b7f.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.ClearCache method" Url="html/0a3a78ff-c0dc-7ed0-eed0-f7b22fd7713b.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.ForceDebug method" Url="html/cb1e8868-c336-cdd1-eb4f-74ea9df99768.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.ForceDebugIf method" Url="html/2f8398fb-57d9-1c12-2a1d-bee2d310afa1.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.ForceRelease method" Url="html/c06d1eef-0a50-255f-f6d1-11509e121bf6.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.HashKeyNamed method" Url="html/3b006e83-6b9b-e081-773e-f20b165c40f5.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.Render method" Url="html/5e502bdc-565b-c2e6-c731-5de8610bc2f5.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.RenderCached method" Url="html/62f6f0e3-9941-961f-a012-10babcc8eca5.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.RenderCachedAssetTag method" Url="html/dec4c0cf-4658-3760-c2cd-33f8e7e39a93.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.RenderNamed method" Url="html/90fc1e04-3b0b-ef79-24ce-4411f5bc36ad.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.RenderOnlyIfOutputFileMissing method" Url="html/b877bae8-0ab9-300a-486c-5748f45ba2f3.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.WithAttribute method" Url="html/b6174666-47be-8be5-4fdd-66a20dbca0b5.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.WithAttributes method" Url="html/ebe6034c-f0de-78d6-d7d0-8e8191d3648a.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.WithCacheInvalidationStrategy method" Url="html/07609f2f-d113-a30c-0ee3-b6dc016c8e5f.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.WithMinifier method" Url="html/d8503d76-58aa-d23d-a511-66fc1eb5c561.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.WithOutputBaseHref method" Url="html/aaf498c4-4d32-7b5e-ae9a-7e0b180e713a.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.WithoutRevisionHash method" Url="html/6f8b1261-2984-3d96-cf71-4781689654e7.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.WithoutTypeAttribute method" Url="html/f8dcb3c8-881b-acaf-9b7a-d9f5dd4e8eac.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.WithPreprocessor method" Url="html/d71d33b3-2e00-661e-4dae-763667e0f008.htm" />
+  <HelpKINode Title="BundleBase&lt;T&gt;.WithReleaseFileRenderer method" Url="html/d129cfde-96f3-9b7a-2aff-4ad7013ce05d.htm" />
+  <HelpKINode Title="BundleCss method" Url="html/52719af2-55e9-c693-fdc0-182fcb5bd9c8.htm" />
+  <HelpKINode Title="BundleJavaScript method" Url="html/ef9b06c2-4dce-c375-357a-e1cf1aaac9f1.htm" />
+  <HelpKINode Title="ClearCache method" Url="html/0a3a78ff-c0dc-7ed0-eed0-f7b22fd7713b.htm" />
+  <HelpKINode Title="ClearPreprocessors method" Url="html/bd02972e-24ec-ccb8-2a51-7e63581121f3.htm" />
+  <HelpKINode Title="CoffeeScriptPreprocessor class">
+    <HelpKINode Title="CoffeeScriptPreprocessor Class" Url="html/6e8faa86-cd89-0310-90a1-7f60bc310ddd.htm" />
+    <HelpKINode Title="CoffeeScriptPreprocessor Class" Url="html/6ac24b90-2f35-7947-b177-29b570519897.htm" />
+    <HelpKINode Title="CoffeeScriptPreprocessor Members" Url="html/dbbcb6b4-3859-5792-b092-3a89ae00c871.htm" />
+    <HelpKINode Title="CoffeeScriptPreprocessor Members" Url="html/013ba666-1e35-0829-fd61-2d80dc71727f.htm" />
+    <HelpKINode Title="about CoffeeScriptPreprocessor class" Url="html/6ac24b90-2f35-7947-b177-29b570519897.htm" />
+    <HelpKINode Title="about CoffeeScriptPreprocessor class" Url="html/6e8faa86-cd89-0310-90a1-7f60bc310ddd.htm" />
+    <HelpKINode Title="all members" Url="html/dbbcb6b4-3859-5792-b092-3a89ae00c871.htm" />
+    <HelpKINode Title="all members" Url="html/013ba666-1e35-0829-fd61-2d80dc71727f.htm" />
+    <HelpKINode Title="constructor" Url="html/fce5caba-676b-5089-4010-39a275f09684.htm" />
+    <HelpKINode Title="constructor" Url="html/8c35617a-ff58-9fb7-5595-69496fc6d517.htm" />
+    <HelpKINode Title="methods" Url="html/240cebd5-722c-e245-ddc2-5e121c1de1ef.htm" />
+    <HelpKINode Title="methods" Url="html/a3b3f61d-429a-e70e-5f2a-756537d72b87.htm" />
+    <HelpKINode Title="properties" Url="html/cbe70a59-43ba-b154-d18b-2ff38b324c5c.htm" />
+    <HelpKINode Title="properties" Url="html/65b3a5c7-a401-4ff6-6b60-779042d69e19.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CoffeeScriptPreprocessor.CoffeeScriptPreprocessor constructor">
+    <HelpKINode Title="CoffeeScriptPreprocessor Constructor " Url="html/fce5caba-676b-5089-4010-39a275f09684.htm" />
+    <HelpKINode Title="CoffeeScriptPreprocessor Constructor " Url="html/8c35617a-ff58-9fb7-5595-69496fc6d517.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CoffeeScriptPreprocessor.Extensions property">
+    <HelpKINode Title="CoffeeScriptPreprocessor.Extensions Property " Url="html/66ae906d-c54a-170f-598c-380705484eb9.htm" />
+    <HelpKINode Title="CoffeeScriptPreprocessor.Extensions Property " Url="html/815eb751-9b45-1589-ed68-00410fe9414c.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CoffeeScriptPreprocessor.Process method">
+    <HelpKINode Title="CoffeeScriptPreprocessor.Process Method " Url="html/2b69d281-a0b3-168f-f15b-0580a3bb790f.htm" />
+    <HelpKINode Title="CoffeeScriptPreprocessor.Process Method " Url="html/272e93eb-0fa5-81e4-48c3-a41b5796a63a.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ConfigureDefaults method" Url="html/e6ac8b0d-5cdf-2950-8199-94c5628a030d.htm" />
+  <HelpKINode Title="Css method">
+    <HelpKINode Title="Bundle.Css Method " Url="html/06dc2317-b788-1c3b-692d-ef464b21e738.htm" />
+    <HelpKINode Title="SquishItController.Css Method " Url="html/73ed6d7c-2914-a8ab-1099-4f225aebde7c.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CSSBundle class">
+    <HelpKINode Title="CSSBundle Class" Url="html/fddcfcdf-b8e6-0c63-6674-a5efd118ebe9.htm" />
+    <HelpKINode Title="CSSBundle Members" Url="html/8ced490a-b739-2e6d-5708-923a3cce4d48.htm" />
+    <HelpKINode Title="about CSSBundle class" Url="html/fddcfcdf-b8e6-0c63-6674-a5efd118ebe9.htm" />
+    <HelpKINode Title="all members" Url="html/8ced490a-b739-2e6d-5708-923a3cce4d48.htm" />
+    <HelpKINode Title="constructor" Url="html/ed432df4-8418-7e98-2e93-556c14d6a837.htm" />
+    <HelpKINode Title="methods" Url="html/0cd05569-824b-e87f-b8d1-66bc1b3bb9c7.htm" />
+    <HelpKINode Title="properties" Url="html/2998e59e-fdcb-3f47-4b8f-eb07fc811ab7.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CSSBundle.AppendHashForAssets method" Url="html/71453f19-eda9-a548-edc1-733267978ec8.htm" />
+  <HelpKINode Title="CSSBundle.CSSBundle constructor" Url="html/ed432df4-8418-7e98-2e93-556c14d6a837.htm" />
+  <HelpKINode Title="CSSBundle.ProcessImports method" Url="html/494f682c-0856-d6ef-d08d-99ea049fe50a.htm" />
+  <HelpKINode Title="CSSBundleExtensions class">
+    <HelpKINode Title="CSSBundleExtensions Class" Url="html/c99c4f26-fdcf-f710-22c9-2fda58abfbf6.htm" />
+    <HelpKINode Title="CSSBundleExtensions Members" Url="html/fa569138-1706-fb7a-bf6e-dad8cce74e10.htm" />
+    <HelpKINode Title="about CSSBundleExtensions class" Url="html/c99c4f26-fdcf-f710-22c9-2fda58abfbf6.htm" />
+    <HelpKINode Title="all members" Url="html/fa569138-1706-fb7a-bf6e-dad8cce74e10.htm" />
+    <HelpKINode Title="methods" Url="html/17b21b08-2fde-eb98-a12f-af7885975092.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CSSBundleExtensions.MvcRender method" Url="html/3acea4e2-bd61-b5a0-2d42-58e0c737df75.htm" />
+  <HelpKINode Title="CSSBundleExtensions.MvcRenderCachedAssetTag method" Url="html/6b14607d-b08f-9016-4df8-5788da68de6d.htm" />
+  <HelpKINode Title="CSSBundleExtensions.MvcRenderNamed method" Url="html/7e3bd4d9-0dc6-e7e9-ce01-46cc8eb5b032.htm" />
+  <HelpKINode Title="CSSBundleExtensions.RenderMvc method" Url="html/77b1a37c-db87-e54e-9b42-206433071205.htm" />
+  <HelpKINode Title="DefaultCacheInvalidationStrategy class">
+    <HelpKINode Title="DefaultCacheInvalidationStrategy Class" Url="html/a5d2a183-ea30-3e2c-e3be-aa1a8ec69a60.htm" />
+    <HelpKINode Title="DefaultCacheInvalidationStrategy Members" Url="html/0fb2be86-79a9-82ab-e8b1-f7eebfc35691.htm" />
+    <HelpKINode Title="about DefaultCacheInvalidationStrategy class" Url="html/a5d2a183-ea30-3e2c-e3be-aa1a8ec69a60.htm" />
+    <HelpKINode Title="all members" Url="html/0fb2be86-79a9-82ab-e8b1-f7eebfc35691.htm" />
+    <HelpKINode Title="constructor" Url="html/9f5f3be6-9a52-1219-e0ae-80e3415561d0.htm" />
+    <HelpKINode Title="methods" Url="html/1afc5106-1a76-1122-2bcb-b762abbc87a3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="DefaultCacheInvalidationStrategy.DefaultCacheInvalidationStrategy constructor" Url="html/9f5f3be6-9a52-1219-e0ae-80e3415561d0.htm" />
+  <HelpKINode Title="DefaultCacheInvalidationStrategy.GetOutputFileLocation method" Url="html/03f2c013-203e-66d4-8202-4dc8fb883040.htm" />
+  <HelpKINode Title="DefaultCacheInvalidationStrategy.GetOutputWebPath method" Url="html/b6d651a9-9051-12c5-393f-79b6bdaec203.htm" />
+  <HelpKINode Title="Dependencies property">
+    <HelpKINode Title="IProcessResult.Dependencies Property " Url="html/3b1b0503-74b8-7e71-801c-fd71965f6779.htm" />
+    <HelpKINode Title="ProcessResult.Dependencies Property " Url="html/7db32118-fa53-076f-2ebb-5eb33e962ce7.htm" />
+  </HelpKINode>
+  <HelpKINode Title="EngineBuilder field" Url="html/bc6183d0-40b5-7668-8f1a-c77e7690ac7d.htm" />
+  <HelpKINode Title="Extensions property">
+    <HelpKINode Title="CoffeeScriptPreprocessor.Extensions Property " Url="html/66ae906d-c54a-170f-598c-380705484eb9.htm" />
+    <HelpKINode Title="CoffeeScriptPreprocessor.Extensions Property " Url="html/815eb751-9b45-1589-ed68-00410fe9414c.htm" />
+    <HelpKINode Title="HoganPreprocessor.Extensions Property " Url="html/b528e09d-00f1-3e82-551f-56df60e45d99.htm" />
+    <HelpKINode Title="HoganPreprocessor.Extensions Property " Url="html/24838269-acab-75b1-c04c-5547e1ca7c13.htm" />
+    <HelpKINode Title="IPreprocessor.Extensions Property " Url="html/7b83d73e-1dcf-4485-a604-72c25e8de6ce.htm" />
+    <HelpKINode Title="LessPreprocessor.Extensions Property " Url="html/bbb636bb-5912-a177-24b4-c7166bf70938.htm" />
+    <HelpKINode Title="Preprocessor.Extensions Property " Url="html/03300629-9153-e4da-0b5c-b7810918c0c9.htm" />
+    <HelpKINode Title="SassPreprocessor.Extensions Property " Url="html/5a7081ca-422e-e6a6-ed70-dbfc58e42ae8.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ForceDebug method" Url="html/cb1e8868-c336-cdd1-eb4f-74ea9df99768.htm" />
+  <HelpKINode Title="ForceDebugIf method" Url="html/2f8398fb-57d9-1c12-2a1d-bee2d310afa1.htm" />
+  <HelpKINode Title="ForceRelease method" Url="html/c06d1eef-0a50-255f-f6d1-11509e121bf6.htm" />
+  <HelpKINode Title="GetOutputFileLocation method">
+    <HelpKINode Title="DefaultCacheInvalidationStrategy.GetOutputFileLocation Method " Url="html/03f2c013-203e-66d4-8202-4dc8fb883040.htm" />
+    <HelpKINode Title="HashAsVirtualDirectoryCacheInvalidationStrategy.GetOutputFileLocation Method " Url="html/5ae7a892-f686-c933-d390-647a7f586f0a.htm" />
+    <HelpKINode Title="ICacheInvalidationStrategy.GetOutputFileLocation Method " Url="html/c419d8de-2401-0a1c-163e-4652af9ecaa5.htm" />
+  </HelpKINode>
+  <HelpKINode Title="GetOutputWebPath method">
+    <HelpKINode Title="DefaultCacheInvalidationStrategy.GetOutputWebPath Method " Url="html/b6d651a9-9051-12c5-393f-79b6bdaec203.htm" />
+    <HelpKINode Title="HashAsVirtualDirectoryCacheInvalidationStrategy.GetOutputWebPath Method " Url="html/9176d5de-ec8c-cb52-eee0-41a3485bcf72.htm" />
+    <HelpKINode Title="ICacheInvalidationStrategy.GetOutputWebPath Method " Url="html/7ad46474-1e94-2cd3-f060-25ba496a4049.htm" />
+  </HelpKINode>
+  <HelpKINode Title="HashAsVirtualDirectoryCacheInvalidationStrategy class">
+    <HelpKINode Title="HashAsVirtualDirectoryCacheInvalidationStrategy Class" Url="html/aad4febe-90a0-8dcc-4fbb-bf55b20ab733.htm" />
+    <HelpKINode Title="HashAsVirtualDirectoryCacheInvalidationStrategy Members" Url="html/7ac1e135-fbd3-7164-77c7-6145c1abe30c.htm" />
+    <HelpKINode Title="about HashAsVirtualDirectoryCacheInvalidationStrategy class" Url="html/aad4febe-90a0-8dcc-4fbb-bf55b20ab733.htm" />
+    <HelpKINode Title="all members" Url="html/7ac1e135-fbd3-7164-77c7-6145c1abe30c.htm" />
+    <HelpKINode Title="constructor" Url="html/1f61ce70-b3d3-6bcd-b939-e9deca221695.htm" />
+    <HelpKINode Title="methods" Url="html/544406f9-7066-b62f-1ba4-53ca1ef25946.htm" />
+  </HelpKINode>
+  <HelpKINode Title="HashAsVirtualDirectoryCacheInvalidationStrategy.GetOutputFileLocation method" Url="html/5ae7a892-f686-c933-d390-647a7f586f0a.htm" />
+  <HelpKINode Title="HashAsVirtualDirectoryCacheInvalidationStrategy.GetOutputWebPath method" Url="html/9176d5de-ec8c-cb52-eee0-41a3485bcf72.htm" />
+  <HelpKINode Title="HashAsVirtualDirectoryCacheInvalidationStrategy.HashAsVirtualDirectoryCacheInvalidationStrategy constructor" Url="html/1f61ce70-b3d3-6bcd-b939-e9deca221695.htm" />
+  <HelpKINode Title="HashKeyNamed method" Url="html/3b006e83-6b9b-e081-773e-f20b165c40f5.htm" />
+  <HelpKINode Title="HoganPreprocessor class">
+    <HelpKINode Title="HoganPreprocessor Class" Url="html/f52dd54a-112c-ab1f-a994-65a64b60cd04.htm" />
+    <HelpKINode Title="HoganPreprocessor Class" Url="html/d645b561-f235-1566-f16f-9a830ee5c7b9.htm" />
+    <HelpKINode Title="HoganPreprocessor Members" Url="html/63240fe5-5345-e857-759c-624e6bcc7f8c.htm" />
+    <HelpKINode Title="HoganPreprocessor Members" Url="html/d3a6a47c-2bae-b4fc-5460-16c957879d9a.htm" />
+    <HelpKINode Title="about HoganPreprocessor class" Url="html/f52dd54a-112c-ab1f-a994-65a64b60cd04.htm" />
+    <HelpKINode Title="about HoganPreprocessor class" Url="html/d645b561-f235-1566-f16f-9a830ee5c7b9.htm" />
+    <HelpKINode Title="all members" Url="html/63240fe5-5345-e857-759c-624e6bcc7f8c.htm" />
+    <HelpKINode Title="all members" Url="html/d3a6a47c-2bae-b4fc-5460-16c957879d9a.htm" />
+    <HelpKINode Title="constructor" Url="html/62ffed66-fc39-f90b-fc7d-82c12d88f9db.htm" />
+    <HelpKINode Title="constructor" Url="html/66a19655-1b45-a039-c0e2-6dc3abcbb6f3.htm" />
+    <HelpKINode Title="methods" Url="html/1c5a98a7-b597-fac9-fccf-0b604f3e2c04.htm" />
+    <HelpKINode Title="methods" Url="html/1c68928b-b1d4-df4a-425a-618de25a3500.htm" />
+    <HelpKINode Title="properties" Url="html/a271f08c-6c9a-5234-2135-cf3b32c84a73.htm" />
+    <HelpKINode Title="properties" Url="html/2e555af3-1eb1-73c0-131d-e62311903bf8.htm" />
+  </HelpKINode>
+  <HelpKINode Title="HoganPreprocessor.Extensions property">
+    <HelpKINode Title="HoganPreprocessor.Extensions Property " Url="html/b528e09d-00f1-3e82-551f-56df60e45d99.htm" />
+    <HelpKINode Title="HoganPreprocessor.Extensions Property " Url="html/24838269-acab-75b1-c04c-5547e1ca7c13.htm" />
+  </HelpKINode>
+  <HelpKINode Title="HoganPreprocessor.HoganPreprocessor constructor">
+    <HelpKINode Title="HoganPreprocessor Constructor " Url="html/62ffed66-fc39-f90b-fc7d-82c12d88f9db.htm" />
+    <HelpKINode Title="HoganPreprocessor Constructor " Url="html/66a19655-1b45-a039-c0e2-6dc3abcbb6f3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="HoganPreprocessor.Process method">
+    <HelpKINode Title="HoganPreprocessor.Process Method " Url="html/32f414a2-0e67-0977-94f4-b9c4eb6e564d.htm" />
+    <HelpKINode Title="HoganPreprocessor.Process Method " Url="html/9b9b47e9-d8b7-521f-4d3a-3289e198c5ae.htm" />
+  </HelpKINode>
+  <HelpKINode Title="HtmlHelperExtensions class">
+    <HelpKINode Title="HtmlHelperExtensions Class" Url="html/1e771f1b-4bdb-25d1-1fe4-3303818665f5.htm" />
+    <HelpKINode Title="HtmlHelperExtensions Members" Url="html/bc5ea901-16ba-094c-eeba-3179eb925ff9.htm" />
+    <HelpKINode Title="about HtmlHelperExtensions class" Url="html/1e771f1b-4bdb-25d1-1fe4-3303818665f5.htm" />
+    <HelpKINode Title="all members" Url="html/bc5ea901-16ba-094c-eeba-3179eb925ff9.htm" />
+    <HelpKINode Title="methods" Url="html/80cb37de-2cbf-5496-b3e2-6d2d540c56f2.htm" />
+  </HelpKINode>
+  <HelpKINode Title="HtmlHelperExtensions.BundleCss method" Url="html/52719af2-55e9-c693-fdc0-182fcb5bd9c8.htm" />
+  <HelpKINode Title="HtmlHelperExtensions.BundleJavaScript method" Url="html/ef9b06c2-4dce-c375-357a-e1cf1aaac9f1.htm" />
+  <HelpKINode Title="ICacheInvalidationStrategy interface">
+    <HelpKINode Title="ICacheInvalidationStrategy Interface" Url="html/6535275c-7f21-97f3-9079-0e395d56ef86.htm" />
+    <HelpKINode Title="ICacheInvalidationStrategy Members" Url="html/7976e79f-61e9-22ad-a4fe-c18b73c103e3.htm" />
+    <HelpKINode Title="about ICacheInvalidationStrategy interface" Url="html/6535275c-7f21-97f3-9079-0e395d56ef86.htm" />
+    <HelpKINode Title="all members" Url="html/7976e79f-61e9-22ad-a4fe-c18b73c103e3.htm" />
+    <HelpKINode Title="methods" Url="html/aa92af7a-92e7-9452-1f73-cca09bd29d97.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ICacheInvalidationStrategy.GetOutputFileLocation method" Url="html/c419d8de-2401-0a1c-163e-4652af9ecaa5.htm" />
+  <HelpKINode Title="ICacheInvalidationStrategy.GetOutputWebPath method" Url="html/7ad46474-1e94-2cd3-f060-25ba496a4049.htm" />
+  <HelpKINode Title="IPreprocessor interface">
+    <HelpKINode Title="IPreprocessor Interface" Url="html/ff61d179-5c39-311f-ba1f-a04354168bd1.htm" />
+    <HelpKINode Title="IPreprocessor Members" Url="html/0630d2b9-6d33-54a0-6065-310af45c025a.htm" />
+    <HelpKINode Title="about IPreprocessor interface" Url="html/ff61d179-5c39-311f-ba1f-a04354168bd1.htm" />
+    <HelpKINode Title="all members" Url="html/0630d2b9-6d33-54a0-6065-310af45c025a.htm" />
+    <HelpKINode Title="methods" Url="html/ff37ca8f-b4d2-5b10-c37a-2f18325eaeda.htm" />
+    <HelpKINode Title="properties" Url="html/54126ac2-4dd0-fd3f-c86e-359e3eeb8caf.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IPreprocessor.Extensions property" Url="html/7b83d73e-1dcf-4485-a604-72c25e8de6ce.htm" />
+  <HelpKINode Title="IPreprocessor.Process method" Url="html/3d1e016d-9569-ed9b-1bc8-09102fea7169.htm" />
+  <HelpKINode Title="IPreprocessor.ValidFor method" Url="html/2d9a4c66-e3ca-2e67-afa3-4df14b8beeca.htm" />
+  <HelpKINode Title="IProcessResult interface">
+    <HelpKINode Title="IProcessResult Interface" Url="html/c970cc4e-099b-2c49-bb57-609a1a32754f.htm" />
+    <HelpKINode Title="IProcessResult Members" Url="html/89121798-aad7-6eb4-2f7b-581c68feb74f.htm" />
+    <HelpKINode Title="about IProcessResult interface" Url="html/c970cc4e-099b-2c49-bb57-609a1a32754f.htm" />
+    <HelpKINode Title="all members" Url="html/89121798-aad7-6eb4-2f7b-581c68feb74f.htm" />
+    <HelpKINode Title="properties" Url="html/28d36f4a-295a-40aa-248d-c224dfeeb35c.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IProcessResult.Dependencies property" Url="html/3b1b0503-74b8-7e71-801c-fd71965f6779.htm" />
+  <HelpKINode Title="IProcessResult.Result property" Url="html/7cfff5c2-e536-1f61-5884-61fd72fa2180.htm" />
+  <HelpKINode Title="JavaScript method" Url="html/c4892cef-b75b-a461-74ce-327a5452f653.htm" />
+  <HelpKINode Title="JavaScriptBundle class">
+    <HelpKINode Title="JavaScriptBundle Class" Url="html/306397d5-d24a-cc5f-b5e0-3c49e454870c.htm" />
+    <HelpKINode Title="JavaScriptBundle Members" Url="html/c5c20a26-ed67-4418-0bb8-6965977265e4.htm" />
+    <HelpKINode Title="about JavaScriptBundle class" Url="html/306397d5-d24a-cc5f-b5e0-3c49e454870c.htm" />
+    <HelpKINode Title="all members" Url="html/c5c20a26-ed67-4418-0bb8-6965977265e4.htm" />
+    <HelpKINode Title="constructor" Url="html/18bdb5c1-2f4e-f39f-5473-96a680a452fe.htm" />
+    <HelpKINode Title="methods" Url="html/3a62bc5d-bd42-6cd8-4f56-067664632a64.htm" />
+    <HelpKINode Title="properties" Url="html/314b7eac-d78d-df77-7a9e-75c28f764c4f.htm" />
+  </HelpKINode>
+  <HelpKINode Title="JavaScriptBundle.JavaScriptBundle constructor" Url="html/18bdb5c1-2f4e-f39f-5473-96a680a452fe.htm" />
+  <HelpKINode Title="JavaScriptBundle.WithDeferredLoad method" Url="html/6ee86fa4-4fad-f2f3-1a2d-ef70a95c0502.htm" />
+  <HelpKINode Title="JavaScriptBundleExtensions class">
+    <HelpKINode Title="JavaScriptBundleExtensions Class" Url="html/f68f1d2b-4621-340b-46c7-c65b04e40161.htm" />
+    <HelpKINode Title="JavaScriptBundleExtensions Members" Url="html/791bf2d2-ae27-7973-3e7c-78a818bbdc24.htm" />
+    <HelpKINode Title="about JavaScriptBundleExtensions class" Url="html/f68f1d2b-4621-340b-46c7-c65b04e40161.htm" />
+    <HelpKINode Title="all members" Url="html/791bf2d2-ae27-7973-3e7c-78a818bbdc24.htm" />
+    <HelpKINode Title="methods" Url="html/fb00a2ba-2244-3ec5-eff9-90fb33c6b7c2.htm" />
+  </HelpKINode>
+  <HelpKINode Title="JavaScriptBundleExtensions.MvcRender method" Url="html/900f1c0a-f310-659d-b190-0a3b99cec9a8.htm" />
+  <HelpKINode Title="JavaScriptBundleExtensions.MvcRenderCachedAssetTag method" Url="html/8090f180-5478-321e-7ef3-939cbb0ea33d.htm" />
+  <HelpKINode Title="JavaScriptBundleExtensions.MvcRenderNamed method" Url="html/448b9254-69ce-82ba-4378-87cdf943d5d8.htm" />
+  <HelpKINode Title="Js method" Url="html/c5192bcf-633a-f65c-6222-a56464cb4d06.htm" />
+  <HelpKINode Title="LessPreprocessor class">
+    <HelpKINode Title="LessPreprocessor Class" Url="html/cfab79fc-eeed-f69a-4036-ac034a090cf1.htm" />
+    <HelpKINode Title="LessPreprocessor Members" Url="html/d8131d4f-9e4f-1921-35a9-4f697dfab5a7.htm" />
+    <HelpKINode Title="about LessPreprocessor class" Url="html/cfab79fc-eeed-f69a-4036-ac034a090cf1.htm" />
+    <HelpKINode Title="all members" Url="html/d8131d4f-9e4f-1921-35a9-4f697dfab5a7.htm" />
+    <HelpKINode Title="constructor" Url="html/68f9d5ca-d521-1c3d-f0e3-3c1e5f7369d7.htm" />
+    <HelpKINode Title="fields" Url="html/4c56b740-d6bf-c616-038b-6276a557fa6e.htm" />
+    <HelpKINode Title="methods" Url="html/f98ad931-74ef-a09d-cb80-dd36d15485d7.htm" />
+    <HelpKINode Title="properties" Url="html/355a7d30-2c94-e773-4456-55df8110a4a8.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LessPreprocessor.EngineBuilder field" Url="html/bc6183d0-40b5-7668-8f1a-c77e7690ac7d.htm" />
+  <HelpKINode Title="LessPreprocessor.Extensions property" Url="html/bbb636bb-5912-a177-24b4-c7166bf70938.htm" />
+  <HelpKINode Title="LessPreprocessor.LessPreprocessor constructor" Url="html/68f9d5ca-d521-1c3d-f0e3-3c1e5f7369d7.htm" />
+  <HelpKINode Title="LessPreprocessor.Process method" Url="html/abad8eb2-941a-d5b9-2d8c-3a81ec8bf3f9.htm" />
+  <HelpKINode Title="MvcRender method">
+    <HelpKINode Title="CSSBundleExtensions.MvcRender Method " Url="html/3acea4e2-bd61-b5a0-2d42-58e0c737df75.htm" />
+    <HelpKINode Title="JavaScriptBundleExtensions.MvcRender Method " Url="html/900f1c0a-f310-659d-b190-0a3b99cec9a8.htm" />
+  </HelpKINode>
+  <HelpKINode Title="MvcRenderCachedAssetTag method">
+    <HelpKINode Title="CSSBundleExtensions.MvcRenderCachedAssetTag Method " Url="html/6b14607d-b08f-9016-4df8-5788da68de6d.htm" />
+    <HelpKINode Title="JavaScriptBundleExtensions.MvcRenderCachedAssetTag Method " Url="html/8090f180-5478-321e-7ef3-939cbb0ea33d.htm" />
+  </HelpKINode>
+  <HelpKINode Title="MvcRenderNamed method">
+    <HelpKINode Title="CSSBundleExtensions.MvcRenderNamed Method " Url="html/7e3bd4d9-0dc6-e7e9-ce01-46cc8eb5b032.htm" />
+    <HelpKINode Title="JavaScriptBundleExtensions.MvcRenderNamed Method " Url="html/448b9254-69ce-82ba-4378-87cdf943d5d8.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Preprocessor class">
+    <HelpKINode Title="Preprocessor Class" Url="html/6b8b1a1e-21d6-4377-1832-b10fbd971a08.htm" />
+    <HelpKINode Title="Preprocessor Members" Url="html/9c29cfe8-8908-5b81-554a-b06e8de31a1b.htm" />
+    <HelpKINode Title="about Preprocessor class" Url="html/6b8b1a1e-21d6-4377-1832-b10fbd971a08.htm" />
+    <HelpKINode Title="all members" Url="html/9c29cfe8-8908-5b81-554a-b06e8de31a1b.htm" />
+    <HelpKINode Title="methods" Url="html/90b7f15e-ba8f-6b6c-cd22-fe4854f48cfe.htm" />
+    <HelpKINode Title="properties" Url="html/25a034c9-bbb6-b7bc-cad4-1bf6aa114892.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Preprocessor.Extensions property" Url="html/03300629-9153-e4da-0b5c-b7810918c0c9.htm" />
+  <HelpKINode Title="Preprocessor.Process method" Url="html/f9760b11-d5f7-d2ed-8288-7a3879fb3552.htm" />
+  <HelpKINode Title="Preprocessor.ValidFor method" Url="html/44107310-8b18-61a4-9f94-2aa66f2593bb.htm" />
+  <HelpKINode Title="Process method">
+    <HelpKINode Title="CoffeeScriptPreprocessor.Process Method " Url="html/2b69d281-a0b3-168f-f15b-0580a3bb790f.htm" />
+    <HelpKINode Title="CoffeeScriptPreprocessor.Process Method " Url="html/272e93eb-0fa5-81e4-48c3-a41b5796a63a.htm" />
+    <HelpKINode Title="HoganPreprocessor.Process Method " Url="html/9b9b47e9-d8b7-521f-4d3a-3289e198c5ae.htm" />
+    <HelpKINode Title="HoganPreprocessor.Process Method " Url="html/32f414a2-0e67-0977-94f4-b9c4eb6e564d.htm" />
+    <HelpKINode Title="IPreprocessor.Process Method " Url="html/3d1e016d-9569-ed9b-1bc8-09102fea7169.htm" />
+    <HelpKINode Title="LessPreprocessor.Process Method " Url="html/abad8eb2-941a-d5b9-2d8c-3a81ec8bf3f9.htm" />
+    <HelpKINode Title="Preprocessor.Process Method " Url="html/f9760b11-d5f7-d2ed-8288-7a3879fb3552.htm" />
+    <HelpKINode Title="SassPreprocessor.Process Method " Url="html/d737671b-754b-23c2-5a01-8e21af97481a.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ProcessImports method" Url="html/494f682c-0856-d6ef-d08d-99ea049fe50a.htm" />
+  <HelpKINode Title="ProcessResult class">
+    <HelpKINode Title="ProcessResult Class" Url="html/d5f12d33-f550-f9c3-d514-29a026523282.htm" />
+    <HelpKINode Title="ProcessResult Members" Url="html/469dca28-1d50-070c-83ad-95f7cea095f2.htm" />
+    <HelpKINode Title="about ProcessResult class" Url="html/d5f12d33-f550-f9c3-d514-29a026523282.htm" />
+    <HelpKINode Title="all members" Url="html/469dca28-1d50-070c-83ad-95f7cea095f2.htm" />
+    <HelpKINode Title="constructor" Url="html/e750c9f5-dc5d-edac-b48b-575aeabb1ba7.htm" />
+    <HelpKINode Title="properties" Url="html/aaa95f5b-3f8b-e528-beda-b9e6e6da4f85.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ProcessResult.Dependencies property" Url="html/7db32118-fa53-076f-2ebb-5eb33e962ce7.htm" />
+  <HelpKINode Title="ProcessResult.ProcessResult constructor" Url="html/e750c9f5-dc5d-edac-b48b-575aeabb1ba7.htm" />
+  <HelpKINode Title="ProcessResult.Result property" Url="html/59f276e7-0a8c-eed1-543a-9c0da0a9e598.htm" />
+  <HelpKINode Title="RegisterGlobalPreprocessor(Of T) method" Url="html/ff602ec5-a929-b24c-7cf7-a79fad47eb90.htm" />
+  <HelpKINode Title="RegisterGlobalPreprocessor&lt;T&gt; method" Url="html/ff602ec5-a929-b24c-7cf7-a79fad47eb90.htm" />
+  <HelpKINode Title="RegisterScriptPreprocessor(Of T) method" Url="html/4268e538-589a-e7e0-0fe8-6fd4e6c6b0bc.htm" />
+  <HelpKINode Title="RegisterScriptPreprocessor&lt;T&gt; method" Url="html/4268e538-589a-e7e0-0fe8-6fd4e6c6b0bc.htm" />
+  <HelpKINode Title="RegisterStylePreprocessor(Of T) method" Url="html/485fc0eb-8fb5-465d-3bc6-da5fa5562018.htm" />
+  <HelpKINode Title="RegisterStylePreprocessor&lt;T&gt; method" Url="html/485fc0eb-8fb5-465d-3bc6-da5fa5562018.htm" />
+  <HelpKINode Title="Render method" Url="html/5e502bdc-565b-c2e6-c731-5de8610bc2f5.htm" />
+  <HelpKINode Title="RenderCached method" Url="html/62f6f0e3-9941-961f-a012-10babcc8eca5.htm" />
+  <HelpKINode Title="RenderCachedAssetTag method" Url="html/dec4c0cf-4658-3760-c2cd-33f8e7e39a93.htm" />
+  <HelpKINode Title="RenderMvc method" Url="html/77b1a37c-db87-e54e-9b42-206433071205.htm" />
+  <HelpKINode Title="RenderNamed method" Url="html/90fc1e04-3b0b-ef79-24ce-4411f5bc36ad.htm" />
+  <HelpKINode Title="RenderOnlyIfOutputFileMissing method" Url="html/b877bae8-0ab9-300a-486c-5748f45ba2f3.htm" />
+  <HelpKINode Title="Result property">
+    <HelpKINode Title="IProcessResult.Result Property " Url="html/7cfff5c2-e536-1f61-5884-61fd72fa2180.htm" />
+    <HelpKINode Title="ProcessResult.Result Property " Url="html/59f276e7-0a8c-eed1-543a-9c0da0a9e598.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SassPreprocessor class">
+    <HelpKINode Title="SassPreprocessor Class" Url="html/28cf4201-0838-8075-104b-db5e351375a7.htm" />
+    <HelpKINode Title="SassPreprocessor Members" Url="html/3cb4156f-3531-2890-a364-321abfe819c0.htm" />
+    <HelpKINode Title="about SassPreprocessor class" Url="html/28cf4201-0838-8075-104b-db5e351375a7.htm" />
+    <HelpKINode Title="all members" Url="html/3cb4156f-3531-2890-a364-321abfe819c0.htm" />
+    <HelpKINode Title="constructor" Url="html/72c3321d-35e2-c163-81a1-ed91d9fa09e0.htm" />
+    <HelpKINode Title="methods" Url="html/e736ff8f-4d11-870d-6e03-05c7f61193c2.htm" />
+    <HelpKINode Title="properties" Url="html/e315e0fb-dd64-529c-e0db-042ce234cf6f.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SassPreprocessor.Extensions property" Url="html/5a7081ca-422e-e6a6-ed70-dbfc58e42ae8.htm" />
+  <HelpKINode Title="SassPreprocessor.Process method" Url="html/d737671b-754b-23c2-5a01-8e21af97481a.htm" />
+  <HelpKINode Title="SassPreprocessor.SassPreprocessor constructor" Url="html/72c3321d-35e2-c163-81a1-ed91d9fa09e0.htm" />
+  <HelpKINode Title="SquishIt.CoffeeScript namespace" Url="html/680e4bad-9a1d-a74d-36ce-686d017a2211.htm" />
+  <HelpKINode Title="SquishIt.CoffeeScript.CoffeeScriptPreprocessor class">
+    <HelpKINode Title="CoffeeScriptPreprocessor Class" Url="html/6ac24b90-2f35-7947-b177-29b570519897.htm" />
+    <HelpKINode Title="CoffeeScriptPreprocessor Members" Url="html/013ba666-1e35-0829-fd61-2d80dc71727f.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishIt.Framework namespace" Url="html/5a8376d8-77e7-b5ca-1fa6-39dc91512dc2.htm" />
+  <HelpKINode Title="SquishIt.Framework.Base namespace" Url="html/fc2890b4-2dd9-8649-ed46-f8e0aad90fd0.htm" />
+  <HelpKINode Title="SquishIt.Framework.Base.BundleBase(Of T) class">
+    <HelpKINode Title="BundleBase(T) Class" Url="html/0b171740-a102-8440-039e-113635419b6d.htm" />
+    <HelpKINode Title="BundleBase(T) Members" Url="html/02c4b2ac-1c16-9931-3140-e6b369011cfb.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishIt.Framework.Base.BundleBase&lt;T&gt; class">
+    <HelpKINode Title="BundleBase(T) Class" Url="html/0b171740-a102-8440-039e-113635419b6d.htm" />
+    <HelpKINode Title="BundleBase(T) Members" Url="html/02c4b2ac-1c16-9931-3140-e6b369011cfb.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishIt.Framework.Base.Preprocessor class">
+    <HelpKINode Title="Preprocessor Class" Url="html/6b8b1a1e-21d6-4377-1832-b10fbd971a08.htm" />
+    <HelpKINode Title="Preprocessor Members" Url="html/9c29cfe8-8908-5b81-554a-b06e8de31a1b.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishIt.Framework.Base.ProcessResult class">
+    <HelpKINode Title="ProcessResult Class" Url="html/d5f12d33-f550-f9c3-d514-29a026523282.htm" />
+    <HelpKINode Title="ProcessResult Members" Url="html/469dca28-1d50-070c-83ad-95f7cea095f2.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishIt.Framework.Bundle class">
+    <HelpKINode Title="Bundle Class" Url="html/ebc2f224-66c4-d408-3acc-2b45a635fca7.htm" />
+    <HelpKINode Title="Bundle Members" Url="html/cb59eb49-145f-4114-8612-b1d49116fccf.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishIt.Framework.CSS namespace" Url="html/a24d2a94-d97e-5f0e-7811-ae3d049579b0.htm" />
+  <HelpKINode Title="SquishIt.Framework.CSS.CSSBundle class">
+    <HelpKINode Title="CSSBundle Class" Url="html/fddcfcdf-b8e6-0c63-6674-a5efd118ebe9.htm" />
+    <HelpKINode Title="CSSBundle Members" Url="html/8ced490a-b739-2e6d-5708-923a3cce4d48.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishIt.Framework.Invalidation namespace" Url="html/9b58c471-1e4b-e532-c90d-3145a5c6c172.htm" />
+  <HelpKINode Title="SquishIt.Framework.Invalidation.DefaultCacheInvalidationStrategy class">
+    <HelpKINode Title="DefaultCacheInvalidationStrategy Class" Url="html/a5d2a183-ea30-3e2c-e3be-aa1a8ec69a60.htm" />
+    <HelpKINode Title="DefaultCacheInvalidationStrategy Members" Url="html/0fb2be86-79a9-82ab-e8b1-f7eebfc35691.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishIt.Framework.Invalidation.HashAsVirtualDirectoryCacheInvalidationStrategy class">
+    <HelpKINode Title="HashAsVirtualDirectoryCacheInvalidationStrategy Class" Url="html/aad4febe-90a0-8dcc-4fbb-bf55b20ab733.htm" />
+    <HelpKINode Title="HashAsVirtualDirectoryCacheInvalidationStrategy Members" Url="html/7ac1e135-fbd3-7164-77c7-6145c1abe30c.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishIt.Framework.Invalidation.ICacheInvalidationStrategy interface">
+    <HelpKINode Title="ICacheInvalidationStrategy Interface" Url="html/6535275c-7f21-97f3-9079-0e395d56ef86.htm" />
+    <HelpKINode Title="ICacheInvalidationStrategy Members" Url="html/7976e79f-61e9-22ad-a4fe-c18b73c103e3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishIt.Framework.IPreprocessor interface">
+    <HelpKINode Title="IPreprocessor Interface" Url="html/ff61d179-5c39-311f-ba1f-a04354168bd1.htm" />
+    <HelpKINode Title="IPreprocessor Members" Url="html/0630d2b9-6d33-54a0-6065-310af45c025a.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishIt.Framework.IProcessResult interface">
+    <HelpKINode Title="IProcessResult Interface" Url="html/c970cc4e-099b-2c49-bb57-609a1a32754f.htm" />
+    <HelpKINode Title="IProcessResult Members" Url="html/89121798-aad7-6eb4-2f7b-581c68feb74f.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishIt.Framework.JavaScript namespace" Url="html/94409344-08bf-0713-1b93-b932cc4b482c.htm" />
+  <HelpKINode Title="SquishIt.Framework.JavaScript.JavaScriptBundle class">
+    <HelpKINode Title="JavaScriptBundle Class" Url="html/306397d5-d24a-cc5f-b5e0-3c49e454870c.htm" />
+    <HelpKINode Title="JavaScriptBundle Members" Url="html/c5c20a26-ed67-4418-0bb8-6965977265e4.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishIt.Hogan namespace" Url="html/41999fc4-a259-dca9-1f14-55848e9190a4.htm" />
+  <HelpKINode Title="SquishIt.Hogan.HoganPreprocessor class">
+    <HelpKINode Title="HoganPreprocessor Class" Url="html/d645b561-f235-1566-f16f-9a830ee5c7b9.htm" />
+    <HelpKINode Title="HoganPreprocessor Members" Url="html/d3a6a47c-2bae-b4fc-5460-16c957879d9a.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishIt.Less namespace" Url="html/33db9212-8c8a-78db-5609-3a00d387a4eb.htm" />
+  <HelpKINode Title="SquishIt.Less.LessPreprocessor class">
+    <HelpKINode Title="LessPreprocessor Class" Url="html/cfab79fc-eeed-f69a-4036-ac034a090cf1.htm" />
+    <HelpKINode Title="LessPreprocessor Members" Url="html/d8131d4f-9e4f-1921-35a9-4f697dfab5a7.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishIt.MsIeCoffeeScript namespace" Url="html/75a9fdfb-af4a-1bd0-4e77-c3ad42a29aea.htm" />
+  <HelpKINode Title="SquishIt.MsIeCoffeeScript.CoffeeScriptPreprocessor class">
+    <HelpKINode Title="CoffeeScriptPreprocessor Class" Url="html/6e8faa86-cd89-0310-90a1-7f60bc310ddd.htm" />
+    <HelpKINode Title="CoffeeScriptPreprocessor Members" Url="html/dbbcb6b4-3859-5792-b092-3a89ae00c871.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishIt.MsIeHogan namespace" Url="html/2565d762-c2c1-48e3-9b27-8c251c22dd8a.htm" />
+  <HelpKINode Title="SquishIt.MsIeHogan.HoganPreprocessor class">
+    <HelpKINode Title="HoganPreprocessor Class" Url="html/f52dd54a-112c-ab1f-a994-65a64b60cd04.htm" />
+    <HelpKINode Title="HoganPreprocessor Members" Url="html/63240fe5-5345-e857-759c-624e6bcc7f8c.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishIt.Mvc namespace" Url="html/8b144a86-a0fd-7506-799e-b982f4224260.htm" />
+  <HelpKINode Title="SquishIt.Mvc.CSSBundleExtensions class">
+    <HelpKINode Title="CSSBundleExtensions Class" Url="html/c99c4f26-fdcf-f710-22c9-2fda58abfbf6.htm" />
+    <HelpKINode Title="CSSBundleExtensions Members" Url="html/fa569138-1706-fb7a-bf6e-dad8cce74e10.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishIt.Mvc.HtmlHelperExtensions class">
+    <HelpKINode Title="HtmlHelperExtensions Class" Url="html/1e771f1b-4bdb-25d1-1fe4-3303818665f5.htm" />
+    <HelpKINode Title="HtmlHelperExtensions Members" Url="html/bc5ea901-16ba-094c-eeba-3179eb925ff9.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishIt.Mvc.JavaScriptBundleExtensions class">
+    <HelpKINode Title="JavaScriptBundleExtensions Class" Url="html/f68f1d2b-4621-340b-46c7-c65b04e40161.htm" />
+    <HelpKINode Title="JavaScriptBundleExtensions Members" Url="html/791bf2d2-ae27-7973-3e7c-78a818bbdc24.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishIt.Mvc.SquishItController class">
+    <HelpKINode Title="SquishItController Class" Url="html/8eb4e90e-b17f-499a-60a3-1ab024ec6198.htm" />
+    <HelpKINode Title="SquishItController Members" Url="html/90e32407-e7f6-c08c-4fc0-5c670d17d66a.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishIt.Sass namespace" Url="html/ffbba609-eb94-b839-c503-ff753ab29ced.htm" />
+  <HelpKINode Title="SquishIt.Sass.SassPreprocessor class">
+    <HelpKINode Title="SassPreprocessor Class" Url="html/28cf4201-0838-8075-104b-db5e351375a7.htm" />
+    <HelpKINode Title="SassPreprocessor Members" Url="html/3cb4156f-3531-2890-a364-321abfe819c0.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishItController class">
+    <HelpKINode Title="SquishItController Class" Url="html/8eb4e90e-b17f-499a-60a3-1ab024ec6198.htm" />
+    <HelpKINode Title="SquishItController Members" Url="html/90e32407-e7f6-c08c-4fc0-5c670d17d66a.htm" />
+    <HelpKINode Title="about SquishItController class" Url="html/8eb4e90e-b17f-499a-60a3-1ab024ec6198.htm" />
+    <HelpKINode Title="all members" Url="html/90e32407-e7f6-c08c-4fc0-5c670d17d66a.htm" />
+    <HelpKINode Title="constructor" Url="html/1f642441-1b3d-2abd-a99a-973b7a49edb7.htm" />
+    <HelpKINode Title="methods" Url="html/e990f3d8-a4c3-9f6f-9264-92e185290e81.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SquishItController.Css method" Url="html/73ed6d7c-2914-a8ab-1099-4f225aebde7c.htm" />
+  <HelpKINode Title="SquishItController.Js method" Url="html/c5192bcf-633a-f65c-6222-a56464cb4d06.htm" />
+  <HelpKINode Title="SquishItController.SquishItController constructor" Url="html/1f642441-1b3d-2abd-a99a-973b7a49edb7.htm" />
+  <HelpKINode Title="ValidFor method">
+    <HelpKINode Title="IPreprocessor.ValidFor Method " Url="html/2d9a4c66-e3ca-2e67-afa3-4df14b8beeca.htm" />
+    <HelpKINode Title="Preprocessor.ValidFor Method " Url="html/44107310-8b18-61a4-9f94-2aa66f2593bb.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WithAttribute method" Url="html/b6174666-47be-8be5-4fdd-66a20dbca0b5.htm" />
+  <HelpKINode Title="WithAttributes method" Url="html/ebe6034c-f0de-78d6-d7d0-8e8191d3648a.htm" />
+  <HelpKINode Title="WithCacheInvalidationStrategy method" Url="html/07609f2f-d113-a30c-0ee3-b6dc016c8e5f.htm" />
+  <HelpKINode Title="WithDeferredLoad method" Url="html/6ee86fa4-4fad-f2f3-1a2d-ef70a95c0502.htm" />
+  <HelpKINode Title="WithMinifier method" Url="html/d8503d76-58aa-d23d-a511-66fc1eb5c561.htm" />
+  <HelpKINode Title="WithOutputBaseHref method" Url="html/aaf498c4-4d32-7b5e-ae9a-7e0b180e713a.htm" />
+  <HelpKINode Title="WithoutRevisionHash method" Url="html/6f8b1261-2984-3d96-cf71-4781689654e7.htm" />
+  <HelpKINode Title="WithoutTypeAttribute method" Url="html/f8dcb3c8-881b-acaf-9b7a-d9f5dd4e8eac.htm" />
+  <HelpKINode Title="WithPreprocessor method" Url="html/d71d33b3-2e00-661e-4dae-763667e0f008.htm" />
+  <HelpKINode Title="WithReleaseFileRenderer method" Url="html/d129cfde-96f3-9b7a-2aff-4ad7013ce05d.htm" />
+</HelpKI>

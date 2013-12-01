@@ -4,6 +4,9 @@ using SquishIt.Framework;
 
 namespace SquishIt.MsIeCoffeeScript 
 {
+    /// <summary>
+    /// Coffeescript preprocessor that uses IE's chakra JavaScript engine.
+    /// </summary>
     public class CoffeeScriptPreprocessor : Preprocessor
     {
         public override string[] Extensions

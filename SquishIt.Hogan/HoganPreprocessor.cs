@@ -8,6 +8,9 @@ using SquishIt.Framework;
 
 namespace SquishIt.Hogan
 {
+    /// <summary>
+    /// Preprocessor for Hogan templates that uses Jurassic to execute JavaScript in-process.
+    /// </summary>
     public class HoganPreprocessor : Preprocessor
     {
         public override string[] Extensions

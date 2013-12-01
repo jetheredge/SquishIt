@@ -4,6 +4,9 @@ using SquishIt.Framework;
 
 namespace SquishIt.CoffeeScript 
 {
+    /// <summary>
+    /// Coffeescript preprocessor that uses Jurassic to execute JavaScript in-process.
+    /// </summary>
     public class CoffeeScriptPreprocessor : Preprocessor
     {
         public override string[] Extensions

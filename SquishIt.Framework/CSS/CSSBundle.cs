@@ -11,6 +11,9 @@ using SquishIt.Framework.Utilities;
 
 namespace SquishIt.Framework.CSS
 {
+    /// <summary>
+    /// CSS Bundle implementation.
+    /// </summary>
     public class CSSBundle : BundleBase<CSSBundle>
     {
         readonly static Regex IMPORT_PATTERN = new Regex(@"@import +url\(([""']){0,1}(.*?)\1{0,1}\);", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -90,12 +93,18 @@ namespace SquishIt.Framework.CSS
             });
         }
 
+        /// <summary>
+        /// Configure bundle to process CSS imports.
+        /// </summary>
         public CSSBundle ProcessImports()
         {
             ShouldImport = true;
             return this;
         }
 
+        /// <summary>
+        /// Configure bundle to append versioning hash to asset reference URLs.
+        /// </summary>
         public CSSBundle AppendHashForAssets()
         {
             ShouldAppendHashForAssets = true;

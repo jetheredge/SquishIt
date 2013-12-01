@@ -8,6 +8,9 @@ using SquishIt.Framework.Utilities;
 
 namespace SquishIt.Framework.JavaScript
 {
+    /// <summary>
+    /// JavaScript bundle implementation.
+    /// </summary>
     public class JavaScriptBundle : BundleBase<JavaScriptBundle>
     {
         const string JS_TEMPLATE = "<script type=\"text/javascript\" {0}src=\"{1}\" defer></script>";
@@ -94,6 +97,9 @@ namespace SquishIt.Framework.JavaScript
             return content.TrimEnd(MINIFIED_FILE_SEPARATOR).TrimEnd(";") + MINIFIED_FILE_SEPARATOR;
         }
 
+        /// <summary>
+        /// Configure bundle to render with "deferred" attribute (script only).
+        /// </summary>
         public JavaScriptBundle WithDeferredLoad()
         {
             deferred = true;

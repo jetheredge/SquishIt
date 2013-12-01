@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shfbBuild product="Sandcastle Help File Builder" version="1.9.8.0" projectFile="C:\Users\Alex\Projects\SquishIt\SquishIt.shfbproj" started="11/30/2013 11:41:39 PM">
+<buildStep step="Initializing">
+Finding tools...
+Found Sandcastle tools in &#39;C:\Program Files (x86)\Sandcastle\&#39;
+</buildStep>
+<buildStep step="ValidatingDocumentationSources">
+Validating and copying documentation source information
+Source: C:\Users\Alex\Projects\SquishIt\SquishIt.sln
+    Found project &#39;C:\Users\Alex\Projects\SquishIt\SquishIt.Framework\SquishIt.Framework.csproj&#39;
+    Found project &#39;C:\Users\Alex\Projects\SquishIt\SquishIt.Tests\SquishIt.Tests.csproj&#39;
+    Found project &#39;C:\Users\Alex\Projects\SquishIt\SquishIt.Mvc\SquishIt.Mvc.csproj&#39;
+    Found project &#39;C:\Users\Alex\Projects\SquishIt\SquishIt.Less\SquishIt.Less.csproj&#39;
+    Found project &#39;C:\Users\Alex\Projects\SquishIt\SquishIt.CoffeeScript\SquishIt.CoffeeScript.csproj&#39;
+    Found project &#39;C:\Users\Alex\Projects\SquishIt\SquishIt.Sass\SquishIt.Sass.csproj&#39;
+    Found project &#39;C:\Users\Alex\Projects\SquishIt\SquishIt.Hogan\SquishIt.Hogan.csproj&#39;
+    Found project &#39;C:\Users\Alex\Projects\SquishIt\SquishItAspNetMvcTest\SquishItAspNetMvcTest.csproj&#39;
+    Found project &#39;C:\Users\Alex\Projects\SquishIt\SquishIt.MsIeCoffeeScript\SquishIt.MsIeCoffeeScript.csproj&#39;
+    Found project &#39;C:\Users\Alex\Projects\SquishIt\SquishIt.MsIeHogan\SquishIt.MsIeHogan.csproj&#39;
+
+Parsing project files
+    Found assembly &#39;C:\Users\Alex\Projects\SquishIt\SquishIt.Framework\bin\Debug\SquishIt.Framework.dll&#39;
+    Found assembly &#39;C:\Users\Alex\Projects\SquishIt\SquishIt.Tests\bin\Debug\SquishIt.Tests.dll&#39;
+    Found assembly &#39;C:\Users\Alex\Projects\SquishIt\SquishIt.Mvc\bin\Debug\SquishIt.Mvc.dll&#39;
+    Found assembly &#39;C:\Users\Alex\Projects\SquishIt\SquishIt.Less\bin\Debug\SquishIt.Less.dll&#39;
+    Found assembly &#39;C:\Users\Alex\Projects\SquishIt\SquishIt.CoffeeScript\bin\Debug\SquishIt.CoffeeScript.dll&#39;
+    Found assembly &#39;C:\Users\Alex\Projects\SquishIt\SquishIt.Sass\bin\Debug\SquishIt.Sass.dll&#39;
+    Found assembly &#39;C:\Users\Alex\Projects\SquishIt\SquishIt.Hogan\bin\Debug\SquishIt.Hogan.dll&#39;
+    Found assembly &#39;C:\Users\Alex\Projects\SquishIt\SquishItAspNetMvcTest\bin\SquishItAspNetMvcTest.dll&#39;
+    Found assembly &#39;C:\Users\Alex\Projects\SquishIt\SquishIt.MsIeCoffeeScript\bin\Debug\SquishIt.MsIeCoffeeScript.dll&#39;
+    Found assembly &#39;C:\Users\Alex\Projects\SquishIt\SquishIt.MsIeHogan\bin\Debug\SquishIt.MsIeHogan.dll&#39;
+SHFB: Warning BE0007: A project with a different or higher framework version was found.  Changing project FrameworkVersion property from &#39;.NET Framework 3.5&#39; to &#39;.NET Framework 4.0&#39; for the build.
+
+References to include (excluding framework assemblies):
+    AjaxMin
+    dotless.Core
+    EcmaScript.NET
+    Iesi.Collections
+    IronRuby
+    IronRuby, Version=1.1.3.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1
+    IronRuby.Libraries
+    IronRuby.Libraries.Yaml
+    Jurassic
+    Microsoft.Dynamic
+    Microsoft.Dynamic, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1
+    Microsoft.Scripting
+    Microsoft.Scripting, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1
+    Microsoft.Scripting.Metadata
+    Microsoft.Scripting.Metadata, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1
+    Moq
+    MsieJavaScriptEngine
+    nunit.framework, Version=2.6.1.12217, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL
+    System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL
+    System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL
+    System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL
+    Yahoo.Yui.Compressor
+
+Copying XML comments files
+    C:\Users\Alex\Projects\SquishIt\SquishIt.Framework\bin\Debug\SquishIt.Framework.XML -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\SquishIt.Framework.XML
+    C:\Users\Alex\Projects\SquishIt\SquishIt.Mvc\bin\Debug\SquishIt.Mvc.XML -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\SquishIt.Mvc.XML
+    C:\Users\Alex\Projects\SquishIt\SquishIt.Less\bin\Debug\SquishIt.Less.XML -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\SquishIt.Less.XML
+    C:\Users\Alex\Projects\SquishIt\SquishIt.CoffeeScript\bin\Debug\SquishIt.CoffeeScript.XML -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\SquishIt.CoffeeScript.XML
+    C:\Users\Alex\Projects\SquishIt\SquishIt.Sass\bin\Debug\SquishIt.Sass.XML -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\SquishIt.Sass.XML
+    C:\Users\Alex\Projects\SquishIt\SquishIt.Hogan\bin\Debug\SquishIt.Hogan.XML -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\SquishIt.Hogan.XML
+    C:\Users\Alex\Projects\SquishIt\SquishIt.MsIeCoffeeScript\bin\Debug\SquishIt.MsIeCoffeeScript.XML -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\SquishIt.MsIeCoffeeScript.XML
+    C:\Users\Alex\Projects\SquishIt\SquishIt.MsIeHogan\bin\Debug\SquishIt.MsIeHogan.XML -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\SquishIt.MsIeHogan.XML
+</buildStep>
+<buildStep step="GenerateSharedContent">
+Generating shared content files (en-US, English (United States))...
+    Last step completed in 00:00:00.0220
+</buildStep>
+<buildStep step="GenerateApiFilter">
+Generating API filter for MRefBuilder...
+    Last step completed in 00:00:00.0230
+</buildStep>
+<buildStep step="GenerateReflectionInfo">
+Generating reflection information...
+[c:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe]
+  MRefBuilder (v2.7.4.0)
+  Copyright c 2006-2013, Microsoft Corporation, All Rights Reserved.
+  Portions Copyright c 2006-2013, Eric Woodruff, All Rights Reserved.
+  Info: Loaded 10 assemblies for reflection and 19 dependency assemblies.
+  Info: Wrote information on 12 namespaces, 21 types, and 158 members
+  XslTransform (v2.7.4.0)
+  Copyright c 2006-2013, Microsoft Corporation, All Rights Reserved.
+  Portions Copyright c 2006-2013, Eric Woodruff, All Rights Reserved.
+  Info: Applying XSL transformation &#39;C:\Program Files (x86)\Sandcastle\ProductionTransforms\MergeDuplicates.xsl&#39;.
+    Last step completed in 00:00:03.3262
+</buildStep>
+<buildStep step="GenerateNamespaceSummaries">
+Generating namespace summary information...
+    Last step completed in 00:00:00.0050
+</buildStep>
+<buildStep step="ApplyVisibilityProperties">
+Applying visibility properties to reflection information file
+    0 explicit interface implementations removed
+    7 local and base class EII elements removed
+    185 inherited member elements removed
+    49 protected members noted for removal
+    0 protected inherited framework members noted for removal
+    Removing previously noted unwanted APIs and elements
+    Last step completed in 00:00:00.0920
+</buildStep>
+<buildStep step="TransformReflectionInfo">
+Transforming reflection output...
+[c:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe]
+  XslTransform (v2.7.4.0)
+  Copyright c 2006-2013, Microsoft Corporation, All Rights Reserved.
+  Portions Copyright c 2006-2013, Eric Woodruff, All Rights Reserved.
+  Info: Applying XSL transformation &#39;C:\Program Files (x86)\Sandcastle\\ProductionTransforms\ApplyVSDocModel.xsl&#39;.
+  Info: Applying XSL transformation &#39;C:\Program Files (x86)\Sandcastle\ProductionTransforms\AddFilenames.xsl&#39;.
+  XslTransform (v2.7.4.0)
+  Copyright c 2006-2013, Microsoft Corporation, All Rights Reserved.
+  Portions Copyright c 2006-2013, Eric Woodruff, All Rights Reserved.
+  Info: Applying XSL transformation &#39;C:\Program Files (x86)\Sandcastle\ProductionTransforms\ReflectionToManifest.xsl&#39;.
+Copying help branding files...
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\branding\
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\branding
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/body.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\body.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/head.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\head.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/CodeSnippet.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\CodeSnippet.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/codesnippet-cs-CZ.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\codesnippet-cs-CZ.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/codesnippet-de-DE.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\codesnippet-de-DE.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/codesnippet-en-US.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\codesnippet-en-US.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/codesnippet-es-ES.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\codesnippet-es-ES.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/codesnippet-fr-FR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\codesnippet-fr-FR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/codesnippet-it-IT.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\codesnippet-it-IT.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/codesnippet-ja-JP.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\codesnippet-ja-JP.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/codesnippet-ko-KR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\codesnippet-ko-KR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/codesnippet-pl-PL.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\codesnippet-pl-PL.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/codesnippet-pt-BR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\codesnippet-pt-BR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/codesnippet-ru-RU.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\codesnippet-ru-RU.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/codesnippet-tr-TR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\codesnippet-tr-TR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/codesnippet-zh-CN.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\codesnippet-zh-CN.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/codesnippet-zh-TW.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\codesnippet-zh-TW.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/Identity.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\Identity.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/InstrumentedLink.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\InstrumentedLink.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/instrumentedlink-cs-CZ.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\instrumentedlink-cs-CZ.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/instrumentedlink-de-DE.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\instrumentedlink-de-DE.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/instrumentedlink-en-US.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\instrumentedlink-en-US.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/instrumentedlink-es-ES.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\instrumentedlink-es-ES.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/instrumentedlink-fr-FR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\instrumentedlink-fr-FR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/instrumentedlink-it-IT.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\instrumentedlink-it-IT.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/instrumentedlink-ja-JP.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\instrumentedlink-ja-JP.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/instrumentedlink-ko-KR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\instrumentedlink-ko-KR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/instrumentedlink-pl-PL.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\instrumentedlink-pl-PL.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/instrumentedlink-pt-BR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\instrumentedlink-pt-BR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/instrumentedlink-ru-RU.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\instrumentedlink-ru-RU.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/instrumentedlink-tr-TR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\instrumentedlink-tr-TR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/instrumentedlink-zh-CN.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\instrumentedlink-zh-CN.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/instrumentedlink-zh-TW.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\instrumentedlink-zh-TW.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/LanguageSpecificText.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\LanguageSpecificText.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/MultiViewTable.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\MultiViewTable.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/MultiViewTable-cs-CZ.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\MultiViewTable-cs-CZ.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/MultiViewTable-de-DE.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\MultiViewTable-de-DE.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/MultiViewTable-en-US.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\MultiViewTable-en-US.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/MultiViewTable-es-ES.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\MultiViewTable-es-ES.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/MultiViewTable-fr-FR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\MultiViewTable-fr-FR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/MultiViewTable-it-IT.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\MultiViewTable-it-IT.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/MultiViewTable-ja-JP.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\MultiViewTable-ja-JP.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/MultiViewTable-ko-KR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\MultiViewTable-ko-KR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/MultiViewTable-pl-PL.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\MultiViewTable-pl-PL.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/MultiViewTable-pt-BR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\MultiViewTable-pt-BR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/MultiViewTable-ru-RU.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\MultiViewTable-ru-RU.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/MultiViewTable-tr-TR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\MultiViewTable-tr-TR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/MultiViewTable-zh-CN.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\MultiViewTable-zh-CN.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/MultiViewTable-zh-TW.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\MultiViewTable-zh-TW.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/index.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\index.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/index-cs-CZ.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\index-cs-CZ.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/index-de-DE.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\index-de-DE.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/index-en-US.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\index-en-US.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/index-es-ES.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\index-es-ES.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/index-fr-FR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\index-fr-FR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/index-it-IT.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\index-it-IT.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/index-ja-JP.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\index-ja-JP.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/index-ko-KR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\index-ko-KR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/index-pl-PL.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\index-pl-PL.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/index-pt-BR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\index-pt-BR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/index-ru-RU.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\index-ru-RU.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/index-tr-TR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\index-tr-TR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/index-zh-CN.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\index-zh-CN.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/index-zh-TW.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\index-zh-TW.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/search.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\search.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/search-cs-CZ.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\search-cs-CZ.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/search-de-DE.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\search-de-DE.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/search-en-US.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\search-en-US.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/search-es-ES.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\search-es-ES.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/search-fr-FR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\search-fr-FR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/search-it-IT.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\search-it-IT.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/search-ja-JP.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\search-ja-JP.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/search-ko-KR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\search-ko-KR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/search-pl-PL.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\search-pl-PL.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/search-pt-BR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\search-pt-BR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/search-ru-RU.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\search-ru-RU.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/search-tr-TR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\search-tr-TR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/search-zh-CN.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\search-zh-CN.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/search-zh-TW.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\search-zh-TW.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/toc.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\toc.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/toc-cs-CZ.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\toc-cs-CZ.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/toc-de-DE.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\toc-de-DE.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/toc-en-US.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\toc-en-US.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/toc-es-ES.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\toc-es-ES.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/toc-fr-FR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\toc-fr-FR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/toc-it-IT.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\toc-it-IT.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/toc-ja-JP.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\toc-ja-JP.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/toc-ko-KR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\toc-ko-KR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/toc-pl-PL.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\toc-pl-PL.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/toc-pt-BR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\toc-pt-BR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/toc-ru-RU.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\toc-ru-RU.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/toc-tr-TR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\toc-tr-TR.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/toc-zh-CN.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\toc-zh-CN.xslt
+    C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding\dev10.mshc/toc-zh-TW.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\toc-zh-TW.xslt
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\branding\
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\branding
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\branding.xml -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\branding.xml
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\branding.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\branding.xslt
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\branding-cs-CZ.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\branding-cs-CZ.xslt
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\branding-de-DE.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\branding-de-DE.xslt
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\branding-en-US.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\branding-en-US.xslt
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\branding-es-ES.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\branding-es-ES.xslt
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\branding-fr-FR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\branding-fr-FR.xslt
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\branding-it-IT.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\branding-it-IT.xslt
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\branding-ja-JP.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\branding-ja-JP.xslt
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\branding-ko-KR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\branding-ko-KR.xslt
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\branding-pl-PL.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\branding-pl-PL.xslt
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\branding-pt-BR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\branding-pt-BR.xslt
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\branding-ru-RU.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\branding-ru-RU.xslt
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\branding-tr-TR.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\branding-tr-TR.xslt
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\branding-zh-CN.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\branding-zh-CN.xslt
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\branding-zh-TW.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\branding-zh-TW.xslt
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\ps-body.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\ps-body.xslt
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\ps-head.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\ps-head.xslt
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\ps-foot.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\ps-foot.xslt
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\ps-collapsibleArea.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\ps-collapsibleArea.xslt
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\ps-instrumentedLink.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\ps-instrumentedLink.xslt
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\ps-languageSpecificText.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\ps-languageSpecificText.xslt
+    C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\ps-codesnippet.xslt -> C:\Users\Alex\Projects\SquishIt\Help\Working\branding\ps-codesnippet.xslt
+    Last step completed in 00:00:02.1921
+</buildStep>
+<buildStep step="CopyAdditionalContent">
+Copying additional content files...
+No additional content to copy
+    Last step completed in 00:00:00.0060
+</buildStep>
+<buildStep step="MergeTablesOfContents">
+Merging conceptual and additional tables of contents...
+    Last step completed in 00:00:00.0050
+</buildStep>
+<buildStep step="GenerateIntermediateTableOfContents">
+Generating intermediate table of contents file...
+[c:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe]
+  XslTransform (v2.7.4.0)
+  Copyright c 2006-2013, Microsoft Corporation, All Rights Reserved.
+  Portions Copyright c 2006-2013, Eric Woodruff, All Rights Reserved.
+  Info: Applying XSL transformation &#39;C:\Program Files (x86)\Sandcastle\\ProductionTransforms\CreateVSToc.xsl&#39;.
+Generating conceptual content intermediate TOC file...
+    Last step completed in 00:00:00.4420
+</buildStep>
+<buildStep step="CreateBuildAssemblerConfigs">
+Creating Sandcastle configuration files...
+    sandcastle.config
+    Last step completed in 00:00:00.1900
+</buildStep>
+<buildStep step="MergeCustomConfigs">
+Merging custom build component configurations
+C:\Users\Alex\Projects\SquishIt\Help\Working\sandcastle.config
+    Last step completed in 00:00:00.0510
+</buildStep>
+<buildStep step="BuildReferenceTopics">
+Building reference help topics...
+[c:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe]
+  BuildAssembler (v2.7.4.0)
+  Copyright c 2006-2013, Microsoft Corporation, All Rights Reserved.
+  Portions Copyright c 2006-2013, Eric Woodruff, All Rights Reserved.
+  Info: Loading configuration...
+  Info: Processing topics...
+  Warn: ResolveReferenceLinksComponent2: [AllMembers.T:SquishIt.Framework.Bundle] Unknown reference link target &#39;!:IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [AllMembers.T:SquishIt.Framework.Bundle] Unknown reference link target &#39;!:IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [Methods.T:SquishIt.Framework.Bundle] Unknown reference link target &#39;!:IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [Methods.T:SquishIt.Framework.Bundle] Unknown reference link target &#39;!:IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [Overload:SquishIt.Framework.Bundle.Css] Unknown reference link target &#39;!:IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [Overload:SquishIt.Framework.Bundle.JavaScript] Unknown reference link target &#39;!:IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.Bundle.ConfigureDefaults] Unknown reference link target &#39;T:SquishIt.Framework.Configuration&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.Bundle.ConfigureDefaults] Unknown reference link target &#39;T:SquishIt.Framework.Configuration&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.Bundle.ConfigureDefaults] Unknown reference link target &#39;T:SquishIt.Framework.Configuration&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.Bundle.Css(SquishIt.Framework.Utilities.IDebugStatusReader)] Unknown reference link target &#39;!:IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.Bundle.Css(SquishIt.Framework.Utilities.IDebugStatusReader)] Unknown reference link target &#39;T:SquishIt.Framework.Utilities.IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.Bundle.Css(SquishIt.Framework.Utilities.IDebugStatusReader)] Unknown reference link target &#39;T:SquishIt.Framework.Utilities.IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.Bundle.Css(SquishIt.Framework.Utilities.IDebugStatusReader)] Unknown reference link target &#39;!:IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.Bundle.JavaScript(SquishIt.Framework.Utilities.IDebugStatusReader)] Unknown reference link target &#39;!:IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.Bundle.JavaScript(SquishIt.Framework.Utilities.IDebugStatusReader)] Unknown reference link target &#39;T:SquishIt.Framework.Utilities.IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.Bundle.JavaScript(SquishIt.Framework.Utilities.IDebugStatusReader)] Unknown reference link target &#39;T:SquishIt.Framework.Utilities.IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.Bundle.JavaScript(SquishIt.Framework.Utilities.IDebugStatusReader)] Unknown reference link target &#39;!:IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.Base.BundleBase`1.WithMinifier``1] Unknown reference link target &#39;T:SquishIt.Framework.Minifiers.IMinifier`1&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.Base.BundleBase`1.WithMinifier``1] Unknown reference link target &#39;!:IMinifier&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.Base.BundleBase`1.WithMinifier``1(``0)] Unknown reference link target &#39;T:SquishIt.Framework.Minifiers.IMinifier`1&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.Base.BundleBase`1.WithMinifier``1(``0)] Unknown reference link target &#39;!:IMinifier&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.Base.BundleBase`1.WithReleaseFileRenderer(SquishIt.Framework.Renderers.IRenderer)] Unknown reference link target &#39;T:SquishIt.Framework.Renderers.IRenderer&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.Base.BundleBase`1.WithReleaseFileRenderer(SquishIt.Framework.Renderers.IRenderer)] Unknown reference link target &#39;T:SquishIt.Framework.Renderers.IRenderer&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.Base.BundleBase`1.WithReleaseFileRenderer(SquishIt.Framework.Renderers.IRenderer)] Unknown reference link target &#39;T:SquishIt.Framework.Renderers.IRenderer&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.CSS.CSSBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader)] Unknown reference link target &#39;T:SquishIt.Framework.Utilities.IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.CSS.CSSBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader)] Unknown reference link target &#39;T:SquishIt.Framework.Utilities.IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.CSS.CSSBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.Utilities.IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.CSS.CSSBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.Files.IFileWriterFactory&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.CSS.CSSBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.Files.IFileReaderFactory&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.CSS.CSSBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.Files.IDirectoryWrapper&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.CSS.CSSBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.Utilities.IHasher&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.CSS.CSSBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.IBundleCache&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.CSS.CSSBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.Utilities.IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.CSS.CSSBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.Files.IFileWriterFactory&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.CSS.CSSBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.Files.IFileReaderFactory&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.CSS.CSSBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.Files.IDirectoryWrapper&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.CSS.CSSBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.Utilities.IHasher&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.CSS.CSSBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.IBundleCache&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.JavaScript.JavaScriptBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader)] Unknown reference link target &#39;T:SquishIt.Framework.Utilities.IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.JavaScript.JavaScriptBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader)] Unknown reference link target &#39;T:SquishIt.Framework.Utilities.IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.JavaScript.JavaScriptBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.Utilities.IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.JavaScript.JavaScriptBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.Files.IFileWriterFactory&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.JavaScript.JavaScriptBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.Files.IFileReaderFactory&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.JavaScript.JavaScriptBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.Files.IDirectoryWrapper&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.JavaScript.JavaScriptBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.Utilities.IHasher&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.JavaScript.JavaScriptBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.IBundleCache&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.JavaScript.JavaScriptBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.Utilities.IDebugStatusReader&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.JavaScript.JavaScriptBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.Files.IFileWriterFactory&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.JavaScript.JavaScriptBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.Files.IFileReaderFactory&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.JavaScript.JavaScriptBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.Files.IDirectoryWrapper&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.JavaScript.JavaScriptBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.Utilities.IHasher&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Framework.JavaScript.JavaScriptBundle.#ctor(SquishIt.Framework.Utilities.IDebugStatusReader,SquishIt.Framework.Files.IFileWriterFactory,SquishIt.Framework.Files.IFileReaderFactory,SquishIt.Framework.Files.IDirectoryWrapper,SquishIt.Framework.Utilities.IHasher,SquishIt.Framework.IBundleCache)] Unknown reference link target &#39;T:SquishIt.Framework.IBundleCache&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Less.LessPreprocessor.#ctor(System.Func{dotless.Core.ILessEngine})] Unknown reference link target &#39;T:dotless.Core.ILessEngine&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Less.LessPreprocessor.#ctor(System.Func{dotless.Core.ILessEngine})] Unknown reference link target &#39;T:dotless.Core.ILessEngine&#39;.
+  Warn: ResolveReferenceLinksComponent2: [F:SquishIt.Less.LessPreprocessor.EngineBuilder] Unknown reference link target &#39;T:dotless.Core.ILessEngine&#39;.
+  Warn: ResolveReferenceLinksComponent2: [F:SquishIt.Less.LessPreprocessor.EngineBuilder] Unknown reference link target &#39;T:dotless.Core.ILessEngine&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.CSSBundleExtensions.MvcRender(SquishIt.Framework.CSS.CSSBundle,System.String)] Unknown reference link target &#39;T:System.Web.Mvc.MvcHtmlString&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.CSSBundleExtensions.MvcRender(SquishIt.Framework.CSS.CSSBundle,System.String)] Unknown reference link target &#39;T:System.Web.Mvc.MvcHtmlString&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.CSSBundleExtensions.MvcRenderCachedAssetTag(SquishIt.Framework.CSS.CSSBundle,System.String)] Unknown reference link target &#39;T:System.Web.Mvc.MvcHtmlString&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.CSSBundleExtensions.MvcRenderCachedAssetTag(SquishIt.Framework.CSS.CSSBundle,System.String)] Unknown reference link target &#39;T:System.Web.Mvc.MvcHtmlString&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.CSSBundleExtensions.MvcRenderNamed(SquishIt.Framework.CSS.CSSBundle,System.String)] Unknown reference link target &#39;T:System.Web.Mvc.MvcHtmlString&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.CSSBundleExtensions.MvcRenderNamed(SquishIt.Framework.CSS.CSSBundle,System.String)] Unknown reference link target &#39;T:System.Web.Mvc.MvcHtmlString&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.CSSBundleExtensions.RenderMvc(SquishIt.Framework.CSS.CSSBundle,System.String)] Unknown reference link target &#39;T:System.Web.Mvc.MvcHtmlString&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.CSSBundleExtensions.RenderMvc(SquishIt.Framework.CSS.CSSBundle,System.String)] Unknown reference link target &#39;T:System.Web.Mvc.MvcHtmlString&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.HtmlHelperExtensions.BundleCss(System.Web.Mvc.HtmlHelper)] Unknown reference link target &#39;T:System.Web.Mvc.HtmlHelper&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.HtmlHelperExtensions.BundleCss(System.Web.Mvc.HtmlHelper)] Unknown reference link target &#39;T:System.Web.Mvc.HtmlHelper&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.HtmlHelperExtensions.BundleCss(System.Web.Mvc.HtmlHelper)] Unknown reference link target &#39;T:System.Web.Mvc.HtmlHelper&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.HtmlHelperExtensions.BundleJavaScript(System.Web.Mvc.HtmlHelper)] Unknown reference link target &#39;T:System.Web.Mvc.HtmlHelper&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.HtmlHelperExtensions.BundleJavaScript(System.Web.Mvc.HtmlHelper)] Unknown reference link target &#39;T:System.Web.Mvc.HtmlHelper&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.HtmlHelperExtensions.BundleJavaScript(System.Web.Mvc.HtmlHelper)] Unknown reference link target &#39;T:System.Web.Mvc.HtmlHelper&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.JavaScriptBundleExtensions.MvcRender(SquishIt.Framework.JavaScript.JavaScriptBundle,System.String)] Unknown reference link target &#39;T:System.Web.Mvc.MvcHtmlString&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.JavaScriptBundleExtensions.MvcRender(SquishIt.Framework.JavaScript.JavaScriptBundle,System.String)] Unknown reference link target &#39;T:System.Web.Mvc.MvcHtmlString&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.JavaScriptBundleExtensions.MvcRenderCachedAssetTag(SquishIt.Framework.JavaScript.JavaScriptBundle,System.String)] Unknown reference link target &#39;T:System.Web.Mvc.MvcHtmlString&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.JavaScriptBundleExtensions.MvcRenderCachedAssetTag(SquishIt.Framework.JavaScript.JavaScriptBundle,System.String)] Unknown reference link target &#39;T:System.Web.Mvc.MvcHtmlString&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.JavaScriptBundleExtensions.MvcRenderNamed(SquishIt.Framework.JavaScript.JavaScriptBundle,System.String)] Unknown reference link target &#39;T:System.Web.Mvc.MvcHtmlString&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.JavaScriptBundleExtensions.MvcRenderNamed(SquishIt.Framework.JavaScript.JavaScriptBundle,System.String)] Unknown reference link target &#39;T:System.Web.Mvc.MvcHtmlString&#39;.
+  Warn: ResolveReferenceLinksComponent2: [T:SquishIt.Mvc.SquishItController] Unknown reference link target &#39;T:System.Web.Mvc.ControllerBase&#39;.
+  Warn: ResolveReferenceLinksComponent2: [T:SquishIt.Mvc.SquishItController] Unknown reference link target &#39;T:System.Web.Mvc.Controller&#39;.
+  Warn: ResolveReferenceLinksComponent2: [T:SquishIt.Mvc.SquishItController] Unknown reference link target &#39;T:System.Web.Mvc.Controller&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.SquishItController.Css(System.String)] Unknown reference link target &#39;T:System.Web.Mvc.ActionResult&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.SquishItController.Css(System.String)] Unknown reference link target &#39;T:System.Web.Mvc.ActionResult&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.SquishItController.Js(System.String)] Unknown reference link target &#39;T:System.Web.Mvc.ActionResult&#39;.
+  Warn: ResolveReferenceLinksComponent2: [M:SquishIt.Mvc.SquishItController.Js(System.String)] Unknown reference link target &#39;T:System.Web.Mvc.ActionResult&#39;.
+  Info: Processed 206 topic(s)
+  Info: 83 warning(s)
+  Diagnostic: CopyFromIndexComponent: &quot;reflection&quot; in-memory cache entries used: 3 of 15.
+  Diagnostic: CopyFromIndexComponent: &quot;comments&quot; in-memory cache entries used: 7 of 30.
+    Last step completed in 00:00:16.7650
+</buildStep>
+<buildStep step="CombiningIntermediateTocFiles">
+Combining conceptual and API intermediate TOC files...
+
+Clearing any prior web output
+    Last step completed in 00:00:00.3220
+</buildStep>
+<buildStep step="ExtractingHtmlInfo">
+Extracting HTML info for HTML Help 1 and/or website...
+[c:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe]
+Sandcastle Help File Builder, version 1.9.8.0
+Copyright c 2006-2013, Eric Woodruff, All Rights Reserved
+E-Mail: Eric@EWoodruff.us
+
+Using LCID &#39;1033&#39;, code page &#39;65001&#39;, encoding charset &#39;UTF-8&#39;.
+
+Processing website files in C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website
+Processed 206 HTML files
+Sorting keywords and generating See Also indices
+Saving website keyword index to C:\Users\Alex\Projects\SquishIt\Help\Working\WebKI.xml
+Saving website table of contents to C:\Users\Alex\Projects\SquishIt\Help\Working\WebTOC.xml
+    Last step completed in 00:00:01.8601
+</buildStep>
+<buildStep step="CopyStandardHelpContent">
+Copying standard help content...
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\1_404_bullet.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\1_404_bullet.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\2_404_bullet.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\2_404_bullet.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\alert_caution.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\alert_caution.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\alert_note.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\alert_note.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\alert_security.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\alert_security.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\CFW.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\CFW.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\close.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\close.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\favicon.ico -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\favicon.ico
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\footer_slice.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\footer_slice.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\info_icon.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\info_icon.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\note.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\note.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\online_icon.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\online_icon.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\open.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\open.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\pencil.GIF -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\pencil.GIF
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\privclass.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\privclass.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\privdelegate.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\privdelegate.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\privenumeration.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\privenumeration.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\privevent.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\privevent.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\privextension.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\privextension.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\privfield.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\privfield.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\privinterface.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\privinterface.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\privmethod.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\privmethod.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\privproperty.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\privproperty.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\privstructure.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\privstructure.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\protclass.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\protclass.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\protdelegate.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\protdelegate.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\protenumeration.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\protenumeration.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\protevent.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\protevent.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\protextension.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\protextension.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\protfield.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\protfield.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\protinterface.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\protinterface.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\protmethod.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\protmethod.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\protoperator.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\protoperator.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\protproperty.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\protproperty.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\protstructure.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\protstructure.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\pubclass.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\pubclass.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\pubdelegate.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\pubdelegate.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\pubenumeration.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\pubenumeration.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\pubevent.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\pubevent.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\pubextension.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\pubextension.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\pubfield.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\pubfield.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\pubinterface.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\pubinterface.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\pubmethod.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\pubmethod.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\puboperator.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\puboperator.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\pubproperty.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\pubproperty.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\pubstructure.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\pubstructure.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\search.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\search.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\search_bk.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\search_bk.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\security.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\security.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\slMobile.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\slMobile.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\static.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\static.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\tabLeftBG.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\tabLeftBG.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\tabRightBG.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\tabRightBG.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\ui_om_collapse.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\ui_om_collapse.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\ui_om_expand.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\ui_om_expand.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\icons\xna.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\icons\xna.gif
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\scripts\branding.js -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\scripts\branding.js
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\styles\branding-cs-CZ.css -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\styles\branding-cs-CZ.css
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\styles\branding-de-DE.css -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\styles\branding-de-DE.css
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\styles\branding-en-US.css -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\styles\branding-en-US.css
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\styles\branding-es-ES.css -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\styles\branding-es-ES.css
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\styles\branding-fr-FR.css -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\styles\branding-fr-FR.css
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\styles\branding-it-IT.css -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\styles\branding-it-IT.css
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\styles\branding-ja-JP.css -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\styles\branding-ja-JP.css
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\styles\branding-ko-KR.css -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\styles\branding-ko-KR.css
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\styles\branding-pl-PL.css -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\styles\branding-pl-PL.css
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\styles\branding-pt-BR.css -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\styles\branding-pt-BR.css
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\styles\branding-ru-RU.css -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\styles\branding-ru-RU.css
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\styles\branding-tr-TR.css -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\styles\branding-tr-TR.css
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\styles\branding-zh-CN.css -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\styles\branding-zh-CN.css
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\styles\branding-zh-TW.css -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\styles\branding-zh-TW.css
+C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\styles\branding.css -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\styles\branding.css
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\CloseSearch.png -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\CloseSearch.png
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\CollapseAll.bmp -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\CollapseAll.bmp
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\Collapsed.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\Collapsed.gif
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\ExpandAll.bmp -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\ExpandAll.bmp
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\Expanded.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\Expanded.gif
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\favicon.ico -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\favicon.ico
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\FillNode.aspx -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\FillNode.aspx
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\FillNode.php -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\FillNode.php
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\Index.aspx -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\Index.aspx
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\Index.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\Index.gif
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\index.html -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\index.html
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\index.php -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\index.php
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\Item.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\Item.gif
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\LoadIndexKeywords.aspx -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\LoadIndexKeywords.aspx
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\LoadIndexKeywords.php -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\LoadIndexKeywords.php
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\Search.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\Search.gif
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\SearchHelp.aspx -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\SearchHelp.aspx
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\SearchHelp.inc.php -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\SearchHelp.inc.php
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\SearchHelp.php -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\SearchHelp.php
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\Splitter.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\Splitter.gif
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\SyncTOC.gif -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\SyncTOC.gif
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\TOC.css -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\TOC.css
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\TOC.js -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\TOC.js
+C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\Web.Config -&gt; C:\Users\Alex\Projects\SquishIt\Help\Working\Output\Website\.\Web.Config
+    Last step completed in 00:00:00.6120
+</buildStep>
+<buildStep step="GenerateHelpFormatTableOfContents">
+Generating website table of contents file...
+    Last step completed in 00:00:00.0030
+</buildStep>
+<buildStep step="GenerateFullTextIndex">
+Generating full-text index for the website...
+
+    Last step completed in 00:00:01.1211
+</buildStep>
+<buildStep step="CopyingWebsiteFiles">
+Copying website files to output folder...
+
+Copied 100 files
+Copied 200 files
+Copied 300 files
+Copied 326 files for the website content
+    Last step completed in 00:00:00.7720
+</buildStep>
+<buildStep step="CleanIntermediates">
+Removing intermediate files...
+    Last step completed in 00:00:00.3900
+</buildStep>
+<buildStep step="Completed">
+
+Build completed successfully at 11/30/2013 11:42 PM.  Total time: 00:00:28.9707
+
+</buildStep>
+</shfbBuild>

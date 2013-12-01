@@ -1,0 +1,112 @@
+﻿<html xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp"><head><link rel="SHORTCUT ICON" href="./../icons/favicon.ico" /><style type="text/css">.OH_CodeSnippetContainerTabLeftActive, .OH_CodeSnippetContainerTabLeft,.OH_CodeSnippetContainerTabLeftDisabled { backgroundImageName: tabLeftBG.gif; }.OH_CodeSnippetContainerTabRightActive, .OH_CodeSnippetContainerTabRight,.OH_CodeSnippetContainerTabRightDisabled { backgroundImageName: tabRightBG.gif; }.OH_footer { backgroundImageName: footer_slice.gif; background-position: top; background-repeat: repeat-x; }</style><link rel="stylesheet" type="text/css" href="./../styles/branding.css" /><link rel="stylesheet" type="text/css" href="./../styles/branding-en-US.css" /><style type="text/css">
+			body
+			{
+			border-left:5px solid #e6e6e6;
+			overflow-x:scroll;
+			overflow-y:scroll;
+			}
+		</style><script src="./../scripts/branding.js" type="text/javascript"><!----></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>BundleBase(T) Methods</title><meta name="Language" content="en-us" /><meta name="System.Keywords" content="BundleBase%3CT%3E class, methods" /><meta name="System.Keywords" content="BundleBase(Of T) class, methods" /><meta name="Microsoft.Help.Id" content="Methods.T:SquishIt.Framework.Base.BundleBase`1" /><meta name="Microsoft.Help.ContentType" content="Reference" /><meta name="BrandingAware" content="'true'" /><meta name="container" content="SquishIt.Framework.Base" /><meta name="file" content="f3e87501-4cfa-96f5-f1c6-5a4e4c65a6c2" /><meta name="guid" content="f3e87501-4cfa-96f5-f1c6-5a4e4c65a6c2" /><link type="text/css" rel="stylesheet" href="ms-help://Hx/HxRuntime/HxLink.css" /><meta name="SelfBranded" content="true" /></head><body onload="onLoad()" class="primary-mtps-offline-document"><div class="OH_outerDiv"><div class="OH_outerContent"><table class="TitleTable"><tr><td class="OH_tdTitleColumn">BundleBase<span id="ID0EDBABAAA"> </span><script type="text/javascript">
+					addToLanSpecTextIdSet("ID0EDBABAAA?vb=(Of |cpp=&lt;|cs=&lt;|fs=&lt;'|nu=(");
+				</script><span class="typeparameter">T</span><span id="ID0EBBABAAA"> </span><script type="text/javascript">
+					addToLanSpecTextIdSet("ID0EBBABAAA?vb=)|cpp=&gt;|cs=&gt;|fs=&gt;|nu=)");
+				</script> Methods</td><td class="OH_tdRunningTitleColumn">SquishIt API Documentation</td></tr></table><div id="mainSection"><div id="mainBody"><span class="introStyle"></span>The <a href="0b171740-a102-8440-039e-113635419b6d.htm" target="">BundleBase<span id="ID0ECEAAAAA"> </span><script type="text/javascript">
+					addToLanSpecTextIdSet("ID0ECEAAAAA?vb=(Of |cpp=&lt;|cs=&lt;|fs=&lt;'|nu=(");
+				</script>T<span id="ID0EAEAAAAA"> </span><script type="text/javascript">
+					addToLanSpecTextIdSet("ID0EAEAAAAA?vb=)|cpp=&gt;|cs=&gt;|fs=&gt;|nu=)");
+				</script></a> type exposes the following members.<div class="OH_CollapsibleAreaRegion"><div class="OH_regiontitle">Methods</div><div class="OH_CollapsibleArea_HrDiv"><hr class="OH_CollapsibleArea_Hr" /></div></div><div class="OH_clear"></div><table id="memberList" class="members"><tr><th class="ps_iconColumn">
+							 
+						</th><th class="ps_nameColumn">Name</th><th class="ps_descriptionColumn">Description</th></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="c26a04f6-ebc6-b7dc-1b61-d3a7a6bb3be8.htm" target="">Add</a></td><td><div class="summary">
+            Add a single file to a bundle.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="2136e6e5-544d-9d7c-d44c-557541122411.htm" target="">AddDirectory</a></td><td><div class="summary">
+            Add all files in a directory with extensions matching those known to bundle type.  Defaults to include subfolders.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="d22ed8f9-2808-658d-9cdc-2b5b8cbdbbfd.htm" target="">AddDynamic</a></td><td><div class="summary">
+            Add dynamic (app-generated) content - the generated proxy file SignalR serves to clients is a good example.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="b9358d9d-08e3-b546-8f9f-2d6fa0e3b667.htm" target="">AddEmbeddedResource</a></td><td><div class="summary">
+            Add embedded resource.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="bc780345-735f-9ed6-e6ea-8384d103a0b0.htm" target="">AddMinified</a></td><td><div class="summary">
+            Add a single file that has already been minified to a bundle.  This will prevent the file from being minified again, a potential cause of bugs in combined file.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="7983695d-1f52-8b09-4c42-37bea427cb88.htm" target="">AddMinifiedDirectory</a></td><td><div class="summary">
+            Add all files in a directory with extensions matching those known to bundle type.  Defaults to include subfolders.  All files found will be considered pre-minified.   
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="0457c369-aeb4-4d23-0684-4b39d72e5061.htm" target="">AddMinifiedString(String)</a></td><td><div class="summary">
+            Add pre-minified arbitrary content (not saved on disk).
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="05dc0e57-5a6f-eb63-9d45-7eedac42f3e6.htm" target="">AddMinifiedString(String, String)</a></td><td><div class="summary">
+            Add pre-minified arbitrary content (not saved on disk) with the assumption that it is treated as if found in a given directory.  This is useful for adding LESS content that needs to get imports relative to a particular location.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="c67b087b-de41-effd-c4ef-7b299feeec1f.htm" target="">AddRemote(String, String)</a></td><td><div class="summary">
+            Add a remote asset to bundle.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="b315582b-9210-7798-1d44-d989bd0ca1ab.htm" target="">AddRemote(String, String, Boolean)</a></td><td><div class="summary">
+            Add a remote asset to bundle.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="d3a67c91-cdff-0496-b9b1-fa5ab66dfc77.htm" target="">AddRootEmbeddedResource</a></td><td><div class="summary">
+            Add embedded resource in root namespace.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="d419a370-58c5-fe04-55c5-275ccbbce0ce.htm" target="">AddString(String)</a></td><td><div class="summary">
+            Add arbitrary content that is not saved on disk.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="8e56d2f5-edfe-f1cd-6b79-0c86db6b9591.htm" target="">AddString(String, <span id="ID0EDABYBCAAAAA"> </span><script type="text/javascript">
+					addToLanSpecTextIdSet("ID0EDABYBCAAAAA?vb=|cpp=array&lt;|cs=|fs=|nu=");
+				</script>Object<span id="ID0EBABYBCAAAAA"> </span><script type="text/javascript">
+					addToLanSpecTextIdSet("ID0EBABYBCAAAAA?vb=()|cpp=&gt;|cs=[]|fs=[]|nu=[]");
+				</script>)</a></td><td><div class="summary">
+            Add arbitrary content (not saved on disk) using string.Format to inject values.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="94b8f074-fbbc-2bfd-3064-67a9ee68c6b2.htm" target="">AddString(String, String, <span id="ID0EDABXBCAAAAA"> </span><script type="text/javascript">
+					addToLanSpecTextIdSet("ID0EDABXBCAAAAA?vb=|cpp=array&lt;|cs=|fs=|nu=");
+				</script>Object<span id="ID0EBABXBCAAAAA"> </span><script type="text/javascript">
+					addToLanSpecTextIdSet("ID0EBABXBCAAAAA?vb=()|cpp=&gt;|cs=[]|fs=[]|nu=[]");
+				</script>)</a></td><td><div class="summary">
+            Add arbitrary content (not saved on disk) using string.Format to inject values.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="b717fa1d-0fcc-fe26-8e72-b34a4798e08c.htm" target="">AddString(String, String, String)</a></td><td><div class="summary">
+            Add arbitrary content that is not saved on disk with the assumption that it is treated as if found in a given directory.  This is useful for adding LESS content that needs to get imports relative to a particular location.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="c1a98ff0-c98b-8a20-a45c-a766d5f24b88.htm" target="">AsCached</a></td><td><div class="summary">
+            Render bundle into cache and return tag.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="57f7147a-e224-9988-1ea9-d4dce12a346f.htm" target="">AsNamed</a></td><td><div class="summary">
+            Render bundle into the cache with a given name.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="0a3a78ff-c0dc-7ed0-eed0-f7b22fd7713b.htm" target="">ClearCache</a></td><td></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="cb1e8868-c336-cdd1-eb4f-74ea9df99768.htm" target="">ForceDebug</a></td><td><div class="summary">
+            Configure bundle to always render in debug mode (assets served separately and unminified).
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="2f8398fb-57d9-1c12-2a1d-bee2d310afa1.htm" target="">ForceDebugIf</a></td><td><div class="summary">
+            Configure bundle to render in debug mode (assets served separately and unminified) if a precondition is met.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="c06d1eef-0a50-255f-f6d1-11509e121bf6.htm" target="">ForceRelease</a></td><td><div class="summary">
+            Configure bundle to always render in release mode (assets combined and minified).
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="3b006e83-6b9b-e081-773e-f20b165c40f5.htm" target="">HashKeyNamed</a></td><td><div class="summary">
+            Configure bundle to use a specific name for cache-breaking parameter (only used with querystring invalidation).
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="5e502bdc-565b-c2e6-c731-5de8610bc2f5.htm" target="">Render</a></td><td><div class="summary">
+            Render bundle to a file.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="62f6f0e3-9941-961f-a012-10babcc8eca5.htm" target="">RenderCached</a></td><td><div class="summary">
+            Render bundle from cache with a given name.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="dec4c0cf-4658-3760-c2cd-33f8e7e39a93.htm" target="">RenderCachedAssetTag</a></td><td><div class="summary">
+            Render tag for a cached bundle.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="90fc1e04-3b0b-ef79-24ce-4411f5bc36ad.htm" target="">RenderNamed</a></td><td><div class="summary">
+            Render bundle with a given name.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="b877bae8-0ab9-300a-486c-5748f45ba2f3.htm" target="">RenderOnlyIfOutputFileMissing</a></td><td><div class="summary">
+            Configure bundle to bypass writing to disk if the output file already exists.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="b6174666-47be-8be5-4fdd-66a20dbca0b5.htm" target="">WithAttribute</a></td><td><div class="summary">
+            Include a given HTML attribute in rendered tag.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="ebe6034c-f0de-78d6-d7d0-8e8191d3648a.htm" target="">WithAttributes</a></td><td><div class="summary">
+            Include a given HTML attribute in rendered tag.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="07609f2f-d113-a30c-0ee3-b6dc016c8e5f.htm" target="">WithCacheInvalidationStrategy</a></td><td><div class="summary">
+            Configure bundle to use a non-standard cache invalidation strategy.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="abc0737b-1f07-3c56-2d38-2fe6c1b453ce.htm" target="">WithMinifier<span id="ID0EDABGBCAAAAA"> </span><script type="text/javascript">
+					addToLanSpecTextIdSet("ID0EDABGBCAAAAA?vb=(Of |cpp=&lt;|cs=&lt;|fs=&lt;'|nu=(");
+				</script>TMin<span id="ID0EBABGBCAAAAA"> </span><script type="text/javascript">
+					addToLanSpecTextIdSet("ID0EBABGBCAAAAA?vb=)|cpp=&gt;|cs=&gt;|fs=&gt;|nu=)");
+				</script><span id="ID0EAABGBCAAAAA"> </span><script type="text/javascript">
+					addToLanSpecTextIdSet("ID0EAABGBCAAAAA?vb=|cpp=()|cs=()|fs=()|nu=()");
+				</script></a></td><td><div class="summary">
+            Configure bundle to use a type other than the default minifier for given bundle type.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="b169afb3-e582-032c-f604-80e73f4988cd.htm" target="">WithMinifier<span id="ID0EDABFBCAAAAA"> </span><script type="text/javascript">
+					addToLanSpecTextIdSet("ID0EDABFBCAAAAA?vb=(Of |cpp=&lt;|cs=&lt;|fs=&lt;'|nu=(");
+				</script>TMin<span id="ID0EBABFBCAAAAA"> </span><script type="text/javascript">
+					addToLanSpecTextIdSet("ID0EBABFBCAAAAA?vb=)|cpp=&gt;|cs=&gt;|fs=&gt;|nu=)");
+				</script>(TMin)</a></td><td><div class="summary">
+            Configure bundle to use a minifier instance.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="aaf498c4-4d32-7b5e-ae9a-7e0b180e713a.htm" target="">WithOutputBaseHref</a></td><td><div class="summary">
+            Configure bundle to prefix paths with given base URL - this is useful for cdn scenarios.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="6f8b1261-2984-3d96-cf71-4781689654e7.htm" target="">WithoutRevisionHash</a></td><td><div class="summary">
+            Configure bundle to bypass cache invalidation.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="f8dcb3c8-881b-acaf-9b7a-d9f5dd4e8eac.htm" target="">WithoutTypeAttribute</a></td><td><div class="summary">
+            Specify that a bundle should be rendered without type="" in the html tag.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="d71d33b3-2e00-661e-4dae-763667e0f008.htm" target="">WithPreprocessor</a></td><td><div class="summary">
+            Configure bundle to use provided preprocessor instance.
+            </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="./../icons/pubmethod.gif" alt="Public method" title="Public method" /></td><td><a href="d129cfde-96f3-9b7a-2aff-4ad7013ce05d.htm" target="">WithReleaseFileRenderer</a></td><td><div class="summary">
+            Configure bundle to use a non-standard file renderer.  This is useful if you want combined files uploaded to a static server or CDN.
+            </div></td></tr></table><a href="#mainBody" target="">Back to Top</a><a name="seeAlsoSection"><!----></a><div class="OH_CollapsibleAreaRegion"><div class="OH_regiontitle">See Also</div><div class="OH_CollapsibleArea_HrDiv"><hr class="OH_CollapsibleArea_Hr" /></div></div><div class="OH_clear"></div><div class="seeAlsoStyle"><a href="0b171740-a102-8440-039e-113635419b6d.htm" target="">BundleBase<span id="ID0EDABAAAAAA"> </span><script type="text/javascript">
+					addToLanSpecTextIdSet("ID0EDABAAAAAA?vb=(Of |cpp=&lt;|cs=&lt;|fs=&lt;'|nu=(");
+				</script>T<span id="ID0EBABAAAAAA"> </span><script type="text/javascript">
+					addToLanSpecTextIdSet("ID0EBABAAAAAA?vb=)|cpp=&gt;|cs=&gt;|fs=&gt;|nu=)");
+				</script> Class</a></div><div class="seeAlsoStyle"><a href="fc2890b4-2dd9-8649-ed46-f8e0aad90fd0.htm" target="">SquishIt.Framework.Base Namespace</a></div></div></div></div></div><div id="OH_footer" class="OH_footer"><p /><div class="OH_feedbacklink"><a href="mailto:?subject=SquishIt+API+Documentation+BundleBase(T)+Methods+100+EN-US&amp;body=Your%20feedback%20is%20used%20to%20improve%20the%20documentation%20and%20the%20product.%20Your%20e-mail%20address%20will%20not%20be%20used%20for%20any%20other%20purpose%20and%20is%20disposed%20of%20after%20the%20issue%20you%20report%20is%20resolved.%20While%20working%20to%20resolve%20the%20issue%20that%20you%20report%2c%20you%20may%20be%20contacted%20via%20e-mail%20to%20get%20further%20details%20or%20clarification%20on%20the%20feedback%20you%20sent.%20After%20the%20issue%20you%20report%20has%20been%20addressed%2c%20you%20may%20receive%20an%20e-mail%20to%20let%20you%20know%20that%20your%20feedback%20has%20been%20addressed.">Send Feedback</a> on this topic.</div></div></body></html>

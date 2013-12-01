@@ -7,6 +7,9 @@ using System.Linq;
 
 namespace SquishIt.Less
 {
+    /// <summary>
+    /// LESS preprocessor.
+    /// </summary>
     public class LessPreprocessor : Preprocessor
     {
         private readonly Func<ILessEngine> _engineBuilder;
@@ -16,10 +19,17 @@ namespace SquishIt.Less
             get { return new[] { ".less" }; }
         }
 
+        /// <summary>
+        /// Can be overridden to build engine with specific configuration.
+        /// </summary>
         public static Func<ILessEngine> EngineBuilder = () => new EngineFactory().GetEngine();
 
         public LessPreprocessor() : this(EngineBuilder){ }
         
+        /// <summary>
+        /// Construct LESS preprocessor with custom engine construction.
+        /// </summary>
+        /// <param name="engineBuilder">Function for custom ILessEngine construction.</param>
         public LessPreprocessor(Func<ILessEngine> engineBuilder)
         {
             _engineBuilder = engineBuilder;
