@@ -20,7 +20,7 @@
     <HtmlHelpName>Documentation</HtmlHelpName>
     <Language>en-US</Language>
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
-    <HelpFileFormat>HtmlHelp1</HelpFileFormat>
+    <HelpFileFormat>Website</HelpFileFormat>
     <IndentHtml>False</IndentHtml>
     <KeepLogFile>False</KeepLogFile>
     <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
@@ -40,8 +40,7 @@
     <MissingTags>None</MissingTags>
     <VisibleItems>Attributes, InheritedMembers</VisibleItems>
     <ApiFilter>
-      <Filter entryType="Namespace" fullName="SquishIt.CoffeeScript" isExposed="False" />
-<Filter entryType="Namespace" fullName="SquishIt.CoffeeScript.Coffee" isExposed="False" />
+      <Filter entryType="Namespace" fullName="SquishIt.CoffeeScript.Coffee" isExposed="False" />
 <Filter entryType="Namespace" fullName="SquishIt.Framework" isExposed="False">
   <Filter entryType="Class" fullName="SquishIt.Framework.Bundle" filterName="Bundle" isExposed="True" />
   <Filter entryType="Interface" fullName="SquishIt.Framework.IPreprocessor" filterName="IPreprocessor" isExposed="True" />
@@ -54,22 +53,18 @@
   <Filter entryType="Class" fullName="SquishIt.Framework.CSS.CSSBundle" filterName="CSSBundle" isExposed="True" />
 </Filter>
 <Filter entryType="Namespace" fullName="SquishIt.Framework.Files" isExposed="False" />
-<Filter entryType="Namespace" fullName="SquishIt.Framework.Invalidation" isExposed="False" />
 <Filter entryType="Namespace" fullName="SquishIt.Framework.Minifiers" isExposed="False" />
 <Filter entryType="Namespace" fullName="SquishIt.Framework.Minifiers.CSS" isExposed="False" />
 <Filter entryType="Namespace" fullName="SquishIt.Framework.Minifiers.JavaScript" isExposed="False" />
 <Filter entryType="Namespace" fullName="SquishIt.Framework.Renderers" isExposed="False" />
 <Filter entryType="Namespace" fullName="SquishIt.Framework.Resolvers" isExposed="False" />
 <Filter entryType="Namespace" fullName="SquishIt.Framework.Utilities" isExposed="False" />
-<Filter entryType="Namespace" fullName="SquishIt.Hogan" isExposed="False" />
 <Filter entryType="Namespace" fullName="SquishIt.Hogan.Hogan" isExposed="False" />
-<Filter entryType="Namespace" fullName="SquishIt.Less" isExposed="False" />
-<Filter entryType="Namespace" fullName="SquishIt.MsIeCoffeeScript" isExposed="False" />
 <Filter entryType="Namespace" fullName="SquishIt.MsIeCoffeeScript.Coffee" isExposed="False" />
-<Filter entryType="Namespace" fullName="SquishIt.MsIeHogan" isExposed="False" />
 <Filter entryType="Namespace" fullName="SquishIt.MsIeHogan.Hogan" isExposed="False" />
-<Filter entryType="Namespace" fullName="SquishIt.Mvc" isExposed="False" />
-<Filter entryType="Namespace" fullName="SquishIt.Sass" isExposed="False" />
+<Filter entryType="Namespace" fullName="SquishIt.Sass" isExposed="False">
+  <Filter entryType="Class" fullName="SquishIt.Sass.SassPreprocessor" filterName="SassPreprocessor" isExposed="True" />
+</Filter>
 <Filter entryType="Namespace" fullName="SquishIt.Tests" isExposed="False" />
 <Filter entryType="Namespace" fullName="SquishIt.Tests.Helpers" isExposed="False" />
 <Filter entryType="Namespace" fullName="SquishIt.Tests.Stubs" isExposed="False" />
