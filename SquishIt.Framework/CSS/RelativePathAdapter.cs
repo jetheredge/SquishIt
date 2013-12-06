@@ -69,6 +69,14 @@ namespace SquishIt.Framework.CSS
             var separator = Path.DirectorySeparatorChar;
             var commonPath = String.Empty;
 
+            //Is Network Path Regular Expression
+            const string pattern = @"^\\{2}[\w-]+(\\{1}(([\w-][\w-\s]*[\w-]+[$$]?)|([\w-][$$]?$)))+";
+
+            if (System.Text.RegularExpressions.Regex.IsMatch(shortest, pattern))
+            {
+                commonPath += separator;
+            }
+
             var separatedPath = longest
                 .Split(new[] { separator }, StringSplitOptions.RemoveEmptyEntries)
                 .ToList();
