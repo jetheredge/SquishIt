@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Web;
+using System.Web.Mvc;
+using System.Web.WebPages;
 using SquishIt.Framework.CSS;
 using SquishIt.Framework.JavaScript;
 
@@ -15,5 +17,26 @@ namespace SquishIt.Mvc
         {
             return new JavaScriptBundle();
         }
+
+		//public static void AddResources(this HtmlHelper html, params string[] resourceFiles) {
+		//	AutoBundler.Current.AddResources(HelperVirtualPath(html), resourceFiles);
+		//}
+
+		//public static void AddCssResources(this HtmlHelper html, params string[] resourceFiles) {
+		//	AutoBundler.Current.AddCssResources(HelperVirtualPath(html), resourceFiles);
+		//}
+
+		//public static void AddJsResources(this HtmlHelper html, params string[] resourceFiles) {
+		//	AutoBundler.Current.AddJsResources(HelperVirtualPath(html), resourceFiles);
+		//}
+
+		//public static HtmlString ResourceLinks(this HtmlHelper html) {
+		//	return AutoBundler.Current.ResourceLinks;
+		//}
+
+		//private static string HelperVirtualPath(HtmlHelper html) {
+		//	var viewPage = html.ViewDataContainer as WebPageBase;
+		//	return viewPage.VirtualPath;
+		//}
     }
 }
