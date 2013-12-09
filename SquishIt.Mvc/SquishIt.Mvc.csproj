@@ -42,6 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoBundler.cs" />
+    <Compile Include="AutoBundlingViewPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="CSSBundleExtensions.cs" />
     <Compile Include="HtmlHelperExtensions.cs" />
     <Compile Include="JavaScriptBundleExtensions.cs" />

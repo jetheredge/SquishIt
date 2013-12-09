@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
-using SquishIt.Framework;
-using SquishIt.Framework.CSS;
-using SquishIt.Framework.JavaScript;
-using SquishIt.Mvc;
 
 namespace SquishIt.Mvc {
 
-	public abstract class AutoBundlingViewPage<TModel> : WebViewPage<TModel> {
+	public abstract class AutoBundlingViewPage<TModel> : ViewPage<TModel> {
 
 		protected void AddResources(params string[] resources) {
-			AutoBundler.Current.AddResources(VirtualPath, resources);
+			AutoBundler.Current.AddResources(AppRelativeVirtualPath, resources);
 		}
 
 		public HtmlString ResourceLinks {
