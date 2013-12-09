@@ -18,7 +18,7 @@ namespace SquishIt.Tests
             Assert.AreEqual("Can't calculate relative distance between '" + from + "' and '" + to + "' because they do not have a shared base.", ex.Message);
         }
 
-        [Test]
+        [Test, Platform(Exclude = "Unix, Linux, Mono")]
         public void DoesNotErrorOnNetworkSharePath()
         {
             var from = @"\\network\website\assets\css\main\";
