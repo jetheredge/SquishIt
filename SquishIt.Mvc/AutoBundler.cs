@@ -23,15 +23,19 @@ namespace SquishIt.Mvc {
 		// we just arbitrarily pick a folder to store them all in.
 		// This also reduces the write-access footprint the web app requires.
 		public static string AssetPath = "~/assets/";
+		static AutoBundler() {
+
+		}
 
 		// Since some resource types contain paths relative to the current location,
-		// we also offer the option of splitting bundles on path boundaries.
-		// Note that SquishIt does support relocating CSS url() paths.
+		// we offer the option of splitting bundles on path boundaries.
 		public static bool KeepJavascriptInOriginalFolder = false;
+
 		// Grouping bundle content by folder can result in content order changes
 		// For example, [  "/a/css1", "/b/css2",   "/a/css3"  ]
-		// becomes      [ ["/a/css1", "/a/css3"], ["/b/css2"] ]
-		// for that reason the 
+		// may become   [ ["/a/css1", "/a/css3"], ["/b/css2"] ]
+		// for that reason these should be off be default
+		// Note that SquishIt does support relocating CSS url() paths.
 		public static bool KeepCssInOriginalFolder = true;
 
 		// It might be nice to allow multiple link queues to be named,
@@ -57,8 +61,9 @@ namespace SquishIt.Mvc {
 		// This allows all resources to be specified in a single command,
 		// which permits .css and .js resources to be declared in any order the site author prefers
 		// It may be misleading, though, since obviously similar filetypes are grouped when bundled.
-		// Note this is the only place we determine type from extension (although we do determine bundle extension from type) -
-		// if an author wishes to treat a .css file as JavaScript elsewhere, that should work fine.
+		// WARNING: This is the only place we determine type from extension
+		// (although we do the converse, determine bundle extension from type, elsewhere).
+		// If an author wishes to treat a .css file as JavaScript elsewhere, that must work.
 		/// <summary>
 		/// Queues resources to be bundled and later emitted with the ResourceLinks directive
 		/// </summary>
@@ -76,7 +81,7 @@ namespace SquishIt.Mvc {
 		/// <param name="viewPath"></param>
 		/// <param name="resourceFiles">Zero or more project paths to JavaScript files</param>
 		public void AddCssResources(string viewPath, params string[] resourceFiles) {
-			AddBundles(Bundle.Css, viewPath, KeepCssInOriginalFolder, CSS_EXTENSION, resourceFiles);
+			AddBundles<CSSBundle>(Bundle.Css, viewPath, KeepCssInOriginalFolder, CSS_EXTENSION, resourceFiles);
 		}
 
 		/// <summary>
@@ -84,22 +89,21 @@ namespace SquishIt.Mvc {
 		/// </summary>
 		/// <param name="resourceFiles">Zero or more project paths to JavaScript files</param>
 		public void AddJsResources(string viewPath, params string[] resourceFiles) {
-			AddBundles(Bundle.JavaScript, viewPath, KeepJavascriptInOriginalFolder, JS_EXTENSION, resourceFiles);
+			AddBundles<JavaScriptBundle>(Bundle.JavaScript, viewPath, KeepJavascriptInOriginalFolder, JS_EXTENSION, resourceFiles);
 		}
 
 		private void AddBundles<bT>(Func<BundleBase<bT>> newBundleFunc, string viewPath, bool originalFolder, string bundleExtension, string[] resourceFiles) where bT : BundleBase<bT> {
-			// Create a separate reference for each CSS path, since CSS files typically include path-relative images.
-			string filename = viewPath + "_#" + bundleExtension;
+			StringBuilder sb = new StringBuilder();
+			string filename = GetFilenameRepresentingPath(viewPath) + "_#" + bundleExtension;
 			if (originalFolder) {
-				foreach (
-					var resourceFolder in resourceFiles.
+				// Create a separate bundle for each resource path contained in the provided resourceFiles.
+				foreach (var resourceFolder in resourceFiles.
 					// Note that on a typical MS "preserve-but-ignore-case" posix-compliant filesystem,
 					// this case-insenstive grouping does allow for resources in two different folders to be bundled together,
 					// however this case would require some frankly unsupportable behavior from the author to induce.
-						GroupBy(r => r.Substring(0, r.LastIndexOf('/')), StringComparer.OrdinalIgnoreCase).
-					// TODO: I don't recall why this is necessary :)
-						Reverse()) {
-					AddBundle(newBundleFunc, resourceFolder.Key + "/" + filename, resourceFiles);
+					GroupBy(r => r.Substring(0, r.LastIndexOf('/') + 1), StringComparer.OrdinalIgnoreCase).
+					Reverse()) {
+					AddBundle(newBundleFunc, resourceFolder.Key + filename, resourceFolder);
 				}
 			} else {
 				if (resourceFiles.Any()) {
@@ -108,7 +112,7 @@ namespace SquishIt.Mvc {
 			}
 		}
 
-		private void AddBundle<bT>(Func<BundleBase<bT>> newBundleFunc, string bundlePath, string[] resourceFiles) where bT : BundleBase<bT> {
+		private void AddBundle<bT>(Func<BundleBase<bT>> newBundleFunc, string bundlePath, IEnumerable<string> resourceFiles) where bT : BundleBase<bT> {
 			BundleBase<bT> bundle = newBundleFunc();
 			foreach (string resourceFile in resourceFiles) {
 				bundle.Add(resourceFile);
@@ -148,6 +152,8 @@ namespace SquishIt.Mvc {
 				// VirtualPath uniquely identifies the currently rendering View or Partial,
 				// such as "~/Views/Shared/SignInPartial.cshtml"
 				Path.GetFileNameWithoutExtension(componentPath).
+
+				Substring(2).
 				// It's assumed all of these bundles will be output to a single folder,
 				// to keep filesystem write-access minimal, so we flatten them here.
 				Replace("/", "_").
