@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web;
-using System.Web.Mvc;
 using SquishIt.Framework;
 using SquishIt.Framework.Base;
 using SquishIt.Framework.CSS;
+using SquishIt.Framework.Files;
 using SquishIt.Framework.JavaScript;
-using SquishIt.Mvc;
+using SquishIt.Framework.Utilities;
 
 namespace SquishIt.Mvc {
 	/// <summary>
@@ -23,8 +21,10 @@ namespace SquishIt.Mvc {
 		// we just arbitrarily pick a folder to store them all in.
 		// This also reduces the write-access footprint the web app requires.
 		public static string AssetPath = "~/assets/";
-		static AutoBundler() {
 
+        private IHasher _hasher = new Hasher(new RetryableFileOpener());
+
+		static AutoBundler() {
 		}
 
 		// Since some resource types contain paths relative to the current location,
@@ -94,7 +94,8 @@ namespace SquishIt.Mvc {
 
 		private void AddBundles<bT>(Func<BundleBase<bT>> newBundleFunc, string viewPath, bool originalFolder, string bundleExtension, string[] resourceFiles) where bT : BundleBase<bT> {
 			StringBuilder sb = new StringBuilder();
-			string filename = GetFilenameRepresentingPath(viewPath) + "_#" + bundleExtension;
+            //TODO: figure out how to support different invalidation strategies?  Querystring probably makes sense to keep as default
+			string filename = GetFilenameRepresentingResources(resourceFiles) + bundleExtension;
 			if (originalFolder) {
 				// Create a separate bundle for each resource path contained in the provided resourceFiles.
 				foreach (var resourceFolder in resourceFiles.
@@ -145,23 +146,9 @@ namespace SquishIt.Mvc {
 			return newOrCachedSelf;
 		}
 
-		// ViewIdentifier returns a site-unique name for the current control, such as "shared_signinpartial"
-		// Some security wonks may take issue with exposing folder structure here, perhaps it should obfuscate/hash
-		private string GetFilenameRepresentingPath(string componentPath) {
-			return
-				// VirtualPath uniquely identifies the currently rendering View or Partial,
-				// such as "~/Views/Shared/SignInPartial.cshtml"
-				Path.GetFileNameWithoutExtension(componentPath).
-
-				Substring(2).
-				// It's assumed all of these bundles will be output to a single folder,
-				// to keep filesystem write-access minimal, so we flatten them here.
-				Replace("/", "_").
-				// We collapse bundles in scenarios where the view was specified in an unprecise letter-case
-				// although this probably originates from "WebViewPage.VirtualPath", we can't guarantee that.
-				ToLowerInvariant();
-			// Note that without the MD5 hash calculated later to address changing file content,
-			// all three of the above string transformations could cause bundles to conflict
+		// this will spit out a nonsense name, but should make it easier to reuse bundles
+		private string GetFilenameRepresentingResources(string[] resourcePaths) {
+            return _hasher.GetHash(string.Join("-", resourcePaths));
 		}
 
 		private List<string> resourceLinks = new List<string>();
