@@ -31,7 +31,7 @@ namespace SquishIt.Tests.Stubs
 			return cache.TryGetValue(key, out content);
 		}
 
-		public void Add(string key, string content, List<string> files)
+		public void Add(string key, string content, List<string> files, bool debuggingEnabled)
 		{
 			if (key != null)
 				cache.Add(key, content);

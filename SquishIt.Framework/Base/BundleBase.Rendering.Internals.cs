@@ -275,7 +275,7 @@ namespace SquishIt.Framework.Base
             }
             if (debugStatusReader.IsDebuggingEnabled()) //default for predicate is null - only want to add to cache if not forced via predicate
             {
-                bundleCache.Add(name, content, bundleState.DependentFiles);
+                bundleCache.Add(name, content, bundleState.DependentFiles, IsDebuggingEnabled());
             }
 
             //need to render the bundle to caches, otherwise leave it
@@ -362,7 +362,7 @@ namespace SquishIt.Framework.Base
                 //don't cache bundles where debugging was forced via predicate
                 if (!bundleState.DebugPredicate.SafeExecute())
                 {
-                    bundleCache.Add(key, content, bundleState.DependentFiles);
+                    bundleCache.Add(key, content, bundleState.DependentFiles, IsDebuggingEnabled());
                 }
             }
 
