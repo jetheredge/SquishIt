@@ -6,7 +6,7 @@ namespace SquishIt.Mvc {
 	public abstract class AutoBundlingViewPage<TModel> : WebViewPage<TModel> {
 
 		protected void AddResources(params string[] resources) {
-			AutoBundler.Current.AddResources(VirtualPath, resources);
+			AutoBundler.Current.AddResources(resources);
 		}
 
 		public HtmlString ResourceLinks {

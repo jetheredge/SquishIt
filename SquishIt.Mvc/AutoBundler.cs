@@ -68,11 +68,11 @@ namespace SquishIt.Mvc {
 		/// Queues resources to be bundled and later emitted with the ResourceLinks directive
 		/// </summary>
 		/// <param name="resourceFiles">Project paths to JavaScript and/or CSS files</param>
-		public void AddResources(string viewPath, params string[] resourceFiles) {
+		public void AddResources(params string[] resourceFiles) {
 			var css = FilterFileExtension(resourceFiles, CSS_EXTENSION);
-			AddCssResources(viewPath, css);
+			AddCssResources(css);
 			var js = FilterFileExtension(resourceFiles, JS_EXTENSION);
-			AddJsResources(viewPath, js);
+			AddJsResources(js);
 		}
 
 		/// <summary>
@@ -80,19 +80,19 @@ namespace SquishIt.Mvc {
 		/// </summary>
 		/// <param name="viewPath"></param>
 		/// <param name="resourceFiles">Zero or more project paths to JavaScript files</param>
-		public void AddCssResources(string viewPath, params string[] resourceFiles) {
-			AddBundles<CSSBundle>(Bundle.Css, viewPath, KeepCssInOriginalFolder, CSS_EXTENSION, resourceFiles);
+		public void AddCssResources(params string[] resourceFiles) {
+			AddBundles<CSSBundle>(Bundle.Css, KeepCssInOriginalFolder, CSS_EXTENSION, resourceFiles);
 		}
 
 		/// <summary>
 		/// Bundles JavaScript files to be emitted with the ResourceLinks directive
 		/// </summary>
 		/// <param name="resourceFiles">Zero or more project paths to JavaScript files</param>
-		public void AddJsResources(string viewPath, params string[] resourceFiles) {
-			AddBundles<JavaScriptBundle>(Bundle.JavaScript, viewPath, KeepJavascriptInOriginalFolder, JS_EXTENSION, resourceFiles);
+		public void AddJsResources(params string[] resourceFiles) {
+			AddBundles<JavaScriptBundle>(Bundle.JavaScript, KeepJavascriptInOriginalFolder, JS_EXTENSION, resourceFiles);
 		}
 
-		private void AddBundles<bT>(Func<BundleBase<bT>> newBundleFunc, string viewPath, bool originalFolder, string bundleExtension, string[] resourceFiles) where bT : BundleBase<bT> {
+		private void AddBundles<bT>(Func<BundleBase<bT>> newBundleFunc, bool originalFolder, string bundleExtension, string[] resourceFiles) where bT : BundleBase<bT> {
 			StringBuilder sb = new StringBuilder();
             //TODO: figure out how to support different invalidation strategies?  Querystring probably makes sense to keep as default
 			string filename = GetFilenameRepresentingResources(resourceFiles) + bundleExtension;
