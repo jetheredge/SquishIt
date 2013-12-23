@@ -22,7 +22,9 @@ namespace SquishIt.Mvc
         // Since resources can come from multiple folder and bundle to one file,
         // we just arbitrarily pick a folder to store them all in.
         // This also reduces the write-access footprint the web app requires.
-        public static string AssetPath = "~/assets/";
+        // This expects querystring invalidation strategy will be used - if using hash in filename or hash as vdir place hash symbol in appropriate place
+        public static string ResourceLocation = "~/assets/";
+        public static string FilenameFormat = "{0}{1}.{2}";
 
         private IHasher _hasher = new Hasher(new RetryableFileOpener());
 
@@ -118,7 +120,7 @@ namespace SquishIt.Mvc
         {
             var sb = new StringBuilder();
             //TODO: figure out how to support different invalidation strategies?  Querystring probably makes sense to keep as default
-            var filename = GetFilenameRepresentingResources(resourceFiles) + bundleExtension;
+            var filename = GetFilenameRepresentingResources(resourceFiles);
             if (originalFolder)
             {
                 // Create a separate bundle for each resource path contained in the provided resourceFiles.
@@ -129,14 +131,14 @@ namespace SquishIt.Mvc
                     GroupBy(r => r.Substring(0, r.LastIndexOf('/') + 1), StringComparer.OrdinalIgnoreCase).
                     Reverse())
                 {
-                    AddBundle(newBundleFunc, resourceFolder.Key + filename, resourceFolder);
+                    AddBundle(newBundleFunc, string.Format(FilenameFormat, resourceFolder.Key, filename, bundleExtension), resourceFolder);
                 }
             }
             else
             {
                 if (resourceFiles.Any())
                 {
-                    AddBundle(newBundleFunc, AssetPath + filename, resourceFiles);
+                    AddBundle(newBundleFunc, string.Format(FilenameFormat, ResourceLocation, filename, bundleExtension), resourceFiles);
                 }
             }
         }
@@ -144,6 +146,7 @@ namespace SquishIt.Mvc
         private void AddBundle<bT>(Func<BundleBase<bT>> newBundleFunc, string bundlePath, IEnumerable<string> resourceFiles) where bT : BundleBase<bT>
         {
             var bundle = newBundleFunc();
+
             foreach (var resourceFile in resourceFiles)
             {
                 bundle.Add(resourceFile);
