@@ -15,6 +15,7 @@ SquishItAspNetTest/css/combined*
 SquishItAspNetTest/js/combined*
 SquishItAspNetTest/js/output*
 SquishItAspNetTest/combined*
+SquishItAspNetMvcTest/assets/*
 SquishItAspNetMvcTest/templates/templates_*
 *.squishit.debug.css
 *.squishit.debug.js
