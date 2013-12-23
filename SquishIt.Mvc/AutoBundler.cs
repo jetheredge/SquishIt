@@ -26,7 +26,7 @@ namespace SquishIt.Mvc
         {
             Behavior = new AutoBundlingBehavior
             {
-                FilenameFormat = "{0}{1}.{2}",
+                FilenameFormat = "{0}{1}{2}",
                 ResourceLocation = "~/assets/",
                 RenderingDelegate = (b, n) => b.Render(n),
                 // Since some resource types contain paths relative to the current location,
@@ -79,12 +79,12 @@ namespace SquishIt.Mvc
         /// Queues resources to be bundled and later emitted with the ResourceLinks directive
         /// </summary>
         /// <param name="resourceFiles">Project paths to JavaScript and/or CSS files</param>
-        public void AddResources(params string[] resourceFiles)
+        public void AddResources(string viewPath, params string[] resourceFiles)
         {
             var styles = FilterFileExtensions(resourceFiles, Bundle.AllowedStyleExtensions);
-            AddStyleResources(styles);
+            AddStyleResources(viewPath, styles);
             var scripts = FilterFileExtensions(resourceFiles, Bundle.AllowedScriptExtensions);
-            AddScriptResources(scripts);
+            AddScriptResources(viewPath, scripts);
         }
 
         /// <summary>
@@ -92,23 +92,22 @@ namespace SquishIt.Mvc
         /// </summary>
         /// <param name="viewPath"></param>
         /// <param name="resourceFiles">Zero or more project paths to JavaScript files</param>
-        public void AddStyleResources(params string[] resourceFiles)
+        public void AddStyleResources(string viewPath, params string[] resourceFiles)
         {
-            AddBundles(Bundle.Css, Behavior.KeepStylesInOriginalFolder, STYLE_BUNDLE_EXTENSION, resourceFiles);
+            AddBundles(Bundle.Css, viewPath, Behavior.KeepStylesInOriginalFolder, STYLE_BUNDLE_EXTENSION, resourceFiles);
         }
 
         /// <summary>
         /// Bundles JavaScript files to be emitted with the ResourceLinks directive
         /// </summary>
         /// <param name="resourceFiles">Zero or more project paths to JavaScript files</param>
-        public void AddScriptResources(params string[] resourceFiles)
+        public void AddScriptResources(string viewPath, params string[] resourceFiles)
         {
-            AddBundles(Bundle.JavaScript, Behavior.KeepStylesInOriginalFolder, SCRIPT_BUNDLE_EXTENSION, resourceFiles);
+            AddBundles(Bundle.JavaScript, viewPath, Behavior.KeepScriptsInOriginalFolder, SCRIPT_BUNDLE_EXTENSION, resourceFiles);
         }
 
-        private void AddBundles<bT>(Func<BundleBase<bT>> newBundleFunc, bool originalFolder, string bundleExtension, string[] resourceFiles) where bT : BundleBase<bT>
+        private void AddBundles<bT>(Func<BundleBase<bT>> newBundleFunc, string viewPath, bool originalFolder, string bundleExtension, string[] resourceFiles) where bT : BundleBase<bT>
         {
-            var sb = new StringBuilder();
             //TODO: figure out how to support different invalidation strategies?  Querystring probably makes sense to keep as default
             var filename = GetFilenameRepresentingResources(resourceFiles);
             if (originalFolder)
@@ -121,26 +120,28 @@ namespace SquishIt.Mvc
                     GroupBy(r => r.Substring(0, r.LastIndexOf('/') + 1), StringComparer.OrdinalIgnoreCase).
                     Reverse())
                 {
-                    AddBundle(newBundleFunc, string.Format(Behavior.FilenameFormat, resourceFolder.Key, filename, bundleExtension), resourceFolder);
+                    AddBundle(newBundleFunc, viewPath, string.Format(Behavior.FilenameFormat, resourceFolder.Key, filename, bundleExtension), resourceFolder);
                 }
             }
             else
             {
                 if (resourceFiles.Any())
                 {
-                    AddBundle(newBundleFunc, string.Format(Behavior.FilenameFormat, Behavior.ResourceLocation, filename, bundleExtension), resourceFiles);
+                    AddBundle(newBundleFunc, viewPath, string.Format(Behavior.FilenameFormat, Behavior.ResourceLocation, filename, bundleExtension), resourceFiles);
                 }
             }
         }
 
-        private void AddBundle<bT>(Func<BundleBase<bT>> newBundleFunc, string bundlePath, IEnumerable<string> resourceFiles) where bT : BundleBase<bT>
+        private void AddBundle<bT>(Func<BundleBase<bT>> newBundleFunc, string viewPath, string bundlePath, IEnumerable<string> resourceFiles) where bT : BundleBase<bT>
         {
-            var bundle = newBundleFunc();
+            var bundle = newBundleFunc()
+                .WithAttribute("data-autobundle-declaring-view", viewPath);
 
             foreach (var resourceFile in resourceFiles)
             {
                 bundle.Add(resourceFile);
             }
+            
             var renderedLinks = Behavior.RenderingDelegate(bundle, bundlePath);
 
             // WebViewPages (Views and Partials) render from the inside out (although branch order may not be guaranteed),
@@ -190,8 +191,8 @@ namespace SquishIt.Mvc
             return _hasher.GetHash(string.Join("-", resourcePaths));
         }
 
-        private readonly IList<string> styleResourceLinks = new List<string>();
-        private readonly IList<string> scriptResourceLinks = new List<string>();
+        private readonly List<string> styleResourceLinks = new List<string>();
+        private readonly List<string> scriptResourceLinks = new List<string>();
 
         private string[] FilterFileExtensions(string[] filenames, IEnumerable<string> extensions)
         {
