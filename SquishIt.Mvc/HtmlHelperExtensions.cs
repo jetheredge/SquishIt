@@ -17,20 +17,34 @@ namespace SquishIt.Mvc
             return new JavaScriptBundle();
         }
 
-		public static void AddResources(this HtmlHelper html, params string[] resourceFiles) {
-			AutoBundler.Current.AddResources(resourceFiles);
-		}
+        public static void AddResources(this HtmlHelper html, params string[] resourceFiles)
+        {
+            AutoBundler.Current.AddResources(resourceFiles);
+        }
 
-		public static void AddCssResources(this HtmlHelper html, params string[] resourceFiles) {
-			AutoBundler.Current.AddCssResources(resourceFiles);
-		}
+        public static void AddStyleResources(this HtmlHelper html, params string[] resourceFiles)
+        {
+            AutoBundler.Current.AddStyleResources(resourceFiles);
+        }
 
-		public static void AddJsResources(this HtmlHelper html, params string[] resourceFiles) {
-			AutoBundler.Current.AddJsResources(resourceFiles);
-		}
+        public static void AddScriptResources(this HtmlHelper html, params string[] resourceFiles)
+        {
+            AutoBundler.Current.AddScriptResources(resourceFiles);
+        }
 
-		public static HtmlString ResourceLinks(this HtmlHelper html) {
-			return AutoBundler.Current.ResourceLinks;
-		}
+        public static HtmlString ResourceLinks(this HtmlHelper html)
+        {
+            return new HtmlString(AutoBundler.Current.StyleResourceLinks + AutoBundler.Current.ScriptResourceLinks);
+        }
+
+        public static HtmlString StyleResourceLinks(this HtmlHelper html)
+        {
+            return new HtmlString(AutoBundler.Current.StyleResourceLinks);
+        }
+
+        public static HtmlString ScriptResourceLinks(this HtmlHelper html)
+        {
+            return new HtmlString(AutoBundler.Current.ScriptResourceLinks);
+        }
     }
 }

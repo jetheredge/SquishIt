@@ -1,0 +1,27 @@
+﻿@using SquishIt.Mvc
+@{
+    ViewBag.Title = "Auto-Bundle Hogan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.AddScriptResources("/assets/js/hogan/hogan-2.0.0.js", "/assets/templates/hogan/template1.hogan.html", "/assets/templates/hogan/template2.hogan.html","/assets/templates/hogan/lambda.hogan.html");
+}
+<div id="place-for-template">If you see this, the test has failed.</div>
+<div id="place-for-lambda-template"></div>
+<div id="place-for-template2">If you see this, the test has failed.</div>
+@section JavaScript{
+    @Html.ScriptResourceLinks()
+    <script>
+        var d = document.getElementById("place-for-template");
+        d.innerHTML = JST["template1"].render({ message: "The test passed!" });
+        var obj = {
+            key1: "Hello, World!"
+        };
+        var l = document.getElementById("place-for-lambda-template");
+        l.innerHTML = JST["lambda"].render({
+            wrapper: function(key) {
+                return obj[key];
+            }
+        });
+        var d2 = document.getElementById("place-for-template2");
+        d2.innerHTML = JST["template2"].render();
+    </script>
+}

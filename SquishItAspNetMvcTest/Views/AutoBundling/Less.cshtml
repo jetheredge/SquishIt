@@ -1,0 +1,14 @@
+﻿@using SquishIt.Mvc
+@{
+    ViewBag.Title = "Auto-Bundle Less";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.AddStyleResources("/assets/styles/lesstest.less.css");
+}
+
+<div id="test-container">
+    <p class="red-text">This text should be red if less was processed.</p>    
+</div>
+
+@section Styles{
+    @Html.StyleResourceLinks()
+}

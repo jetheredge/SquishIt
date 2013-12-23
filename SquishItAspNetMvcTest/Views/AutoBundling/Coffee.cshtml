@@ -1,0 +1,19 @@
+﻿@using SquishIt.Mvc
+@{
+    ViewBag.Title = "Auto-Bundle Coffeescript";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{ Html.AddScriptResources("~/assets/js/jquery_1.7.2.js", "~/assets/coffee/Medals.coffee"); }
+
+<h2>Coffee</h2>
+@Html.ScriptResourceLinks()
+<form id="form1" runat="server">
+<div>
+    <h2>Gold and Silver</h2>
+    <ul id="goldandsilver">
+    </ul>
+    <h2>The Field</h2>
+    <ul id="others">
+    </ul>    
+</div>
+</form>

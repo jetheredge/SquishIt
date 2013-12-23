@@ -13,5 +13,30 @@ namespace SquishItAspNetMvcTest.Controllers
         {
             return View();
         }
+
+        public ActionResult Combined()
+        {
+            return View();
+        }
+
+        public ActionResult Coffee()
+        {
+            return View();
+        }
+
+        public ActionResult Hogan()
+        {
+            return View();
+        }
+
+        public ActionResult Less()
+        {
+            return View();
+        }
+
+        public ActionResult Sass()
+        {
+            return View();
+        }
     }
 }

@@ -133,6 +133,11 @@
     <Content Include="Views\AutoBundling\Javascript.cshtml" />
     <Content Include="packages.config" />
     <Content Include="Views\AutoBundling\Css.cshtml" />
+    <Content Include="Views\AutoBundling\Sass.cshtml" />
+    <Content Include="Views\AutoBundling\Coffee.cshtml" />
+    <Content Include="Views\AutoBundling\Hogan.cshtml" />
+    <Content Include="Views\AutoBundling\Less.cshtml" />
+    <Content Include="Views\AutoBundling\Combined.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Preprocessors\Hogan.cshtml" />

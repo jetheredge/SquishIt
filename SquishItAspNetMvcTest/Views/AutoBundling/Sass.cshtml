@@ -1,0 +1,15 @@
+﻿@using SquishIt.Mvc
+@{
+    ViewBag.Title = "Auto-Bundle SASS";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.AddStyleResources("~/assets/styles/sasstest.sass", "~/assets/styles/sasstest.scss");
+}
+<div id="test-container">
+    <p class="red-text">
+        This text should be red if sass was processed.</p>
+    <p class="blue-text">
+        This text should be blue if scss was processed.</p>
+</div>
+@section Styles{
+    @Html.StyleResourceLinks()
+}

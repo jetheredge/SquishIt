@@ -16,7 +16,7 @@ namespace SquishIt.Framework
         internal static readonly HashSet<String> AllowedGlobalExtensions = new HashSet<string>();
         internal static readonly HashSet<String> AllowedScriptExtensions = new HashSet<string> { ".JS" };
         internal static readonly HashSet<String> AllowedStyleExtensions = new HashSet<string> { ".CSS" };
-
+ 
         /// <summary>
         /// Register a preprocessor instance to be used for all bundle types.
         /// </summary>

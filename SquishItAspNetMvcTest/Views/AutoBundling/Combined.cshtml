@@ -1,0 +1,20 @@
+﻿@using SquishIt.Mvc
+            
+@{
+    ViewBag.Title = "Auto-Bundle Combined Resources";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{ Html.AddResources("/assets/styles/minifycss_test1.css", "/assets/styles/minifycss_test2.css", "/assets/js/jquery_1.7.2.js", "/assets/js/minifyjs_test.js"); }
+
+<div id="js-test-container">
+    <p style="color: #f00;">This test is broken! This text should have been replaced!</p>
+</div>
+<div id="test-container">
+    <p class="red-text">This text should be red if css1 was processed.</p>
+    <p class="blue-text">This text should be blue if css2 was processed.</p>
+</div>
+
+@section Styles {
+    @Html.ResourceLinks()
+}
