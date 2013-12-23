@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoBundler.cs" />
+    <Compile Include="AutoBundlingBehavior.cs" />
     <Compile Include="AutoBundlingViewPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>

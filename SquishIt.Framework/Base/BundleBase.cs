@@ -14,7 +14,7 @@ namespace SquishIt.Framework.Base
     /// Base class for bundle implementations.  Configuration methods all return (T)this.
     /// </summary>
     /// <typeparam name="T">Type of bundle being implemented (Javascript or CSS).</typeparam>
-    public abstract partial class BundleBase<T> where T : BundleBase<T>
+    public abstract partial class BundleBase<T> : IRenderable where T : BundleBase<T>
     {
         static readonly Dictionary<string, string> renderPathCache = new Dictionary<string, string>();
         static readonly Dictionary<string, BundleState> bundleStateCache = new Dictionary<string, BundleState>();

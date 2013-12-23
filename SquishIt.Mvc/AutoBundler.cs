@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Web;
 using SquishIt.Framework;
 using SquishIt.Framework.Base;
 using SquishIt.Framework.CSS;
@@ -19,29 +18,28 @@ namespace SquishIt.Mvc
     /// </summary>
     public class AutoBundler
     {
-        // Since resources can come from multiple folder and bundle to one file,
-        // we just arbitrarily pick a folder to store them all in.
-        // This also reduces the write-access footprint the web app requires.
-        // This expects querystring invalidation strategy will be used - if using hash in filename or hash as vdir place hash symbol in appropriate place
-        public static string ResourceLocation = "~/assets/";
-        public static string FilenameFormat = "{0}{1}.{2}";
+        public static AutoBundlingBehavior Behavior { get; set; }
 
         private IHasher _hasher = new Hasher(new RetryableFileOpener());
 
         static AutoBundler()
         {
+            Behavior = new AutoBundlingBehavior
+            {
+                FilenameFormat = "{0}{1}.{2}",
+                ResourceLocation = "~/assets/",
+                RenderingDelegate = (b, n) => b.Render(n),
+                // Since some resource types contain paths relative to the current location,
+                // we offer the option of splitting bundles on path boundaries.
+                KeepScriptsInOriginalFolder = false,
+                // Grouping bundle content by folder can result in content order changes
+                // For example, [  "/a/css1", "/b/css2",   "/a/css3"  ]
+                // may become   [ ["/a/css1", "/a/css3"], ["/b/css2"] ]
+                // for that reason these should be off be default
+                // Note that SquishIt does support relocating CSS url() paths.
+                KeepStylesInOriginalFolder = true,
+            };
         }
-
-        // Since some resource types contain paths relative to the current location,
-        // we offer the option of splitting bundles on path boundaries.
-        public static bool KeepJavascriptInOriginalFolder = false;
-
-        // Grouping bundle content by folder can result in content order changes
-        // For example, [  "/a/css1", "/b/css2",   "/a/css3"  ]
-        // may become   [ ["/a/css1", "/a/css3"], ["/b/css2"] ]
-        // for that reason these should be off be default
-        // Note that SquishIt does support relocating CSS url() paths.
-        public static bool KeepCssInOriginalFolder = true;
 
         // It might be nice to allow multiple link queues to be named,
         // for example one for the head and another for the tail of body
@@ -77,14 +75,6 @@ namespace SquishIt.Mvc
             }
         }
 
-
-
-        // This allows all resources to be specified in a single command,
-        // which permits .css and .js resources to be declared in any order the site author prefers
-        // It may be misleading, though, since obviously similar filetypes are grouped when bundled.
-        // WARNING: This is the only place we determine type from extension
-        // (although we do the converse, determine bundle extension from type, elsewhere).
-        // If an author wishes to treat a .css file as JavaScript elsewhere, that must work.
         /// <summary>
         /// Queues resources to be bundled and later emitted with the ResourceLinks directive
         /// </summary>
@@ -104,7 +94,7 @@ namespace SquishIt.Mvc
         /// <param name="resourceFiles">Zero or more project paths to JavaScript files</param>
         public void AddStyleResources(params string[] resourceFiles)
         {
-            AddBundles(Bundle.Css, KeepCssInOriginalFolder, STYLE_BUNDLE_EXTENSION, resourceFiles);
+            AddBundles(Bundle.Css, Behavior.KeepStylesInOriginalFolder, STYLE_BUNDLE_EXTENSION, resourceFiles);
         }
 
         /// <summary>
@@ -113,7 +103,7 @@ namespace SquishIt.Mvc
         /// <param name="resourceFiles">Zero or more project paths to JavaScript files</param>
         public void AddScriptResources(params string[] resourceFiles)
         {
-            AddBundles(Bundle.JavaScript, KeepJavascriptInOriginalFolder, SCRIPT_BUNDLE_EXTENSION, resourceFiles);
+            AddBundles(Bundle.JavaScript, Behavior.KeepStylesInOriginalFolder, SCRIPT_BUNDLE_EXTENSION, resourceFiles);
         }
 
         private void AddBundles<bT>(Func<BundleBase<bT>> newBundleFunc, bool originalFolder, string bundleExtension, string[] resourceFiles) where bT : BundleBase<bT>
@@ -131,14 +121,14 @@ namespace SquishIt.Mvc
                     GroupBy(r => r.Substring(0, r.LastIndexOf('/') + 1), StringComparer.OrdinalIgnoreCase).
                     Reverse())
                 {
-                    AddBundle(newBundleFunc, string.Format(FilenameFormat, resourceFolder.Key, filename, bundleExtension), resourceFolder);
+                    AddBundle(newBundleFunc, string.Format(Behavior.FilenameFormat, resourceFolder.Key, filename, bundleExtension), resourceFolder);
                 }
             }
             else
             {
                 if (resourceFiles.Any())
                 {
-                    AddBundle(newBundleFunc, string.Format(FilenameFormat, ResourceLocation, filename, bundleExtension), resourceFiles);
+                    AddBundle(newBundleFunc, string.Format(Behavior.FilenameFormat, Behavior.ResourceLocation, filename, bundleExtension), resourceFiles);
                 }
             }
         }
@@ -151,7 +141,8 @@ namespace SquishIt.Mvc
             {
                 bundle.Add(resourceFile);
             }
-            var renderedLinks = bundle.Render(bundlePath);
+            var renderedLinks = Behavior.RenderingDelegate(bundle, bundlePath);
+
             // WebViewPages (Views and Partials) render from the inside out (although branch order may not be guaranteed),
             // which is required for us to expose our resources declared in children to the parent where they are emitted.
             // However, it also means our resources naturally collect here in an order that is probably not what the site author intends.
