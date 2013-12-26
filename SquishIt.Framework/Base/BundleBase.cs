@@ -500,7 +500,6 @@ namespace SquishIt.Framework.Base
 
             if (!bundleState.DebugPredicate.SafeExecute())
             {
-                //TODO: this sucks
                 // Revisit https://github.com/jetheredge/SquishIt/pull/155 and https://github.com/jetheredge/SquishIt/issues/183
                 //hopefully we can find a better way to satisfy both of these requirements
                 var fullName = (BaseOutputHref ?? "") + CachePrefix + name;

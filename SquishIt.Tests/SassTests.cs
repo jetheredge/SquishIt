@@ -8,7 +8,7 @@ using SquishIt.Tests.Stubs;
 
 namespace SquishIt.Tests
 {
-    [TestFixture] //TODO: find out why Sass not working on linux
+    [TestFixture]
     public class SassTests
     {
         CSSBundleFactory cssBundleFactory;

@@ -104,7 +104,7 @@ namespace SquishIt.Sass
             return path   
                 .Replace('\\', '.')
                 .Replace('/', '.')
-                .Replace("R:", "SquishIt.Sass"); // TODO: CHANGE APP NAMESPACE!!
+                .Replace("R:", "SquishIt.Sass");
         }
     }
 }

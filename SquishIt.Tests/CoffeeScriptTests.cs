@@ -1,6 +1,5 @@
 ﻿using System;
 using NUnit.Framework;
-using SquishIt.CoffeeScript.Coffee;
 using SquishIt.Framework;
 using SquishIt.Tests.Helpers;
 
@@ -9,7 +8,6 @@ namespace SquishIt.Tests
     [TestFixture]
     public class CoffeeScriptTests
     {
-        //TODO: should probably have more tests here
         JavaScriptBundleFactory javaScriptBundleFactory;
 
         [SetUp]

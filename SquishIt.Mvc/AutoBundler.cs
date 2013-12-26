@@ -108,7 +108,6 @@ namespace SquishIt.Mvc
 
         private void AddBundles<bT>(Func<BundleBase<bT>> newBundleFunc, string viewPath, bool originalFolder, string bundleExtension, string[] resourceFiles) where bT : BundleBase<bT>
         {
-            //TODO: figure out how to support different invalidation strategies?  Querystring probably makes sense to keep as default
             var filename = GetFilenameRepresentingResources(resourceFiles);
             if (originalFolder)
             {
