@@ -21,10 +21,11 @@ namespace SquishIt.Framework.Utilities
         /// <returns>A string containing an MD5 hash.</returns>
         public string GetHash(Stream stream)
         {
-            // Now that we have a byte array we can ask the CSP to hash it
-            var md5 = new MD5CryptoServiceProvider();
-            var hashBytes = md5.ComputeHash(stream);
-            return ByteArrayToString(hashBytes);
+            using (var md5 = MD5.Create())
+            {
+                var hashBytes = md5.ComputeHash(stream);
+                return ByteArrayToString(hashBytes);
+            }
         }
 
         /// <summary>
@@ -37,9 +38,11 @@ namespace SquishIt.Framework.Utilities
             using (var stream = RetryableFileOpener.OpenFileStream(fileInfo, 5, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 // Now that we have a byte array we can ask the CSP to hash it
-                var md5 = new MD5CryptoServiceProvider();
-                var hashBytes = md5.ComputeHash(stream);
-                return ByteArrayToString(hashBytes);
+                using (var md5 = MD5.Create())
+                {
+                    var hashBytes = md5.ComputeHash(stream);
+                    return ByteArrayToString(hashBytes);
+                }
             }
         }
 
@@ -52,9 +55,11 @@ namespace SquishIt.Framework.Utilities
         {
             if(content == null) throw new InvalidOperationException("Can't calculate hash for null content.");
             var bytes = Encoding.UTF8.GetBytes(content);
-            var md5 = new MD5CryptoServiceProvider();
-            var hashBytes = md5.ComputeHash(bytes);
-            return ByteArrayToString(hashBytes);
+            using (var md5 = MD5.Create())
+            {
+                var hashBytes = md5.ComputeHash(bytes);
+                return ByteArrayToString(hashBytes);
+            }
         }
 
         static string ByteArrayToString(byte[] arrInput)

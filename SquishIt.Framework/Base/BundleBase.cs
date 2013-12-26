@@ -63,7 +63,8 @@ namespace SquishIt.Framework.Base
             this.bundleCache = bundleCache;
         }
 
-        protected bool IsDebuggingEnabled()
+        //TODO: should this be public?
+        internal bool IsDebuggingEnabled()
         {
             return debugStatusReader.IsDebuggingEnabled(bundleState.DebugPredicate);
         }

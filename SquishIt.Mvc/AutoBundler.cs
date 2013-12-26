@@ -134,8 +134,12 @@ namespace SquishIt.Mvc
 
         private void AddBundle<bT>(Func<BundleBase<bT>> newBundleFunc, string viewPath, string bundlePath, IEnumerable<string> resourceFiles) where bT : BundleBase<bT>
         {
-            var bundle = newBundleFunc()
-                .WithAttribute("data-autobundle-declaring-view", viewPath);
+            var bundle = newBundleFunc();
+
+            if (bundle.IsDebuggingEnabled())
+            {
+                bundle = bundle.WithAttribute("data-autobundle-declaring-view", viewPath);
+            }
 
             foreach (var resourceFile in resourceFiles)
             {

@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 
 namespace SquishIt.Mvc
@@ -9,7 +8,7 @@ namespace SquishIt.Mvc
     {
         protected string ViewFileName
         {
-            get { return Path.GetFileNameWithoutExtension(this.AppRelativeVirtualPath); }
+            get { return this.AppRelativeVirtualPath; }
         }
         protected void AddResources(params string[] resources)
         {

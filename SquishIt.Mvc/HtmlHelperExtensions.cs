@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
 using SquishIt.Framework.CSS;
@@ -22,7 +21,7 @@ namespace SquishIt.Mvc
         public static string ViewName(this HtmlHelper html)
         {
             var webPage = html.ViewDataContainer as WebPageBase;
-            return Path.GetFileNameWithoutExtension(webPage.VirtualPath);
+            return webPage.VirtualPath;
         }
         public static void AddResources(this HtmlHelper html, params string[] resourceFiles)
         {
