@@ -28,5 +28,18 @@ namespace SquishIt.Tests
 
             Assert.IsNotNull(adapter);
         }
+
+        [Test]
+        public void DoesNotErrorOnDefaultDriveShare()
+        {
+            //variant of share path that is a default drive share (e.g. \\server\d$\style.css)
+            var from = @"\\network\d$\website\assets\css\main\";
+            var to = @"\\network\d$\website\Content\style.css";
+
+            var adapter = RelativePathAdapter.Between(from, to);
+
+            Assert.IsNotNull(adapter);
+        }
+
     }
 }
