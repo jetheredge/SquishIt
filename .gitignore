@@ -20,3 +20,6 @@ SquishItAspNetMvcTest/templates/templates_*
 *.squishit.debug.css
 *.squishit.debug.js
 SquishItAspNetMvcTest/output/
+
+#crap for generating html docs
+*SquishIt.shfbproj_*
