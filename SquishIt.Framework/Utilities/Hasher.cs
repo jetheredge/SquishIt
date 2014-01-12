@@ -37,12 +37,7 @@ namespace SquishIt.Framework.Utilities
         {
             using (var stream = RetryableFileOpener.OpenFileStream(fileInfo, 5, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                // Now that we have a byte array we can ask the CSP to hash it
-                using (var md5 = MD5.Create())
-                {
-                    var hashBytes = md5.ComputeHash(stream);
-                    return ByteArrayToString(hashBytes);
-                }
+                return GetHash(stream);
             }
         }
 
@@ -55,10 +50,9 @@ namespace SquishIt.Framework.Utilities
         {
             if(content == null) throw new InvalidOperationException("Can't calculate hash for null content.");
             var bytes = Encoding.UTF8.GetBytes(content);
-            using (var md5 = MD5.Create())
+            using (var stream = new MemoryStream(bytes))
             {
-                var hashBytes = md5.ComputeHash(bytes);
-                return ByteArrayToString(hashBytes);
+                return GetHash(stream);
             }
         }
 
