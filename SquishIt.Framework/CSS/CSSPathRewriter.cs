@@ -9,45 +9,51 @@ namespace SquishIt.Framework.CSS
     {
         public static string RewriteCssPaths(string outputPath, string sourcePath, string css, ICSSAssetsFileHasher cssAssetsFileHasher, bool asImport = false)
         {
-            var relativePathAdapter = RelativePathAdapter.Between(outputPath, sourcePath);
-
             var relativePaths = FindDistinctRelativePathsIn(css);
 
-            foreach (var relativePath in relativePaths)
+            if (relativePaths.Any())
             {
-                var firstIndexOfHashOrQuestionMark = relativePath.IndexOfAny(new[] { '?', '#' });
+                var relativePathAdapter = RelativePathAdapter.Between(outputPath, sourcePath);
 
-                var segmentAfterHashOrQuestionMark = firstIndexOfHashOrQuestionMark >= 0
-                    ? relativePath.Substring(firstIndexOfHashOrQuestionMark)
-                    : string.Empty;
-
-                var capturedRelativePath = segmentAfterHashOrQuestionMark != string.Empty
-                    ? relativePath.Substring(0, firstIndexOfHashOrQuestionMark)
-                    : relativePath;
-
-                var resolvedOutput = relativePathAdapter.Adapt(capturedRelativePath);
-
-                var newRelativePath = asImport ? "squishit://" + resolvedOutput : (resolvedOutput + segmentAfterHashOrQuestionMark);
-
-                css = ReplaceRelativePathsIn(css, relativePath, newRelativePath);
-            }
-
-            if (!asImport)
-            {
-                css = css.Replace("squishit://", "");
-            }
-
-            if (cssAssetsFileHasher != null)
-            {
-                var localRelativePathsThatExist = FindDistinctLocalRelativePathsThatExist(css);
-
-                foreach (var localRelativePathThatExist in localRelativePathsThatExist)
+                foreach (var relativePath in relativePaths)
                 {
-                    var localRelativePathThatExistWithFileHash = cssAssetsFileHasher.AppendFileHash(outputPath, localRelativePathThatExist);
+                    var firstIndexOfHashOrQuestionMark = relativePath.IndexOfAny(new[] {'?', '#'});
 
-                    if (localRelativePathThatExist != localRelativePathThatExistWithFileHash)
+                    var segmentAfterHashOrQuestionMark = firstIndexOfHashOrQuestionMark >= 0
+                                                             ? relativePath.Substring(firstIndexOfHashOrQuestionMark)
+                                                             : string.Empty;
+
+                    var capturedRelativePath = segmentAfterHashOrQuestionMark != string.Empty
+                                                   ? relativePath.Substring(0, firstIndexOfHashOrQuestionMark)
+                                                   : relativePath;
+
+                    var resolvedOutput = relativePathAdapter.Adapt(capturedRelativePath);
+
+                    var newRelativePath = asImport
+                                              ? "squishit://" + resolvedOutput
+                                              : (resolvedOutput + segmentAfterHashOrQuestionMark);
+
+                    css = ReplaceRelativePathsIn(css, relativePath, newRelativePath);
+                }
+
+                if (!asImport)
+                {
+                    css = css.Replace("squishit://", "");
+                }
+
+                if (cssAssetsFileHasher != null)
+                {
+                    var localRelativePathsThatExist = FindDistinctLocalRelativePathsThatExist(css);
+
+                    foreach (var localRelativePathThatExist in localRelativePathsThatExist)
                     {
-                        css = css.Replace(localRelativePathThatExist, localRelativePathThatExistWithFileHash);
+                        var localRelativePathThatExistWithFileHash = cssAssetsFileHasher.AppendFileHash(outputPath,
+                                                                                                        localRelativePathThatExist);
+
+                        if (localRelativePathThatExist != localRelativePathThatExistWithFileHash)
+                        {
+                            css = css.Replace(localRelativePathThatExist, localRelativePathThatExistWithFileHash);
+                        }
                     }
                 }
             }
@@ -66,19 +72,22 @@ namespace SquishIt.Framework.CSS
         }
 
         static readonly Regex pathsRegex = new Regex(@"(?<!.*behavior\s*:\s*)url\(\s*(?:[""']?)(.*?)(?:[""']?)\s*\)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        static IEnumerable<string> FindDistinctRelativePathsIn(string css)
+
+        static IList<string> FindDistinctRelativePathsIn(string css)
         {
             var matches = pathsRegex.Matches(css);
             return matches.Cast<Match>()
-                .Select(match => match.Groups[1].Captures[0].Value)
-                .Where(path => !path.StartsWith("/")
-                    && !path.StartsWith("http://")
-                    && !path.StartsWith("https://")
-                    && !path.StartsWith("data:")
-                    && !path.StartsWith("squishit://")
-                    && path != "\"\""
-                    && path != "''"
-                    && !string.IsNullOrEmpty(path)).Distinct();
+                          .Select(match => match.Groups[1].Captures[0].Value)
+                          .Where(path => !path.StartsWith("/")
+                                         && !path.StartsWith("http://")
+                                         && !path.StartsWith("https://")
+                                         && !path.StartsWith("data:")
+                                         && !path.StartsWith("squishit://")
+                                         && path != "\"\""
+                                         && path != "''"
+                                         && !string.IsNullOrEmpty(path))
+                          .Distinct()
+                          .ToList();
         }
 
         static IEnumerable<string> FindDistinctLocalRelativePathsThatExist(string css)
