@@ -70,7 +70,7 @@ namespace SquishIt.Framework.CSS
             var commonPath = String.Empty;
 
             //Is Network Path Regular Expression
-            const string pattern = @"^\\{2}[\w-]+(\\{1}(([\w-][\w-\s]*[\w-]+[$$]?)|([\w-][$$]?$)|(\w\$)))+";
+            const string pattern = @"^\\{2}[\w-\.]+(\\{1}(([\w-\.][\w-\.\s]*[\w-\.]+[$$]?)|([\w-\.][$$]?$)|(\w\$)))+";
 
             if (System.Text.RegularExpressions.Regex.IsMatch(shortest, pattern))
             {

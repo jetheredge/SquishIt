@@ -30,6 +30,17 @@ namespace SquishIt.Tests
         }
 
         [Test, Platform(Exclude = "Unix, Linux, Mono")]
+        public void DoesNotErrorOnNetworkSharePathWithPeriods()
+        {
+            var from = @"\\172.21.204.204\webvol19\d3\jkbndfkb2d8f\my.website.com\public_html\assets\css\main\";
+            var to = @"\\172.21.204.204\webvol19\d3\jkbndfkb2d8f\my.website.com\public_html\Content\style.css";
+
+            var adapter = RelativePathAdapter.Between(from, to);
+
+            Assert.IsNotNull(adapter);
+        }
+
+        [Test, Platform(Exclude = "Unix, Linux, Mono")]
         public void DoesNotErrorOnDefaultDriveShare()
         {
             //variant of share path that is a default drive share (e.g. \\server\d$\style.css)
