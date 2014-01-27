@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>YUICompressor.NET</id>
+    <version>2.3.0.0</version>
+    <title>YUICompressor .NET</title>
+    <authors>Pure Krome and freeranger</authors>
+    <owners>Pure Krome and freeranger</owners>
+    <licenseUrl>http://yuicompressor.codeplex.com/license/</licenseUrl>
+    <projectUrl>http://yuicompressor.codeplex.com/</projectUrl>
+    <iconUrl>http://download.codeplex.com/Project/Download/FileDownload.aspx?ProjectName=YUICompressor&amp;DownloadId=36338</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This library can minify and/or bundle any Javascript and/or Cascading Style Sheets.
+            
+This is a direct .NET port of the original Yahoo! UI Library: YUI Compressor.</description>
+    <summary>Minify and/or Combine JavaScript and/or Cascading Style Sheets.</summary>
+    <releaseNotes>Removed the Iesi.Collections package dependency! *woot*.</releaseNotes>
+    <copyright>2008 - 2012</copyright>
+    <language>en-au</language>
+    <tags>compression compressor minification obfuscation minify bundle bundler combine javascript js CSS cascading style sheets</tags>
+    <dependencies>
+      <dependency id="EcmaScript.Net" version="1.0.1.0" />
+    </dependencies>
+  </metadata>
+</package>

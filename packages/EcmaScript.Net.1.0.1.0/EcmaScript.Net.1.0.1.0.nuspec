@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>EcmaScript.Net</id>
+    <version>1.0.1.0</version>
+    <title />
+    <authors>Pure Krome</authors>
+    <owners>Pure Krome</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This is a custom modified version of the EcmaScript code, mainly created for YUICompressor.NET.</description>
+    <summary>Modified version of the EcmaScript library.</summary>
+    <copyright>2008 - 2012</copyright>
+    <tags>javascript ecmascript</tags>
+  </metadata>
+</package>
