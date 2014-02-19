@@ -79,15 +79,15 @@ namespace SquishIt.Framework.CSS
         {
             //https://github.com/jetheredge/SquishIt/issues/215
             //if sourcePath is used below and doesn't start with a /, the path is not resolved relative to site root but relative to current folder
-            var sourcePath = "/" + (FileSystem.ResolveFileSystemPathToAppRelative(Path.GetDirectoryName(file)) + "/").TrimStart("/");
+            var sourcePath = "/" + (pathTranslator.ResolveFileSystemPathToAppRelative(Path.GetDirectoryName(file)) + "/").TrimStart("/");
 
             return IMPORT_PATTERN.Replace(css, match =>
             {
                 var importPath = match.Groups[2].Value;
                 string import;
-                import = importPath.StartsWith("/") 
-                    ? FileSystem.ResolveAppRelativePathToFileSystem(importPath) 
-                    : FileSystem.ResolveAppRelativePathToFileSystem(sourcePath + importPath);
+                import = importPath.StartsWith("/")
+                    ? pathTranslator.ResolveAppRelativePathToFileSystem(importPath)
+                    : pathTranslator.ResolveAppRelativePathToFileSystem(sourcePath + importPath);
                 bundleState.DependentFiles.Add(import);
                 return ProcessCssFile(import, outputFile, file, true);
             });
@@ -128,7 +128,7 @@ namespace SquishIt.Framework.CSS
         protected override string ProcessFile(string file, string outputFile, Asset originalAsset)
         {
             var sourcePath = file;
-            var pathForRewriter = originalAsset.IsEmbeddedResource ? FileSystem.ResolveAppRelativePathToFileSystem(originalAsset.LocalPath) : file;
+            var pathForRewriter = originalAsset.IsEmbeddedResource ? pathTranslator.ResolveAppRelativePathToFileSystem(originalAsset.LocalPath) : file;
             return MinifyIfNeeded(ProcessCssFile(sourcePath, outputFile, pathForRewriter), originalAsset.Minify);
         }
 
@@ -150,7 +150,7 @@ namespace SquishIt.Framework.CSS
             if(ShouldAppendHashForAssets)
             {
                 var fileResolver = new FileSystemResolver();
-                fileHasher = new CSSAssetsFileHasher(bundleState.HashKeyName, fileResolver, hasher);
+                fileHasher = new CSSAssetsFileHasher(bundleState.HashKeyName, fileResolver, hasher, pathTranslator);
             }
 
             return CSSPathRewriter.RewriteCssPaths(outputFile, fileForCssRewriter, css, fileHasher, asImport);

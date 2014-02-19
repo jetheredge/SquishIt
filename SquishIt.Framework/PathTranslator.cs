@@ -4,9 +4,9 @@ using System.Web;
 
 namespace SquishIt.Framework
 {
-    public class FileSystem
+    public class PathTranslator : IPathTranslator
     {
-        public static string ResolveAppRelativePathToFileSystem(string file)
+        public string ResolveAppRelativePathToFileSystem(string file)
         {
             // Remove query string
             if (file.IndexOf('?') != -1)
@@ -28,7 +28,7 @@ namespace SquishIt.Framework
             return Path.Combine(Environment.CurrentDirectory, file);
         }
 
-        public static string ResolveFileSystemPathToAppRelative(string file)
+        public string ResolveFileSystemPathToAppRelative(string file)
         {
             if (HttpContext.Current != null)
             {

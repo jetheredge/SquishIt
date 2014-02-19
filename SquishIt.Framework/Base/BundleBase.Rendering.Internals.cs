@@ -56,7 +56,7 @@ namespace SquishIt.Framework.Base
 
         Input GetFileSystemPath(string localPath, bool isRecursive = true)
         {
-            string mappedPath = FileSystem.ResolveAppRelativePathToFileSystem(localPath);
+            string mappedPath = pathTranslator.ResolveAppRelativePathToFileSystem(localPath);
             return new Input(mappedPath, isRecursive, ResolverFactory.Get<FileSystemResolver>());
         }
 
@@ -243,7 +243,7 @@ namespace SquishIt.Framework.Base
 
                         var processedFile = ExpandAppRelativePath(asset.LocalPath);
                         //embedded resources need to be rendered regardless to be usable
-                        renderer.Render(tsb.ToString(), FileSystem.ResolveAppRelativePathToFileSystem(processedFile));
+                        renderer.Render(tsb.ToString(), pathTranslator.ResolveAppRelativePathToFileSystem(processedFile));
                         sb.AppendLine(FillTemplate(bundleState, processedFile));
                     }
                     else if (asset.RemotePath != null)
@@ -256,7 +256,7 @@ namespace SquishIt.Framework.Base
                         {
                             if (!renderedFiles.Contains(file))
                             {
-                                var fileBase = FileSystem.ResolveAppRelativePathToFileSystem(asset.LocalPath);
+                                var fileBase = pathTranslator.ResolveAppRelativePathToFileSystem(asset.LocalPath);
                                 var newPath = PreprocessForDebugging(file).Replace(fileBase, "");
                                 var path = ExpandAppRelativePath(asset.LocalPath + newPath.Replace("\\", "/"));
                                 sb.AppendLine(FillTemplate(bundleState, path));
@@ -318,7 +318,7 @@ namespace SquishIt.Framework.Base
                             renderPathCache[CachePrefix + "." + key] = renderTo;
                         }
 
-                        var outputFile = FileSystem.ResolveAppRelativePathToFileSystem(renderTo);
+                        var outputFile = pathTranslator.ResolveAppRelativePathToFileSystem(renderTo);
                         var renderToPath = ExpandAppRelativePath(renderTo);
 
                         if (!String.IsNullOrEmpty(BaseOutputHref))

@@ -18,6 +18,7 @@ namespace SquishIt.Framework.Utilities
         readonly Dictionary<string, Mutex> pathMutexes =
             new Dictionary<string, Mutex>(StringComparer.Ordinal);
         readonly IHasher hasher;
+        readonly IPathTranslator pathTranslator;
 
         public static IFilePathMutexProvider Instance
         {
@@ -25,13 +26,14 @@ namespace SquishIt.Framework.Utilities
         }
 
         public FilePathMutexProvider()
-            : this(new Hasher(new RetryableFileOpener()))
+            : this(new Hasher(new RetryableFileOpener()), Configuration.Instance.DefaultPathTranslator())
         {
         }
 
-        public FilePathMutexProvider(IHasher hasher)
+        public FilePathMutexProvider(IHasher hasher, IPathTranslator pathTranslator)
         {
             this.hasher = hasher;
+            this.pathTranslator = pathTranslator;
         }
 
         public Mutex GetMutexForPath(string path)
@@ -58,7 +60,7 @@ namespace SquishIt.Framework.Utilities
             return result;
         }
 
-        static string GetNormalizedPath(string path)
+        string GetNormalizedPath(string path)
         {
             if(String.IsNullOrEmpty(path))
             {
@@ -66,7 +68,7 @@ namespace SquishIt.Framework.Utilities
             }
 
             // Normalize the path
-            var fileSystemPath = FileSystem.ResolveAppRelativePathToFileSystem(path);
+            var fileSystemPath = pathTranslator.ResolveAppRelativePathToFileSystem(path);
             // The path is lower cased to avoid different hashes. Even on a case sensitive
             // file system this probably is okay, since it's a web application
             return Path.GetFullPath(fileSystemPath)

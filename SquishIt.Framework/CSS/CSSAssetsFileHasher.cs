@@ -11,12 +11,14 @@ namespace SquishIt.Framework.CSS
         protected readonly string HashQueryStringKeyName;
         protected readonly IResolver FileSystemResolver;
         protected readonly IHasher Hasher;
+        private readonly IPathTranslator pathTranslator;
 
-        public CSSAssetsFileHasher(string hashQueryStringKeyName, IResolver fileResolver, IHasher hasher)
+        public CSSAssetsFileHasher(string hashQueryStringKeyName, IResolver fileResolver, IHasher hasher, IPathTranslator pathTranslator)
         {
             HashQueryStringKeyName = hashQueryStringKeyName;
             FileSystemResolver = fileResolver;
             Hasher = hasher;
+            this.pathTranslator = pathTranslator;
         }
 
         public string AppendFileHash(string cssFilePath, string url)
@@ -78,7 +80,7 @@ namespace SquishIt.Framework.CSS
                 }
                 else
                 {
-                    resolvedUrl = FileSystem.ResolveAppRelativePathToFileSystem(url);
+                    resolvedUrl = pathTranslator.ResolveAppRelativePathToFileSystem(url);
                 }
 
                 return FileSystemResolver.Resolve(resolvedUrl);

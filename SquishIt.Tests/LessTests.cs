@@ -26,6 +26,7 @@ namespace SquishIt.Tests
 
         CSSBundleFactory cssBundleFactory;
         IHasher hasher;
+        private IPathTranslator translator = Configuration.Instance.DefaultPathTranslator();
 
         [SetUp]
         public void Setup () {
@@ -81,7 +82,7 @@ namespace SquishIt.Tests
             TestUtilities.DeleteFile("other.less");
 
             Assert.AreEqual("#footer{color:#fff}#header{color:#4d926f}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output_test.css")]);
-            Assert.Contains(FileSystem.ResolveAppRelativePathToFileSystem("css/other.less"), cssBundle.bundleState.DependentFiles);
+            Assert.Contains(translator.ResolveAppRelativePathToFileSystem("css/other.less"), cssBundle.bundleState.DependentFiles);
         }
 
         [Test]
@@ -162,8 +163,8 @@ namespace SquishIt.Tests
 
             Assert.AreEqual("#cssA{color:#fff}.cssA{color:#aaa}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css_A\output_test.css")]);
             Assert.AreEqual("#cssB{color:#000}.cssB{color:#bbb}", cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css_B\output_test.css")]);
-            Assert.Contains(FileSystem.ResolveAppRelativePathToFileSystem("css_A/other.less"), cssBundleA.bundleState.DependentFiles);
-            Assert.Contains(FileSystem.ResolveAppRelativePathToFileSystem("css_B/other.less"), cssBundleB.bundleState.DependentFiles);
+            Assert.Contains(translator.ResolveAppRelativePathToFileSystem("css_A/other.less"), cssBundleA.bundleState.DependentFiles);
+            Assert.Contains(translator.ResolveAppRelativePathToFileSystem("css_B/other.less"), cssBundleB.bundleState.DependentFiles);
         }
  
 
