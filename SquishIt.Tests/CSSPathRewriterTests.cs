@@ -531,5 +531,20 @@ font-style: normal;
 
             Assert.AreEqual(expected, result);
         }
+
+        [Test]
+        public void AlwaysReplaceSquishItRewrittenPathsWhenProcessingParent()
+        {
+            //an issue was reported relating to squishit:// (rewritten urls for imports) not being scrubbed out if there are no relative paths in the parent file
+            //https://github.com/jetheredge/SquishIt/issues/277
+            var css = @"squishit://test";
+
+            var sourceFile = TestUtilities.PreparePath(@"C:\somepath\myFile.css");
+            var destinationFile = TestUtilities.PreparePath(@"C:\somepath\somesubpath\myRewrittenFile.css");
+
+            var result = CSSPathRewriter.RewriteCssPaths(destinationFile, sourceFile, css, null);
+
+            Assert.AreEqual(@"test", result);
+        }
     }
 }
