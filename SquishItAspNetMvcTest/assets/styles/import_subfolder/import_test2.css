@@ -1,3 +1,8 @@
 ﻿div#test-container p.blue-text{
     color: #00f;
 }
+/* this is just here to see that it gets rewritten properly */
+@font-face {
+  font-family: 'Graublau Web';
+  src: url('squishit://GraublauWeb.eot') format('eot'), url('squishit://GraublauWeb.woff') format('woff'), url('squishit://GraublauWeb.ttf') format('truetype');
+}

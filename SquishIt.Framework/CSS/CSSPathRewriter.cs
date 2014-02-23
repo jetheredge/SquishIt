@@ -36,11 +36,6 @@ namespace SquishIt.Framework.CSS
                     css = ReplaceRelativePathsIn(css, relativePath, newRelativePath);
                 }
 
-                if (!asImport)
-                {
-                    css = css.Replace("squishit://", "");
-                }
-
                 if (cssAssetsFileHasher != null)
                 {
                     var localRelativePathsThatExist = FindDistinctLocalRelativePathsThatExist(css);
@@ -57,6 +52,12 @@ namespace SquishIt.Framework.CSS
                     }
                 }
             }
+
+            if(!asImport)
+            {
+                css = css.Replace("squishit://", "");
+            }
+
             return css;
         }
 
