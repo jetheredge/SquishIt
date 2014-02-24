@@ -29,9 +29,7 @@ namespace SquishIt.Framework.CSS
 
                     var resolvedOutput = relativePathAdapter.Adapt(capturedRelativePath);
 
-                    var newRelativePath = asImport
-                                              ? "squishit://" + resolvedOutput
-                                              : (resolvedOutput + segmentAfterHashOrQuestionMark);
+                    var newRelativePath = (asImport ? "squishit://" : "") +  (resolvedOutput + segmentAfterHashOrQuestionMark);
 
                     css = ReplaceRelativePathsIn(css, relativePath, newRelativePath);
                 }
