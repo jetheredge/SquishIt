@@ -79,6 +79,7 @@
     <Compile Include="Base\BundleBase.Rendering.Internals.cs" />
     <Compile Include="Base\BundleState.cs" />
     <Compile Include="Base\IRenderable.cs" />
+    <Compile Include="Base\NullPreprocessor.cs" />
     <Compile Include="Base\Preprocessor.cs" />
     <Compile Include="Base\ProcessResult.cs" />
     <Compile Include="Configuration.cs" />

@@ -1,5 +1,7 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using NUnit.Framework;
 using SquishIt.Framework;
+using SquishIt.Framework.Base;
 using SquishIt.Framework.CSS;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Utilities;
@@ -18,8 +20,7 @@ namespace SquishIt.Tests
         public void Setup()
         {
             cssBundleFactory = new CSSBundleFactory();
-            var retryableFileOpener = new RetryableFileOpener();
-            hasher = new Hasher(retryableFileOpener);
+            hasher = new StubHasher("hash");
         }
 
         [Test]
@@ -44,7 +45,7 @@ namespace SquishIt.Tests
                 string contents =
                     cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")];
 
-                Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output.css?r=6816A2FDB0EE7941EE20E53D23779FC7\" />", tag);
+                Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output.css?r=hash\" />", tag);
                 Assert.AreEqual("globey", contents);
 
                 Assert.AreEqual("start", stylePreprocessor.CalledWith);
@@ -74,7 +75,7 @@ namespace SquishIt.Tests
                 string contents =
                     cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")];
 
-                Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output.css?r=0B5C0EC6F2D8CEA452236626242443B7\" />", tag);
+                Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output.css?r=hash\" />", tag);
                 Assert.AreEqual("styley", contents);
 
                 Assert.AreEqual("globey", stylePreprocessor.CalledWith);
@@ -83,7 +84,7 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void Css_Skips_Extensions_With_No_Preprocessors()
+        public void Css_Stops_At_First_Extension_With_No_Defined_Preprocessor()
         {
             var stylePreprocessor = new StubStylePreprocessor();
             var globalPreprocessor = new StubGlobalPreprocessor();
@@ -104,11 +105,11 @@ namespace SquishIt.Tests
                 string contents =
                     cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")];
 
-                Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output.css?r=0B5C0EC6F2D8CEA452236626242443B7\" />", tag);
-                Assert.AreEqual("styley", contents);
+                Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output.css?r=hash\" />", tag);
+                Assert.AreEqual("start", contents);
 
-                Assert.AreEqual("globey", stylePreprocessor.CalledWith);
-                Assert.AreEqual("start", globalPreprocessor.CalledWith);
+                Assert.Null(stylePreprocessor.CalledWith);
+                Assert.Null(globalPreprocessor.CalledWith);
             }
         }
 
@@ -133,13 +134,13 @@ namespace SquishIt.Tests
             string contents =
                 cssBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"css\output.css")];
 
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output.css?r=0B5C0EC6F2D8CEA452236626242443B7\" />", tag);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/output.css?r=hash\" />", tag);
             Assert.AreEqual("styley", contents);
 
             Assert.AreEqual("globey", stylePreprocessor.CalledWith);
             Assert.AreEqual("start", globalPreprocessor.CalledWith);
 
-            Assert.IsEmpty(Bundle.Preprocessors);
+            Assert.IsEmpty(Bundle.Preprocessors.Where(x => !(x is NullPreprocessor)));
         }
     }
 }

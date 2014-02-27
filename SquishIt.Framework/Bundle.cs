@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SquishIt.Framework.Base;
 using SquishIt.Framework.CSS;
 using SquishIt.Framework.JavaScript;
 
@@ -11,7 +12,8 @@ namespace SquishIt.Framework
     /// </summary>
     public class Bundle
     {
-        internal static readonly List<IPreprocessor> Preprocessors = new List<IPreprocessor>();
+        private static readonly IPreprocessor defaultNullPreprocessor = new NullPreprocessor(".JS", ".CSS", ".HTML");
+        internal static readonly List<IPreprocessor> Preprocessors = new List<IPreprocessor> { defaultNullPreprocessor };
 
         internal static readonly HashSet<String> AllowedGlobalExtensions = new HashSet<string>();
         internal static readonly HashSet<String> AllowedScriptExtensions = new HashSet<string> { ".JS" };
@@ -84,6 +86,7 @@ namespace SquishIt.Framework
 
             AllowedScriptExtensions.Add(".JS");
             AllowedStyleExtensions.Add(".CSS");
+            Preprocessors.Add(defaultNullPreprocessor);
         }
 
         /// <summary>

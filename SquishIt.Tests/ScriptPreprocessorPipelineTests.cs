@@ -1,7 +1,7 @@
-﻿using Moq;
+﻿using System.Linq;
 using NUnit.Framework;
 using SquishIt.Framework;
-using SquishIt.Framework.Files;
+using SquishIt.Framework.Base;
 using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Helpers;
@@ -19,7 +19,6 @@ namespace SquishIt.Tests
         public void Setup()
         {
             javaScriptBundleFactory = new JavaScriptBundleFactory();
-            var retryableFileOpener = new RetryableFileOpener();
             hasher = new StubHasher("hash");
         }
 
@@ -84,7 +83,7 @@ namespace SquishIt.Tests
         }
 
         [Test]
-        public void Js_Skips_Extensions_With_No_Preprocessors()
+        public void Js_Stops_At_First_Extension_With_No_Defined_Preprocessor()
         {
             var scriptPreprocessor = new StubScriptPreprocessor();
             var globalPreprocessor = new StubGlobalPreprocessor();
@@ -106,10 +105,10 @@ namespace SquishIt.Tests
                     javaScriptBundleFactory.FileWriterFactory.Files[TestUtilities.PrepareRelativePath(@"js\output.js")];
 
                 Assert.AreEqual("<script type=\"text/javascript\" src=\"js/output.js?r=hash\"></script>", tag);
-                Assert.AreEqual("scripty;\n", contents);
+                Assert.AreEqual("start;\n", contents);
 
-                Assert.AreEqual("globey", scriptPreprocessor.CalledWith);
-                Assert.AreEqual("start", globalPreprocessor.CalledWith);
+                Assert.Null(scriptPreprocessor.CalledWith);
+                Assert.Null(globalPreprocessor.CalledWith);
             }
         }
 
@@ -128,7 +127,7 @@ namespace SquishIt.Tests
             string tag = javaScriptBundle
                 .WithPreprocessor(scriptPreprocessor)
                 .WithPreprocessor(globalPreprocessor)
-                .Add("~/js/test.script.fake.global.bogus")
+                .Add("~/js/test.script.global")
                 .Render("~/js/output.js");
 
             string contents =
@@ -140,7 +139,7 @@ namespace SquishIt.Tests
             Assert.AreEqual("globey", scriptPreprocessor.CalledWith);
             Assert.AreEqual("start", globalPreprocessor.CalledWith);
 
-            Assert.IsEmpty(Bundle.Preprocessors);
+            Assert.IsEmpty(Bundle.Preprocessors.Where(x => !(x is NullPreprocessor)));
         }
     }
 }

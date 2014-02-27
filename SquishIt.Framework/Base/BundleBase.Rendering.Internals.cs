@@ -79,7 +79,8 @@ namespace SquishIt.Framework.Base
                 .Skip(1)
                 .Reverse()
                 .Select(FindPreprocessor)
-                .Where(p => p != null)
+                .TakeWhile(p => p != null)
+                .Where(p => !(p is NullPreprocessor))
                 .ToArray();
         }
 

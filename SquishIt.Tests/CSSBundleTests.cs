@@ -521,10 +521,10 @@ background:url(images/button-loader.gif) #ccc;
                 .WithPreprocessor(new StubStylePreprocessor())
                 .Add("~/first.style.css")
                 .Render("/css/output.css");
-
+            
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"first.style.css.squishit.debug.css\" />\n", TestUtilities.NormalizeLineEndings(tag));
         }
-
+        
         [Test]
         public void CanRenderDebugTagsTwice()
         {
