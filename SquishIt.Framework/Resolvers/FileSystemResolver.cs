@@ -23,11 +23,15 @@ namespace SquishIt.Framework.Resolvers
             {
               var files = Directory.GetFiles(path, "*.*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
                     .Where(
-                        f => !f.ToUpperInvariant().EndsWith(debugFileExtension.ToUpperInvariant())
-                            && 
-                            (allowedFileExtensions == null || allowedFileExtensions.Select(s => s.ToUpper()).Any(x => Extensions(f).Contains(x))
-                            &&
-                            (disallowedFileExtensions == null || !disallowedFileExtensions.Select(s => s.ToUpper()).Any(x => Extensions(f).Contains(x)))))
+                        file =>
+                        {
+                            var f = file.ToUpperInvariant();
+                            return !f.EndsWith(debugFileExtension.ToUpperInvariant()) &&
+                                   (allowedFileExtensions == null ||
+                                    allowedFileExtensions.Select(s => s.ToUpper()).Any(f.EndsWith) &&
+                                    (disallowedFileExtensions == null ||
+                                     !disallowedFileExtensions.Select(s => s.ToUpper()).Any(f.EndsWith)));
+                        })
                     .ToArray();
                 Array.Sort(files);
                 return files;
