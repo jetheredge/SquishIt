@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>NSass.Core</id>
+    <version>0.0.3.0</version>
+    <title>NSass.Core</title>
+    <authors>TBAPI-0KA</authors>
+    <owners>TBAPI-0KA</owners>
+    <licenseUrl>https://raw.github.com/TBAPI-0KA/NSass/master/License.txt</licenseUrl>
+    <projectUrl>https://github.com/TBAPI-0KA/NSass</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Core C# high-level wrapper around libsass library</description>
+    <releaseNotes />
+    <copyright>Copyright © 2013 by TBAPI-0KA</copyright>
+    <language />
+    <tags>SASS SCSS CSS libsass</tags>
+    <references>
+      <reference file="NSass.Core.dll" />
+    </references>
+  </metadata>
+</package>

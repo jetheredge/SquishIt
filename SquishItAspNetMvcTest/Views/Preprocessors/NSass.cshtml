@@ -1,21 +1,20 @@
 ﻿@using SquishIt.Framework
-@using SquishIt.Sass
+@using SquishIt.NSass
 @{
-    ViewBag.Title = "Sass";
+    ViewBag.Title = "NSass";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div id="test-container">
-    <p class="red-text">This text should be red if sass was processed.</p>
     <p class="blue-text">This text should be blue if scss was processed.</p>
+    <p class="red-text">This text should be red if placeholder classes are processed.</p>
 </div>
 
 @section Styles{
     @MvcHtmlString.Create(
         Bundle.Css()
-            .WithPreprocessor(new SassPreprocessor())
-            .Add("/assets/styles/sasstest.sass")
-            .Add("/assets/styles/sasstest.scss")
+            .WithPreprocessor(new NSassPreprocessor())
+            .Add("/assets/styles/nsasstest.scss")
             .ForceRelease()
             .Render("/output/sasstest.css"))
 }

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>SquishIt.NSass</id>
+    <version>0.9.5.1-beta3</version>
+    <authors>Justin Etheredge, Alex Ullrich, Rodrigo Dumont</authors>
+    <owners>Justin Etheredge, Alex Ullrich</owners>
+    <projectUrl>https://github.com/jetheredge/SquishIt</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+      Adds Sass processing capability to SquishIt using the NSass/libsass processor. 
+      SCSS syntax is supported, Sass syntax is not.
+      If you need Sass syntax support, use the SquishIt.Sass package.
+    </description>
+    <dependencies>
+      <dependency id="SquishIt" version="0.9.5.1-beta3" />
+      <dependency id="NSass.Core" version="0.0.3.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\SquishIt.NSass\bin\Release\SquishIt.Sass.dll" target="lib\SquishIt.Sass.dll" />
+    <file src="..\SquishIt.NSass\bin\Release\SquishIt.Sass.pdb" target="lib\SquishIt.Sass.pdb" />
+    <file src="..\SquishIt.NSass\bin\Release\NSass.Wrapper\NSass.Wrapper.x64.dll" target="lib\NSass.Wrapper\NSass.Wrapper.x64.dll" />
+    <file src="..\SquishIt.NSass\bin\Release\NSass.Wrapper\NSass.Wrapper.x86.dll" target="lib\NSass.Wrapper\NSass.Wrapper.x86.dll" />
+  </files>
+</package>

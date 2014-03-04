@@ -7,7 +7,13 @@
     <owners>Justin Etheredge, Alex Ullrich</owners>
     <projectUrl>https://github.com/jetheredge/SquishIt</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Adds Sass processing capability to SquishIt. Can compile .sass and .scss files.</description>
+    <description>
+      Adds Sass processing capability to SquishIt. Can compile .sass and .scss files.
+      SASS compilation uses the interpreter in the SassAndCoffee project, which does not
+      support all SASS features (e.g. placeholder classes).
+      Use this package if you require SASS support.  If you only require SCSS support,
+      consider using SquishIt.NSass, which uses a faster compiler and has better feature support.
+    </description>
     <dependencies>
       <dependency id="SquishIt" version="0.9.5.1-beta3" />
       <dependency id="IronRuby" version="1.1.3" />
