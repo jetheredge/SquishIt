@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -15,6 +16,15 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
+    <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -85,6 +95,9 @@
     <Content Include="assets\js\minifyjs_test.js" />
     <None Include="assets\styles\dynamic_import_test1.less" />
     <None Include="assets\styles\import_subfolder\dynamic_import_test2.less" />
+    <Content Include="assets\styles\nsasstest.css">
+      <DependentUpon>nsasstest.scss</DependentUpon>
+    </Content>
     <Content Include="assets\styles\processedimport_test1.css" />
     <Content Include="assets\styles\folder_test\folder_test1.css" />
     <Content Include="assets\styles\folder_test\subfolder\folder_test2.css" />
@@ -94,6 +107,7 @@
     <Content Include="assets\styles\lesstest.less.css" />
     <Content Include="assets\styles\minifycss_test2.css" />
     <Content Include="assets\styles\minifycss_test1.css" />
+    <Content Include="assets\styles\nsasstest.scss" />
     <None Include="assets\styles\sasstest.scss" />
     <None Include="assets\styles\sasstest.sass" />
     <EmbeddedResource Include="EmbeddedResource\Embedded.css" />
@@ -138,6 +152,7 @@
     <Content Include="Views\AutoBundling\Hogan.cshtml" />
     <Content Include="Views\AutoBundling\Less.cshtml" />
     <Content Include="Views\AutoBundling\Combined.cshtml" />
+    <Content Include="Views\Preprocessors\NSass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Preprocessors\Hogan.cshtml" />
@@ -174,6 +189,10 @@
       <Project>{A9F9331C-C3AA-4844-AB33-7714761F725D}</Project>
       <Name>SquishIt.Mvc</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SquishIt.NSass\SquishIt.NSass.csproj">
+      <Project>{8D1EE11A-C71D-453D-B0BC-0A76C20B010E}</Project>
+      <Name>SquishIt.NSass</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SquishIt.Sass\SquishIt.Sass.csproj">
       <Project>{EC304F39-5916-45ED-A289-ABEFF1EDD070}</Project>
       <Name>SquishIt.Sass</Name>
@@ -188,8 +207,13 @@
   <ItemGroup>
     <Folder Include="output\" />
   </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

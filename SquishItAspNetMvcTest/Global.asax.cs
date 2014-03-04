@@ -45,13 +45,6 @@ namespace SquishItAspNetMvcTest
             Bundle.RegisterScriptPreprocessor(new CoffeeScriptPreprocessor());
 
             Bundle.RegisterStylePreprocessor(new LessPreprocessor());
-            Bundle.RegisterStylePreprocessor(new SassPreprocessor());
-            
-            //switch to YUI
-            //Bundle.ConfigureDefaults().UseYuiForCssMinification().UseYuiForCssMinification();
-
-            //dont minify
-            //Bundle.ConfigureDefaults().UseNoCssMinification().UseNoJsMinification();
 
             Bundle.JavaScript()
                 .Add("/assets/js/jquery_1.7.2.js")
