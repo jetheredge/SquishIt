@@ -1,0 +1,11 @@
+﻿div#test-container{
+	p.blue-text{
+		color: #00f;
+	}
+	p.red-text{
+		@extend %red;
+	}
+}
+%red {
+	color: #ff0000;
+}
