@@ -1074,12 +1074,12 @@ background:url(images/button-loader.gif) #ccc;
         {
             var path = Guid.NewGuid().ToString();
             var file1 = TestUtilities.PrepareRelativePath(path + "\\file1.style.css");
-            var file2 = TestUtilities.PrepareRelativePath(path + "\\file1.style.css.squishit.debug.css");
+            var file2 = TestUtilities.PrepareRelativePath(path + "\\file1.style.squishit.debug.css");
             var content = "some stuffs";
 
             var preprocessor = new StubStylePreprocessor();
 
-            using(new ScriptPreprocessorScope<StubStylePreprocessor>(preprocessor))
+            using(new StylePreprocessorScope<StubStylePreprocessor>(preprocessor))
             using(new ResolverFactoryScope(typeof(FileSystemResolver).FullName, StubResolver.ForDirectory(new[] { file1, file2 })))
             {
                 var frf = new StubFileReaderFactory();

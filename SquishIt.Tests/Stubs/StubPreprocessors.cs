@@ -2,30 +2,26 @@
 using SquishIt.Framework;
 using SquishIt.Framework.Base;
 
-namespace SquishIt.Tests.Stubs {
-    public interface IStubPreprocessor : IPreprocessor 
+namespace SquishIt.Tests.Stubs
+{
+    public interface IStubPreprocessor : IPreprocessor
     {
         string CalledWith { get; }
     }
 
-    public class StubGlobalPreprocessor : IStubPreprocessor
+    public class StubGlobalPreprocessor : Preprocessor, IStubPreprocessor
     {
         string calledWith;
 
-        public bool ValidFor (string extension) 
-        {
-            return Extensions.Contains (extension);
-        }
-
-		public IProcessResult Process(string filePath, string content)
+        public override IProcessResult Process(string filePath, string content)
         {
             calledWith = content;
-            return  new ProcessResult("globey");
+            return new ProcessResult("globey");
         }
 
-        public string[] Extensions 
+        public override string[] Extensions
         {
-            get { return new[] { "global" }; }
+            get { return new[] { ".global" }; }
         }
 
         public string CalledWith
@@ -34,25 +30,22 @@ namespace SquishIt.Tests.Stubs {
         }
     }
 
-    public class StubScriptPreprocessor : IStubPreprocessor
+    public class StubScriptPreprocessor : Preprocessor, IStubPreprocessor
     {
         string calledWith;
 
-        public bool ValidFor (string extension) 
-        {
-            return Extensions.Contains (extension);
-        }
-
-		public IProcessResult Process(string filePath, string content)
+        public override IProcessResult Process(string filePath, string content)
         {
             calledWith = content;
-            return  new ProcessResult("scripty");
+            return new ProcessResult("scripty");
         }
 
-        public string[] Extensions 
+        public override string[] Extensions
         {
-            get { return new[] { "script" }; }
+            get { return new[] { ".script" }; }
         }
+
+        public override string[] IgnoreExtensions { get { return new[] { ".js" }; } }
 
         public string CalledWith
         {
@@ -60,25 +53,22 @@ namespace SquishIt.Tests.Stubs {
         }
     }
 
-    public class StubStylePreprocessor : IStubPreprocessor
+    public class StubStylePreprocessor : Preprocessor, IStubPreprocessor
     {
         string calledWith;
 
-        public bool ValidFor (string extension) 
-        {
-            return Extensions.Contains (extension);
-        }
-
-		public IProcessResult Process(string filePath, string content)
+        public override IProcessResult Process(string filePath, string content)
         {
             calledWith = content;
-            return  new ProcessResult("styley");
+            return new ProcessResult("styley");
         }
 
-        public string[] Extensions 
+        public override string[] Extensions
         {
-            get { return new[] { "style" }; }
+            get { return new[] { ".style" }; }
         }
+
+        public override string[] IgnoreExtensions { get { return new[] { ".css" }; } }
 
         public string CalledWith
         {

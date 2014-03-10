@@ -48,6 +48,14 @@ namespace SquishIt.Framework.Base
                 }
                 Preprocessors.Add(instance);
             }
+            if (instance.IgnoreExtensions.NullSafeAny())
+            {
+                foreach (var extension in instance.IgnoreExtensions)
+                {
+                    AllowedExtensions.Add(extension);
+                }
+                Preprocessors.Add(new NullPreprocessor(instance.IgnoreExtensions));
+            }
         }
     }
 }

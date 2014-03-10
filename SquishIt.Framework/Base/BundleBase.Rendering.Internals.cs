@@ -117,9 +117,11 @@ namespace SquishIt.Framework.Base
         {
             var instanceTypes = bundleState.Preprocessors.Select(ipp => ipp.GetType()).ToArray();
 
-            return Bundle.Preprocessors.Where(pp => !instanceTypes.Contains(pp.GetType()))
+            var preprocessor = Bundle.Preprocessors.Where(pp => !instanceTypes.Contains(pp.GetType()))
                 .Union(bundleState.Preprocessors)
                 .FirstOrDefault(p => p.ValidFor(extension));
+
+            return preprocessor;
         }
 
         string ExpandAppRelativePath(string file)

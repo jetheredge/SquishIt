@@ -24,5 +24,10 @@
         /// File extensions this preprocessor instance can be used for.
         /// </summary>
         string[] Extensions { get; }
+
+        /// <summary>
+        /// Extensions that should be "ignored" when calculating preprocessors to use from file path.
+        /// </summary>
+        string[] IgnoreExtensions { get; }
     }
 }

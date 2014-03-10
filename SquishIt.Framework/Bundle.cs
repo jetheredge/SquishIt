@@ -12,8 +12,7 @@ namespace SquishIt.Framework
     /// </summary>
     public class Bundle
     {
-        private static readonly IPreprocessor defaultNullPreprocessor = new NullPreprocessor(".JS", ".CSS", ".HTML");
-        internal static readonly List<IPreprocessor> Preprocessors = new List<IPreprocessor> { defaultNullPreprocessor };
+        internal static readonly List<IPreprocessor> Preprocessors = new List<IPreprocessor>();
 
         internal static readonly HashSet<String> AllowedGlobalExtensions = new HashSet<string>();
         internal static readonly HashSet<String> AllowedScriptExtensions = new HashSet<string> { ".JS" };
@@ -27,8 +26,19 @@ namespace SquishIt.Framework
         public static void RegisterGlobalPreprocessor<T>(T instance) where T : IPreprocessor
         {
             ValidatePreprocessor<T>(instance);
-            foreach (var ext in instance.Extensions) AllowedGlobalExtensions.Add(ext.ToUpper());
+            foreach (var ext in instance.Extensions)
+            {
+                AllowedGlobalExtensions.Add(ext.ToUpper());
+            }
             Preprocessors.Add(instance);
+            if (instance.IgnoreExtensions.NullSafeAny())
+            {
+                foreach(var ext in instance.IgnoreExtensions)
+                {
+                    AllowedGlobalExtensions.Add(ext.ToUpper());
+                }
+                Preprocessors.Add(new NullPreprocessor(instance.IgnoreExtensions));
+            }
         }
 
         /// <summary>
@@ -39,8 +49,19 @@ namespace SquishIt.Framework
         public static void RegisterScriptPreprocessor<T>(T instance) where T : IPreprocessor 
         {
             ValidatePreprocessor<T>(instance);
-            foreach (var ext in instance.Extensions) AllowedScriptExtensions.Add(ext.ToUpper());
+            foreach(var ext in instance.Extensions)
+            {
+                AllowedScriptExtensions.Add(ext.ToUpper());
+            }
             Preprocessors.Add(instance);
+            if(instance.IgnoreExtensions.NullSafeAny())
+            {
+                foreach(var ext in instance.IgnoreExtensions)
+                {
+                    AllowedScriptExtensions.Add(ext.ToUpper());
+                }
+                Preprocessors.Add(new NullPreprocessor(instance.IgnoreExtensions));
+            }
         }
 
         /// <summary>
@@ -51,8 +72,19 @@ namespace SquishIt.Framework
         public static void RegisterStylePreprocessor<T>(T instance) where T : IPreprocessor 
         {
             ValidatePreprocessor<T>(instance);
-            foreach (var ext in instance.Extensions) AllowedStyleExtensions.Add(ext.ToUpper());
+            foreach (var ext in instance.Extensions)
+            {
+                AllowedStyleExtensions.Add(ext.ToUpper());
+            }
             Preprocessors.Add(instance);
+            if(instance.IgnoreExtensions.NullSafeAny())
+            {
+                foreach(var ext in instance.IgnoreExtensions)
+                {
+                    AllowedStyleExtensions.Add(ext.ToUpper());
+                }
+                Preprocessors.Add(new NullPreprocessor(instance.IgnoreExtensions));
+            }
         }
 
         static void ValidatePreprocessor<T>(IPreprocessor instance)
@@ -86,7 +118,6 @@ namespace SquishIt.Framework
 
             AllowedScriptExtensions.Add(".JS");
             AllowedStyleExtensions.Add(".CSS");
-            Preprocessors.Add(defaultNullPreprocessor);
         }
 
         /// <summary>

@@ -23,7 +23,7 @@ namespace SquishIt.Tests.Stubs
     {
         public StylePreprocessorScope(T instance)
         {
-            Bundle.RegisterScriptPreprocessor(instance);
+            Bundle.RegisterStylePreprocessor(instance);
         }
 
         public StylePreprocessorScope() 
@@ -40,7 +40,7 @@ namespace SquishIt.Tests.Stubs
     {
         public GlobalPreprocessorScope(T instance)
         {
-            Bundle.RegisterScriptPreprocessor(instance);
+            Bundle.RegisterGlobalPreprocessor(instance);
         }
 
         public GlobalPreprocessorScope() 
