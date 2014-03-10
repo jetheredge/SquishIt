@@ -3,24 +3,24 @@
   <metadata>
     <id>SquishIt.NSass</id>
     <version>0.9.5.1-beta3</version>
-    <authors>Justin Etheredge, Alex Ullrich, Rodrigo Dumont</authors>
+    <authors>Josh Kodroff, Alex Ullrich</authors>
     <owners>Justin Etheredge, Alex Ullrich</owners>
     <projectUrl>https://github.com/jetheredge/SquishIt</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>
-      Adds Sass processing capability to SquishIt using the NSass/libsass processor. 
-      SCSS syntax is supported, Sass syntax is not.
-      If you need Sass syntax support, use the SquishIt.Sass package.
+      Adds Sass processing capability to SquishIt. Can compile .sass and .scss files.
+      SASS compilation uses NSass wrapper around libsass C library.
+      Use this package if you require faster or more up to date SASS support and don't need to support the legacy SASS file extension.
     </description>
     <dependencies>
       <dependency id="SquishIt" version="0.9.5.1-beta3" />
       <dependency id="NSass.Core" version="0.0.3.0" />
+      <dependency id="WebActivator" version="1.4" />
     </dependencies>
   </metadata>
   <files>
-    <file src="..\SquishIt.NSass\bin\Release\SquishIt.Sass.dll" target="lib\SquishIt.Sass.dll" />
-    <file src="..\SquishIt.NSass\bin\Release\SquishIt.Sass.pdb" target="lib\SquishIt.Sass.pdb" />
-    <file src="..\SquishIt.NSass\bin\Release\NSass.Wrapper\NSass.Wrapper.x64.dll" target="lib\NSass.Wrapper\NSass.Wrapper.x64.dll" />
-    <file src="..\SquishIt.NSass\bin\Release\NSass.Wrapper\NSass.Wrapper.x86.dll" target="lib\NSass.Wrapper\NSass.Wrapper.x86.dll" />
+    <file src="..\SquishIt.NSass\bin\Release\SquishIt.NSass.dll" target="lib\SquishIt.NSass.dll" />
+    <file src="..\SquishIt.NSass\bin\Release\SquishIt.NSass.pdb" target="lib\SquishIt.NSass.pdb" />
+    <file src="..\SquishIt.NSass\Content\App_Start\SquishItNSass.cs.pp" target="Content\App_Start\SquishItNSass.cs.pp" />
   </files>
 </package>
