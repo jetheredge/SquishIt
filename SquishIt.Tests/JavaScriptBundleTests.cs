@@ -1399,5 +1399,35 @@ namespace SquishIt.Tests
             var minifiedScript = "first;\nsecond;\n";
             Assert.AreEqual(minifiedScript, writerFactory.Files[TestUtilities.PrepareRelativePath(@"output.js")]);
         }
+
+        [Test]
+        public void CanRenderContentOnly_Release()
+        {
+            var javaScriptBundle = javaScriptBundleFactory
+                .Create();
+
+            var content = javaScriptBundle
+                    .Add("~/js/test.js").RenderRawContent("testrelease");
+
+            Assert.AreEqual(minifiedJavaScript, content);
+
+
+            Assert.AreEqual(content, javaScriptBundleFactory.Create().RenderCachedRawContent("testrelease"));
+        }
+
+        [Test]
+        public void CanRenderContentOnly_Debug()
+        {
+            var javaScriptBundle = javaScriptBundleFactory
+                .WithDebuggingEnabled(true)
+                .Create();
+
+            var content = javaScriptBundle
+                    .Add("~/js/test.js").RenderRawContent("testdebug");
+
+            Assert.AreEqual(javaScript + ";\n", content);
+
+            Assert.AreEqual(content, javaScriptBundleFactory.Create().RenderCachedRawContent("testdebug"));
+        }
     }
 }

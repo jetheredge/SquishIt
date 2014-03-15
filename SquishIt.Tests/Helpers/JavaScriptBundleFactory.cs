@@ -1,4 +1,4 @@
-using SquishIt.Framework;
+using SquishIt.Framework.Caches;
 using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Utilities;
@@ -13,7 +13,8 @@ namespace SquishIt.Tests.Helpers
         IFileReaderFactory fileReaderFactory = new StubFileReaderFactory();
         IDirectoryWrapper directoryWrapper = new StubDirectoryWrapper();
         IHasher hasher = new StubHasher("hash");
-    	IBundleCache bundleCache = new StubBundleCache();
+    	IContentCache contentCache = new StubContentCache();
+        IContentCache rawContentCache = new StubContentCache();
 
         public StubFileReaderFactory FileReaderFactory { get { return fileReaderFactory as StubFileReaderFactory; } }
         public StubFileWriterFactory FileWriterFactory { get { return fileWriterFactory as StubFileWriterFactory; } }
@@ -50,7 +51,7 @@ namespace SquishIt.Tests.Helpers
 
         public JavaScriptBundle Create()
         {
-            return new JavaScriptBundle(debugStatusReader, fileWriterFactory, fileReaderFactory, directoryWrapper, hasher, bundleCache);
+            return new JavaScriptBundle(debugStatusReader, fileWriterFactory, fileReaderFactory, directoryWrapper, hasher, contentCache, rawContentCache);
         }
 
         public JavaScriptBundleFactory WithContents(string css)

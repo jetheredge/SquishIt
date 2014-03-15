@@ -119,7 +119,7 @@
     <Compile Include="StylePreprocessorPipelineTests.cs" />
     <Compile Include="SassTests.cs" />
     <Compile Include="Stubs\PreprocessorScope.cs" />
-    <Compile Include="Stubs\StubBundleCache.cs" />
+    <Compile Include="Stubs\StubContentCache.cs" />
     <Compile Include="Stubs\StubDirectoryWrapper.cs" />
     <Compile Include="Stubs\StubDebugStatusReader.cs" />
     <Compile Include="Stubs\StubFileReader.cs" />

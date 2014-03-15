@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SquishIt.Framework.Caches;
 using SquishIt.Framework.Invalidation;
 using SquishIt.Framework.Minifiers;
 using SquishIt.Framework.Renderers;
@@ -18,7 +19,7 @@ namespace SquishIt.Framework.Base
     {
         static readonly Dictionary<string, string> renderPathCache = new Dictionary<string, string>();
         static readonly Dictionary<string, BundleState> bundleStateCache = new Dictionary<string, BundleState>();
-
+        
         protected abstract IMinifier<T> DefaultMinifier { get; }
         protected abstract string tagFormat { get; }
         protected abstract string Template { get; }
@@ -30,7 +31,8 @@ namespace SquishIt.Framework.Base
         protected abstract string ProcessFile(string file, string outputFile, Asset originalAsset);
 
         internal BundleState bundleState;
-        readonly IBundleCache bundleCache;
+        readonly IContentCache bundleCache;
+        readonly IContentCache rawContentCache;
         protected string BaseOutputHref = Configuration.Instance.DefaultOutputBaseHref();
         protected IFileWriterFactory fileWriterFactory;
         protected IFileReaderFactory fileReaderFactory;
@@ -47,7 +49,7 @@ namespace SquishIt.Framework.Base
             set { minifier = value; }
         }
 
-        protected BundleBase(IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, IDebugStatusReader debugStatusReader, IDirectoryWrapper directoryWrapper, IHasher hasher, IBundleCache bundleCache)
+        protected BundleBase(IFileWriterFactory fileWriterFactory, IFileReaderFactory fileReaderFactory, IDebugStatusReader debugStatusReader, IDirectoryWrapper directoryWrapper, IHasher hasher, IContentCache bundleCache, IContentCache rawContentCache)
         {
             this.fileWriterFactory = fileWriterFactory;
             this.fileReaderFactory = fileReaderFactory;
@@ -62,6 +64,7 @@ namespace SquishIt.Framework.Base
                                   CacheInvalidationStrategy = Configuration.Instance.DefaultCacheInvalidationStrategy()
                               };
             this.bundleCache = bundleCache;
+            this.rawContentCache = rawContentCache;
         }
 
         //TODO: should this be public?
@@ -548,6 +551,32 @@ namespace SquishIt.Framework.Base
                     : bundleState.Assets == null ? 0 
                     : bundleState.Assets.Count;
             }
+        }
+
+        /// <summary>
+        /// Render content directly without building tags
+        /// </summary>
+        /// <returns>String representation of content, minified if needed.</returns>
+        public string RenderRawContent(string bundleName)
+        {
+            var cacheKey = CachePrefix + bundleName;
+
+            string content;
+
+            if (rawContentCache.ContainsKey(cacheKey))
+            {
+                rawContentCache.Remove(cacheKey);
+            }
+
+            content = GetMinifiedContent(bundleState.Assets, string.Empty);
+            rawContentCache.Add(cacheKey, content, bundleState.DependentFiles, IsDebuggingEnabled());
+
+            return content;
+        }
+
+        public string RenderCachedRawContent(string bundleName)
+        {
+            return rawContentCache.GetContent(CachePrefix + bundleName);
         }
     }
 }

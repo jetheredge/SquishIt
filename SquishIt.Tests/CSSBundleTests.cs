@@ -1692,5 +1692,35 @@ background:url(images/button-loader.gif) #ccc;
                 Assert.AreEqual(expectedTag, TestUtilities.NormalizeLineEndings(tag));
             }
         }
+
+        [Test]
+        public void CanRenderRawContent_Release()
+        {
+            CSSBundle cssBundle = cssBundleFactory
+                .WithDebuggingEnabled(false)
+                .WithContents(css)
+                .Create();
+
+            var contents = cssBundle.Add("~/test/sample.js").RenderRawContent("testrelease");
+
+            Assert.AreEqual(minifiedCss, contents);
+
+            Assert.AreEqual(contents, cssBundleFactory.Create().RenderCachedRawContent("testrelease"));
+        }
+
+        [Test]
+        public void CanRenderRawContent_Debug()
+        {
+            CSSBundle cssBundle = cssBundleFactory
+                .WithDebuggingEnabled(true)
+                .WithContents(css)
+                .Create();
+
+            var contents = cssBundle.Add("~/test/sample.js").RenderRawContent("testdebug");
+
+            Assert.AreEqual(css, contents);
+
+            Assert.AreEqual(contents, cssBundleFactory.Create().RenderCachedRawContent("testdebug"));
+        }
     }
 }

@@ -82,7 +82,9 @@
     <Compile Include="Base\NullPreprocessor.cs" />
     <Compile Include="Base\Preprocessor.cs" />
     <Compile Include="Base\ProcessResult.cs" />
+    <Compile Include="Caches\RawContentCache.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Caches\ContentCache.cs" />
     <Compile Include="CSS\RelativePathAdapter.cs" />
     <Compile Include="HttpContext.cs" />
     <Compile Include="Invalidation\DefaultCacheInvalidationStrategy.cs" />
@@ -92,11 +94,11 @@
     <Compile Include="IProcessResult.cs" />
     <Compile Include="Utilities\CriticalRenderingSection.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="IBundleCache.cs" />
+    <Compile Include="Caches\IContentCache.cs" />
     <Compile Include="IPreprocessor.cs" />
     <Compile Include="Minifiers\IMinifier.cs" />
     <Compile Include="Bundle.cs" />
-    <Compile Include="BundleCache.cs" />
+    <Compile Include="Caches\BundleCache.cs" />
     <Compile Include="CSS\CSSBundle.cs" />
     <Compile Include="CSS\CSSPathRewriter.cs" />
     <Compile Include="Resolvers\EmbeddedResourceResolver.cs" />
