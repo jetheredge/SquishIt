@@ -592,6 +592,10 @@ namespace SquishIt.Framework.Base
             if (output == null)
             {
                 bundleState = rawContentBundleStateCache[cacheKey];
+                if (bundleState == null)
+                {
+                    throw new InvalidOperationException(string.Format("No cached bundle state named {0} was found.", bundleName));
+                }
                 output = RenderRawContent(bundleName);
             }
             return output;
