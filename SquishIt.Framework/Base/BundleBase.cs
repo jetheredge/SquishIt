@@ -554,7 +554,7 @@ namespace SquishIt.Framework.Base
         }
 
         /// <summary>
-        /// Render content directly without building tags
+        /// Render 'raw' content directly without building tags or writing to files (and save in cache by name)
         /// </summary>
         /// <returns>String representation of content, minified if needed.</returns>
         public string RenderRawContent(string bundleName)
@@ -574,6 +574,11 @@ namespace SquishIt.Framework.Base
             return content;
         }
 
+        /// <summary>
+        /// Render cached 'raw' bundle content.
+        /// </summary>
+        /// <param name="bundleName">String representation of content according to cache.</param>
+        /// <returns></returns>
         public string RenderCachedRawContent(string bundleName)
         {
             return rawContentCache.GetContent(CachePrefix + bundleName);
