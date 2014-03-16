@@ -19,7 +19,8 @@ namespace SquishIt.Framework.Base
     {
         static readonly Dictionary<string, string> renderPathCache = new Dictionary<string, string>();
         static readonly Dictionary<string, BundleState> bundleStateCache = new Dictionary<string, BundleState>();
-        
+        static readonly Dictionary<string, BundleState> rawContentBundleStateCache = new Dictionary<string, BundleState>();
+ 
         protected abstract IMinifier<T> DefaultMinifier { get; }
         protected abstract string tagFormat { get; }
         protected abstract string Template { get; }
@@ -559,7 +560,7 @@ namespace SquishIt.Framework.Base
         /// <returns>String representation of content, minified if needed.</returns>
         public string RenderRawContent(string bundleName)
         {
-            var cacheKey = CachePrefix + bundleName;
+            var cacheKey = CachePrefix + "_raw_" + bundleName;
 
             string content;
 
@@ -567,10 +568,14 @@ namespace SquishIt.Framework.Base
             {
                 rawContentCache.Remove(cacheKey);
             }
+            if (rawContentBundleStateCache.ContainsKey(cacheKey))
+            {
+                rawContentBundleStateCache.Remove(cacheKey);
+            }
 
             content = GetMinifiedContent(bundleState.Assets, string.Empty);
             rawContentCache.Add(cacheKey, content, bundleState.DependentFiles, IsDebuggingEnabled());
-
+            rawContentBundleStateCache.Add(cacheKey, bundleState);
             return content;
         }
 
@@ -581,7 +586,15 @@ namespace SquishIt.Framework.Base
         /// <returns></returns>
         public string RenderCachedRawContent(string bundleName)
         {
-            return rawContentCache.GetContent(CachePrefix + bundleName);
+            var cacheKey = CachePrefix + "_raw_" + bundleName;
+
+            var output = rawContentCache.GetContent(cacheKey);
+            if (output == null)
+            {
+                bundleState = rawContentBundleStateCache[cacheKey];
+                output = RenderRawContent(bundleName);
+            }
+            return output;
         }
     }
 }
