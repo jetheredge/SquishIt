@@ -117,8 +117,8 @@ namespace SquishIt.Framework.Base
         {
             var instanceTypes = bundleState.Preprocessors.Select(ipp => ipp.GetType()).ToArray();
 
-            var preprocessor = Bundle.Preprocessors.Where(pp => !instanceTypes.Contains(pp.GetType()))
-                .Union(bundleState.Preprocessors)
+            var preprocessor = 
+                bundleState.Preprocessors.Union(Bundle.Preprocessors.Where(pp => !instanceTypes.Contains(pp.GetType())))
                 .FirstOrDefault(p => p.ValidFor(extension));
 
             return preprocessor;

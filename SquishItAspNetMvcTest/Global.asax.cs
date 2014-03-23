@@ -46,6 +46,8 @@ namespace SquishItAspNetMvcTest
 
             Bundle.RegisterStylePreprocessor(new LessPreprocessor());
 
+            Bundle.RegisterStylePreprocessor(new SassPreprocessor());
+
             Bundle.JavaScript()
                 .Add("/assets/js/jquery_1.7.2.js")
                 .Add("/assets/js/minifyjs_test.js")
