@@ -90,7 +90,7 @@ namespace SquishIt.Framework.CSS
                     ? pathTranslator.ResolveAppRelativePathToFileSystem(importPath)
                     : pathTranslator.ResolveAppRelativePathToFileSystem(sourcePath + importPath);
                 bundleState.DependentFiles.Add(import);
-                return ProcessCssFile(import, outputFile, file, true);
+                return ProcessCssFile(import, outputFile, import, true);
             });
         }
 

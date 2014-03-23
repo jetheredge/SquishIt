@@ -3,15 +3,17 @@
     ViewBag.Title = "Import Css";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div id="test-container">
-    <p class="blue-text">This text should be blue if imports were processed.</p>
+    <p class="blue-text">
+        This text should be blue if imports were processed.</p>
+        
+    <p class="fonty">and this should be in a different font</p>
 </div>
-
 @section Styles{
     @MvcHtmlString.Create(
         Bundle.Css()
             .Add("/assets/styles/processedimport_test1.css")
+            .Add("/assets/styles/import-font.css")
             .ProcessImports()
             .ForceRelease()
             .Render("/output/processed_importcss.css"))

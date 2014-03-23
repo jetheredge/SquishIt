@@ -105,6 +105,8 @@
     <EmbeddedResource Include="EmbeddedResource\Embedded.js" />
     <Content Include="assets\templates\hogan\template2.hogan.html" />
     <Content Include="assets\templates\hogan\lambda.hogan.html" />
+    <Content Include="assets\styles\Common\Css\Site.css" />
+    <Content Include="assets\styles\import-font.css" />
     <Content Include="Global.asax" />
     <Content Include="assets\js\hogan\hogan-2.0.0.js" />
     <Content Include="assets\js\jquery_1.7.2.js" />
@@ -144,6 +146,8 @@
     <Content Include="Views\AutoBundling\Less.cshtml" />
     <Content Include="Views\AutoBundling\Combined.cshtml" />
     <Content Include="Views\Preprocessors\NSass.cshtml" />
+    <None Include="assets\styles\Common\Fonts\pts55f-webfont.eot" />
+    <None Include="assets\styles\Common\Fonts\pts55f-webfont.woff" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Preprocessors\Hogan.cshtml" />
