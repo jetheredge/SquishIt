@@ -2,11 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using SquishIt.Framework;
 using SquishIt.Framework.Base;
 using SquishIt.Framework.CSS;
-using SquishIt.Framework.Files;
 using SquishIt.Framework.JavaScript;
 using SquishIt.Framework.Utilities;
 using HttpContext = System.Web.HttpContext;
@@ -20,7 +18,7 @@ namespace SquishIt.Mvc
     {
         public static AutoBundlingBehavior Behavior { get; set; }
 
-        private IHasher _hasher = new Hasher(new RetryableFileOpener());
+        private IHasher _hasher = Configuration.Instance.DefaultHasher();
 
         static AutoBundler()
         {

@@ -4,7 +4,6 @@ using System.IO;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Threading;
-using SquishIt.Framework.Files;
 
 namespace SquishIt.Framework.Utilities
 {
@@ -22,12 +21,7 @@ namespace SquishIt.Framework.Utilities
 
         public static IFilePathMutexProvider Instance
         {
-            get { return instance ?? (instance = new FilePathMutexProvider()); }
-        }
-
-        public FilePathMutexProvider()
-            : this(new Hasher(new RetryableFileOpener()), Configuration.Instance.DefaultPathTranslator())
-        {
+            get { return instance ?? (instance = new FilePathMutexProvider(Configuration.Instance.DefaultHasher(), Configuration.Instance.DefaultPathTranslator())); }
         }
 
         public FilePathMutexProvider(IHasher hasher, IPathTranslator pathTranslator)
