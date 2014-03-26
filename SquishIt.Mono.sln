@@ -19,20 +19,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.Sass", "SquishIt.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.Tests", "SquishIt.Tests\SquishIt.Tests.csproj", "{9C25B211-82E0-43AC-A68C-4346E642D16C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.NSass", "SquishIt.NSass\SquishIt.NSass.csproj", "{8D1EE11A-C71D-453D-B0BC-0A76C20B010E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1776A1BF-5096-4833-9E28-59D9627A6700}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1776A1BF-5096-4833-9E28-59D9627A6700}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1776A1BF-5096-4833-9E28-59D9627A6700}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1776A1BF-5096-4833-9E28-59D9627A6700}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3A119E21-0961-4914-A459-A77522A8E414}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3A119E21-0961-4914-A459-A77522A8E414}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3A119E21-0961-4914-A459-A77522A8E414}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3A119E21-0961-4914-A459-A77522A8E414}.Release|Any CPU.Build.0 = Release|Any CPU
 		{50C3BC24-E534-4B78-8E8E-CB2C4053321D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{50C3BC24-E534-4B78-8E8E-CB2C4053321D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50C3BC24-E534-4B78-8E8E-CB2C4053321D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,18 +35,22 @@ Global
 		{7746F80A-A9C4-4823-9A17-B375793A72FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7746F80A-A9C4-4823-9A17-B375793A72FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7746F80A-A9C4-4823-9A17-B375793A72FD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{92AC834F-D187-4ECF-B509-96CFFEA3397F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{92AC834F-D187-4ECF-B509-96CFFEA3397F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{92AC834F-D187-4ECF-B509-96CFFEA3397F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{92AC834F-D187-4ECF-B509-96CFFEA3397F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9C25B211-82E0-43AC-A68C-4346E642D16C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C25B211-82E0-43AC-A68C-4346E642D16C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C25B211-82E0-43AC-A68C-4346E642D16C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9C25B211-82E0-43AC-A68C-4346E642D16C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A119E21-0961-4914-A459-A77522A8E414}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A119E21-0961-4914-A459-A77522A8E414}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A119E21-0961-4914-A459-A77522A8E414}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A119E21-0961-4914-A459-A77522A8E414}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A8E60378-569B-4BAA-B344-75A065796E20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A8E60378-569B-4BAA-B344-75A065796E20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8E60378-569B-4BAA-B344-75A065796E20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8E60378-569B-4BAA-B344-75A065796E20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92AC834F-D187-4ECF-B509-96CFFEA3397F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92AC834F-D187-4ECF-B509-96CFFEA3397F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92AC834F-D187-4ECF-B509-96CFFEA3397F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92AC834F-D187-4ECF-B509-96CFFEA3397F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1776A1BF-5096-4833-9E28-59D9627A6700}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1776A1BF-5096-4833-9E28-59D9627A6700}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1776A1BF-5096-4833-9E28-59D9627A6700}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1776A1BF-5096-4833-9E28-59D9627A6700}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A9F9331C-C3AA-4844-AB33-7714761F725D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A9F9331C-C3AA-4844-AB33-7714761F725D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9F9331C-C3AA-4844-AB33-7714761F725D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,6 +59,17 @@ Global
 		{EC304F39-5916-45ED-A289-ABEFF1EDD070}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC304F39-5916-45ED-A289-ABEFF1EDD070}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC304F39-5916-45ED-A289-ABEFF1EDD070}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C25B211-82E0-43AC-A68C-4346E642D16C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C25B211-82E0-43AC-A68C-4346E642D16C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C25B211-82E0-43AC-A68C-4346E642D16C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C25B211-82E0-43AC-A68C-4346E642D16C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D1EE11A-C71D-453D-B0BC-0A76C20B010E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D1EE11A-C71D-453D-B0BC-0A76C20B010E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D1EE11A-C71D-453D-B0BC-0A76C20B010E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D1EE11A-C71D-453D-B0BC-0A76C20B010E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = SquishIt.Framework\SquishIt.Framework.csproj
