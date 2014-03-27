@@ -160,7 +160,7 @@
       <Name>SquishIt.MsIeHogan</Name>
     </ProjectReference>
     <ProjectReference Include="..\SquishIt.NSass\SquishIt.NSass.csproj">
-      <Project>{8D1EE11A-C71D-453D-B0BC-0A76C20B010E}</Project>
+      <Project>{8d1ee11a-c71d-453d-b0bc-0a76c20b010e}</Project>
       <Name>SquishIt.NSass</Name>
     </ProjectReference>
     <ProjectReference Include="..\SquishIt.Sass\SquishIt.Sass.csproj">
