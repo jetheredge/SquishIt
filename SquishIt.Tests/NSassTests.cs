@@ -8,7 +8,7 @@ using SquishIt.Tests.Stubs;
 
 namespace SquishIt.Tests
 {
-    [TestFixture]
+    [TestFixture(Category="IgnoreCI")]
     public class NSassTests
     {
         CSSBundleFactory cssBundleFactory;
