@@ -1,7 +1,9 @@
-﻿using Moq;
+﻿using System.Web;
+using Moq;
 using NUnit.Framework;
 using SquishIt.Framework;
 using SquishIt.Framework.Utilities;
+using SquishIt.Tests.Helpers;
 using SquishIt.Tests.Stubs;
 
 namespace SquishIt.Tests
@@ -13,10 +15,15 @@ namespace SquishIt.Tests
         public void WithHasher()
         {
             var hasher = new Mock<IHasher>();
-            hasher.Setup(h => h.GetHash(It.IsAny<string>())).Returns("pizza");
+            hasher.Setup(h => h.GetHash(It.IsAny<string>()))
+                .Returns("pizza");
 
             var configuration = new Configuration().UseHasher(hasher.Object);
 
+            var trustLevel = new Mock<ITrustLevel>();
+            trustLevel.SetupGet(tl => tl.CurrentTrustLevel).Returns(AspNetHostingPermissionLevel.High); //globally configured hasher is used another 2 times in high / full trust when obtaining mutex
+            
+            using(new TrustLevelScope(trustLevel.Object))
             using (new ConfigurationScope(configuration))
             {
                 var jsTag = Bundle.JavaScript()
@@ -32,7 +39,7 @@ namespace SquishIt.Tests
                 Assert.True(cssTag.Contains("?r=pizza"));
             }
             
-            hasher.Verify(h => h.GetHash(It.IsAny<string>()), Times.Exactly(2));
+            hasher.Verify(h => h.GetHash(It.IsAny<string>()), Times.Exactly(4));//2 calls for bundles, 2 calls for mutex creation
         }
     }
 }
