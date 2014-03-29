@@ -9,6 +9,8 @@ namespace SquishIt.Framework.Resolvers
 {
     public abstract class EmbeddedResourceResolver : IResolver
     {
+        private readonly ITempPathProvider tempPathProvider = Configuration.Instance.DefaultTempPathProvider();
+
         protected abstract string CalculateResourceName(string assemblyName, string resourceName); 
 
         public string Resolve(string file)
@@ -26,7 +28,7 @@ namespace SquishIt.Framework.Resolvers
             return ResolveFile(file, assembly, resourceName);
         }
 
-        static string ResolveFile(string file, Assembly assembly, string resourceName)
+        private string ResolveFile(string file, Assembly assembly, string resourceName)
         {
             using (var stream = assembly.GetManifestResourceStream(resourceName))
             {
@@ -38,7 +40,7 @@ namespace SquishIt.Framework.Resolvers
                 {
                     contents = sr.ReadToEnd();
                 }
-                string fileName = Path.GetTempPath() + Path.GetRandomFileName();
+                string fileName = tempPathProvider.ForFile();
 
                 using (var sw = new StreamWriter(fileName))
                 {

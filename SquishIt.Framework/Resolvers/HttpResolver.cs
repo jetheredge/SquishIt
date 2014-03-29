@@ -8,6 +8,8 @@ namespace SquishIt.Framework.Resolvers
 {
     public class HttpResolver: IResolver
     {
+        private readonly ITempPathProvider tempPathProvider = Configuration.Instance.DefaultTempPathProvider();
+
         public string Resolve(string file)
         {
             string resolved;
@@ -18,7 +20,7 @@ namespace SquishIt.Framework.Resolvers
             return ResolveWebResource(file);
         }
 
-        private static string ResolveWebResource(string path)
+        private string ResolveWebResource(string path)
         {
             var webRequestObject = (HttpWebRequest) WebRequest.Create(path);
             var webResponse = webRequestObject.GetResponse();
@@ -29,7 +31,7 @@ namespace SquishIt.Framework.Resolvers
                 {
                     contents = sr.ReadToEnd();
                 }
-                string fileName = Path.GetTempPath() + Path.GetRandomFileName();
+                string fileName = tempPathProvider.ForFile();
 
                 using (var sw = new StreamWriter(fileName))
                 {

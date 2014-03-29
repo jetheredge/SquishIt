@@ -92,6 +92,8 @@
     <Compile Include="Invalidation\ICacheInvalidationStrategy.cs" />
     <Compile Include="IPathTranslator.cs" />
     <Compile Include="IProcessResult.cs" />
+    <Compile Include="ITempPathProvider.cs" />
+    <Compile Include="TempPathProvider.cs" />
     <Compile Include="Utilities\CriticalRenderingSection.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Caches\IContentCache.cs" />

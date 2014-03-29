@@ -25,6 +25,7 @@ namespace SquishIt.Framework
         private string _defaultOutputBaseHref;
         private IPathTranslator _defaultPathTranslator = new PathTranslator();
         private IRenderer _defaultReleaseRenderer;
+        private ITempPathProvider _defaultTempPathProvider = new TempPathProvider();
 
         public Configuration()
         {
@@ -245,6 +246,17 @@ namespace SquishIt.Framework
         public IPathTranslator DefaultPathTranslator()
         {
             return _defaultPathTranslator;
+        }
+
+        public Configuration UseTempPathProvider(ITempPathProvider provider)
+        {
+            _defaultTempPathProvider = provider;
+            return this;
+        }
+
+        public ITempPathProvider DefaultTempPathProvider()
+        {
+            return _defaultTempPathProvider;
         }
     }
 }
