@@ -205,6 +205,11 @@ namespace SquishIt.Framework
             return this;
         }
 
+        public Configuration UseSHA1Hasher()
+        {
+            return UseHasher(new SHA1Hasher(new RetryableFileOpener()));
+        }
+
         internal IHasher DefaultHasher()
         {
             return _defaultHasher;

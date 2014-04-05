@@ -21,11 +21,16 @@ namespace SquishIt.Framework.Utilities
         /// <returns>A string containing an MD5 hash.</returns>
         public string GetHash(Stream stream)
         {
-            using (var md5 = MD5.Create())
+            using (var md5 = GetImplementation())
             {
                 var hashBytes = md5.ComputeHash(stream);
                 return ByteArrayToString(hashBytes);
             }
+        }
+
+        protected virtual HashAlgorithm GetImplementation()
+        {
+            return MD5.Create();
         }
 
         /// <summary>

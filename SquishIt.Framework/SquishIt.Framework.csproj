@@ -148,6 +148,7 @@
     <Compile Include="Utilities\MachineConfigReader.cs" />
     <Compile Include="PathTranslator.cs" />
     <Compile Include="Utilities\FilePathMutexProvider.cs" />
+    <Compile Include="Utilities\SHA1Hasher.cs" />
     <Compile Include="Utilities\TempFileResolutionCache.cs" />
     <Compile Include="Utilities\TrustLevel.cs" />
     <Compile Include="Platform.cs" />
