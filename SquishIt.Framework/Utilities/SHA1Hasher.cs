@@ -11,7 +11,8 @@ namespace SquishIt.Framework.Utilities
 
         protected override HashAlgorithm GetImplementation()
         {
-            return SHA1.Create();
+            //forcing the issue here to avoid SHA1.Managed being chosen as default (not FIPS-compliant)
+            return SHA1Cng.Create();
         }
     }
 }
