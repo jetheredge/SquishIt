@@ -20,6 +20,8 @@
   <files>
     <file src="..\SquishIt.NSass\bin\Release\SquishIt.NSass.dll" target="lib\SquishIt.NSass.dll" />
     <file src="..\SquishIt.NSass\bin\Release\SquishIt.NSass.pdb" target="lib\SquishIt.NSass.pdb" />
+    <file src="..\SquishIt.NSass\bin\Release\NSass.Wrapper\NSass.Wrapper.x86.dll" target="lib\NSass.Wrapper\NSass.Wrapper.x86.dll" />
+    <file src="..\SquishIt.NSass\bin\Release\NSass.Wrapper\NSass.Wrapper.x64.dll" target="lib\NSass.Wrapper\NSass.Wrapper.x64.dll" />
     <file src="..\SquishIt.NSass\Content\App_Start\SquishItNSass.cs.pp" target="Content\App_Start\SquishItNSass.cs.pp" />
   </files>
 </package>
