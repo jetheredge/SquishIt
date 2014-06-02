@@ -17,7 +17,7 @@ namespace SquishIt.Tests
             var method = compilerType.GetMethod("Compile");
             var result = method.Invoke(compiler, new object[] {"alert 'test' "});
 
-            Assert.AreEqual("(function() {\n\n  alert('test');\n\n}).call(this);\n", result);
+            Assert.AreEqual("(function() {\n  alert('test');\n\n}).call(this);\n", result);
         }
 
         [TestCase(typeof(MsIeCoffeeScript.Coffee.CoffeeScriptCompiler)), Platform(Exclude = "Unix, Linux, Mono")]

@@ -54,7 +54,7 @@ namespace SquishIt.Tests
                 .AddString(coffee, ".coffee")
                 .Render("~/brewed.js");
 
-            Assert.AreEqual("<script type=\"text/javascript\">(function() {\n\n  alert('test');\n\n}).call(this);\n</script>\n", TestUtilities.NormalizeLineEndings(tag));
+            Assert.AreEqual("<script type=\"text/javascript\">(function() {\n  alert('test');\n\n}).call(this);\n</script>\n", TestUtilities.NormalizeLineEndings(tag));
         }
     }
 }
