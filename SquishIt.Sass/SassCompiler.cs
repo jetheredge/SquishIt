@@ -1,12 +1,11 @@
-﻿using System.Text.RegularExpressions;
-using LibSassNet;
+﻿using LibSassNet;
 
 namespace SquishIt.Sass
 {
     public class SassCompiler
     {
         private readonly ISassCompiler _compiler = new LibSassNet.SassCompiler();
-
+        private readonly ISassToScssConverter _converter = new SassToScssConverter();
         internal static string RootAppPath;
 
         public SassCompiler(string rootPath)
@@ -28,7 +27,7 @@ namespace SquishIt.Sass
 
         internal string ConvertToScss(string input)
         {
-            throw new System.NotImplementedException("need to convert Sass to Scss, see http://sasstoscss.com/ maybe?");
+            return _converter.Convert(input);
         }
     }
 }
