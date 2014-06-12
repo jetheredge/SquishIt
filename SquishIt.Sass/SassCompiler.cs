@@ -19,10 +19,10 @@ namespace SquishIt.Sass
             Scss
         }
 
-        public string CompileSass(string input, SassMode mode)
+        public string CompileSass(string input, SassMode mode, string location)
         {
             var processedInput = mode == SassMode.Scss ? input : ConvertToScss(input);
-            return _compiler.Compile(processedInput, OutputStyle.Nested, SourceCommentsMode.None, null);
+            return _compiler.Compile(processedInput, OutputStyle.Nested, SourceCommentsMode.None, new[] { location });
         }
 
         internal string ConvertToScss(string input)
