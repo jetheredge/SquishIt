@@ -1,0 +1,8 @@
+﻿@font-face {
+  font-family: 'Graublau Web';
+  src: local('O'),
+      url('../Fonts/pts55f-webfont.eot?#iefix') format('eot'), url('../Fonts/pts55f-webfont.woff') format('woff');
+}
+p.fonty {
+    font-family: "Graublau Web";
+}
