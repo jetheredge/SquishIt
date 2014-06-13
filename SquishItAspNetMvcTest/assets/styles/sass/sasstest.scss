@@ -1,4 +1,5 @@
 ﻿div#test-container{
+	@import "../sass-import/sasstest.scss";
 	p.blue-text{
 		color: #00f;
 	}
