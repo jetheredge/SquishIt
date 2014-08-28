@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using SquishIt.Framework.Base;
 using SquishIt.Framework;
+using System.IO;
 
 namespace SquishIt.Sass
 {
@@ -12,7 +13,7 @@ namespace SquishIt.Sass
         {
             var compiler = new SassCompiler("");
             var sassMode = IsSass.IsMatch(filePath) ? SassCompiler.SassMode.Sass : SassCompiler.SassMode.Scss;
-            return new ProcessResult(compiler.CompileSass(content, sassMode));
+            return new ProcessResult(compiler.CompileSass(content, sassMode, Path.GetDirectoryName(filePath)));
         }
 
         public override string[] Extensions

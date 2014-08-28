@@ -14,7 +14,7 @@
     @MvcHtmlString.Create(
         Bundle.Css()
             .WithPreprocessor(new NSassPreprocessor())
-            .Add("/assets/styles/nsasstest.scss")
+            .Add("/assets/styles/sass/nsasstest.scss")
             .ForceRelease()
             .Render("/output/nsasstest.css"))
 }
