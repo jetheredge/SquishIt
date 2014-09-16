@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using SquishIt.Framework.CSS;
+using SquishIt.Framework.Resolvers;
 using SquishIt.Tests.Helpers;
 
 namespace SquishIt.Tests
@@ -424,8 +425,6 @@ namespace SquishIt.Tests
         [Test]
         public void WontRewriteDataUrls()
         {
-            
-
             ICSSAssetsFileHasher cssAssetsFileHasher = null;
             string css =
                 @"
@@ -564,6 +563,37 @@ font-style: normal;
             var result = CSSPathRewriter.RewriteCssPaths(destinationFile, sourceFile, css, null);
 
             Assert.AreEqual(@"test", result);
+        }
+
+        [Test]
+        public void WontThrowPathTooLongExceptionForLongDataUrls()
+        {
+            //
+            // Base64 images can throw Windows PathTooLong exceptions (limit of 260 characters)
+            // when present in a CSS file with non-base64 relative URLs.
+            //
+
+            var cssAssetsFileHasher = new CSSAssetsFileHasher(string.Empty, new FileSystemResolver(), null, null);
+            
+            string css =
+                @"
+                                                        .header {
+                                                                background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZlZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmMmYyZjIiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+') no-repeat 0 0;
+                                                                background: url('fake.png');
+                                                        }
+                                                    ";
+            string sourceFile = TestUtilities.PreparePath(@"C:\somepath\myfile.css");
+            string targetFile = TestUtilities.PreparePath(@"C:\somepath\output.css");
+            string result = CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher);
+
+            string expected =
+                @"
+                                                        .header {
+                                                                background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZlZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmMmYyZjIiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+') no-repeat 0 0;
+                                                                background: url('fake.png');
+                                                        }
+                                                    ";
+            Assert.AreEqual(expected, result);
         }
     }
 }

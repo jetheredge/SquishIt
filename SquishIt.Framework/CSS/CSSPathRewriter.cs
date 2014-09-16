@@ -93,9 +93,10 @@ namespace SquishIt.Framework.CSS
         {
             var matches = pathsRegex.Matches(css);
             return matches.Cast<Match>()
-                .Select(match => match.Groups[1].Captures[0].Value)
-                .Where(path => !path.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
-                .Distinct();
+                          .Select(match => match.Groups[1].Captures[0].Value)
+                          .Where(path => !path.StartsWith("http", StringComparison.InvariantCultureIgnoreCase)
+                                      && !path.StartsWith("data:"))
+                          .Distinct();
         }
     }
 }
