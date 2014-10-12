@@ -42,11 +42,11 @@ namespace SquishIt.Framework.CSS
 
                 foreach(var hashableAssetPath in hashableAssetPaths)
                 {
-                    var localRelativePathThatExistWithFileHash = cssAssetsFileHasher.AppendFileHash(outputPath, hashableAssetPath);
+                    var assetPathWithHash = cssAssetsFileHasher.AppendFileHash(outputPath, hashableAssetPath);
 
-                    if(hashableAssetPath != localRelativePathThatExistWithFileHash)
+                    if(hashableAssetPath != assetPathWithHash)
                     {
-                        css = css.Replace(hashableAssetPath, localRelativePathThatExistWithFileHash);
+                        css = ReplaceRelativePathsIn(css, hashableAssetPath, assetPathWithHash);
                     }
                 }
             }
