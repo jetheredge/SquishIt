@@ -33,20 +33,20 @@ namespace SquishIt.Framework.CSS
 
                     css = ReplaceRelativePathsIn(css, relativePath, newRelativePath);
                 }
+            }
 
-                if (cssAssetsFileHasher != null)
+            //moved out of if block above so that root-relative paths can be hashed as well
+            if(cssAssetsFileHasher != null)
+            {
+                var hashableAssetPaths = FindHashableAssetPaths(css);
+
+                foreach(var hashableAssetPath in hashableAssetPaths)
                 {
-                    var localRelativePathsThatExist = FindDistinctLocalRelativePathsThatExist(css);
+                    var localRelativePathThatExistWithFileHash = cssAssetsFileHasher.AppendFileHash(outputPath, hashableAssetPath);
 
-                    foreach (var localRelativePathThatExist in localRelativePathsThatExist)
+                    if(hashableAssetPath != localRelativePathThatExistWithFileHash)
                     {
-                        var localRelativePathThatExistWithFileHash = cssAssetsFileHasher.AppendFileHash(outputPath,
-                                                                                                        localRelativePathThatExist);
-
-                        if (localRelativePathThatExist != localRelativePathThatExistWithFileHash)
-                        {
-                            css = css.Replace(localRelativePathThatExist, localRelativePathThatExistWithFileHash);
-                        }
+                        css = css.Replace(hashableAssetPath, localRelativePathThatExistWithFileHash);
                     }
                 }
             }
@@ -70,11 +70,11 @@ namespace SquishIt.Framework.CSS
             });
         }
 
-        static readonly Regex pathsRegex = new Regex(@"(?<!.*behavior\s*:\s*)url\(\s*(?:[""']?)(.*?)(?:[""']?)\s*\)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        static readonly Regex relativePathsRegex = new Regex(@"(?<!.*behavior\s*:\s*)url\(\s*(?:[""']?)(.*?)(?:[""']?)\s*\)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         static IList<string> FindDistinctRelativePathsIn(string css)
         {
-            var matches = pathsRegex.Matches(css);
+            var matches = relativePathsRegex.Matches(css);
             return matches.Cast<Match>()
                           .Select(match => match.Groups[1].Captures[0].Value)
                           .Where(path => !path.StartsWith("/")
@@ -89,9 +89,10 @@ namespace SquishIt.Framework.CSS
                           .ToList();
         }
 
-        static IEnumerable<string> FindDistinctLocalRelativePathsThatExist(string css)
+        static IEnumerable<string> FindHashableAssetPaths(string css)
         {
-            var matches = pathsRegex.Matches(css);
+            //TODO: look to hash root relative paths as well eg /Images/foo.png (https://github.com/jetheredge/SquishIt/issues/292)
+            var matches = relativePathsRegex.Matches(css);
             return matches.Cast<Match>()
                           .Select(match => match.Groups[1].Captures[0].Value)
                           .Where(path => !path.StartsWith("http", StringComparison.InvariantCultureIgnoreCase)

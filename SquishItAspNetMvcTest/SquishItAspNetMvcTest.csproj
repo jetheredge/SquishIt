@@ -81,6 +81,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AssetHashingController.cs" />
     <Compile Include="Controllers\AutoBundlingController.cs" />
     <Compile Include="Controllers\DebuggingBehaviorController.cs" />
     <Compile Include="Controllers\FeaturesController.cs" />
@@ -95,6 +96,8 @@
     <Content Include="assets\js\minifyjs_test.js" />
     <None Include="assets\styles\dynamic_import_test1.less" />
     <None Include="assets\styles\import_subfolder\dynamic_import_test2.less" />
+    <Content Include="assets\styles\backgroundimage-local-relative.css" />
+    <Content Include="assets\styles\backgroundimage-root-relative.css" />
     <Content Include="assets\styles\processedimport_test1.css" />
     <Content Include="assets\styles\folder_test\folder_test1.css" />
     <Content Include="assets\styles\folder_test\subfolder\folder_test2.css" />
@@ -156,6 +159,8 @@
     <Content Include="Views\Preprocessors\NSass.cshtml" />
     <None Include="assets\styles\Common\Fonts\pts55f-webfont.eot" />
     <None Include="assets\styles\Common\Fonts\pts55f-webfont.woff" />
+    <Content Include="Views\AssetHashing\LocalRelative.cshtml" />
+    <Content Include="Views\AssetHashing\RootRelative.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Preprocessors\Hogan.cshtml" />
@@ -208,6 +213,7 @@
     <Content Include="Views\Preprocessors\Sass.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="assets\img\" />
     <Folder Include="output\" />
   </ItemGroup>
   <PropertyGroup>

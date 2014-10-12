@@ -1,0 +1,9 @@
+﻿@using SquishIt.Framework
+@{
+    ViewBag.Title = "Root Relative Asset Hashing";
+}
+
+@Html.Raw(Bundle.Css().Add("~/assets/styles/backgroundimage-root-relative.css").AppendHashForAssets().ForceRelease().Render("~/output/assethashing-rootrelative.css"))
+
+
+
