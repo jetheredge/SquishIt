@@ -43,22 +43,19 @@ namespace SquishIt.Framework.CSS
 
         public static RelativePathAdapter Between(string from, string to)
         {
-            var directoryFrom = Path.GetDirectoryName(from);
-            var directoryTo = Path.GetDirectoryName(to);
-
-            var commonRoot = FindRootPath(directoryFrom, directoryTo);
+            var commonRoot = FindRootPath(from, to);
 
             if (string.IsNullOrEmpty(commonRoot))
             {
                 throw new InvalidOperationException(string.Format("Can't calculate relative distance between '{0}' and '{1}' because they do not have a shared base.", from, to));
             }
 
-            var pathUp = directoryFrom.TrimStart(commonRoot);
-            var pathDown = directoryTo.TrimStart(commonRoot);
+            var pathUp = from.TrimStart(commonRoot);
+            var pathDown = to.TrimStart(commonRoot);
 
             return new RelativePathAdapter(
-                pathUp.Split(new[] { Path.DirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries),
-                pathDown.Split(new[] { Path.DirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries));
+                pathUp.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries),
+                pathDown.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries));
         }
 
         static string FindRootPath(string directory1, string directory2)
@@ -66,16 +63,8 @@ namespace SquishIt.Framework.CSS
             var longest = directory1.Length > directory2.Length ? directory1 : directory2;
             var shortest = directory1.Length > directory2.Length ? directory2 : directory1;
 
-            var separator = Path.DirectorySeparatorChar;
-            var commonPath = String.Empty;
-
-            //Is Network Path Regular Expression
-            const string pattern = @"^\\{2}[\w-\.]+(\\{1}(([\w-\.][\w-\.\s]*[\w-\.]+[$$]?)|([\w-\.][$$]?$)|(\w\$)))+";
-
-            if (System.Text.RegularExpressions.Regex.IsMatch(shortest, pattern))
-            {
-                commonPath += separator;
-            }
+            const char separator = '/';
+            var commonPath = new string(separator, 1);//when working with web paths within an application, should always have shared root of '/'
 
             var separatedPath = longest
                 .Split(new[] { separator }, StringSplitOptions.RemoveEmptyEntries)
@@ -83,9 +72,9 @@ namespace SquishIt.Framework.CSS
 
             foreach (var pathSegment in separatedPath)
             {
-                if (commonPath.Length == 0 && shortest.StartsWith(pathSegment))
+                if (commonPath.Length == 1 && shortest.StartsWith(separator + pathSegment))
                 {
-                    commonPath = pathSegment;
+                    commonPath += pathSegment;
                 }
                 else if (shortest.StartsWith(commonPath + separator + pathSegment))
                 {

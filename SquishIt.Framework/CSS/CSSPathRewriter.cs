@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -7,13 +8,16 @@ namespace SquishIt.Framework.CSS
 {
     public class CSSPathRewriter
     {
-        public static string RewriteCssPaths(string outputPath, string sourcePath, string css, ICSSAssetsFileHasher cssAssetsFileHasher, bool asImport = false)
+        public static string RewriteCssPaths(string outputPath, string sourcePath, string css, ICSSAssetsFileHasher cssAssetsFileHasher, IPathTranslator pathTranslator, bool asImport = false)
         {
             var relativePaths = FindDistinctRelativePathsIn(css);
 
             if (relativePaths.Any())
             {
-                var relativePathAdapter = RelativePathAdapter.Between(outputPath, sourcePath);
+                var relativeOutputPath = GetWebPath(outputPath, pathTranslator);
+                var relativeSourcePath = GetWebPath(sourcePath, pathTranslator);
+
+                var relativePathAdapter = RelativePathAdapter.Between(relativeOutputPath, relativeSourcePath);
 
                 foreach (var relativePath in relativePaths)
                 {
@@ -59,6 +63,11 @@ namespace SquishIt.Framework.CSS
             return css;
         }
 
+        private static string GetWebPath(string outputPath, IPathTranslator pathTranslator)
+        {
+            return "/" + pathTranslator.ResolveFileSystemPathToAppRelative(Path.GetDirectoryName(outputPath)).TrimStart('/') + "/";
+        }
+
         static string ReplaceRelativePathsIn(string css, string oldPath, string newPath)
         {
             var regex = new Regex(@"url\(\s*[""']{0,1}" + Regex.Escape(oldPath) + @"[""']{0,1}\s*\)", RegexOptions.IgnoreCase);
@@ -91,7 +100,6 @@ namespace SquishIt.Framework.CSS
 
         static IEnumerable<string> FindHashableAssetPaths(string css)
         {
-            //TODO: look to hash root relative paths as well eg /Images/foo.png (https://github.com/jetheredge/SquishIt/issues/292)
             var matches = relativePathsRegex.Matches(css);
             return matches.Cast<Match>()
                           .Select(match => match.Groups[1].Captures[0].Value)

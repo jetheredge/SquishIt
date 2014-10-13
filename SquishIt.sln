@@ -36,9 +36,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.MsIeHogan", "SquishIt.MsIeHogan\SquishIt.MsIeHogan.csproj", "{1776A1BF-5096-4833-9E28-59D9627A6700}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8F21162C-1BC1-4261-B908-FA88247AC374}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquishIt.NSass", "SquishIt.NSass\SquishIt.NSass.csproj", "{8D1EE11A-C71D-453D-B0BC-0A76C20B010E}"
 EndProject

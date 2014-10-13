@@ -154,7 +154,7 @@ namespace SquishIt.Framework.CSS
                 fileHasher = new CSSAssetsFileHasher(bundleState.HashKeyName, fileResolver, hasher, pathTranslator);
             }
 
-            return CSSPathRewriter.RewriteCssPaths(outputFile, fileForCssRewriter, css, fileHasher, asImport);
+            return CSSPathRewriter.RewriteCssPaths(outputFile, fileForCssRewriter, css, fileHasher, pathTranslator, asImport: asImport);
         }
     }
 }
