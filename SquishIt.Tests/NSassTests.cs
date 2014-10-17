@@ -8,7 +8,7 @@ using SquishIt.Tests.Stubs;
 
 namespace SquishIt.Tests
 {
-    [TestFixture(Category="IgnoreCI")]
+    [TestFixture(Category="IgnoreCI", Description="Assembly loading issues on build server.")]
     public class NSassTests
     {
         CSSBundleFactory cssBundleFactory;

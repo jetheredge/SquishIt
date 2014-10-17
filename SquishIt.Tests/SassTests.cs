@@ -8,7 +8,7 @@ using SquishIt.Tests.Stubs;
 
 namespace SquishIt.Tests
 {
-    [TestFixture]
+    [TestFixture(Category = "IgnoreCI", Description = "Assembly loading issues on build server.")]
     public class SassTests
     {
         CSSBundleFactory cssBundleFactory;
