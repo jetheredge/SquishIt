@@ -104,6 +104,30 @@ namespace SquishIt.Tests
             }
         }
 
+		[Test]
+		public void CanResolveDirectory_Filters_Files_By_Wildcard()
+		{
+			var path = Guid.NewGuid().ToString();
+			var directory = Directory.CreateDirectory(path);
+
+			var searchPath = Path.Combine(path, "*file2*");
+
+			try
+			{
+				File.Create(Path.Combine(directory.FullName, "file1.js")).Close();
+				File.Create(Path.Combine(directory.FullName, "file2.css")).Close();
+				File.Create(Path.Combine(directory.FullName, "file21.JS")).Close();
+
+				var result = new FileSystemResolver().ResolveFolder(searchPath, true, Guid.NewGuid().ToString(), new[] { ".js" }, new[] { ".css" }).ToList();
+				Assert.AreEqual(1, result.Count);
+				Assert.Contains(path + Path.DirectorySeparatorChar + "file21.JS", result);
+			}
+			finally
+			{
+				Directory.Delete(path, true);
+			}
+		}
+
         [Test]
         public void CanResolveDirectory_Excludes_Debug_Files()
         {
