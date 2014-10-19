@@ -8,6 +8,7 @@ using SquishIt.Framework.Files;
 using SquishIt.Framework.Renderers;
 using SquishIt.Framework.Resolvers;
 using SquishIt.Framework.Utilities;
+using System.Text.RegularExpressions;
 
 namespace SquishIt.Framework.Base
 {
@@ -219,6 +220,11 @@ namespace SquishIt.Framework.Base
             var sb = new StringBuilder();
 
             bundleState.DependentFiles.AddRange(GetFiles(bundleState.Assets.Where(a => !a.IsArbitrary).ToList()));
+
+			var ignoredExtensions = new List<string>();
+			ignoredExtensions.AddRange(bundleState.Ignore);
+			ignoredExtensions.AddRange(disallowedExtensions);
+
             foreach (var asset in bundleState.Assets)
             {
                 if (asset.IsArbitrary)
@@ -233,7 +239,7 @@ namespace SquishIt.Framework.Base
                 else
                 {
                     var inputFile = GetInputFile(asset);
-                    var files = inputFile.Resolve(allowedExtensions, disallowedExtensions, debugExtension);
+					var files = inputFile.Resolve(allowedExtensions, ignoredExtensions, debugExtension);
 
                     if (asset.IsEmbeddedResource)
                     {
@@ -259,9 +265,15 @@ namespace SquishIt.Framework.Base
                         {
                             if (!renderedFiles.Contains(file))
                             {
-                                var fileBase = pathTranslator.ResolveAppRelativePathToFileSystem(asset.LocalPath);
-                                var newPath = PreprocessForDebugging(file).Replace(fileBase, "");
-                                var path = ExpandAppRelativePath(asset.LocalPath + newPath.Replace("\\", "/"));
+                                var filePattern = pathTranslator.ResolveAppRelativePathToFileSystem(asset.LocalPath);
+								var contentPath = asset.LocalPath;
+								if (HasWildcards(filePattern))
+								{
+									filePattern = Path.GetDirectoryName(filePattern);
+									contentPath = Path.GetDirectoryName(contentPath);
+								}
+                                var pathSuffix = PreprocessForDebugging(file).Replace(filePattern, "");
+								var path = ExpandAppRelativePath((contentPath + pathSuffix).Replace("\\", "/"));
                                 sb.AppendLine(FillTemplate(bundleState, path));
                                 renderedFiles.Add(file);
                             }
@@ -287,6 +299,12 @@ namespace SquishIt.Framework.Base
 
             return content;
         }
+
+		bool HasWildcards(string path)
+		{
+			var filename = Path.GetFileName(path);
+			return filename.Contains("*") || filename.Contains("?");
+		}
 
         bool TryGetCachedBundle(string key, out string content)
         {

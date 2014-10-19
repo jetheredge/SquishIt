@@ -142,6 +142,16 @@ namespace SquishIt.Framework.Base
             return (T)this;
         }
 
+		/// <summary>
+		/// Ignore certain types of files from the list of located files
+		/// </summary>
+		/// <param name="filePattern">Pattern to match for ignored files (eg: *.test.js)</param>
+		public T Ignore(string filePattern)
+		{
+			bundleState.Ignore.Add(filePattern);
+			return (T)this;
+		}
+
         /// <summary>
         /// Add arbitrary content that is not saved on disk.
         /// </summary>
