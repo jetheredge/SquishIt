@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace SquishIt.Framework.Resolvers
 {
@@ -47,8 +48,7 @@ namespace SquishIt.Framework.Resolvers
 							  return !f.EndsWith(debugFileExtension.ToUpperInvariant()) &&
 									 (allowedFileExtensions == null ||
 									  allowedFileExtensions.Select(s => s.ToUpper()).Any(f.EndsWith) &&
-									  (disallowedFileExtensions == null ||
-									   !disallowedFileExtensions.Select(s => s.ToUpper()).Any(f.EndsWith)));
+									  IsAllowed(disallowedFileExtensions, file));
 						  })
 					  .ToArray();
 				Array.Sort(files);
@@ -62,6 +62,27 @@ namespace SquishIt.Framework.Resolvers
 			return path.Split('.')
 				.Skip(1)
 				.Select(s => "." + s.ToUpperInvariant());
+		}
+
+		bool IsAllowed(IEnumerable<string> disallowedFileExtensions, string filePath)
+		{
+			if (disallowedFileExtensions == null)
+				return true;
+
+			var fileName = Path.GetFileName(filePath);
+
+			var result = disallowedFileExtensions.Any(pattern => MatchesIgnore(pattern, fileName)) == false;
+			return result;
+		}
+
+		bool MatchesIgnore(string ignorePattern, string filename)
+		{
+			var pattern = "^" + Regex.Escape(ignorePattern)
+					  .Replace(@"\*", ".*")
+					  .Replace(@"\?", ".")
+			   + "$";
+
+			return Regex.IsMatch(filename, pattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
 		}
 	}
 }

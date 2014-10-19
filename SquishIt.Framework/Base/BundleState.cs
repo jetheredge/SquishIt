@@ -25,15 +25,19 @@ namespace SquishIt.Framework.Base
         internal bool ForceRelease { get; set; }
         internal string Path { get; set; }
 
+		internal List<string> Ignore { get; set; }
+
         internal IRenderer ReleaseFileRenderer { get; set; }
         internal ICacheInvalidationStrategy CacheInvalidationStrategy { get; set; }
         internal Func<bool> DebugPredicate { get; set; }
 
         internal BundleState()
-        { 
+        {
+			Ignore = new List<string>();
         }
 
         internal BundleState(Dictionary<string, string> attributes)
+			: this()
         {
             Attributes = attributes;
         }
