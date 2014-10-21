@@ -6,7 +6,6 @@ using System.Text;
 using System.Web;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Renderers;
-using SquishIt.Framework.Resolvers;
 using SquishIt.Framework.Utilities;
 
 namespace SquishIt.Framework.Base
@@ -15,7 +14,7 @@ namespace SquishIt.Framework.Base
     {
         IEnumerable<string> GetFiles(IEnumerable<Asset> assets)
         {
-            var inputFiles = GetInputFiles(assets);
+            var inputFiles = assets.Select(a => Input.FromAsset(a, pathTranslator, IsDebuggingEnabled));
             var resolvedFilePaths = new List<string>();
 
             foreach (Input input in inputFiles)
@@ -28,48 +27,8 @@ namespace SquishIt.Framework.Base
 
         protected IEnumerable<string> GetFilesForSingleAsset(Asset asset)
         {
-            var inputFile = GetInputFile(asset);
+            var inputFile = Input.FromAsset(asset, pathTranslator, IsDebuggingEnabled);
             return inputFile.Resolve(allowedExtensions, disallowedExtensions, debugExtension);
-        }
-
-        Input GetInputFile(Asset asset)
-        {
-            if (!asset.IsEmbeddedResource)
-            {
-                if (IsDebuggingEnabled())
-                {
-                    return GetFileSystemPath(asset.LocalPath, asset.IsRecursive);
-                }
-                if (asset.IsRemoteDownload)
-                {
-                    return GetHttpPath(asset.RemotePath);
-                }
-                return GetFileSystemPath(asset.LocalPath, asset.IsRecursive);
-            }
-            return GetEmbeddedResourcePath(asset.RemotePath, asset.IsEmbeddedInRootNamespace);
-        }
-
-        IEnumerable<Input> GetInputFiles(IEnumerable<Asset> assets)
-        {
-            return assets.Select(GetInputFile).ToList();
-        }
-
-        Input GetFileSystemPath(string localPath, bool isRecursive = true)
-        {
-            string mappedPath = pathTranslator.ResolveAppRelativePathToFileSystem(localPath);
-            return new Input(mappedPath, isRecursive, ResolverFactory.Get<FileSystemResolver>());
-        }
-
-        Input GetHttpPath(string remotePath)
-        {
-            return new Input(remotePath, false, ResolverFactory.Get<HttpResolver>());
-        }
-
-        Input GetEmbeddedResourcePath(string resourcePath, bool isInRootNamespace)
-        {
-            return isInRootNamespace
-                ? new Input(resourcePath, false, ResolverFactory.Get<RootEmbeddedResourceResolver>())
-                : new Input(resourcePath, false, ResolverFactory.Get<StandardEmbeddedResourceResolver>());
         }
 
         protected IPreprocessor[] FindPreprocessors(string file)
@@ -232,7 +191,7 @@ namespace SquishIt.Framework.Base
                 }
                 else
                 {
-                    var inputFile = GetInputFile(asset);
+                    var inputFile = Input.FromAsset(asset, pathTranslator, IsDebuggingEnabled);
                     var files = inputFile.Resolve(allowedExtensions, disallowedExtensions, debugExtension);
 
                     if (asset.IsEmbeddedResource)

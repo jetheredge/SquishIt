@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using SquishIt.Framework.Base;
+using SquishIt.Framework.Resolvers;
 
 namespace SquishIt.Framework.Files
 {
@@ -30,6 +33,26 @@ namespace SquishIt.Framework.Files
             {
                 return new[] { Resolver.Resolve(Path) };
             }
+        }
+
+        public static Input FromAsset(Asset asset, IPathTranslator pathTranslator, Func<bool> isDebuggingEnabled)
+        {
+            if (!asset.IsEmbeddedResource)
+            {
+                if (isDebuggingEnabled())
+                {
+                    return new Input(pathTranslator.ResolveAppRelativePathToFileSystem(asset.LocalPath), asset.IsRecursive, ResolverFactory.Get<FileSystemResolver>());
+                }
+                if (asset.IsRemoteDownload)
+                {
+                    return new Input(asset.RemotePath, false, ResolverFactory.Get<HttpResolver>());
+                }
+                //this is weird - do we absolutely need to treat as the remote downloads as local when debugging?
+                return new Input(pathTranslator.ResolveAppRelativePathToFileSystem(asset.LocalPath), asset.IsRecursive, ResolverFactory.Get<FileSystemResolver>());
+            }
+
+            return asset.IsEmbeddedInRootNamespace ? new Input(asset.RemotePath, false, ResolverFactory.Get<RootEmbeddedResourceResolver>())
+                : new Input(asset.RemotePath, false, ResolverFactory.Get<StandardEmbeddedResourceResolver>());
         }
     }
 }
