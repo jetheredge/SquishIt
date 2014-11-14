@@ -18,6 +18,16 @@ namespace SquishItAspNetMvcTest.Controllers
             return View();
         }
 
+        public ActionResult MinifyCssYUI()
+        {
+            return View();
+        }
+
+        public ActionResult MinifyJsYUI()
+        {
+            return View();
+        }
+
         public ActionResult RenderNamed()
         {
             return View();

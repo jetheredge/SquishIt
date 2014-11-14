@@ -161,6 +161,8 @@
     <None Include="assets\styles\Common\Fonts\pts55f-webfont.woff" />
     <Content Include="Views\AssetHashing\LocalRelative.cshtml" />
     <Content Include="Views\AssetHashing\RootRelative.cshtml" />
+    <Content Include="Views\Features\MinifyCssYUI.cshtml" />
+    <Content Include="Views\Features\MinifyJsYUI.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Preprocessors\Hogan.cshtml" />

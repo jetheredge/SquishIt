@@ -1,0 +1,21 @@
+﻿@using SquishIt.Framework
+@using SquishIt.Framework.Minifiers.JavaScript
+@using SquishIt.Mvc
+@{
+    ViewBag.Title = "Minify Js";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="js-test-container">
+    <p style="color: #f00;">This test is broken! This text should have been replaced!</p>
+</div>
+
+@section JavaScript{
+    @MvcHtmlString.Create(
+        Bundle.JavaScript()
+           .WithMinifier<YuiMinifier>()
+           .Add("/assets/js/jquery_1.7.2.js")
+           .Add("/assets/js/minifyjs_test.js")
+           .ForceRelease()
+           .Render("/output/minifyjs_test_output-yui.js"))
+}
