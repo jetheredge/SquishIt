@@ -17,6 +17,7 @@
   <files>
     <file src="..\SquishIt.Framework\bin\Release\SquishIt.Framework.dll" target="lib\SquishIt.Framework.dll" />
     <file src="..\SquishIt.Framework\bin\Release\SquishIt.Framework.pdb" target="lib\SquishIt.Framework.pdb" />
+    <file src="..\SquishIt.Framework\bin\Release\SquishIt.Framework.xml" target="lib\SquishIt.Framework.xml" />
     <file src="..\SquishIt.Mvc\bin\Release\SquishIt.Mvc.dll" target="optional\SquishIt.Mvc.dll" />
     <file src="..\SquishIt.Mvc\bin\Release\SquishIt.Mvc.pdb" target="optional\SquishIt.Mvc.pdb" />
   </files>
