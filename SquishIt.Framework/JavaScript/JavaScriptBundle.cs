@@ -14,12 +14,13 @@ namespace SquishIt.Framework.JavaScript
     /// </summary>
     public class JavaScriptBundle : BundleBase<JavaScriptBundle>
     {
-        const string JS_TEMPLATE = "<script type=\"text/javascript\" {0}src=\"{1}\" defer></script>";
+        const string JS_TEMPLATE = "<script type=\"text/javascript\" {0}src=\"{1}\" defer async></script>";
         const string TAG_FORMAT = "<script type=\"text/javascript\">{0}</script>";
 
         const string CACHE_PREFIX = "js";
 
         bool deferred;
+        bool async;
 
         protected override IMinifier<JavaScriptBundle> DefaultMinifier
         {
@@ -60,7 +61,8 @@ namespace SquishIt.Framework.JavaScript
             get
             {
                 var val = bundleState.Typeless ? JS_TEMPLATE.Replace("type=\"text/javascript\" ", "") : JS_TEMPLATE;
-                return deferred ? val : val.Replace(" defer", "");
+
+                return deferred ? val.Replace(" async", "") : async ? val.Replace(" defer", "") : val.Replace(" defer", "").Replace(" async", "");
             }
         }
 
@@ -72,8 +74,8 @@ namespace SquishIt.Framework.JavaScript
         protected override string ProcessFile(string file, string outputFile, Asset originalAsset)
         {
             var preprocessors = FindPreprocessors(file);
-            return MinifyIfNeeded(preprocessors.NullSafeAny() 
-                ? PreprocessFile(file, preprocessors) 
+            return MinifyIfNeeded(preprocessors.NullSafeAny()
+                ? PreprocessFile(file, preprocessors)
                 : ReadFile(file), originalAsset.Minify);
         }
 
@@ -92,7 +94,7 @@ namespace SquishIt.Framework.JavaScript
         }
 
         const string MINIFIED_FILE_SEPARATOR = ";\n";
-        
+
         protected override string AppendFileClosure(string content)
         {
             return content.TrimEnd(MINIFIED_FILE_SEPARATOR).TrimEnd(";") + MINIFIED_FILE_SEPARATOR;
@@ -104,6 +106,17 @@ namespace SquishIt.Framework.JavaScript
         public JavaScriptBundle WithDeferredLoad()
         {
             deferred = true;
+            async = false;
+            return this;
+        }
+
+        /// <summary>
+        /// Configure bundle to render with "async" attribute (script only).
+        /// </summary>
+        public JavaScriptBundle WithAsyncLoad()
+        {
+            async = true;
+            deferred = false;
             return this;
         }
     }
