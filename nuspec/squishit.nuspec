@@ -2,10 +2,11 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>SquishIt</id>
-    <version>0.9.7-beta1</version>
+    <version>0.9.7</version>
     <authors>Justin Etheredge, Alex Ullrich</authors>
     <owners>Justin Etheredge, Alex Ullrich</owners>
     <projectUrl>https://github.com/jetheredge/SquishIt</projectUrl>
+    <licenseUrl>https://github.com/jetheredge/SquishIt/blob/master/license.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>SquishIt lets you easily compress and combine JavaScript and CSS.</description>
     <releaseNotes>If you are upgrading from SquishIt 0.8.x (and earlier) releases this update breaks support for less and coffeescript file processing.  If you use either of these facilities, please install SquishIt.Less or SquishIt.CoffeeScript to enable correct preprocessing of your files.</releaseNotes>
