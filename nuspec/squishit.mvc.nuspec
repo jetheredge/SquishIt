@@ -1,16 +1,16 @@
 <package>
   <metadata>
     <id>SquishIt.Mvc</id>
-    <version>0.9.7</version>
+    <version>0.9.8-beta1</version>
     <authors>Justin Etheredge, Alex Ullrich</authors>
     <owners>Justin Etheredge, Alex Ullrich</owners>
     <description>
       ASP.NET MVC Extensions for SquishIt
     </description>
     <projectUrl>https://github.com/jetheredge/SquishIt</projectUrl>
-    <licenseUrl>https://github.com/jetheredge/SquishIt/blob/master/license.txt</licenseUrl>f
+    <licenseUrl>https://github.com/jetheredge/SquishIt/blob/master/license.txt</licenseUrl>
     <dependencies>
-      <dependency id="SquishIt" version="0.9.7" />
+      <dependency id="SquishIt" version="0.9.8-beta1" />
     </dependencies>
   </metadata>
   <files>
