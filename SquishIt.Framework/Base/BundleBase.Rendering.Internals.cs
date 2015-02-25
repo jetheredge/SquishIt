@@ -200,7 +200,7 @@ namespace SquishIt.Framework.Base
 
                         foreach (var fn in files)
                         {
-                            tsb.Append(ReadFile(fn) + "\n\n\n");
+                            tsb.Append(GetEmbeddedContentForDebugging(fn) + "\n\n\n");
                         }
 
                         var processedFile = ExpandAppRelativePath(asset.LocalPath);
@@ -360,6 +360,15 @@ namespace SquishIt.Framework.Base
         protected virtual string AppendFileClosure(string content)
         {
             return content;
+        }
+
+        string GetEmbeddedContentForDebugging(string filename)
+        {
+            var preprocessors = FindPreprocessors(filename);
+            
+            return preprocessors.NullSafeAny() 
+                ? PreprocessFile(filename, preprocessors) 
+                : ReadFile(filename);
         }
 
         string PreprocessForDebugging(string filename)

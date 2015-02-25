@@ -18,17 +18,20 @@ namespace SquishIt.Framework.Resolvers
             var split = file.Split(new[] { "://" }, StringSplitOptions.None);
             var assemblyName = split.ElementAt(0);
             var assembly = AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(x => x.GetName().Name == assemblyName);
-            var resourceName = CalculateResourceName(assemblyName, split.ElementAt(1));
+
+            var filename = split.ElementAt(1);
+
+            var resourceName = CalculateResourceName(assemblyName, filename);
 
             string resolved;
             if (TempFileResolutionCache.TryGetValue(resourceName, out resolved))
             {
                 return resolved;
             }
-            return ResolveFile(file, assembly, resourceName);
+            return ResolveFile(file, assembly, resourceName, filename);
         }
 
-        private string ResolveFile(string file, Assembly assembly, string resourceName)
+        private string ResolveFile(string file, Assembly assembly, string resourceName, string filename)
         {
             using (var stream = assembly.GetManifestResourceStream(resourceName))
             {
@@ -40,7 +43,7 @@ namespace SquishIt.Framework.Resolvers
                 {
                     contents = sr.ReadToEnd();
                 }
-                string fileName = tempPathProvider.ForFile();
+                string fileName = tempPathProvider.ForFile() + "-" + filename;
 
                 using (var sw = new StreamWriter(fileName))
                 {

@@ -116,6 +116,7 @@
     <Content Include="assets\templates\hogan\lambda.hogan.html" />
     <Content Include="assets\styles\Common\Css\Site.css" />
     <Content Include="assets\styles\import-font.css" />
+    <EmbeddedResource Include="EmbeddedResource\Embedded.less.css" />
     <Content Include="Global.asax" />
     <Content Include="assets\js\hogan\hogan-2.0.0.js" />
     <Content Include="assets\js\jquery_1.7.2.js" />

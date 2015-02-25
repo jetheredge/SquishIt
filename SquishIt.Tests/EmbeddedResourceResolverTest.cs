@@ -37,6 +37,8 @@ th {
 
             var path = embeddedResourceResolver.Resolve(resourcePath);
 
+            Assert.True(path.EndsWith("EmbeddedResource.Embedded.css"));
+
             Assert.AreEqual(cssContent, File.ReadAllText(path));
 
             TempFileResolutionCache.Clear();
@@ -53,6 +55,8 @@ th {
 
             var path = embeddedResourceResolver.Resolve(resourcePath);
             var path2 = embeddedResourceResolver.Resolve(resourcePath);
+
+            Assert.True(path.EndsWith("EmbeddedResource.Embedded.css"));
 
             Assert.AreEqual(cssContent, File.ReadAllText(path));
             Assert.AreEqual(cssContent, File.ReadAllText(path2));
@@ -72,6 +76,8 @@ th {
             var embeddedResourceResolver = new RootEmbeddedResourceResolver();
 
             var path = embeddedResourceResolver.Resolve(resourcePath);
+            
+            Assert.True(path.EndsWith("RootEmbedded.css"));
 
             Assert.AreEqual(cssContent, File.ReadAllText(path));
 
@@ -89,6 +95,8 @@ th {
 
             var path = embeddedResourceResolver.Resolve(resourcePath);
             var path2 = embeddedResourceResolver.Resolve(resourcePath);
+
+            Assert.True(path.EndsWith("RootEmbedded.css"));
 
             Assert.AreEqual(cssContent, File.ReadAllText(path));
             Assert.AreEqual(cssContent, File.ReadAllText(path2));
