@@ -8,6 +8,16 @@ For medium trust environments there is an option to build and cache bundles in-m
 
 Until we set up a new download site (github recently removed the downloads section, though you can still [access it](http://github.com/jetheredge/SquishIt/downloads) for old versions) you will need to build from source or install via NuGet.
 
+### Building from source
+You will need to have Visual Studio and [7-Zip](http://www.7-zip.org/) installed.
+
+1. Open Visual Studio Command Prompt
+2. `cd \path\to\SquishIt\tools`
+3. If necessary, add 7z.exe to your path: `set PATH=%PATH%;C:\Program Files\7-Zip\`
+3. Run <code>build-package <var>version-id</var></code> (<code><var>version-id</var></code> can be anything you like.)
+
+If all went well, you should have a package called <code>tools/SquishIt-<var>version-id</var>.zip</code>.
+
 ##Thanks
 
 The build is generously hosted and run on the [CodeBetter TeamCity](http://codebetter.com/codebetter-ci/) infrastructure.
