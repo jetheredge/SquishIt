@@ -134,14 +134,6 @@ namespace SquishIt.Framework
         }
 
         /// <summary>
-        ///     Use Google Closure for Javascript minification by default.
-        /// </summary>
-        public Configuration UseClosureForMinification()
-        {
-            return UseMinifierForJs<ClosureMinifier>();
-        }
-
-        /// <summary>
         ///     By default, perform no minification of Javascript.
         /// </summary>
         public Configuration UseNoJsMinification()

@@ -114,7 +114,6 @@
     <Compile Include="Files\Input.cs" />
     <Compile Include="JavaScript\JavaScriptBundle.cs" />
     <Compile Include="Minifiers\JavaScript\jsmin\JavaScriptMinifier.cs" />
-    <Compile Include="Minifiers\JavaScript\ClosureMinifier.cs" />
     <Compile Include="Minifiers\JavaScript\IJavaScriptMinifier.cs" />
     <Compile Include="Minifiers\JavaScript\JsMinMinifier.cs" />
     <Compile Include="Minifiers\JavaScript\MsMinifier.cs" />
@@ -155,17 +154,6 @@
     <Compile Include="Platform.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="closure-compiler\compiler.jar">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="closure-compiler\COPYING">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="closure-compiler\README">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

@@ -23,7 +23,6 @@ namespace SquishIt.Framework.Minifiers
                                     {typeof(JavaScript.JsMinMinifier), new JavaScript.JsMinMinifier()},
                                     {typeof(JavaScript.NullMinifier), new JavaScript.NullMinifier()},
                                     {typeof(JavaScript.YuiMinifier), new JavaScript.YuiMinifier()},
-                                    {typeof(JavaScript.ClosureMinifier), new JavaScript.ClosureMinifier()},
                                     {typeof(JavaScript.MsMinifier), new JavaScript.MsMinifier()}
                                 }
             }        
