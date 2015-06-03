@@ -162,6 +162,7 @@
     <Content Include="Views\AssetHashing\RootRelative.cshtml" />
     <Content Include="Views\Features\MinifyCssYUI.cshtml" />
     <Content Include="Views\Features\MinifyJsYUI.cshtml" />
+    <Content Include="Views\Features\RenderInline.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Preprocessors\Hogan.cshtml" />

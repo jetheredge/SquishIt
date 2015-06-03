@@ -72,5 +72,10 @@ namespace SquishItAspNetMvcTest.Controllers
         {
             return View();
         }
+
+        public ActionResult RenderInline()
+        {
+            return View();
+        }
     }
 }

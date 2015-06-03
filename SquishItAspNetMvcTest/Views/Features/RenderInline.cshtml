@@ -1,0 +1,34 @@
+﻿@using SquishIt.Framework
+@{
+    ViewBag.Title = "Minify Css";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="test-container">
+    <p class="red-text">This text should be red if css1 was processed.</p>
+    <p class="blue-text">This text should be blue if css2 was processed.</p>
+</div>
+
+<div id="js-test-container">
+    <p style="color: #f00;">This test is broken! This text should have been replaced!</p>
+</div>
+
+@section Styles {
+    <style type="text/css">
+        @Html.Raw(Bundle.Css()
+            .Add("/assets/styles/minifycss_test1.css")
+            .Add("/assets/styles/minifycss_test2.css")
+            .ForceRelease()
+            .RenderRawContent("raw-css"))
+    </style>
+}
+
+@section JavaScript {
+    <script type="text/javascript">
+        @Html.Raw(Bundle.JavaScript()
+        .Add("/assets/js/jquery_1.7.2.js")
+        .Add("/assets/js/minifyjs_test.js")
+        .ForceRelease()
+        .RenderRawContent("raw-js"))
+    </script>
+}
