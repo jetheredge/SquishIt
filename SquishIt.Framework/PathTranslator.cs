@@ -42,5 +42,19 @@ namespace SquishIt.Framework
                 return path.Substring(path.IndexOf("/", StringComparison.InvariantCulture) + 1);
             }
         }
+
+        public string BuildAbsolutePath(string siteRelativePath)
+        {
+            if (HttpContext.Current == null)
+                throw new InvalidOperationException(
+                    "Absolute path can only be constructed in the presence of an HttpContext.");
+            if (!siteRelativePath.StartsWith("/"))
+                throw new InvalidOperationException("This helper method only works with site relative paths.");
+
+            var url = HttpContext.Current.Request.Url;
+            var port = url.Port != 80 ? (":" + url.Port) : String.Empty;
+            return string.Format("{0}://{1}{2}{3}", url.Scheme, url.Host, port,
+                                 VirtualPathUtility.ToAbsolute(siteRelativePath));
+        }
     }
 }

@@ -4,5 +4,6 @@ namespace SquishIt.Framework
     {
         string ResolveAppRelativePathToFileSystem(string file);
         string ResolveFileSystemPathToAppRelative(string file);
+        string BuildAbsolutePath(string siteRelativePath);
     }
 }

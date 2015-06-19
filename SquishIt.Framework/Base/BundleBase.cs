@@ -245,7 +245,7 @@ namespace SquishIt.Framework.Base
         /// <param name="siteRelativePath">Site-relative path to content (eg "signalr/hubs").</param>
         public T AddDynamic(string siteRelativePath)
         {
-            var absolutePath = BuildAbsolutePath(siteRelativePath);
+            var absolutePath = pathTranslator.BuildAbsolutePath(siteRelativePath);
             return AddRemote(siteRelativePath, absolutePath, true);
         }
 
