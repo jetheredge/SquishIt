@@ -1,4 +1,4 @@
-msbuild ..\SquishIt.sln /p:Configuration=Release
+msbuild ..\SquishIt.sln /p:Configuration=Release /p:Platform="Any CPU"
 for %%s in (..\nuspec\*.nuspec) do (
 	nuget pack %%s
 )
