@@ -26,8 +26,7 @@ namespace SquishIt.Framework.Minifiers.JavaScript
 		{
 			var minifer = new Minifier();
             codeSettings = codeSettings ?? new CodeSettings();
-            codeSettings.SetKnownGlobalNames(globalNames);
-                
+	        globalNames.ForEach(gn => codeSettings.AddKnownGlobal(gn));
             return minifer.MinifyJavaScript(content, codeSettings);
 		}
 	}

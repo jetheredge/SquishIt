@@ -290,7 +290,7 @@ $margin: 16px
                     }";
 
                 var expected =
-                    @".error,.badError{border:1px red;background:#fdd}.error.intrusion,.intrusion.badError{font-size:1.3em;font-weight:bold}.badError{border-width:3px}";
+                    @".error,.badError{border:1px #f00;background:#fdd}.error.intrusion,.intrusion.badError{font-size:1.3em;font-weight:bold}.badError{border-width:3px}";
 
                 var cssBundle = cssBundleFactory
                     .WithHasher(hasher)

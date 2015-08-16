@@ -1189,7 +1189,7 @@ background:url(images/button-loader.gif) #ccc;
             var file2 = "anotherfile.css";
 
             var arbitraryCss = ".someClass { color:red }";
-            var minifiedArbitraryCss = ".someClass{color:red}";
+            var minifiedArbitraryCss = ".someClass{color:#f00}";
 
             var readerFactory = new StubFileReaderFactory();
             readerFactory.SetContentsForFile(TestUtilities.PrepareRelativePath(file1), css);

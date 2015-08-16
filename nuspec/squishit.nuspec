@@ -2,17 +2,20 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>SquishIt</id>
-    <version>0.9.8.2</version>
+    <version>1.0.0-alpha2</version>
     <authors>Justin Etheredge, Alex Ullrich</authors>
     <owners>Justin Etheredge, Alex Ullrich</owners>
     <projectUrl>https://github.com/jetheredge/SquishIt</projectUrl>
     <licenseUrl>https://github.com/jetheredge/SquishIt/blob/master/license.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>SquishIt lets you easily compress and combine JavaScript and CSS.</description>
-    <releaseNotes>If you are upgrading from SquishIt 0.8.x (and earlier) releases this update breaks support for less and coffeescript file processing.  If you use either of these facilities, please install SquishIt.Less or SquishIt.CoffeeScript to enable correct preprocessing of your files.</releaseNotes>
+    <releaseNotes>If you are upgrading from SquishIt 0.8.x (and earlier) releases this update breaks support for less and coffeescript file processing.  If you use either of these facilities, please install SquishIt.Less or SquishIt.CoffeeScript to enable correct preprocessing of your files.
+
+If you are upgrading from SquishIt 0.9.x (and earlier) this update will bring a new version of the AjaxMin library with it.
+    </releaseNotes>
     <dependencies>
-      <dependency id="YUICompressor.NET" version="2.0.0.0" />
-      <dependency id="AjaxMin" version="[4.48.4489.28432,4.97.4951.28483]" />
+      <dependency id="YUICompressor.NET" version="2.3.0.0" />
+      <dependency id="AjaxMin" version="5.14.5506.26202" />
     </dependencies>
   </metadata>
   <files>
