@@ -6,33 +6,37 @@ namespace SquishIt.Framework.CSS
 {
     internal class RelativePathAdapter
     {
-        private RelativePathAdapter(string[] directoriesUp, string[] directoriesDown)
+        private RelativePathAdapter(string[] foldersBetweenSharedRootAndDestinationDirectory, string[] foldersBetweenSourceDirectoryAndSharedRoot)
         {
-            _directoriesUp = directoriesUp;
-            _directoriesDown = directoriesDown;
+            _foldersBetweenSharedRootAndDestinationDirectory = foldersBetweenSharedRootAndDestinationDirectory;
+            _foldersBetweenSourceDirectoryAndSharedRoot = foldersBetweenSourceDirectoryAndSharedRoot;
         }
 
-        private readonly string[] _directoriesUp;
-        private readonly string[] _directoriesDown;
+        private readonly string[] _foldersBetweenSharedRootAndDestinationDirectory;  
+        private readonly string[] _foldersBetweenSourceDirectoryAndSharedRoot; 
 
         public string Adapt(string relative)
         {
             var relativeWithoutLeadingAscent = relative.TrimStart("../");
             var relativeAscent = (relative.Length - relativeWithoutLeadingAscent.Length) / 3;
             var relativePathIsInSourceDirectory = relativeAscent == 0;
-            var sourceIsDeeperThanDestination = _directoriesUp.Length < _directoriesDown.Length;
+            var sourceIsDifferentThanDestination = (_foldersBetweenSourceDirectoryAndSharedRoot.Length > 0 || _foldersBetweenSharedRootAndDestinationDirectory.Length > 0);
+            var destinationIsInsideSource = _foldersBetweenSourceDirectoryAndSharedRoot.Length == 0 && _foldersBetweenSharedRootAndDestinationDirectory.Length > 0;
 
-            var totalDirectoriesUp = _directoriesUp.Length + relativeAscent;
+            var totalDirectoriesUp = _foldersBetweenSharedRootAndDestinationDirectory.Length + relativeAscent;
 
-            var howFarToAscend = sourceIsDeeperThanDestination ? _directoriesUp.Length : Math.Max(totalDirectoriesUp - (relativePathIsInSourceDirectory ? 0 : _directoriesDown.Length), 0);
-            var howFarToDescend = _directoriesDown.Length - (relativePathIsInSourceDirectory ? 0 : sourceIsDeeperThanDestination ? relativeAscent : totalDirectoriesUp);
+            var howFarToAscend = (sourceIsDifferentThanDestination && !destinationIsInsideSource) 
+                ? _foldersBetweenSharedRootAndDestinationDirectory.Length 
+                : Math.Max(totalDirectoriesUp - (relativePathIsInSourceDirectory ? 0 : _foldersBetweenSourceDirectoryAndSharedRoot.Length), 0);
+            
+            var howFarToDescend = _foldersBetweenSourceDirectoryAndSharedRoot.Length - (relativePathIsInSourceDirectory ? 0 : sourceIsDifferentThanDestination ? relativeAscent : totalDirectoriesUp);
 
             var pathUp = totalDirectoriesUp == 0
                                 ? string.Empty
                                 : Enumerable.Range(1, howFarToAscend)
                                             .Aggregate(string.Empty, (acc, i) => acc + "../");
 
-            var pathDown = _directoriesDown
+            var pathDown = _foldersBetweenSourceDirectoryAndSharedRoot
                 .Take(howFarToDescend)
                 .Aggregate(string.Empty, (acc, s) => acc == string.Empty ? s : string.Concat(acc, "/", s));
 
@@ -50,12 +54,12 @@ namespace SquishIt.Framework.CSS
                 throw new InvalidOperationException(string.Format("Can't calculate relative distance between '{0}' and '{1}' because they do not have a shared base.", from, to));
             }
 
-            var pathUp = from.TrimStart(commonRoot);
-            var pathDown = to.TrimStart(commonRoot);
+            var pathBetweenSharedRootAndDestinationDirectory = from.TrimStart(commonRoot);
+            var pathBetweenSourceDirectoryAndSharedRoot = to.TrimStart(commonRoot);
 
             return new RelativePathAdapter(
-                pathUp.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries),
-                pathDown.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries));
+                pathBetweenSharedRootAndDestinationDirectory.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries),
+                pathBetweenSourceDirectoryAndSharedRoot.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries));
         }
 
         static string FindRootPath(string directory1, string directory2)

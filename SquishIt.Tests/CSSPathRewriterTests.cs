@@ -555,6 +555,66 @@ font-style: normal;
         }
 
         [Test]
+        public void CanRewritePathsInCSSWhenSourceInsideDestination()
+        {
+            var css = @"background: transparent url('../Images/rss-icon.png') no-repeat;";
+
+            var expected = @"background: transparent url('Metro/Content/Images/rss-icon.png') no-repeat;";
+
+            var sourceFile = TestUtilities.PreparePath(@"C:\X\Themes\Metro\Content\Styles\myFile.css");
+            var destinationFile = TestUtilities.PreparePath(@"C:\X\Themes\combined.css");
+
+            var result = CSSPathRewriter.RewriteCssPaths(destinationFile, sourceFile, css, null, new PathTranslator());
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void CanRewritePathsInCSSWhenSourceEvenWithDestination()
+        {
+            var css = @"background: transparent url('../Images/rss-icon.png') no-repeat;";
+
+            var expected = @"background: transparent url('../../../Themes/Metro/Images/rss-icon.png') no-repeat;";
+
+            var sourceFile = TestUtilities.PreparePath(@"C:\X\Themes\Metro\Content\myFile.css");
+            var destinationFile = TestUtilities.PreparePath(@"C:\X\Content\cache\css\combined.css");
+
+            var result = CSSPathRewriter.RewriteCssPaths(destinationFile, sourceFile, css, null, new PathTranslator());
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void CanRewritePathsInCSSWhenSourceShallowerThanDestination()
+        {
+            var css = @"background: transparent url('../Images/rss-icon.png') no-repeat;";
+
+            var expected = @"background: transparent url('../../../../../Themes/Metro/Content/Images/rss-icon.png') no-repeat;";
+
+            var sourceFile = TestUtilities.PreparePath(@"C:\X\Themes\Metro\Content\Styles\myFile.css");
+            var destinationFile = TestUtilities.PreparePath(@"C:\X\Content\x\y\z\cache\combined.css");
+
+            var result = CSSPathRewriter.RewriteCssPaths(destinationFile, sourceFile, css, null, new PathTranslator());
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void CanRewritePathsInCSSWhenDestinationInsideSource()
+        {
+            var css = @"background: transparent url('../Images/rss-icon.png') no-repeat;";
+
+            var expected = @"background: transparent url('../../Images/rss-icon.png') no-repeat;";
+
+            var sourceFile = TestUtilities.PreparePath(@"C:\X\Themes\Metro\Content\Styles\myFile.css");
+            var destinationFile = TestUtilities.PreparePath(@"C:\X\Themes\Metro\Content\Styles\output\combined.css");
+
+            var result = CSSPathRewriter.RewriteCssPaths(destinationFile, sourceFile, css, null, new PathTranslator());
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
         public void AlwaysReplaceSquishItRewrittenPathsWhenProcessingParent()
         {
             //an issue was reported relating to squishit:// (rewritten urls for imports) not being scrubbed out if there are no relative paths in the parent file
