@@ -6,7 +6,7 @@ For medium trust environments there is an option to build and cache bundles in-m
 
 ##Installation
 
-Until we set up a new download site (github recently removed the downloads section, though you can still [access it](http://github.com/jetheredge/SquishIt/downloads) for old versions) you will need to build from source or install via NuGet.
+You can download precompiled binaries from the [SquishIt AppHarbor page](http://squishit.apphb.com/Download).
 
 ### Building from source
 You will need to have Visual Studio and [7-Zip](http://www.7-zip.org/) installed.
