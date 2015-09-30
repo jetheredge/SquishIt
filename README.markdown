@@ -8,7 +8,7 @@ For medium trust environments there is an option to build and cache bundles in-m
 
 SquishIt comes as a NuGet package and can be installed via `PM> Install-Package SquishIt`.
 
-Latest stable package: [!(https://img.shields.io/nuget/v/SquishIt.svg)](https://www.nuget.org/packages/SquishIt).
+Latest stable package: [![nuget version](https://img.shields.io/nuget/v/SquishIt.svg)](https://www.nuget.org/packages/SquishIt).
 
 You can also download precompiled binaries from the [SquishIt AppHarbor page](http://squishit.apphb.com/Download).
 
