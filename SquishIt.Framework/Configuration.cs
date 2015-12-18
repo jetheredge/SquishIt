@@ -20,12 +20,13 @@ namespace SquishIt.Framework
         private IMinifier<CSSBundle> _defaultCssMinifier = new MsMinifier();
         private Func<bool> _defaultDebugPredicate;
         private string _defaultHashKeyName = "r";
-        private IHasher _defaultHasher = new Hasher(new RetryableFileOpener());
+        private IHasher _defaultHasher;
         private IMinifier<JavaScriptBundle> _defaultJsMinifier = new Minifiers.JavaScript.MsMinifier();
         private string _defaultOutputBaseHref;
         private IPathTranslator _defaultPathTranslator = new PathTranslator();
         private IRenderer _defaultReleaseRenderer;
         private ITempPathProvider _defaultTempPathProvider = new TempPathProvider();
+        private IRetryableFileOpener _defaultRetryableFileOpener = new RetryableFileOpener();
 
         public Configuration()
         {
@@ -205,15 +206,33 @@ namespace SquishIt.Framework
             return this;
         }
 
+        public Configuration RetryableFileOpener(IRetryableFileOpener retryableFileOpener)
+        {
+            _defaultRetryableFileOpener = retryableFileOpener;
+            return this;
+        }
+
         public Configuration UseSHA1Hasher()
         {
-            return UseHasher(new SHA1Hasher(new RetryableFileOpener()));
+            return UseHasher(new SHA1Hasher(_defaultRetryableFileOpener));
         }
 
         internal IHasher DefaultHasher()
         {
+            if (_defaultHasher == null)
+            {
+                _defaultHasher = new Hasher(_defaultRetryableFileOpener);
+            }
+
             return _defaultHasher;
         }
+
+
+        internal IRetryableFileOpener DefaultRetryableFileOpener()
+        {
+            return _defaultRetryableFileOpener;
+        }
+
 
         public Configuration UseHashAsVirtualDirectoryInvalidationStrategy()
         {
