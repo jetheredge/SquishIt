@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Text;
 using System.Threading;
 
@@ -18,6 +20,7 @@ namespace SquishIt.Framework.Files
         /// <remarks>
         /// It attempt to open the file in increasingly longer periods and throw an exception if it cannot open it within the
         /// specified number of retries.
+        /// Note - Directory creation only works if retry count is greater than one
         /// </remarks>
         public Stream OpenFileStream(FileInfo fileInfo, int retry, FileMode fileMode, FileAccess fileAccess, FileShare fileShare)
         {
@@ -50,7 +53,7 @@ namespace SquishIt.Framework.Files
                 }
                 catch(DirectoryNotFoundException)
                 {
-                    throw;
+                    CreateDirectoryStructure(filePath);
                 }
                 catch(FileNotFoundException)
                 {
@@ -66,6 +69,19 @@ namespace SquishIt.Framework.Files
 
             //We will never get here
             throw new IOException(string.Format("Unable to open file '{0}'", filePath));
+        }
+
+        /// <summary>
+        /// Create folder structure for a given file path
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <remarks>
+        /// Will create folder with permissions inherited from parent
+        /// </remarks>
+        protected virtual void CreateDirectoryStructure(string filePath)
+        {
+            var file = new FileInfo(filePath);
+            file.Directory.Create();
         }
 
         /// <summary>
@@ -144,6 +160,9 @@ namespace SquishIt.Framework.Files
         /// <param name="retry">The number of times a file open should be attempted</param>
         /// <param name="append">Should file be appended</param>
         /// <returns>A text stream of the file</returns>
+        /// <remarks>
+        /// Note - Directory creation only works if retry count is greater than one
+        /// </remarks>
         public StreamWriter OpenTextStreamWriter(string filePath, int retry, bool append)
         {
             var delay = 0;
@@ -154,6 +173,10 @@ namespace SquishIt.Framework.Files
                 {
                     var stream = new StreamWriter(filePath, append, Encoding.UTF8);
                     return stream;
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    CreateDirectoryStructure(filePath);
                 }
                 catch(FileNotFoundException)
                 {
