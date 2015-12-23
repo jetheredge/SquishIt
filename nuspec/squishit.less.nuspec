@@ -11,7 +11,7 @@
     <description>Adds LESS processing capability to SquishIt.</description>
     <dependencies>
       <dependency id="SquishIt" version="1.0.0-alpha2" />
-      <dependency id="dotless" version="1.4.1.0" />
+      <dependency id="dotless" version="1.5.2.0" />
       <dependency id="WebActivatorEx" version="2.0" />
     </dependencies>
   </metadata>
