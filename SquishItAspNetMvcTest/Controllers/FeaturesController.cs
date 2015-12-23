@@ -33,6 +33,11 @@ namespace SquishItAspNetMvcTest.Controllers
             return View();
         }
 
+        public ActionResult RenderCached()
+        {
+            return View();
+        }
+
         public ActionResult Imports()
         {
             return View();

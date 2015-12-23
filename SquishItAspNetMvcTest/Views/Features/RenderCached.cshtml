@@ -1,0 +1,14 @@
+﻿@using SquishIt.Framework
+@using SquishIt.Mvc
+@{
+    ViewBag.Title = "Render Named";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="js-test-container">
+    <p style="color: #f00;">This test is broken! This text should have been replaced!</p>
+</div>
+
+@section JavaScript{
+    @Html.Raw(Bundle.JavaScript().RenderCachedAssetTag("render-cached"))
+}

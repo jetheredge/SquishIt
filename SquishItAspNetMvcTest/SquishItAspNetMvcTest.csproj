@@ -79,6 +79,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AssetCacheController.cs" />
     <Compile Include="Controllers\AssetHashingController.cs" />
     <Compile Include="Controllers\AutoBundlingController.cs" />
     <Compile Include="Controllers\DebuggingBehaviorController.cs" />
@@ -163,6 +164,7 @@
     <Content Include="Views\Features\MinifyCssYUI.cshtml" />
     <Content Include="Views\Features\MinifyJsYUI.cshtml" />
     <Content Include="Views\Features\RenderInline.cshtml" />
+    <Content Include="Views\Features\RenderCached.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Preprocessors\Hogan.cshtml" />
@@ -200,11 +202,11 @@
       <Name>SquishIt.Mvc</Name>
     </ProjectReference>
     <ProjectReference Include="..\SquishIt.NSass\SquishIt.NSass.csproj">
-      <Project>{8D1EE11A-C71D-453D-B0BC-0A76C20B010E}</Project>
+      <Project>{8d1ee11a-c71d-453d-b0bc-0a76c20b010e}</Project>
       <Name>SquishIt.NSass</Name>
     </ProjectReference>
     <ProjectReference Include="..\SquishIt.Sass\SquishIt.Sass.csproj">
-      <Project>{EC304F39-5916-45ED-A289-ABEFF1EDD070}</Project>
+      <Project>{ec304f39-5916-45ed-a289-abeff1edd070}</Project>
       <Name>SquishIt.Sass</Name>
     </ProjectReference>
   </ItemGroup>

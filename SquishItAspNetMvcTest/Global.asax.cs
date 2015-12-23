@@ -53,6 +53,12 @@ namespace SquishItAspNetMvcTest
                 .Add("/assets/js/minifyjs_test.js")
                 .ForceRelease()
                 .AsNamed("RenderNamedTest", "/output/rendernamed_test_output.js");
+
+            Bundle.JavaScript()
+                .Add("assets/js/jquery_1.7.2.js")
+                .Add("/assets/js/minifyjs_test.js")
+                .ForceRelease()
+                .AsCached("render-cached", "~/AssetCache/Js/render-cached");
         }
     }
 }
