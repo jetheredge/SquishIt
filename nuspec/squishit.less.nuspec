@@ -18,6 +18,5 @@
   <files>
     <file src="..\SquishIt.Less\bin\Release\SquishIt.Less.dll" target="lib\SquishIt.Less.dll" />
     <file src="..\SquishIt.Less\bin\Release\SquishIt.Less.pdb" target="lib\SquishIt.Less.pdb" />
-    <file src="..\SquishIt.Less\Content\App_Start\SquishItLess.cs.pp" target="Content\App_Start\SquishItLess.cs.pp" />
   </files>
 </package>

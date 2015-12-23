@@ -21,6 +21,5 @@
   <files>
     <file src="..\SquishIt.Sass\bin\Release\SquishIt.Sass.dll" target="lib\SquishIt.Sass.dll" />
     <file src="..\SquishIt.Sass\bin\Release\SquishIt.Sass.pdb" target="lib\SquishIt.Sass.pdb" />
-    <file src="..\SquishIt.Sass\Content\App_Start\SquishItSass.cs.pp" target="Content\App_Start\SquishItSass.cs.pp" />
   </files>
 </package>

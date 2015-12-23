@@ -156,7 +156,6 @@
     <Content Include="Views\AutoBundling\Hogan.cshtml" />
     <Content Include="Views\AutoBundling\Less.cshtml" />
     <Content Include="Views\AutoBundling\Combined.cshtml" />
-    <Content Include="Views\Preprocessors\NSass.cshtml" />
     <None Include="assets\styles\Common\Fonts\pts55f-webfont.eot" />
     <None Include="assets\styles\Common\Fonts\pts55f-webfont.woff" />
     <Content Include="Views\AssetHashing\LocalRelative.cshtml" />
@@ -165,6 +164,8 @@
     <Content Include="Views\Features\MinifyJsYUI.cshtml" />
     <Content Include="Views\Features\RenderInline.cshtml" />
     <Content Include="Views\Features\RenderCached.cshtml" />
+    <Content Include="Views\Preprocessors\NSass.cshtml" />
+    <Content Include="Views\Preprocessors\Sass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Preprocessors\Hogan.cshtml" />
@@ -173,17 +174,9 @@
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SquishIt.CoffeeScript\SquishIt.CoffeeScript.csproj">
-      <Project>{7746F80A-A9C4-4823-9A17-B375793A72FD}</Project>
-      <Name>SquishIt.CoffeeScript</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SquishIt.Framework\SquishIt.Framework.csproj">
       <Project>{50C3BC24-E534-4B78-8E8E-CB2C4053321D}</Project>
       <Name>SquishIt.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SquishIt.Hogan\SquishIt.Hogan.csproj">
-      <Project>{3A119E21-0961-4914-A459-A77522A8E414}</Project>
-      <Name>SquishIt.Hogan</Name>
     </ProjectReference>
     <ProjectReference Include="..\SquishIt.Less\SquishIt.Less.csproj">
       <Project>{A8E60378-569B-4BAA-B344-75A065796E20}</Project>
@@ -201,10 +194,6 @@
       <Project>{A9F9331C-C3AA-4844-AB33-7714761F725D}</Project>
       <Name>SquishIt.Mvc</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SquishIt.NSass\SquishIt.NSass.csproj">
-      <Project>{8d1ee11a-c71d-453d-b0bc-0a76c20b010e}</Project>
-      <Name>SquishIt.NSass</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SquishIt.Sass\SquishIt.Sass.csproj">
       <Project>{ec304f39-5916-45ed-a289-abeff1edd070}</Project>
       <Name>SquishIt.Sass</Name>
@@ -214,7 +203,6 @@
     <None Include="assets\coffee\Medals.coffee" />
     <Content Include="Views\Preprocessors\Coffee.cshtml" />
     <Content Include="Views\Preprocessors\Less.cshtml" />
-    <Content Include="Views\Preprocessors\Sass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="assets\img\" />

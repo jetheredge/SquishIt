@@ -18,6 +18,5 @@
   <files>
     <file src="..\SquishIt.MsIeHogan\bin\Release\SquishIt.MsIeHogan.dll" target="lib\SquishIt.MsIeHogan.dll" />
     <file src="..\SquishIt.MsIeHogan\bin\Release\SquishIt.MsIeHogan.pdb" target="lib\SquishIt.MsIeHogan.pdb" />
-    <file src="..\SquishIt.MsIeHogan\Content\App_Start\SquishItMsIeHogan.cs.pp" target="Content\App_Start\SquishItMsIeHogan.cs.pp" />
   </files>
 </package>
