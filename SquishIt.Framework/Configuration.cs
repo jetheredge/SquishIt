@@ -17,11 +17,11 @@ namespace SquishIt.Framework
     {
         private static Configuration instance;
         private ICacheInvalidationStrategy _defaultCacheInvalidationStrategy = new DefaultCacheInvalidationStrategy();
-        private IMinifier<CSSBundle> _defaultCssMinifier = new MsMinifier();
+        private IMinifier<CSSBundle> _defaultCssMinifier = new YuiMinifier();
         private Func<bool> _defaultDebugPredicate;
         private string _defaultHashKeyName = "r";
         private IHasher _defaultHasher;
-        private IMinifier<JavaScriptBundle> _defaultJsMinifier = new Minifiers.JavaScript.MsMinifier();
+        private IMinifier<JavaScriptBundle> _defaultJsMinifier = new Minifiers.JavaScript.YuiMinifier();
         private string _defaultOutputBaseHref;
         private IPathTranslator _defaultPathTranslator = new PathTranslator();
         private IRenderer _defaultReleaseRenderer;
