@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>SquishIt.Less</id>
-    <version>1.0.0-alpha2</version>
+    <version>1.0.0-beta1</version>
     <authors>Justin Etheredge, Alex Ullrich, Rodrigo Dumont</authors>
     <owners>Justin Etheredge, Alex Ullrich</owners>
     <projectUrl>https://github.com/jetheredge/SquishIt</projectUrl>
@@ -10,7 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Adds LESS processing capability to SquishIt.</description>
     <dependencies>
-      <dependency id="SquishIt" version="1.0.0-alpha2" />
+      <dependency id="SquishIt" version="1.0.0-beta1" />
       <dependency id="dotless" version="1.5.2.0" />
       <dependency id="WebActivatorEx" version="2.0" />
     </dependencies>

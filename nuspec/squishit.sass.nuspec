@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>SquishIt.Sass</id>
-    <version>1.0.0-alpha2</version>
+    <version>1.0.0-beta1</version>
     <authors>Justin Etheredge, Alex Ullrich, Rodrigo Dumont</authors>
     <owners>Justin Etheredge, Alex Ullrich</owners>
     <projectUrl>https://github.com/jetheredge/SquishIt</projectUrl>
@@ -13,7 +13,7 @@
       SASS / SCSS compilation is performed by libsass-net, a .net wrapper around the libsass engine.
     </description>
     <dependencies>
-      <dependency id="SquishIt" version="1.0.0-alpha2" />
+      <dependency id="SquishIt" version="1.0.0-beta1" />
       <dependency id="libsassnet" version="3.0" />
       <dependency id="WebActivatorEx" version="2.0" />
     </dependencies>

@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>SquishIt.NSass</id>
-    <version>1.0.0-alpha2</version>
+    <version>1.0.0-beta1</version>
     <authors>Josh Kodroff, Alex Ullrich</authors>
     <owners>Justin Etheredge, Alex Ullrich</owners>
     <projectUrl>https://github.com/jetheredge/SquishIt</projectUrl>
@@ -13,7 +13,7 @@
       Use this package if you require faster or more up to date SCSS support and don't need to support the legacy SASS file extension.
     </description>
     <dependencies>
-      <dependency id="SquishIt" version="1.0.0-alpha2" />
+      <dependency id="SquishIt" version="1.0.0-beta1" />
       <dependency id="NSass.Core" version="0.0.3.0" />
       <dependency id="WebActivatorEx" version="2.0" />
     </dependencies>
