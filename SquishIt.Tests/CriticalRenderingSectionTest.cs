@@ -12,7 +12,6 @@ namespace SquishIt.Tests
     public class CriticalRenderingSectionTest
     {
         [TestCase(AspNetHostingPermissionLevel.Unrestricted)]
-        [TestCase(AspNetHostingPermissionLevel.High)]
         public void UseMutex(AspNetHostingPermissionLevel level)
         {
             string testDir = Guid.NewGuid().ToString();
@@ -36,6 +35,7 @@ namespace SquishIt.Tests
             filePathMutextProvider.VerifyAll();
         }
 
+        [TestCase(AspNetHostingPermissionLevel.High)]
         [TestCase(AspNetHostingPermissionLevel.Medium)]
         [TestCase(AspNetHostingPermissionLevel.Low)]
         [TestCase(AspNetHostingPermissionLevel.Minimal)]

@@ -17,7 +17,7 @@ namespace SquishIt.Framework.Utilities
         readonly Mutex mutex;
         public CriticalRenderingSection(string path)
         {
-            if(TrustLevel.IsHighOrUnrestrictedTrust)
+            if(TrustLevel.IsFullTrust)
             {
                 mutex = MutexProvider.GetMutexForPath(path);
                 mutex.WaitOne();
@@ -26,7 +26,7 @@ namespace SquishIt.Framework.Utilities
 
         public void Dispose()
         {
-            if(TrustLevel.IsHighOrUnrestrictedTrust)
+            if(TrustLevel.IsFullTrust)
             {
                 mutex.ReleaseMutex();
             }

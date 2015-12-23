@@ -15,9 +15,21 @@ namespace SquishIt.Framework.Utilities
             get { return instance ?? (instance = new TrustLevel()); }
         }
 
+        public static bool IsFullTrust
+        {
+            get
+            {
+                return Instance.CurrentTrustLevel == AspNetHostingPermissionLevel.Unrestricted;
+            }
+        }
+
         public static bool IsHighOrUnrestrictedTrust
         {
-            get { return Instance.CurrentTrustLevel == AspNetHostingPermissionLevel.High || Instance.CurrentTrustLevel == AspNetHostingPermissionLevel.Unrestricted; }
+            get
+            {
+                return Instance.CurrentTrustLevel == AspNetHostingPermissionLevel.High ||
+                    Instance.CurrentTrustLevel == AspNetHostingPermissionLevel.Unrestricted;
+            }
         }
 
         AspNetHostingPermissionLevel? trustLevel;
@@ -26,11 +38,11 @@ namespace SquishIt.Framework.Utilities
         {
             get
             {
-                if(trustLevel == null)
+                if (trustLevel == null)
                 {
                     var lastTrustedLevel = AspNetHostingPermissionLevel.None;
 
-                    foreach(var level in new[] {
+                    foreach (var level in new[] {
                                           AspNetHostingPermissionLevel.Minimal,
                                           AspNetHostingPermissionLevel.Low,
                                           AspNetHostingPermissionLevel.Medium,
@@ -43,7 +55,7 @@ namespace SquishIt.Framework.Utilities
                             new AspNetHostingPermission(level).Demand();
                             lastTrustedLevel = level;
                         }
-                        catch(System.Security.SecurityException)
+                        catch (System.Security.SecurityException)
                         {
                             break;
                         }
