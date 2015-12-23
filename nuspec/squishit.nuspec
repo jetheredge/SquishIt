@@ -16,6 +16,7 @@ If you are upgrading from SquishIt 0.9.x (and earlier) this update will bring a 
     <dependencies>
       <dependency id="YUICompressor.NET" version="2.3.0.0" />
       <dependency id="AjaxMin" version="5.14.5506.26202" />
+      <dependency id="WebActivatorEx" version="2.0" />
     </dependencies>
   </metadata>
   <files>
