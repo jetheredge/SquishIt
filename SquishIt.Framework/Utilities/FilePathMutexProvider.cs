@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Threading;
@@ -30,6 +31,7 @@ namespace SquishIt.Framework.Utilities
             this.pathTranslator = pathTranslator;
         }
 
+        [SecuritySafeCritical]
         public Mutex GetMutexForPath(string path)
         {
             Mutex result;
@@ -69,6 +71,7 @@ namespace SquishIt.Framework.Utilities
                 .ToLowerInvariant();
         }
 
+        [SecuritySafeCritical]
         Mutex CreateSharableMutexForPath(string normalizedPath)
         {
             // The path is transformed to a hash value to avoid getting an invalid Mutex name.
@@ -76,6 +79,7 @@ namespace SquishIt.Framework.Utilities
             return CreateSharableMutex(mutexName);
         }
 
+        [SecurityCritical]
         static Mutex CreateSharableMutex(string name)
         {
             // Creates a mutex sharable by more than one process
