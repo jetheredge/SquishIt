@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>SquishIt.MsIeCoffeeScript</id>
-    <version>0.9.8.1</version>
+    <version>0.9.8.2-beta1</version>
     <authors>Justin Etheredge, Alex Ullrich, Alexey Gorbach</authors>
     <owners>Justin Etheredge, Alex Ullrich</owners>
     <projectUrl>https://github.com/jetheredge/SquishIt</projectUrl>
@@ -10,9 +10,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Adds CoffeeScript processing capability to SquishIt using Internet Explorer's javascript engine.</description>
     <dependencies>
-      <dependency id="SquishIt" version="0.9.8.1" />
+      <dependency id="SquishIt" version="0.9.8.2-beta1" />
       <dependency id="MsIeJavaScriptEngine" version="1.1.1" />
-      <dependency id="WebActivator" version="1.4" />
+      <dependency id="WebActivatorEx" version="2.0" />
     </dependencies>
   </metadata>
   <files>
