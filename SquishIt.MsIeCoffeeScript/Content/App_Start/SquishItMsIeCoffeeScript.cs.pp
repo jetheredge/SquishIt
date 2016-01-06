@@ -1,4 +1,4 @@
-﻿[assembly: WebActivator.PreApplicationStartMethod(typeof($rootnamespace$.App_Start.SquishItMsIeCoffeeScript), "Start")]
+﻿[assembly: WebActivatorEx.PreApplicationStartMethod(typeof($rootnamespace$.App_Start.SquishItMsIeCoffeeScript), "Start")]
 
 namespace $rootnamespace$.App_Start
 {

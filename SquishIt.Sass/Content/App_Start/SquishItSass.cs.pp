@@ -1,4 +1,4 @@
-﻿[assembly: WebActivator.PreApplicationStartMethod(typeof($rootnamespace$.App_Start.SquishItSass), "Start")]
+﻿[assembly: WebActivatorEx.PreApplicationStartMethod(typeof($rootnamespace$.App_Start.SquishItSass), "Start")]
 
 namespace $rootnamespace$.App_Start
 {
