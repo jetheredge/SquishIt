@@ -55,7 +55,7 @@ alert 'I knew it!' if elvis?";
 
             var expectedResult = TestUtilities.NormalizeLineEndings(@"(function() {
   var list, math, number, opposite, race, square,
-    __slice = [].slice;
+    slice = [].slice;
 
   number = 42;
 
@@ -81,7 +81,7 @@ alert 'I knew it!' if elvis?";
 
   race = function() {
     var runners, winner;
-    winner = arguments[0], runners = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+    winner = arguments[0], runners = 2 <= arguments.length ? slice.call(arguments, 1) : [];
     return print(winner, runners);
   };
 
