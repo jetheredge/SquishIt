@@ -4,5 +4,11 @@
     Layout = "~/Views/Shared/_LayoutSection.cshtml";
 }
 
+<div id="js-test-section-container">
+    <p style="color: #f00;">This test is broken! This text should have been replaced!</p>
+</div>
+
+@section JavaScript
+{
     @{ Html.AddScriptResources("/assets/js/jquery_1.7.2.js", "/assets/js/minifyjs_test.js"); }
 }
