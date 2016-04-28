@@ -165,6 +165,8 @@
     <Content Include="Views\Features\MinifyJsYUI.cshtml" />
     <Content Include="Views\Features\RenderInline.cshtml" />
     <Content Include="packages.config" />
+    <Content Include="Views\AutoBundling\JavascriptSection.cshtml" />
+    <Content Include="Views\Shared\_LayoutSection.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Preprocessors\Hogan.cshtml" />

@@ -9,6 +9,11 @@ namespace SquishItAspNetMvcTest.Controllers
             return View();
         }
 
+        public ActionResult JavascriptSection()
+        {
+            return View();
+        }
+
         public ActionResult Css()
         {
             return View();

@@ -1,0 +1,8 @@
+﻿@using SquishIt.Mvc
+@{
+    ViewBag.Title = "Auto-Bundle Js";
+    Layout = "~/Views/Shared/_LayoutSection.cshtml";
+}
+
+    @{ Html.AddScriptResources("/assets/js/jquery_1.7.2.js", "/assets/js/minifyjs_test.js"); }
+}
