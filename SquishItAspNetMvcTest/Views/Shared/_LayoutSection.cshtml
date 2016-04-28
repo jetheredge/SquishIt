@@ -1,0 +1,15 @@
+﻿@using SquishIt.Mvc
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    @RenderSection("Styles", false)
+</head>
+
+<body>
+    @Html.ScriptResourceLinks()
+    @RenderBody()
+    @RenderSection("JavaScript", false)
+</body>
+</html>
