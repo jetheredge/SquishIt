@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ namespace SquishIt.Framework.Base
     {
         static readonly Dictionary<string, string> renderPathCache = new Dictionary<string, string>();
         static readonly Dictionary<string, BundleState> bundleStateCache = new Dictionary<string, BundleState>();
-        static readonly Dictionary<string, BundleState> rawContentBundleStateCache = new Dictionary<string, BundleState>();
+        static readonly ConcurrentDictionary<string, BundleState> rawContentBundleStateCache = new ConcurrentDictionary<string, BundleState>();
  
         protected abstract IMinifier<T> DefaultMinifier { get; }
         protected abstract string tagFormat { get; }
@@ -568,14 +569,10 @@ namespace SquishIt.Framework.Base
             {
                 rawContentCache.Remove(cacheKey);
             }
-            if (rawContentBundleStateCache.ContainsKey(cacheKey))
-            {
-                rawContentBundleStateCache.Remove(cacheKey);
-            }
 
             content = GetMinifiedContent(bundleState.Assets, string.Empty);
             rawContentCache.Add(cacheKey, content, bundleState.DependentFiles, IsDebuggingEnabled());
-            rawContentBundleStateCache.Add(cacheKey, bundleState);
+            rawContentBundleStateCache.AddOrUpdate(cacheKey, bundleState, (x, y) => bundleState);
             return content;
         }
 
@@ -591,7 +588,7 @@ namespace SquishIt.Framework.Base
             var output = rawContentCache.GetContent(cacheKey);
             if (output == null)
             {
-                bundleState = rawContentBundleStateCache[cacheKey];
+                rawContentBundleStateCache.TryGetValue(cacheKey, out bundleState);
                 if (bundleState == null)
                 {
                     throw new InvalidOperationException(string.Format("No cached bundle state named {0} was found.", bundleName));

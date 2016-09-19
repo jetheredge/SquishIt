@@ -8,6 +8,7 @@ using SquishIt.Tests.Helpers;
 using SquishIt.Tests.Stubs;
 using SquishIt.Framework;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace SquishIt.Tests 
 {
@@ -166,7 +167,37 @@ namespace SquishIt.Tests
             Assert.Contains(translator.ResolveAppRelativePathToFileSystem("css_A/other.less"), cssBundleA.bundleState.DependentFiles);
             Assert.Contains(translator.ResolveAppRelativePathToFileSystem("css_B/other.less"), cssBundleB.bundleState.DependentFiles);
         }
- 
+
+        [Test]
+        public void CanBundleCssWithLessToRawContentMultiThreaded()
+        {
+            using (new StylePreprocessorScope<LessPreprocessor>())
+            {
+                CSSBundle cssBundle = cssBundleFactory
+                    .WithHasher(hasher)
+                    .WithDebuggingEnabled(false)
+                    .WithContents(cssLess)
+                    .Create();
+
+                Task<string> taskA = new Task<string>(() => cssBundle.Add("~/css/test.less").RenderRawContent("A"));
+                Task<string> taskB = new Task<string>(() => cssBundle.Add("~/css/test.less").RenderRawContent("B"));
+                Task<string> taskC = new Task<string>(() => cssBundle.Add("~/css/test.less").RenderRawContent("C"));
+
+                taskA.Start();
+                taskB.Start();
+                taskC.Start();
+
+                Task.WaitAll(taskA, taskB, taskC);
+
+                string contentA = taskA.Result;
+                string contentB = taskB.Result;
+                string contentC = taskC.Result;
+
+                Assert.AreEqual("#header{color:#4d926f}h2{color:#4d926f}", contentA);
+                Assert.AreEqual(contentA, contentB);
+                Assert.AreEqual(contentB, contentC);
+            }
+        }
 
         [Test]
         public void CanBundleCssWithArbitraryLess ()
