@@ -19,7 +19,7 @@ namespace SquishIt.Framework.Base
     public abstract partial class BundleBase<T> : IRenderable where T : BundleBase<T>
     {
         static readonly Dictionary<string, string> renderPathCache = new Dictionary<string, string>();
-        static readonly Dictionary<string, BundleState> bundleStateCache = new Dictionary<string, BundleState>();
+        static readonly ConcurrentDictionary<string, BundleState> bundleStateCache = new ConcurrentDictionary<string, BundleState>();
         static readonly ConcurrentDictionary<string, BundleState> rawContentBundleStateCache = new ConcurrentDictionary<string, BundleState>();
  
         protected abstract IMinifier<T> DefaultMinifier { get; }
@@ -435,14 +435,17 @@ namespace SquishIt.Framework.Base
 
         BundleState GetCachedBundleState(string name)
         {
-            var bundle = bundleStateCache[CachePrefix + name];
-            if (bundle.ForceDebug)
+            BundleState bundle;
+            if (bundleStateCache.TryGetValue(CachePrefix + name, out bundle))
             {
-                debugStatusReader.ForceDebug();
-            }
-            if (bundle.ForceRelease)
-            {
-                debugStatusReader.ForceRelease();
+                if (bundle.ForceDebug)
+                {
+                    debugStatusReader.ForceDebug();
+                }
+                if (bundle.ForceRelease)
+                {
+                    debugStatusReader.ForceRelease();
+                }
             }
             return bundle;
         }
@@ -478,7 +481,7 @@ namespace SquishIt.Framework.Base
         {
             Render(renderToFilePath, name, GetFileRenderer());
             bundleState.Path = renderToFilePath;
-            bundleStateCache[CachePrefix + name] = bundleState;
+            bundleStateCache.AddOrUpdate(CachePrefix + name, bundleState, (x, y) => bundleState);
         }
 
         /// <summary>
@@ -491,7 +494,7 @@ namespace SquishIt.Framework.Base
         {
             string result = Render(renderToFilePath, name, new CacheRenderer(CachePrefix, name));
             bundleState.Path = renderToFilePath;
-            bundleStateCache[CachePrefix + name] = bundleState;
+            bundleStateCache.AddOrUpdate(CachePrefix + name, bundleState, (x, y) => bundleState);
             return result;
         }
 
