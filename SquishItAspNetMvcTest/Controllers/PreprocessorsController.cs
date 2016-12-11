@@ -24,11 +24,6 @@ namespace SquishItAspNetMvcTest.Controllers
             return View();
         }
 
-        public ActionResult NSass()
-        {
-            return View();
-        }
-
         public ActionResult ArbitraryContentWithImports()
         {
             return View();

@@ -25,6 +25,7 @@
     </FileUpgradeFlags>
     <OldToolsVersion>4.0</OldToolsVersion>
     <UpgradeBackupLocation />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -164,7 +165,6 @@
     <Content Include="Views\Features\MinifyJsYUI.cshtml" />
     <Content Include="Views\Features\RenderInline.cshtml" />
     <Content Include="Views\Features\RenderCached.cshtml" />
-    <Content Include="Views\Preprocessors\NSass.cshtml" />
     <Content Include="Views\Preprocessors\Sass.cshtml" />
   </ItemGroup>
   <ItemGroup>
