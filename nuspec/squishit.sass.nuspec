@@ -15,7 +15,7 @@
     <dependencies>
       <dependency id="SquishIt" version="0.9.9" />
       <dependency id="libsassnet" version="3.0" />
-      <dependency id="WebActivatorEx" version="2.0" />
+      <dependency id="WebActivatorEx" version="2.1" />
     </dependencies>
   </metadata>
   <files>
