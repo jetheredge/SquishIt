@@ -38,7 +38,7 @@ namespace SquishIt.Framework.CSS
 
         protected override IMinifier<CSSBundle> DefaultMinifier
         {
-            get { return Configuration.Instance.DefaultCssMinifier(); }
+            get { return Configuration.Instance.DefaultCssMinifier; }
         }
 
         protected override IEnumerable<string> allowedExtensions
@@ -67,7 +67,7 @@ namespace SquishIt.Framework.CSS
         }
 
         public CSSBundle(IDebugStatusReader debugStatusReader)
-            : this(debugStatusReader, new FileWriterFactory(Configuration.Instance.DefaultRetryableFileOpener(), 5), new FileReaderFactory(Configuration.Instance.DefaultRetryableFileOpener(), 5), new DirectoryWrapper(), Configuration.Instance.DefaultHasher(), new BundleCache(), new RawContentCache())
+            : this(debugStatusReader, new FileWriterFactory(Configuration.Instance.DefaultRetryableFileOpener, 5), new FileReaderFactory(Configuration.Instance.DefaultRetryableFileOpener, 5), new DirectoryWrapper(), Configuration.Instance.DefaultHasher, new BundleCache(), new RawContentCache())
         {
         }
 

@@ -35,13 +35,13 @@ namespace SquishIt.Framework.Base
         internal BundleState bundleState;
         readonly IContentCache bundleCache;
         readonly IContentCache rawContentCache;
-        protected string BaseOutputHref = Configuration.Instance.DefaultOutputBaseHref();
+        protected string BaseOutputHref = Configuration.Instance.DefaultOutputBaseHref;
         protected IFileWriterFactory fileWriterFactory;
         protected IFileReaderFactory fileReaderFactory;
         protected IDebugStatusReader debugStatusReader;
         protected IDirectoryWrapper directoryWrapper;
         protected IHasher hasher;
-        protected IPathTranslator pathTranslator = Configuration.Instance.DefaultPathTranslator();
+        protected IPathTranslator pathTranslator = Configuration.Instance.DefaultPathTranslator;
 
         IMinifier<T> minifier;
 
@@ -60,10 +60,10 @@ namespace SquishIt.Framework.Base
             this.hasher = hasher;
             bundleState = new BundleState
                               {
-                                  DebugPredicate = Configuration.Instance.DefaultDebugPredicate(),
+                                  DebugPredicate = Configuration.Instance.DefaultDebugPredicate,
                                   ShouldRenderOnlyIfOutputFileIsMissing = false,
-                                  HashKeyName = Configuration.Instance.DefaultHashKeyName(),
-                                  CacheInvalidationStrategy = Configuration.Instance.DefaultCacheInvalidationStrategy()
+                                  HashKeyName = Configuration.Instance.DefaultHashKeyName,
+                                  CacheInvalidationStrategy = Configuration.Instance.DefaultCacheInvalidationStrategy
                               };
             this.bundleCache = bundleCache;
             this.rawContentCache = rawContentCache;
@@ -79,7 +79,7 @@ namespace SquishIt.Framework.Base
         {
             return IsDebuggingEnabled() ? new FileRenderer(fileWriterFactory) :
                 bundleState.ReleaseFileRenderer ??
-                Configuration.Instance.DefaultReleaseRenderer() ??
+                Configuration.Instance.DefaultReleaseRenderer ??
                 new FileRenderer(fileWriterFactory);
         }
 
