@@ -19,7 +19,7 @@ namespace SquishIt.Framework.Utilities
         /// </summary>
         /// <param name="stream">A <see cref="Stream" /> object specifying the file containing the content for which we're calculating the hash.</param>
         /// <returns>A string containing an MD5 hash.</returns>
-        public string GetHash(Stream stream)
+        public virtual string GetHash(Stream stream)
         {
             using (var md5 = GetImplementation())
             {
@@ -38,7 +38,7 @@ namespace SquishIt.Framework.Utilities
         /// </summary>
         /// <param name="fileInfo">A <see cref="FileInfo" /> object specifying the file containing the content for which we're calculating the hash.</param>
         /// <returns>A string containing an MD5 hash.</returns>
-        public string GetHash(FileInfo fileInfo)
+        public virtual string GetHash(FileInfo fileInfo)
         {
             using (var stream = RetryableFileOpener.OpenFileStream(fileInfo, 5, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
@@ -51,7 +51,7 @@ namespace SquishIt.Framework.Utilities
         /// </summary>
         /// <param name="content">A string containing the content for which we're calculating the hash.</param>
         /// <returns>A string containing an MD5 hash.</returns>
-        public string GetHash(string content)
+        public virtual string GetHash(string content)
         {
             if(content == null) throw new InvalidOperationException("Can't calculate hash for null content.");
             var bytes = Encoding.UTF8.GetBytes(content);
