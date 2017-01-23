@@ -8,7 +8,7 @@ namespace SquishIt.Framework.Resolvers
 {
     public class HttpResolver: IResolver
     {
-        private readonly ITempPathProvider tempPathProvider = Configuration.Instance.DefaultTempPathProvider();
+        private readonly ITempPathProvider tempPathProvider = Configuration.Instance.DefaultTempPathProvider;
 
         public string Resolve(string file)
         {

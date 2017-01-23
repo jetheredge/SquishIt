@@ -9,7 +9,7 @@ namespace SquishIt.Framework.Resolvers
 {
     public abstract class EmbeddedResourceResolver : IResolver
     {
-        private readonly ITempPathProvider tempPathProvider = Configuration.Instance.DefaultTempPathProvider();
+        private readonly ITempPathProvider tempPathProvider = Configuration.Instance.DefaultTempPathProvider;
 
         protected abstract string CalculateResourceName(string assemblyName, string resourceName); 
 

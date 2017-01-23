@@ -18,7 +18,7 @@ namespace SquishIt.Mvc
     {
         public static AutoBundlingBehavior Behavior { get; set; }
 
-        private IHasher _hasher = Configuration.Instance.DefaultHasher();
+        private IHasher _hasher = Configuration.Instance.DefaultHasher;
 
         static AutoBundler()
         {

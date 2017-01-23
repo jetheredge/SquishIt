@@ -157,14 +157,5 @@ namespace SquishIt.Framework
         {
             return new CSSBundle(debugStatusReader);
         }
-
-        /// <summary>
-        /// Provides access to a mutable static configuration.  Changes made to this configuration will be applied to all future bundles created.
-        /// </summary>
-        /// <returns><see cref="Configuration">Configuration</see></returns>
-        public static Configuration ConfigureDefaults()
-        {
-            return Configuration.Instance;
-        }
     }
 }
