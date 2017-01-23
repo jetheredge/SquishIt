@@ -11,6 +11,8 @@
     <RootNamespace>SquishIt.Sass</RootNamespace>
     <AssemblyName>SquishIt.Sass</AssemblyName>
     <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,12 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LibSass.x86, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\packages\libsassnet.3.0\lib\net40\LibSass.x86.dll</HintPath>
-    </Reference>
-    <Reference Include="libsassnet, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\libsassnet.3.0\lib\net40\libsassnet.dll</HintPath>
+    <Reference Include="LibSass.NET, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\libsassnet.3.3.7\lib\net40\LibSass.NET.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -70,6 +69,13 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\libsassnet.3.3.7\build\libsassnet.targets" Condition="Exists('..\packages\libsassnet.3.3.7\build\libsassnet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\libsassnet.3.3.7\build\libsassnet.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libsassnet.3.3.7\build\libsassnet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

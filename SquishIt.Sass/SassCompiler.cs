@@ -1,18 +1,10 @@
-﻿using LibSassNet;
+﻿using System;
+using LibSass.Compiler.Options;
 
 namespace SquishIt.Sass
 {
     public class SassCompiler
     {
-        private readonly ISassCompiler _compiler = new LibSassNet.SassCompiler();
-        private readonly ISassToScssConverter _converter = new SassToScssConverter();
-        internal static string RootAppPath;
-
-        public SassCompiler(string rootPath)
-        {
-            RootAppPath = rootPath;
-        }
-
         public enum SassMode
         {
             Sass,
@@ -21,13 +13,24 @@ namespace SquishIt.Sass
 
         public string CompileSass(string input, SassMode mode, string location, int precision = 5)
         {
-            var processedInput = mode == SassMode.Scss ? input : ConvertToScss(input);
-            return _compiler.Compile(processedInput, OutputStyle.Nested, SourceCommentsMode.None, precision, new[] { location });
-        }
+            var compiler = new LibSass.Compiler.SassCompiler(new SassOptions
+            {
+                InputPath = location,
+                Data = input,
+                OutputStyle = SassOutputStyle.Nested,
+                IncludeSourceComments = false,
+                Precision = precision,
+                IsIndentedSyntax = mode == SassMode.Sass
+            });
 
-        internal string ConvertToScss(string input)
-        {
-            return _converter.Convert(input);
+            var result = compiler.Compile();
+
+            if (!string.IsNullOrEmpty(result.ErrorMessage))
+            {
+                throw new InvalidOperationException(string.Format("Sass compilation failed ({0})", result.ErrorMessage));
+            }
+
+            return result.Output;
         }
     }
 }

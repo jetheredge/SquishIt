@@ -23,7 +23,7 @@ namespace SquishIt.Sass
 
 		public override IProcessResult Process(string filePath, string content)
         {
-            var compiler = new SassCompiler("");
+            var compiler = new SassCompiler();
             var sassMode = IsSass.IsMatch(filePath) ? SassCompiler.SassMode.Sass : SassCompiler.SassMode.Scss;
             return new ProcessResult(compiler.CompileSass(content, sassMode, Path.GetDirectoryName(filePath), _precision));
         }
