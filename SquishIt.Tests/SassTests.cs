@@ -38,6 +38,7 @@ $margin: 16px
     padding: $margin / 2
     margin: $margin / 2
     border-color: $blue";
+
         string renderedCss = @".content-navigation{border-color:#3bbfce;color:#2ca2af}.border{padding:8px;margin:8px;border-color:#3bbfce}";
         string debugRenderedCss = TestUtilities.NormalizeLineEndings(
                     @"<style type=""text/css"">.content-navigation {
