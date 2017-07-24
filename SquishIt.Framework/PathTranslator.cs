@@ -19,6 +19,19 @@ namespace SquishIt.Framework
                 : HttpContext.Current.Server.MapPath(HttpRuntime.AppDomainAppVirtualPath + "/" + file.TrimStart("~/").TrimStart("~"));
         }
 
+        //TODO: clean up this file in general but specifically this and ResolveAppRelativePathToFileSystem
+        public string ExpandAppRelativePath(string file)
+        {
+            if (file.StartsWith("~/"))
+            {
+                string appRelativePath = HttpRuntime.AppDomainAppVirtualPath;
+                if (appRelativePath != null && !appRelativePath.EndsWith("/"))
+                    appRelativePath += "/";
+                return file.Replace("~/", appRelativePath);
+            }
+            return file;
+        }
+
         static string ProcessWithoutHttpContext(string file)
         {
             file = Platform.Unix 

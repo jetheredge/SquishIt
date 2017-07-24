@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Web;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Renderers;
 using SquishIt.Framework.Utilities;
@@ -81,18 +80,6 @@ namespace SquishIt.Framework.Base
                 .FirstOrDefault(p => p.ValidFor(extension));
 
             return preprocessor;
-        }
-
-        string ExpandAppRelativePath(string file)
-        {
-            if (file.StartsWith("~/"))
-            {
-                string appRelativePath = HttpRuntime.AppDomainAppVirtualPath;
-                if (appRelativePath != null && !appRelativePath.EndsWith("/"))
-                    appRelativePath += "/";
-                return file.Replace("~/", appRelativePath);
-            }
-            return file;
         }
 
         protected string ReadFile(string file)
@@ -189,14 +176,14 @@ namespace SquishIt.Framework.Base
                             tsb.Append(GetEmbeddedContentForDebugging(fn) + "\n\n\n");
                         }
 
-                        var processedFile = ExpandAppRelativePath(asset.LocalPath);
+                        var processedFile = pathTranslator.ExpandAppRelativePath(asset.LocalPath);
                         //embedded resources need to be rendered regardless to be usable
                         renderer.Render(tsb.ToString(), pathTranslator.ResolveAppRelativePathToFileSystem(processedFile));
                         sb.AppendLine(FillTemplate(bundleState, processedFile));
                     }
                     else if (asset.RemotePath != null)
                     {
-                        sb.AppendLine(FillTemplate(bundleState, ExpandAppRelativePath(asset.LocalPath)));
+                        sb.AppendLine(FillTemplate(bundleState, pathTranslator.ExpandAppRelativePath(asset.LocalPath)));
                     }
                     else
                     {
@@ -206,7 +193,7 @@ namespace SquishIt.Framework.Base
                             {
                                 var fileBase = pathTranslator.ResolveAppRelativePathToFileSystem(asset.LocalPath);
                                 var newPath = PreprocessForDebugging(file).Replace(fileBase, "");
-                                var path = ExpandAppRelativePath(asset.LocalPath + newPath.Replace("\\", "/"));
+                                var path = pathTranslator.ExpandAppRelativePath(asset.LocalPath + newPath.Replace("\\", "/"));
                                 sb.AppendLine(FillTemplate(bundleState, path));
                                 renderedFiles.Add(file);
                             }
@@ -267,7 +254,7 @@ namespace SquishIt.Framework.Base
                         }
 
                         var outputFile = pathTranslator.ResolveAppRelativePathToFileSystem(renderTo);
-                        var renderToPath = ExpandAppRelativePath(renderTo);
+                        var renderToPath = pathTranslator.ExpandAppRelativePath(renderTo);
 
                         if (!String.IsNullOrEmpty(BaseOutputHref))
                         {
