@@ -93,9 +93,10 @@
     <Compile Include="Base\Preprocessor.cs" />
     <Compile Include="Base\ProcessResult.cs" />
     <Compile Include="Bootstrap.cs" />
+    <Compile Include="Caches\ContentCache.cs" />
+    <Compile Include="Caches\ICacheImplementation.cs" />
     <Compile Include="Caches\RawContentCache.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="Caches\ContentCache.cs" />
     <Compile Include="CSS\RelativePathAdapter.cs" />
     <Compile Include="HttpContext.cs" />
     <Compile Include="Invalidation\DefaultCacheInvalidationStrategy.cs" />
@@ -155,9 +156,10 @@
     <Compile Include="Files\IFileWriterFactory.cs" />
     <Compile Include="Utilities\IFilePathMutexProvider.cs" />
     <Compile Include="Utilities\IHasher.cs" />
-    <Compile Include="Utilities\MachineConfigReader.cs" />
+    <Compile Include="Utilities\IMachineConfigReader.cs" />
     <Compile Include="PathTranslator.cs" />
     <Compile Include="Utilities\FilePathMutexProvider.cs" />
+    <Compile Include="Utilities\MachineConfigReader.cs" />
     <Compile Include="Utilities\SHA1Hasher.cs" />
     <Compile Include="Utilities\TempFileResolutionCache.cs" />
     <Compile Include="Utilities\TrustLevel.cs" />

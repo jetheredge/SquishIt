@@ -1,4 +1,5 @@
 using System;
+using SquishIt.Framework.Caches;
 using SquishIt.Framework.CSS;
 using SquishIt.Framework.Files;
 using SquishIt.Framework.Invalidation;
@@ -76,6 +77,8 @@ namespace SquishIt.Framework
         ///     Mime-type used to serve CSS content. Defaults to "text/css".
         /// </summary>
         string DefaultCssMimeType { get; set; }
+
+        ICacheImplementation DefaultCacheImplementation { get; set; }
     }
 
     public class Configuration : ISquishItOptions
@@ -139,5 +142,7 @@ namespace SquishIt.Framework
         {
             configTransformer(Instance);
         }
+
+        public ICacheImplementation DefaultCacheImplementation { get; set; }
     }
 }

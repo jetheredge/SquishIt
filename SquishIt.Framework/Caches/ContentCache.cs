@@ -1,39 +1,43 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
-using System.Web.Caching;
-using SquishIt.Framework.Caches;
 
-namespace SquishIt.Framework
+namespace SquishIt.Framework.Caches
 {
     public abstract class ContentCache : IContentCache
     {
+        private readonly ICacheImplementation _cacheImplementation;
+
+        public ContentCache()
+        {
+            _cacheImplementation = Configuration.Instance.DefaultCacheImplementation;
+        }
+
         private readonly List<string> CacheKeys = new List<string>();
         protected abstract string KeyPrefix { get; }
 
         public string GetContent(string name)
         {
-            return (string)HttpRuntime.Cache[KeyPrefix + name];
+            return (string)_cacheImplementation.Get(BuildCacheKey(name));
         }
 
         public void ClearTestingCache()
         {
             foreach (var key in CacheKeys)
             {
-                HttpRuntime.Cache.Remove(key);
+                _cacheImplementation.Remove(key);
             }
         }
 
         public bool ContainsKey(string key)
         {
-            return HttpRuntime.Cache[BuildCacheKey(key)] != null;
+            return _cacheImplementation.ContainsKey(key);
         }
 
         public bool TryGetValue(string key, out string content)
         {
-            content = (string)HttpRuntime.Cache[BuildCacheKey(key)];
+            content = (string)_cacheImplementation.Get(BuildCacheKey(key));
             return content != null;
         }
 
@@ -43,14 +47,8 @@ namespace SquishIt.Framework
             CacheKeys.Add(cacheKey);
 
             var physicalFiles = files.Where(File.Exists).ToArray();
-            var cacheDependency = (physicalFiles.Length > 0 && !debuggingEnabled)
-                ? new CacheDependency(physicalFiles)
-                : null;
-            HttpRuntime.Cache.Add(cacheKey, content, cacheDependency,
-                Cache.NoAbsoluteExpiration, 
-                new TimeSpan(365, 0, 0, 0),
-                CacheItemPriority.NotRemovable,
-                null);
+
+            _cacheImplementation.Add(cacheKey, content, physicalFiles, debuggingEnabled);
         }
 
         public void Remove(string key)

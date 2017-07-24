@@ -3,12 +3,7 @@ using System.Web.Configuration;
 
 namespace SquishIt.Framework.Utilities
 {
-    public interface IMachineConfigReader
-    {
-        bool IsNotRetailDeployment { get; }
-    }
-
-    class MachineConfigReader : IMachineConfigReader
+    public class MachineConfigReader : IMachineConfigReader
     {
         public bool IsNotRetailDeployment
         {

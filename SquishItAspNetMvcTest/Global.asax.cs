@@ -1,6 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using SquishIt.AspNet.Caches;
 using SquishIt.Framework;
 
 namespace SquishItAspNetMvcTest
@@ -29,6 +30,11 @@ namespace SquishItAspNetMvcTest
 
         protected void Application_Start()
         {
+            Configuration.Apply(iso =>
+            {
+                iso.DefaultCacheImplementation = new CacheImplementation();
+            });
+
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
