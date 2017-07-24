@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 using NUnit.Framework;
+using SquishIt.AspNet;
 using SquishIt.Framework;
 using SquishIt.Framework.CSS;
 using SquishIt.Framework.Resolvers;

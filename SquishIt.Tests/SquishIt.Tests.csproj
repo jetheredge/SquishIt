@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssetsFileHasherTests.cs" />
+    <Compile Include="ConfigurationEstablishingTest.cs" />
     <Compile Include="CoffeescriptCompilerTests.cs" />
     <Compile Include="CoffeeScriptTests.cs" />
     <Compile Include="ConfigurationTests.cs" />
@@ -117,6 +118,10 @@
     <Compile Include="VersionTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SquishIt.AspNet\SquishIt.AspNet.csproj">
+      <Project>{26413fdb-cb57-4057-b8c3-3cbf5a73ae50}</Project>
+      <Name>SquishIt.AspNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SquishIt.CoffeeScript\SquishIt.CoffeeScript.csproj">
       <Project>{7746F80A-A9C4-4823-9A17-B375793A72FD}</Project>
       <Name>SquishIt.CoffeeScript</Name>

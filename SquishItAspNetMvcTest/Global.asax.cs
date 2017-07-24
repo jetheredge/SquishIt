@@ -1,6 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using SquishIt.AspNet;
 using SquishIt.AspNet.Caches;
 using SquishIt.Framework;
 
@@ -32,7 +33,7 @@ namespace SquishItAspNetMvcTest
         {
             Configuration.Apply(iso =>
             {
-                iso.DefaultCacheImplementation = new CacheImplementation();
+                ConfigurationLoader.Execute(iso);
             });
 
             AreaRegistration.RegisterAllAreas();

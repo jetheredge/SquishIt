@@ -20,7 +20,7 @@ using HttpContext = SquishIt.Framework.HttpContext;
 namespace SquishIt.Tests
 {
     [TestFixture]
-    public class JavaScriptBundleTests
+    public class JavaScriptBundleTests : ConfigurationEstablishingTest
     {
         string javaScript = TestUtilities.NormalizeLineEndings(@"
 																				function product(a, b)

@@ -1,7 +1,5 @@
-﻿using System.IO;
-using Moq;
-using NUnit.Framework;
-using SquishIt.Framework;
+﻿using NUnit.Framework;
+using SquishIt.AspNet;
 using SquishIt.Framework.CSS;
 using SquishIt.Framework.Resolvers;
 using SquishIt.Tests.Helpers;
@@ -11,7 +9,7 @@ namespace SquishIt.Tests
     [TestFixture]
     public class CSSPathRewriterTests
     {
-        //TODO: mock path translators
+        //TODO: mock path translators and test directly - this is really testing that functionality
         [Test]
         public void CanRewritePathsInCssWhenAbsolutePathsAreUsed()
         {
@@ -30,7 +28,7 @@ namespace SquishIt.Tests
             string sourceFile = TestUtilities.PreparePath(@"C:\somepath\somesubpath\myfile.css");
             string targetFile = TestUtilities.PreparePath(@"C:\somepath\someothersubpath\evendeeper\output.css");
 
-            string result = CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher, new PathTranslator());
+            string result = CSSPathRewriter.RewriteCssPaths(targetFile, sourceFile, css, cssAssetsFileHasher, pathTranslator: new PathTranslator());
 
             string expected =
                 @"

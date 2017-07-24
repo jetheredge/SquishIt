@@ -1,8 +1,10 @@
 using System;
 using System.IO;
 using System.Web;
+using SquishIt.Framework;
+using HttpContext = SquishIt.Framework.HttpContext;
 
-namespace SquishIt.Framework
+namespace SquishIt.AspNet
 {
     public class PathTranslator : IPathTranslator
     {

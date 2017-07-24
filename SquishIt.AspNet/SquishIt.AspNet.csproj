@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Caches\CacheImplementation.cs" />
+    <Compile Include="ConfigurationLoader.cs" />
+    <Compile Include="PathTranslator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

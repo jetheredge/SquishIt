@@ -19,7 +19,7 @@ using HttpContext = SquishIt.Framework.HttpContext;
 namespace SquishIt.Tests
 {
     [TestFixture]
-    public class CSSBundleTests
+    public class CSSBundleTests : ConfigurationEstablishingTest
     {
         string css = TestUtilities.NormalizeLineEndings(@" li {
                                     margin-bottom:0.1em;

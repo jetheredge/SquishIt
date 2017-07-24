@@ -124,7 +124,6 @@ namespace SquishIt.Framework
             DefaultCssMinifier = new Minifiers.CSS.MsMinifier();
             DefaultHashKeyName = "r";
             DefaultJsMinifier = new Minifiers.JavaScript.MsMinifier();
-            DefaultPathTranslator = new PathTranslator();
             DefaultTempPathProvider = new TempPathProvider();
             DefaultRetryableFileOpener = new RetryableFileOpener();
             DefaultHasher = new Hasher(DefaultRetryableFileOpener);

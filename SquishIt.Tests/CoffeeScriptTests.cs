@@ -6,7 +6,7 @@ using SquishIt.Tests.Helpers;
 namespace SquishIt.Tests
 {
     [TestFixture]
-    public class CoffeeScriptTests
+    public class CoffeeScriptTests : ConfigurationEstablishingTest
     {
         JavaScriptBundleFactory javaScriptBundleFactory;
 

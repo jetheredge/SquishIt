@@ -157,7 +157,6 @@
     <Compile Include="Utilities\IFilePathMutexProvider.cs" />
     <Compile Include="Utilities\IHasher.cs" />
     <Compile Include="Utilities\IMachineConfigReader.cs" />
-    <Compile Include="PathTranslator.cs" />
     <Compile Include="Utilities\FilePathMutexProvider.cs" />
     <Compile Include="Utilities\MachineConfigReader.cs" />
     <Compile Include="Utilities\SHA1Hasher.cs" />
