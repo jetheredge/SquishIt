@@ -9,7 +9,12 @@ namespace SquishIt.AspNet
     /// </summary>
     public static class ConfigurationLoader
     {
-        public static void Execute(ISquishItOptions options)
+        public static void Initialize()
+        {
+            Configuration.Apply(Load);
+        }
+
+        public static void Load(ISquishItOptions options)
         {
             options.CacheImplementation = new CacheImplementation();
             options.PathTranslator = new PathTranslator();

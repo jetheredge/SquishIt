@@ -13,10 +13,6 @@
       If you are upgrading from SquishIt 0.8.x (and earlier) releases this update breaks support for less and coffeescript file processing.  If you use either of these facilities, please install SquishIt.Less or SquishIt.CoffeeScript to enable correct preprocessing of your files.
 
       If you are upgrading from SquishIt 0.9.8.2 and earlier this update will bring a new version of the AjaxMin and YUICompressor.NET libraries with it, along with a new dependency on WebActivatorEX.
-
-      For now you need to execute the following to register dependencies, though self-registration is being considered
-
-      `SquishIt.AspNet.ConfigurationLoader.Execute(SquishIt.Framework.Configuration.Instance);`
     </releaseNotes>
     <dependencies>
       <dependency id="SquishIt.Framework" version="1.0.0-beta4" />

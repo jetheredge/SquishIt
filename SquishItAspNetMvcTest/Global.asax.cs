@@ -31,11 +31,6 @@ namespace SquishItAspNetMvcTest
 
         protected void Application_Start()
         {
-            Configuration.Apply(iso =>
-            {
-                ConfigurationLoader.Execute(iso);
-            });
-
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
