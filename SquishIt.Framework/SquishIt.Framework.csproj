@@ -98,7 +98,6 @@
     <Compile Include="Caches\RawContentCache.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="CSS\RelativePathAdapter.cs" />
-    <Compile Include="HttpContext.cs" />
     <Compile Include="Invalidation\DefaultCacheInvalidationStrategy.cs" />
     <Compile Include="Invalidation\HashAsVirtualDirectoryCacheInvalidationStrategy.cs" />
     <Compile Include="Invalidation\ICacheInvalidationStrategy.cs" />

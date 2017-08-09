@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Web;
 using SquishIt.Framework;
-using HttpContext = SquishIt.Framework.HttpContext;
+using HttpContext = SquishIt.AspNet.HttpContext;
 
 namespace SquishIt.AspNet
 {

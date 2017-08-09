@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web;
+using HttpContext = SquishIt.AspNet.HttpContext;
 
 namespace SquishIt.Tests.Helpers
 {
@@ -7,12 +8,12 @@ namespace SquishIt.Tests.Helpers
     {
         public HttpContextScope(HttpContextBase context)
         {
-            Framework.HttpContext.contextBase = context;
+            HttpContext.contextBase = context;
         }
 
         public void Dispose()
         {
-            Framework.HttpContext.contextBase = null;
+            HttpContext.contextBase = null;
         }
     }
 }

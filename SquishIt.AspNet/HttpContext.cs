@@ -1,6 +1,6 @@
 ﻿using System.Web;
 
-namespace SquishIt.Framework
+namespace SquishIt.AspNet
 {
     class HttpContext
     {

@@ -15,7 +15,7 @@ using SquishIt.Framework.Resolvers;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Stubs;
 using SquishIt.Tests.Helpers;
-using HttpContext = SquishIt.Framework.HttpContext;
+using HttpContext = SquishIt.AspNet.HttpContext;
 
 namespace SquishIt.Tests
 {

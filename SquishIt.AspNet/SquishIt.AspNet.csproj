@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Caches\CacheImplementation.cs" />
     <Compile Include="ConfigurationLoader.cs" />
+    <Compile Include="HttpContext.cs" />
     <Compile Include="PathTranslator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\DebugStatusReader.cs" />
