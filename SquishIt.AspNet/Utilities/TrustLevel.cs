@@ -1,40 +1,31 @@
 ﻿using System.Web;
+using SquishIt.Framework.Utilities;
 
-namespace SquishIt.Framework.Utilities
+namespace SquishIt.AspNet.Utilities
 {
-    public interface ITrustLevel
-    {
-        AspNetHostingPermissionLevel CurrentTrustLevel { get; }
-    }
 
     class TrustLevel : ITrustLevel
     {
-        internal static ITrustLevel instance;
-        static ITrustLevel Instance
-        {
-            get { return instance ?? (instance = new TrustLevel()); }
-        }
-
-        public static bool IsFullTrust
+        public bool IsFullTrust
         {
             get
             {
-                return Instance.CurrentTrustLevel == AspNetHostingPermissionLevel.Unrestricted;
+                return this.CurrentTrustLevel == AspNetHostingPermissionLevel.Unrestricted;
             }
         }
 
-        public static bool IsHighOrUnrestrictedTrust
+        public bool IsHighOrUnrestrictedTrust
         {
             get
             {
-                return Instance.CurrentTrustLevel == AspNetHostingPermissionLevel.High ||
-                    Instance.CurrentTrustLevel == AspNetHostingPermissionLevel.Unrestricted;
+                return this.CurrentTrustLevel == AspNetHostingPermissionLevel.High ||
+                    this.CurrentTrustLevel == AspNetHostingPermissionLevel.Unrestricted;
             }
         }
 
         AspNetHostingPermissionLevel? trustLevel;
 
-        public AspNetHostingPermissionLevel CurrentTrustLevel
+        AspNetHostingPermissionLevel CurrentTrustLevel
         {
             get
             {

@@ -80,6 +80,7 @@ namespace SquishIt.Framework
 
         ICacheImplementation DefaultCacheImplementation { get; set; }
         IDebugStatusReader DefaultDebugStatusReader { get; set; }
+        ITrustLevel TrustLevel { get; set; }
     }
 
     public class Configuration : ISquishItOptions
@@ -146,5 +147,7 @@ namespace SquishIt.Framework
         public ICacheImplementation DefaultCacheImplementation { get; set; }
 
         public IDebugStatusReader DefaultDebugStatusReader { get; set; }
+
+        public ITrustLevel TrustLevel { get; set; }
     }
 }

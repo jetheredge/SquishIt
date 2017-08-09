@@ -11,6 +11,7 @@ namespace SquishIt.AspNet
             options.DefaultCacheImplementation = new CacheImplementation();
             options.DefaultPathTranslator = new PathTranslator();
             options.DefaultDebugStatusReader = new DebugStatusReader();
+            options.TrustLevel = new TrustLevel();
         }
     }
 }

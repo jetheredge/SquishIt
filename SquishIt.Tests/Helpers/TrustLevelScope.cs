@@ -1,18 +1,22 @@
 ﻿using System;
+using SquishIt.Framework;
 using SquishIt.Framework.Utilities;
 
 namespace SquishIt.Tests.Helpers
 {
     class TrustLevelScope : IDisposable
     {
+        readonly ITrustLevel previous;
+
         public TrustLevelScope(ITrustLevel instance)
         {
-            TrustLevel.instance = instance;
+            previous = instance;
+            Configuration.Instance.TrustLevel = instance;
         }
 
         public void Dispose()
         {
-            TrustLevel.instance = null;
+            Configuration.Instance.TrustLevel = previous;
         }
     }
 }

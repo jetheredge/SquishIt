@@ -157,9 +157,9 @@
     <Compile Include="Utilities\IHasher.cs" />
     <Compile Include="Utilities\IMachineConfigReader.cs" />
     <Compile Include="Utilities\FilePathMutexProvider.cs" />
+    <Compile Include="Utilities\ITrustLevel.cs" />
     <Compile Include="Utilities\SHA1Hasher.cs" />
     <Compile Include="Utilities\TempFileResolutionCache.cs" />
-    <Compile Include="Utilities\TrustLevel.cs" />
     <Compile Include="Platform.cs" />
   </ItemGroup>
   <ItemGroup>

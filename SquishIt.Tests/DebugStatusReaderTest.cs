@@ -99,10 +99,13 @@ namespace SquishIt.Tests
         {
             var httpContext = new Mock<HttpContextBase>();
             var machineConfigReader = new Mock<IMachineConfigReader>(MockBehavior.Strict);
+            var trustLevel = new Mock<ITrustLevel>();
 
             httpContext.SetupGet(hc => hc.IsDebuggingEnabled).Returns(true);
             machineConfigReader.SetupGet(mcr => mcr.IsNotRetailDeployment).Returns(configReaderValue);
+            trustLevel.Setup(tl => tl.IsHighOrUnrestrictedTrust).Returns(true);
 
+            using(new TrustLevelScope(trustLevel.Object))
             using(new HttpContextScope(httpContext.Object))
             {
                 var reader = new DebugStatusReader(machineConfigReader.Object);
@@ -112,17 +115,14 @@ namespace SquishIt.Tests
             machineConfigReader.VerifyAll();
         }
 
-        [TestCase(AspNetHostingPermissionLevel.Medium)]
-        [TestCase(AspNetHostingPermissionLevel.Low)]
-        [TestCase(AspNetHostingPermissionLevel.Minimal)]
-        [TestCase(AspNetHostingPermissionLevel.None)]
-        public void IgnoreMachineConfigReader_Untrusted(AspNetHostingPermissionLevel permissionLevel)
+        [Test]
+        public void IgnoreMachineConfigReader_Untrusted()
         {
             var httpContext = new Mock<HttpContextBase>(MockBehavior.Strict);
             var trustLevel = new Mock<ITrustLevel>(MockBehavior.Strict);
 
             httpContext.SetupGet(hc => hc.IsDebuggingEnabled).Returns(true);
-            trustLevel.SetupGet(tl => tl.CurrentTrustLevel).Returns(permissionLevel);
+            trustLevel.SetupGet(tl => tl.IsHighOrUnrestrictedTrust).Returns(false);
 
             //shouldn't touch anything on this
             var machineConfigReader = new Mock<IMachineConfigReader>(MockBehavior.Strict);
@@ -137,16 +137,15 @@ namespace SquishIt.Tests
             machineConfigReader.VerifyAll();
         }
 
-        [TestCase(AspNetHostingPermissionLevel.Unrestricted)]
-        [TestCase(AspNetHostingPermissionLevel.High)]
-        public void UseMachineConfigReader_Trusted(AspNetHostingPermissionLevel permissionLevel)
+        [Test]
+        public void UseMachineConfigReader_Trusted()
         {
             var httpContext = new Mock<HttpContextBase>(MockBehavior.Strict);
             var trustLevel = new Mock<ITrustLevel>(MockBehavior.Strict);
             var machineConfigReader = new Mock<IMachineConfigReader>(MockBehavior.Strict);
 
             httpContext.SetupGet(hc => hc.IsDebuggingEnabled).Returns(true);
-            trustLevel.SetupGet(tl => tl.CurrentTrustLevel).Returns(permissionLevel);
+            trustLevel.SetupGet(tl => tl.IsHighOrUnrestrictedTrust).Returns(true);
             machineConfigReader.SetupGet(tl => tl.IsNotRetailDeployment).Returns(false);
 
             using(new TrustLevelScope(trustLevel.Object))

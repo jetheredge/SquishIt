@@ -11,7 +11,7 @@ using Version = SquishIt.Framework.Version;
 
 namespace SquishIt.Tests
 {
-    public class HoganTests
+    public class HoganTests : ConfigurationEstablishingTest
     {
         JavaScriptBundleFactory javaScriptBundleFactory;
 
