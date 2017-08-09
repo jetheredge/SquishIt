@@ -53,7 +53,7 @@ namespace SquishIt.Framework.Caches
 
         public void Remove(string key)
         {
-            HttpRuntime.Cache.Remove(BuildCacheKey(key));
+            _cacheImplementation.Remove(BuildCacheKey(key));
         }
 
         private string BuildCacheKey(string key)
