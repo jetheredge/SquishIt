@@ -1,6 +1,7 @@
 ﻿using System.Web;
 using Moq;
 using NUnit.Framework;
+using SquishIt.AspNet.Utilities;
 using SquishIt.Framework.Utilities;
 using SquishIt.Tests.Helpers;
 

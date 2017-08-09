@@ -45,6 +45,8 @@
     <Compile Include="ConfigurationLoader.cs" />
     <Compile Include="PathTranslator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\DebugStatusReader.cs" />
+    <Compile Include="Utilities\MachineConfigReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SquishIt.Framework\SquishIt.Framework.csproj">

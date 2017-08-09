@@ -1,4 +1,5 @@
 ﻿using SquishIt.AspNet.Caches;
+using SquishIt.AspNet.Utilities;
 using SquishIt.Framework;
 
 namespace SquishIt.AspNet
@@ -9,6 +10,7 @@ namespace SquishIt.AspNet
         {
             options.DefaultCacheImplementation = new CacheImplementation();
             options.DefaultPathTranslator = new PathTranslator();
+            options.DefaultDebugStatusReader = new DebugStatusReader();
         }
     }
 }

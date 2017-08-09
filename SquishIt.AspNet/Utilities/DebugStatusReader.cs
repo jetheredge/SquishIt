@@ -1,6 +1,8 @@
 using System;
+using SquishIt.Framework;
+using SquishIt.Framework.Utilities;
 
-namespace SquishIt.Framework.Utilities
+namespace SquishIt.AspNet.Utilities
 {
 
     public class DebugStatusReader : IDebugStatusReader

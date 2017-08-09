@@ -1,7 +1,8 @@
 ﻿using System.Configuration;
 using System.Web.Configuration;
+using SquishIt.Framework.Utilities;
 
-namespace SquishIt.Framework.Utilities
+namespace SquishIt.AspNet.Utilities
 {
     public class MachineConfigReader : IMachineConfigReader
     {

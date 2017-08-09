@@ -140,7 +140,6 @@
     <Compile Include="Renderers\FileRenderer.cs" />
     <Compile Include="Renderers\IRenderer.cs" />
     <Compile Include="CSS\CSSAssetsFileHasher.cs" />
-    <Compile Include="Utilities\DebugStatusReader.cs" />
     <Compile Include="Files\FileReader.cs" />
     <Compile Include="Files\FileReaderFactory.cs" />
     <Compile Include="Files\FileWriter.cs" />
@@ -158,7 +157,6 @@
     <Compile Include="Utilities\IHasher.cs" />
     <Compile Include="Utilities\IMachineConfigReader.cs" />
     <Compile Include="Utilities\FilePathMutexProvider.cs" />
-    <Compile Include="Utilities\MachineConfigReader.cs" />
     <Compile Include="Utilities\SHA1Hasher.cs" />
     <Compile Include="Utilities\TempFileResolutionCache.cs" />
     <Compile Include="Utilities\TrustLevel.cs" />
