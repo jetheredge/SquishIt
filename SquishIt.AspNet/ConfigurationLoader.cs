@@ -4,15 +4,18 @@ using SquishIt.Framework;
 
 namespace SquishIt.AspNet
 {
+    /// <summary>
+    /// This seems like the easiest way to load package specific configuration options
+    /// </summary>
     public static class ConfigurationLoader
     {
         public static void Execute(ISquishItOptions options)
         {
-            options.DefaultCacheImplementation = new CacheImplementation();
-            options.DefaultPathTranslator = new PathTranslator();
-            options.DefaultDebugStatusReader = new DebugStatusReader();
+            options.CacheImplementation = new CacheImplementation();
+            options.PathTranslator = new PathTranslator();
+            options.DebugStatusReader = new DebugStatusReader();
             options.TrustLevel = new TrustLevel();
-            options.DefaultQueryStringManager = new QueryStringManager();
+            options.QueryStringManager = new QueryStringManager();
         }
     }
 }

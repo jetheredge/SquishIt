@@ -48,7 +48,7 @@ namespace SquishIt.Framework.JavaScript
         }
 
         public JavaScriptBundle()
-            : this(Configuration.Instance.DefaultDebugStatusReader) { }
+            : this(Configuration.Instance.DebugStatusReader) { }
 
         public JavaScriptBundle(IDebugStatusReader debugStatusReader)
             : this(debugStatusReader, new FileWriterFactory(Configuration.Instance.DefaultRetryableFileOpener, 5), new FileReaderFactory(Configuration.Instance.DefaultRetryableFileOpener, 5), new DirectoryWrapper(), Configuration.Instance.DefaultHasher, new BundleCache(), new RawContentCache()) { }

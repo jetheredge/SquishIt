@@ -41,7 +41,7 @@ namespace SquishIt.Framework.Base
         protected IDebugStatusReader debugStatusReader;
         protected IDirectoryWrapper directoryWrapper;
         protected IHasher hasher;
-        protected IPathTranslator pathTranslator = Configuration.Instance.DefaultPathTranslator;
+        protected IPathTranslator pathTranslator = Configuration.Instance.PathTranslator;
 
         IMinifier<T> minifier;
 

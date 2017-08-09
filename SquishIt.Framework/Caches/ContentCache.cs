@@ -11,7 +11,7 @@ namespace SquishIt.Framework.Caches
 
         public ContentCache()
         {
-            _cacheImplementation = Configuration.Instance.DefaultCacheImplementation;
+            _cacheImplementation = Configuration.Instance.CacheImplementation;
         }
 
         private readonly List<string> CacheKeys = new List<string>();

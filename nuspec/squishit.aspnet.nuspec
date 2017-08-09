@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>SquishIt.AspNet</id>
+    <version>1.0.0-beta4</version>
+    <authors>Justin Etheredge, Alex Ullrich</authors>
+    <owners>Justin Etheredge, Alex Ullrich</owners>
+    <projectUrl>https://github.com/jetheredge/SquishIt</projectUrl>
+    <licenseUrl>https://github.com/jetheredge/SquishIt/blob/master/license.txt</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>SquishIt.AspNet lets you easily compress and combine JavaScript and CSS on the ASP.net platform.</description>
+    <releaseNotes>
+      If you are upgrading from SquishIt 0.8.x (and earlier) releases this update breaks support for less and coffeescript file processing.  If you use either of these facilities, please install SquishIt.Less or SquishIt.CoffeeScript to enable correct preprocessing of your files.
+
+      If you are upgrading from SquishIt 0.9.8.2 and earlier this update will bring a new version of the AjaxMin and YUICompressor.NET libraries with it, along with a new dependency on WebActivatorEX.
+
+      For now you need to execute the following to register dependencies, though self-registration is being considered
+
+      `SquishIt.AspNet.ConfigurationLoader.Execute(SquishIt.Framework.Configuration.Instance);`
+    </releaseNotes>
+    <dependencies>
+      <dependency id="SquishIt.Framework" version="1.0.0-beta4" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\SquishIt.AspNet\bin\Release\SquishIt.AspNet.dll" target="lib\SquishIt.AspNet.dll" />
+    <file src="..\SquishIt.AspNet\bin\Release\SquishIt.AspNet.pdb" target="lib\SquishIt.AspNet.pdb" />
+    <file src="..\SquishIt.AspNet\bin\Release\SquishIt.AspNet.xml" target="lib\SquishIt.AspNet.xml" />
+    <file src="..\SquishIt.Mvc\bin\Release\SquishIt.Mvc.dll" target="optional\SquishIt.Mvc.dll" />
+    <file src="..\SquishIt.Mvc\bin\Release\SquishIt.Mvc.pdb" target="optional\SquishIt.Mvc.pdb" />
+  </files>
+</package>

@@ -48,11 +48,6 @@ namespace SquishIt.Framework
         string DefaultOutputBaseHref { get; set; }
 
         /// <summary>
-        /// Path translator to use for CSS rewrites - can't be overridden at bundle level
-        /// </summary>
-        IPathTranslator DefaultPathTranslator { get; set; }
-
-        /// <summary>
         /// Renderer to use for release file outputs - can be overridden at bundle level using .WithReleaseFileRenderer
         /// </summary>
         IRenderer DefaultReleaseRenderer { get; set; }
@@ -78,10 +73,12 @@ namespace SquishIt.Framework
         /// </summary>
         string DefaultCssMimeType { get; set; }
 
-        ICacheImplementation DefaultCacheImplementation { get; set; }
-        IDebugStatusReader DefaultDebugStatusReader { get; set; }
+        //platform-specific dependencies
+        IPathTranslator PathTranslator { get; set; }
+        ICacheImplementation CacheImplementation { get; set; }
+        IDebugStatusReader DebugStatusReader { get; set; }
         ITrustLevel TrustLevel { get; set; }
-        IQueryStringManager DefaultQueryStringManager { get; set; }
+        IQueryStringManager QueryStringManager { get; set; }
     }
 
     public class Configuration : ISquishItOptions
@@ -99,8 +96,6 @@ namespace SquishIt.Framework
         public IMinifier<JavaScriptBundle> DefaultJsMinifier { get; set; }
 
         public string DefaultOutputBaseHref { get; set; }
-
-        public IPathTranslator DefaultPathTranslator { get; set; }
 
         public IRenderer DefaultReleaseRenderer { get; set; }
 
@@ -145,11 +140,10 @@ namespace SquishIt.Framework
             configTransformer(Instance);
         }
 
-        public ICacheImplementation DefaultCacheImplementation { get; set; }
-
-        public IDebugStatusReader DefaultDebugStatusReader { get; set; }
-
+        public ICacheImplementation CacheImplementation { get; set; }
+        public IDebugStatusReader DebugStatusReader { get; set; }
         public ITrustLevel TrustLevel { get; set; }
-        public IQueryStringManager DefaultQueryStringManager { get; set; }
+        public IQueryStringManager QueryStringManager { get; set; }
+        public IPathTranslator PathTranslator { get; set; }
     }
 }

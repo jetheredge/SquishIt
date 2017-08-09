@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>SquishIt</id>
-    <version>0.9.9</version>
+    <version>1.0.0-beta4</version>
     <authors>Justin Etheredge, Alex Ullrich</authors>
     <owners>Justin Etheredge, Alex Ullrich</owners>
     <projectUrl>https://github.com/jetheredge/SquishIt</projectUrl>
@@ -14,16 +14,10 @@
 If you are upgrading from SquishIt 0.9.8.2 and earlier this update will bring a new version of the AjaxMin and YUICompressor.NET libraries with it, along with a new dependency on WebActivatorEX.
     </releaseNotes>
     <dependencies>
-      <dependency id="YUICompressor.NET" version="2.3.0.0" />
-      <dependency id="AjaxMin" version="5.14.5506.26202" />
-      <dependency id="WebActivatorEx" version="2.1" />
+      <dependency id="SquishIt.Framework" version="1.0.0-beta4" />
+      <dependency id="SquishIt.AspNet" version="1.0.0-beta4" />
     </dependencies>
   </metadata>
   <files>
-    <file src="..\SquishIt.Framework\bin\Release\SquishIt.Framework.dll" target="lib\SquishIt.Framework.dll" />
-    <file src="..\SquishIt.Framework\bin\Release\SquishIt.Framework.pdb" target="lib\SquishIt.Framework.pdb" />
-    <file src="..\SquishIt.Framework\bin\Release\SquishIt.Framework.xml" target="lib\SquishIt.Framework.xml" />
-    <file src="..\SquishIt.Mvc\bin\Release\SquishIt.Mvc.dll" target="optional\SquishIt.Mvc.dll" />
-    <file src="..\SquishIt.Mvc\bin\Release\SquishIt.Mvc.pdb" target="optional\SquishIt.Mvc.pdb" />
   </files>
 </package>

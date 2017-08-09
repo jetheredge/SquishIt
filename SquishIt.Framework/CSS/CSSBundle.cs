@@ -62,7 +62,7 @@ namespace SquishIt.Framework.CSS
         }
 
         public CSSBundle()
-            : this(Configuration.Instance.DefaultDebugStatusReader)
+            : this(Configuration.Instance.DebugStatusReader)
         {
         }
 

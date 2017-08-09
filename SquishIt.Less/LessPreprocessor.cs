@@ -33,7 +33,7 @@ namespace SquishIt.Less
         /// </summary>
         public static Func<ILessEngine> EngineBuilder = () => new EngineFactory().GetEngine();
 
-        public LessPreprocessor() : this(EngineBuilder, Configuration.Instance.DefaultPathTranslator) { }
+        public LessPreprocessor() : this(EngineBuilder, Configuration.Instance.PathTranslator) { }
 
         /// <summary>
         /// Construct LESS preprocessor with custom engine construction.
