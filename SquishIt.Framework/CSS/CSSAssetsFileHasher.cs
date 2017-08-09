@@ -109,11 +109,12 @@ namespace SquishIt.Framework.CSS
                 queryString = url.Substring(queryStringPosition);
             }
 
-            var querystring = HttpUtility.ParseQueryString(queryString);
+            //TODO: look at DI for this - currently CSSAssetsFileHasher is instantiated from CSSBundle, dont really have a need to keep a dependency there just to pass in
+            var querystring = Configuration.Instance.DefaultQueryStringManager.ParseQueryString(queryString);//HttpUtility.ParseQueryString(queryString);
 
             querystring.Add(key, value);
 
-            var querystringwithAppendedValue = FlattenedQueryString(querystring);
+            var querystringwithAppendedValue = Configuration.Instance.DefaultQueryStringManager.FlattenQueryString(querystring);
 
             if (!string.IsNullOrEmpty(querystringwithAppendedValue))
             {
@@ -121,20 +122,6 @@ namespace SquishIt.Framework.CSS
             }
 
             return path + querystringwithAppendedValue;
-        }
-
-        //workaround for mono bug - queryString.ToString() above was returning "System.Collections.Specialized.NameValueCollection"
-        static string FlattenedQueryString(System.Collections.Specialized.NameValueCollection queryString)
-        {
-            var output = new System.Text.StringBuilder();
-            for (int i = 0; i < queryString.Count; i++)
-            {
-                if (i > 0) output.Append("&");
-                output.Append(queryString.AllKeys[i]);
-                output.Append("=");
-                output.Append(queryString[i]);
-            }
-            return output.ToString();
         }
     }
 }

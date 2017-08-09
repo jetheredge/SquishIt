@@ -81,6 +81,7 @@ namespace SquishIt.Framework
         ICacheImplementation DefaultCacheImplementation { get; set; }
         IDebugStatusReader DefaultDebugStatusReader { get; set; }
         ITrustLevel TrustLevel { get; set; }
+        IQueryStringManager DefaultQueryStringManager { get; set; }
     }
 
     public class Configuration : ISquishItOptions
@@ -149,5 +150,6 @@ namespace SquishIt.Framework
         public IDebugStatusReader DefaultDebugStatusReader { get; set; }
 
         public ITrustLevel TrustLevel { get; set; }
+        public IQueryStringManager DefaultQueryStringManager { get; set; }
     }
 }

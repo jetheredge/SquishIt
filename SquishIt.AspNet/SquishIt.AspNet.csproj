@@ -48,6 +48,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\DebugStatusReader.cs" />
     <Compile Include="Utilities\MachineConfigReader.cs" />
+    <Compile Include="Utilities\QueryStringManager.cs" />
     <Compile Include="Utilities\TrustLevel.cs" />
   </ItemGroup>
   <ItemGroup>
