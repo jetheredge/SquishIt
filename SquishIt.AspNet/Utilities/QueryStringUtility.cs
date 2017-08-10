@@ -4,15 +4,15 @@ using SquishIt.Framework.Utilities;
 
 namespace SquishIt.AspNet.Utilities
 {
-    public class QueryStringManager : IQueryStringManager
+    public class QueryStringUtility : IQueryStringUtility
     {
-        public NameValueCollection ParseQueryString(string queryString)
+        public NameValueCollection Parse(string queryString)
         {
             return HttpUtility.ParseQueryString(queryString);
         }
 
         //workaround for mono bug - queryString.ToString() above was returning "System.Collections.Specialized.NameValueCollection"
-        public string FlattenQueryString(System.Collections.Specialized.NameValueCollection queryString)
+        public string Flatten(System.Collections.Specialized.NameValueCollection queryString)
         {
             var output = new System.Text.StringBuilder();
             for (int i = 0; i < queryString.Count; i++)

@@ -20,7 +20,7 @@ namespace SquishIt.AspNet
             options.PathTranslator = new PathTranslator();
             options.DebugStatusReader = new DebugStatusReader();
             options.TrustLevel = new TrustLevel();
-            options.QueryStringManager = new QueryStringManager();
+            options.QueryStringUtility = new QueryStringUtility();
         }
     }
 }
