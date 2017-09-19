@@ -2,20 +2,25 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>SquishIt</id>
-    <version>1.0.0-beta5</version>
+    <version>1.0.0-beta6</version>
     <authors>Justin Etheredge, Alex Ullrich</authors>
     <owners>Justin Etheredge, Alex Ullrich</owners>
     <projectUrl>https://github.com/jetheredge/SquishIt</projectUrl>
     <licenseUrl>https://github.com/jetheredge/SquishIt/blob/master/license.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>SquishIt lets you easily compress and combine JavaScript and CSS.</description>
-    <releaseNotes>If you are upgrading from SquishIt 0.8.x (and earlier) releases this update breaks support for less and coffeescript file processing.  If you use either of these facilities, please install SquishIt.Less or SquishIt.CoffeeScript to enable correct preprocessing of your files.
+    <releaseNotes>
+      If you are upgrading from SquishIt 0.8.x (and earlier) releases this update breaks support for less and coffeescript file processing.  If you use either of these facilities, please install SquishIt.Less or SquishIt.CoffeeScript to enable correct preprocessing of your files.
 
 If you are upgrading from SquishIt 0.9.8.2 and earlier this update will bring a new version of the AjaxMin and YUICompressor.NET libraries with it, along with a new dependency on WebActivatorEX.
+
+In SquishIt 1.0 this will become a legacy package.  The library has been split into two - one containing the processing logic and the other containing ASP.net specific implementation.  This will eliminate dependency on System.Web for users on Nancy and other platforms.  In version 1.1 this package will be deprecated.  For the ASP.net functionality that SquishIt traditionally provided the package SquishIt.AspNet can be installed - it will bring the framework with it.
+
+There is also a new configuration API coming with the package split.  Behavior modification and preprocessor registration can be achieved by calling SquishIt.Framework.Configuration.Apply with an Action that modifies the global configuration.  The SquishIt.AspNet library will automatically register itself via PreApplicationStart method, as will all the preprocessors maintained as part of the SquishIt codebase.
     </releaseNotes>
     <dependencies>
-      <dependency id="SquishIt.Framework" version="1.0.0-beta5" />
-      <dependency id="SquishIt.AspNet" version="1.0.0-beta5" />
+      <dependency id="SquishIt.Framework" version="1.0.0-beta6" />
+      <dependency id="SquishIt.AspNet" version="1.0.0-beta6" />
     </dependencies>
   </metadata>
   <files>
