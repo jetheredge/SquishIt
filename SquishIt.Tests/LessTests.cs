@@ -27,7 +27,7 @@ namespace SquishIt.Tests
 
         CSSBundleFactory cssBundleFactory;
         IHasher hasher;
-        private IPathTranslator translator = Configuration.Instance.PathTranslator;
+        private IPathTranslator translator = Configuration.Instance.Platform.PathTranslator;
 
         [SetUp]
         public void Setup () {

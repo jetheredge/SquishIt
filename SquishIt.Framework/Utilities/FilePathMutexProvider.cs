@@ -22,7 +22,7 @@ namespace SquishIt.Framework.Utilities
 
         public static IFilePathMutexProvider Instance
         {
-            get { return instance ?? (instance = new FilePathMutexProvider(Configuration.Instance.DefaultHasher, Configuration.Instance.PathTranslator)); }
+            get { return instance ?? (instance = new FilePathMutexProvider(Configuration.Instance.DefaultHasher, Configuration.Instance.Platform.PathTranslator)); }
         }
 
         public FilePathMutexProvider(IHasher hasher, IPathTranslator pathTranslator)

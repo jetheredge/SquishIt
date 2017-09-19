@@ -8,7 +8,7 @@ namespace SquishIt.Tests
         [TestFixtureSetUp]
         public void EstablishConfiguration()
         {
-            SquishIt.Framework.Configuration.Apply(SquishIt.AspNet.ConfigurationLoader.Load);
+            SquishIt.Framework.Configuration.Apply(SquishIt.AspNet.ConfigurationLoader.RegisterPlatform);
         }
     }
 }

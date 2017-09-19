@@ -140,7 +140,7 @@ namespace SquishIt.Tests
             Assert.AreEqual("globey", stylePreprocessor.CalledWith);
             Assert.AreEqual("start", globalPreprocessor.CalledWith);
 
-            Assert.IsEmpty(Bundle.Preprocessors.Where(x => !(x is NullPreprocessor)));
+            Assert.IsEmpty(Configuration.Instance.Preprocessors.Where(x => !(x is NullPreprocessor)));
         }
     }
 }

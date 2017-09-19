@@ -6,7 +6,7 @@ namespace SquishIt.Sass
     {
         public static void Initialize()
         {
-            Bundle.RegisterScriptPreprocessor(new SassPreprocessor());
+            Configuration.Instance.RegisterScriptPreprocessor(new SassPreprocessor());
         }
     }
 }

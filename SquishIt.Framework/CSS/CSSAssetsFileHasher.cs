@@ -110,11 +110,11 @@ namespace SquishIt.Framework.CSS
             }
 
             //TODO: look at DI for this - currently CSSAssetsFileHasher is instantiated from CSSBundle, dont really have a need to keep a dependency there just to pass in
-            var querystring = Configuration.Instance.QueryStringUtility.Parse(queryString);//HttpUtility.ParseQueryString(queryString);
+            var querystring = Configuration.Instance.Platform.QueryStringUtility.Parse(queryString);//HttpUtility.ParseQueryString(queryString);
 
             querystring.Add(key, value);
 
-            var querystringwithAppendedValue = Configuration.Instance.QueryStringUtility.Flatten(querystring);
+            var querystringwithAppendedValue = Configuration.Instance.Platform.QueryStringUtility.Flatten(querystring);
 
             if (!string.IsNullOrEmpty(querystringwithAppendedValue))
             {

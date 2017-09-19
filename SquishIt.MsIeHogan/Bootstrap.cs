@@ -6,7 +6,7 @@ namespace SquishIt.MsIeHogan
     {
         public static void Initialize()
         {
-            Bundle.RegisterScriptPreprocessor(new HoganPreprocessor());
+            Configuration.Instance.RegisterScriptPreprocessor(new HoganPreprocessor());
         }
     }
 }

@@ -11,16 +11,19 @@ namespace SquishIt.AspNet
     {
         public static void Initialize()
         {
-            Configuration.Apply(Load);
+            Configuration.Apply(RegisterPlatform);
         }
 
-        public static void Load(ISquishItOptions options)
+        public static void RegisterPlatform(ISquishItOptions options)
         {
-            options.CacheImplementation = new CacheImplementation();
-            options.PathTranslator = new PathTranslator();
-            options.DebugStatusReader = new DebugStatusReader();
-            options.TrustLevel = new TrustLevel();
-            options.QueryStringUtility = new QueryStringUtility();
+            options.Platform = new PlatformConfiguration
+            {
+                CacheImplementation = new CacheImplementation(),
+                PathTranslator = new PathTranslator(),
+                DebugStatusReader = new DebugStatusReader(),
+                TrustLevel = new TrustLevel(),
+                QueryStringUtility = new QueryStringUtility()
+            };
         }
     }
 }

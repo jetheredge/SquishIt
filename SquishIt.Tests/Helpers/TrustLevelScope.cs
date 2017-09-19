@@ -11,12 +11,12 @@ namespace SquishIt.Tests.Helpers
         public TrustLevelScope(ITrustLevel instance)
         {
             previous = instance;
-            Configuration.Instance.TrustLevel = instance;
+            Configuration.Instance.Platform.TrustLevel = instance;
         }
 
         public void Dispose()
         {
-            Configuration.Instance.TrustLevel = previous;
+            Configuration.Instance.Platform.TrustLevel = previous;
         }
     }
 }

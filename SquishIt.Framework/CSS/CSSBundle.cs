@@ -43,12 +43,12 @@ namespace SquishIt.Framework.CSS
 
         protected override IEnumerable<string> allowedExtensions
         {
-            get { return bundleState.AllowedExtensions.Union(Bundle.AllowedGlobalExtensions.Union(Bundle.AllowedStyleExtensions)); }
+            get { return bundleState.AllowedExtensions.Union(Configuration.Instance.AllowedGlobalExtensions.Union(Configuration.Instance.AllowedStyleExtensions)); }
         }
 
         protected override IEnumerable<string> disallowedExtensions
         {
-            get { return Bundle.AllowedScriptExtensions; }
+            get { return Configuration.Instance.AllowedScriptExtensions; }
         }
 
         protected override string defaultExtension
@@ -62,7 +62,7 @@ namespace SquishIt.Framework.CSS
         }
 
         public CSSBundle()
-            : this(Configuration.Instance.DebugStatusReader)
+            : this(Configuration.Instance.Platform.DebugStatusReader)
         {
         }
 

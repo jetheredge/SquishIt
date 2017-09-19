@@ -7,15 +7,15 @@ namespace SquishIt.Tests.Stubs
     {
         public ScriptPreprocessorScope(T instance)
         {
-            Bundle.RegisterScriptPreprocessor(instance);
+            Configuration.Instance.RegisterScriptPreprocessor(instance);
         }
         public ScriptPreprocessorScope() 
         {
-            Bundle.RegisterScriptPreprocessor<T>(Activator.CreateInstance<T>());
+            Configuration.Instance.RegisterScriptPreprocessor<T>(Activator.CreateInstance<T>());
         }
         public void Dispose() 
         {
-            Bundle.ClearPreprocessors();
+            Configuration.Instance.ClearPreprocessors();
         }
     }
 
@@ -23,16 +23,16 @@ namespace SquishIt.Tests.Stubs
     {
         public StylePreprocessorScope(T instance)
         {
-            Bundle.RegisterStylePreprocessor(instance);
+            Configuration.Instance.RegisterStylePreprocessor(instance);
         }
 
         public StylePreprocessorScope() 
         {
-            Bundle.RegisterStylePreprocessor<T>(Activator.CreateInstance<T>());
+            Configuration.Instance.RegisterStylePreprocessor<T>(Activator.CreateInstance<T>());
         }
         public void Dispose() 
         {
-            Bundle.ClearPreprocessors();
+            Configuration.Instance.ClearPreprocessors();
         }
     }
 
@@ -40,16 +40,16 @@ namespace SquishIt.Tests.Stubs
     {
         public GlobalPreprocessorScope(T instance)
         {
-            Bundle.RegisterGlobalPreprocessor(instance);
+            Configuration.Instance.RegisterGlobalPreprocessor(instance);
         }
 
         public GlobalPreprocessorScope() 
         {
-            Bundle.RegisterGlobalPreprocessor<T>(Activator.CreateInstance<T>());
+            Configuration.Instance.RegisterGlobalPreprocessor<T>(Activator.CreateInstance<T>());
         }
         public void Dispose() 
         {
-            Bundle.ClearPreprocessors();
+            Configuration.Instance.ClearPreprocessors();
         }
     }
 }

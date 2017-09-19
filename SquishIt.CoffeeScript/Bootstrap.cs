@@ -6,7 +6,7 @@ namespace SquishIt.CoffeeScript
     {
         public static void Initialize()
         {
-            Bundle.RegisterScriptPreprocessor(new CoffeeScriptPreprocessor());
+            Configuration.Instance.RegisterScriptPreprocessor(new CoffeeScriptPreprocessor());
         }
     }
 }

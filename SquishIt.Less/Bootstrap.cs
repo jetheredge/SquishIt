@@ -6,7 +6,7 @@ namespace SquishIt.Less
     {
         public static void Initialize()
         {
-            Bundle.RegisterStylePreprocessor(new LessPreprocessor());
+            Configuration.Instance.RegisterStylePreprocessor(new LessPreprocessor());
         }
     }
 }

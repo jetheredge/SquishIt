@@ -102,6 +102,8 @@
     <Compile Include="IPathTranslator.cs" />
     <Compile Include="IProcessResult.cs" />
     <Compile Include="ITempPathProvider.cs" />
+    <Compile Include="PlatformConfiguration.cs" />
+    <Compile Include="PreprocessorConfiguration.cs" />
     <Compile Include="TempPathProvider.cs" />
     <Compile Include="Utilities\CriticalRenderingSection.cs" />
     <Compile Include="Extensions.cs" />

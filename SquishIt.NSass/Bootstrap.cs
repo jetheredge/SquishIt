@@ -6,7 +6,7 @@ namespace SquishIt.NSass
     {
         public static void Initialize()
         {
-            Bundle.RegisterScriptPreprocessor(new NSassPreprocessor());
+            Configuration.Instance.RegisterScriptPreprocessor(new NSassPreprocessor());
         }
     }
 }
