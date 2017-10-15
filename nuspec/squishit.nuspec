@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>SquishIt</id>
-    <version>1.0.0-beta6</version>
+    <version>1.0.0</version>
     <authors>Justin Etheredge, Alex Ullrich</authors>
     <owners>Justin Etheredge, Alex Ullrich</owners>
     <projectUrl>https://github.com/jetheredge/SquishIt</projectUrl>
@@ -19,8 +19,8 @@ In SquishIt 1.0 this will become a legacy package.  The library has been split i
 There is also a new configuration API coming with the package split.  Behavior modification and preprocessor registration can be achieved by calling SquishIt.Framework.Configuration.Apply with an Action that modifies the global configuration.  The SquishIt.AspNet library will automatically register itself via PreApplicationStart method, as will all the preprocessors maintained as part of the SquishIt codebase.
     </releaseNotes>
     <dependencies>
-      <dependency id="SquishIt.Framework" version="1.0.0-beta6" />
-      <dependency id="SquishIt.AspNet" version="1.0.0-beta6" />
+      <dependency id="SquishIt.Framework" version="1.0.0" />
+      <dependency id="SquishIt.AspNet" version="1.0.0" />
     </dependencies>
   </metadata>
   <files>
